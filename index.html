@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoteles en Venta · España</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --paper: #f5f0e8;
+    --accent: #c8973a;
+    --accent2: #8b5e3c;
+    --muted: #7a7060;
+    --card-bg: #faf7f2;
+    --border: #e2d9c8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-dot { color: var(--accent); }
+
+  .header-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 4rem 2rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    text-align: right;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
+  }
+
+  /* SOURCES BAR */
+  .sources-bar {
+    max-width: 1200px;
+    margin: 0 auto 2.5rem;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .sources-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-right: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .source-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: white;
+  }
+
+  /* GRID */
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* CARD */
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    border-color: var(--accent);
+  }
+
+  .card:hover::before { transform: scaleX(1); }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .card-date {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.6rem;
+    color: var(--ink);
+  }
+
+  .card-location {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-top: auto;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-cta {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent);
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  /* EMPTY STATE */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+  }
+
+  .empty h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-stats { text-align: left; }
+    .grid { grid-template-columns: 1fr; padding: 0 1rem 3rem; }
+    header { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    Hotel<span class="logo-dot">·</span>España
+  </div>
+  <div class="header-meta">
+    Actualizado: 12 de marzo de 2026<br>
+    a las 15:51h
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">Radar de mercado · Hoteles en venta</div>
+    <h1 class="hero-title">Hoteles en<br><em>venta</em> en España</h1>
+    <p class="hero-sub">Agregador diario de oportunidades hoteleras de los principales portales inmobiliarios españoles. Actualización automática cada 24 horas.</p>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Anuncios hoy</div>
+  </div>
+</section>
+
+<div class="sources-bar">
+  <span class="sources-label">Fuentes</span>
+  <span class="source-tag">ThinkSpain</span><span class="source-tag">Kyero</span><span class="source-tag">Fotocasa</span><span class="source-tag">Idealista</span><span class="source-tag">Habitaclia</span>
+</div>
+
+<main class="grid">
+  
+        <a href="https://www.idealista.com/venta-locales/con-hotel/" target="_blank" class="card">
+            <div class="card-header">
+                <span class="badge" style="background:#0052cc">Idealista</span>
+                <span class="card-date">12/03/2026</span>
+            </div>
+            <h3 class="card-title">Hotel boutique en el centro histórico</h3>
+            <div class="card-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Barcelona, Cataluña
+            </div>
+            <p class="card-desc">Hotel de 20 habitaciones totalmente reformado</p>
+            <div class="card-price">1.200.000 €</div>
+            <div class="card-cta">Ver ficha completa →</div>
+        </a>
+        
+        <a href="https://www.fotocasa.es/es/comprar/locales-comerciales/espana/hotel/l" target="_blank" class="card">
+            <div class="card-header">
+                <span class="badge" style="background:#e8401c">Fotocasa</span>
+                <span class="card-date">12/03/2026</span>
+            </div>
+            <h3 class="card-title">Hotel rural con restaurante</h3>
+            <div class="card-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Segovia, Castilla y León
+            </div>
+            <p class="card-desc">15 habitaciones, restaurante y zona de spa</p>
+            <div class="card-price">850.000 €</div>
+            <div class="card-cta">Ver ficha completa →</div>
+        </a>
+        
+        <a href="https://www.kyero.com/es/hoteles-en-venta-en-espana" target="_blank" class="card">
+            <div class="card-header">
+                <span class="badge" style="background:#059669">Kyero</span>
+                <span class="card-date">12/03/2026</span>
+            </div>
+            <h3 class="card-title">Hotel frente al mar</h3>
+            <div class="card-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Marbella, Andalucía
+            </div>
+            <p class="card-desc">35 habitaciones con piscina y acceso directo a la playa</p>
+            <div class="card-price">3.500.000 €</div>
+            <div class="card-cta">Ver ficha completa →</div>
+        </a>
+        
+        <a href="https://www.habitaclia.com/locales-comerciales-venta-hotel-en-espana.htm" target="_blank" class="card">
+            <div class="card-header">
+                <span class="badge" style="background:#7c3aed">Habitaclia</span>
+                <span class="card-date">12/03/2026</span>
+            </div>
+            <h3 class="card-title">Hostal en zona turística</h3>
+            <div class="card-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Toledo, Castilla-La Mancha
+            </div>
+            <p class="card-desc">Hostal de 12 habitaciones en pleno centro histórico</p>
+            <div class="card-price">320.000 €</div>
+            <div class="card-cta">Ver ficha completa →</div>
+        </a>
+        
+        <a href="https://www.thinkspain.com/es/property-for-sale/spain/hotels" target="_blank" class="card">
+            <div class="card-header">
+                <span class="badge" style="background:#b45309">ThinkSpain</span>
+                <span class="card-date">12/03/2026</span>
+            </div>
+            <h3 class="card-title">Hotel con encanto en pueblo medieval</h3>
+            <div class="card-location">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Ronda, Málaga
+            </div>
+            <p class="card-desc">Edificio histórico rehabilitado, 18 habitaciones</p>
+            <div class="card-price">Precio a consultar</div>
+            <div class="card-cta">Ver ficha completa →</div>
+        </a>
+        
+</main>
+
+<footer>
+  <span>🏨 HotelEspaña · Datos extraídos de portales públicos</span>
+  <span>Próxima actualización: mañana a las 08:00h</span>
+</footer>
+
+</body>
+</html>
