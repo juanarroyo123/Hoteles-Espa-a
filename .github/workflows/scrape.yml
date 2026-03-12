@@ -5,29 +5,29 @@ on:
     - cron: '0 7 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  scrape-and-deploy:
+  scrape:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout repositorio
+      - name: Descargar repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install requests beautifulsoup4 lxml
 
       - name: Ejecutar scraper
         run: python scraper.py
 
-      - name: Commit y push del nuevo index.html
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add index.html
-          git diff --staged --quiet || git commit -m "🏨 Actualización diaria: $(date +'%d/%m/%Y %H:%M')"
-          git push
+      - name: Subir index.html actualizado
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Actualizacion automatica de hoteles en venta"
+          file_pattern: index.html
