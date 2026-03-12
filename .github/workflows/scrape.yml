@@ -1,0 +1,33 @@
+name: Actualizar Hoteles en Venta
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Ejecutar scraper
+        run: python scraper.py
+
+      - name: Commit y push del nuevo index.html
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          git diff --staged --quiet || git commit -m "🏨 Actualización diaria: $(date +'%d/%m/%Y %H:%M')"
+          git push
