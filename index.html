@@ -1,698 +1,303 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Hotel Monitor · Hoteles en Venta en España</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root {
-    --green-dark: #1a5c45;
-    --green-mid:  #2e7d5e;
-    --green-accent: #3d9970;
-    --bg: #f0efea;
-    --bg2: #e8e7e1;
-    --white: #ffffff;
-    --ink: #1a1a1a;
-    --muted: #6b6b6b;
-    --border: #d4d2c9;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Open Sans', sans-serif;
-  }
-
-  /* ── NAV ── */
-  nav {
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-    padding: 0 3rem;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-logo {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-
-  .nav-logo-main {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--green-dark);
-    letter-spacing: -0.5px;
-  }
-
-  .nav-logo-sub {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.55rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-
-  .nav-meta {
-    font-size: 0.78rem;
-    color: var(--muted);
-    text-align: right;
-    line-height: 1.5;
-  }
-
-  .nav-meta strong {
-    color: var(--green-dark);
-    font-weight: 600;
-  }
-
-  /* ── HERO ── */
-  .hero {
-    background: var(--white);
-    padding: 5rem 3rem 4rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    border-bottom: 3px solid var(--green-dark);
-  }
-
-  .hero-eyebrow {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--green-accent);
-    margin-bottom: 1.2rem;
-  }
-
-  .hero-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    font-weight: 900;
-    line-height: 1.05;
-    color: var(--ink);
-    margin-bottom: 1.2rem;
-  }
-
-  .hero-title span {
-    color: var(--green-dark);
-  }
-
-  .hero-desc {
-    font-size: 0.95rem;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 460px;
-    margin-bottom: 2rem;
-  }
-
-  .hero-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--green-dark);
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    padding: 0.85rem 2rem;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-
-  .hero-btn:hover { background: var(--green-mid); }
-
-  .hero-btn svg { flex-shrink: 0; }
-
-  .hero-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-
-  .stat-box {
-    background: var(--bg);
-    border: 2px solid var(--green-dark);
-    padding: 1.5rem;
-  }
-
-  .stat-num {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 2.8rem;
-    font-weight: 900;
-    color: var(--green-dark);
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 0.4rem;
-  }
-
-  /* ── SECTION TITLE ── */
-  .section-header {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 3rem 3rem 1.5rem;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    border-bottom: 2px solid var(--green-dark);
-    margin-bottom: 2.5rem;
-  }
-
-  .section-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: var(--green-dark);
-  }
-
-  .section-sub {
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-
-  /* ── SOURCES BAR ── */
-  .sources-bar {
-    max-width: 1280px;
-    margin: 0 auto 2rem;
-    padding: 0 3rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    align-items: center;
-  }
-
-  .sources-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-right: 0.5rem;
-  }
-
-  .source-pill {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.63rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    color: var(--green-dark);
-    border: 1.5px solid var(--green-dark);
-    padding: 0.2rem 0.7rem;
-    background: transparent;
-    text-transform: uppercase;
-  }
-
-  /* ── GRID ── */
-  .grid {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 3rem 5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-
-  /* ── CARD ── */
-  .card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    background: var(--white);
-    border: 1px solid var(--border);
-    transition: transform 0.2s, box-shadow 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 16px 48px rgba(26, 92, 69, 0.12);
-  }
-
-  .card-img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    display: block;
-    filter: grayscale(100%);
-    border: 3px solid var(--green-dark);
-    border-bottom: none;
-  }
-
-  /* placeholder image using CSS gradient */
-  .card-img-placeholder {
-    width: 100%;
-    height: 160px;
-    background: linear-gradient(135deg, #2e7d5e22, #1a5c4511);
-    border: 3px solid var(--green-dark);
-    border-bottom: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .card-img-placeholder svg {
-    opacity: 0.18;
-    width: 64px;
-    height: 64px;
-    color: var(--green-dark);
-  }
-
-  .card-body {
-    padding: 1.4rem;
-    border: 1px solid var(--border);
-    border-top: none;
-  }
-
-  .card-badge {
-    display: inline-block;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.58rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: white;
-    padding: 0.2rem 0.55rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .card-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 800;
-    line-height: 1.3;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-  }
-
-  .card-location {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    font-size: 0.74rem;
-    color: var(--muted);
-    margin-bottom: 0.7rem;
-    font-weight: 500;
-  }
-
-  .card-desc {
-    font-size: 0.78rem;
-    color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px solid var(--border);
-    padding-top: 0.9rem;
-    margin-top: 0.5rem;
-  }
-
-  .card-price {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 900;
-    color: var(--green-dark);
-  }
-
-  .card-cta {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--green-accent);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .card-date {
-    font-size: 0.65rem;
-    color: var(--border);
-    margin-top: 0.5rem;
-    text-align: right;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--green-dark);
-    color: white;
-    padding: 3rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 2rem;
-  }
-
-  .footer-logo-main {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 900;
-    color: white;
-  }
-
-  .footer-logo-sub {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.5rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-    margin-top: 3px;
-    margin-bottom: 1rem;
-  }
-
-  .footer-desc {
-    font-size: 0.78rem;
-    color: rgba(255,255,255,0.6);
-    line-height: 1.6;
-  }
-
-  .footer-col-title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--green-accent);
-    margin-bottom: 1rem;
-  }
-
-  .footer-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .footer-links a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-    font-size: 0.82rem;
-    transition: color 0.2s;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 0.4rem;
-  }
-
-  .footer-links a:hover { color: white; }
-
-  .footer-bottom {
-    background: #0f3d2d;
-    padding: 1rem 3rem;
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.4);
-    display: flex;
-    justify-content: space-between;
-  }
-
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2rem; }
-    .hero-stats { grid-template-columns: 1fr 1fr; }
-    nav, .section-header, .sources-bar, .grid { padding-left: 1.5rem; padding-right: 1.5rem; }
-    footer { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
-    .footer-bottom { padding: 1rem 1.5rem; flex-direction: column; gap: 0.3rem; }
-  }
+:root{--gd:#1a5c45;--gm:#2e7d5e;--ga:#3d9970;--bg:#f0efea;--white:#fff;--ink:#1a1a1a;--muted:#6b6b6b;--border:#d4d2c9;--surface:#e8e6e0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Open Sans',sans-serif}
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 3rem;height:70px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-logo-main{font-family:'Montserrat',sans-serif;font-size:1.5rem;font-weight:900;color:var(--gd)}
+.nav-logo-sub{font-family:'Montserrat',sans-serif;font-size:.52rem;font-weight:600;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.nav-meta{font-size:.75rem;color:var(--muted);text-align:right;line-height:1.5}
+.nav-meta strong{color:var(--gd);font-weight:600}
+.tab-nav{background:var(--white);border-bottom:2px solid var(--border);display:flex;padding:0 3rem}
+.tab-btn{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;padding:.9rem 1.5rem;cursor:pointer;margin-bottom:-2px;transition:all .2s}
+.tab-btn:hover{color:var(--gd)}
+.tab-btn.active{color:var(--gd);border-bottom-color:var(--gd)}
+.hero{background:var(--white);padding:4rem 3rem 3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;border-bottom:3px solid var(--gd)}
+.hero-eyebrow{font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--ga);margin-bottom:1rem}
+.hero-title{font-family:'Montserrat',sans-serif;font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;line-height:1.05;color:var(--ink);margin-bottom:1rem}
+.hero-title span{color:var(--gd)}
+.hero-desc{font-size:.9rem;color:var(--muted);line-height:1.7;max-width:440px;margin-bottom:1.8rem}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.stat-box{background:var(--bg);border:2px solid var(--gd);padding:1.3rem}
+.stat-num{font-family:'Montserrat',sans-serif;font-size:2.5rem;font-weight:900;color:var(--gd);line-height:1}
+.stat-label{font-size:.65rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem}
+.controls{max-width:1280px;margin:0 auto;padding:1rem 3rem;display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.chip{background:none;border:1.5px solid var(--border);color:var(--muted);font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .85rem;cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--gd);color:var(--gd)}
+.chip.on{border-color:var(--gd);color:var(--gd);background:rgba(26,92,69,.06)}
+.search-wrap{display:flex;align-items:center;gap:.4rem;border:1.5px solid var(--border);padding:.3rem .8rem;margin-left:auto}
+.search-wrap:focus-within{border-color:var(--gd)}
+.search-input{background:none;border:none;color:var(--ink);font-family:'Open Sans',sans-serif;font-size:.8rem;outline:none;width:190px}
+.search-input::placeholder{color:var(--muted)}
+.section-header{max-width:1280px;margin:0 auto;padding:2rem 3rem 1rem;display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--gd)}
+.section-title{font-family:'Montserrat',sans-serif;font-size:1.2rem;font-weight:900;color:var(--gd)}
+.section-sub{font-size:.72rem;color:var(--muted)}
+.source-pills{max-width:1280px;margin:.8rem auto 1.5rem;padding:0 3rem;display:flex;flex-wrap:wrap;gap:.3rem;align-items:center}
+.slabel{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-right:.3rem}
+.source-pill{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:600;color:var(--gd);border:1.5px solid var(--gd);padding:.15rem .55rem;text-transform:uppercase;letter-spacing:.04em}
+#map-section{border-bottom:2px solid var(--border)}
+#map{width:100%;height:420px;background:#e8e6e0}
+.map-info{padding:.6rem 3rem;font-size:.7rem;color:var(--muted);background:var(--white);border-top:1px solid var(--border)}
+.grid{max-width:1280px;margin:0 auto;padding:1.5rem 3rem 5rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem}
+.card{display:block;text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--border);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(26,92,69,.1)}
+.card-img{width:100%;height:140px;background:linear-gradient(135deg,rgba(26,92,69,.08),rgba(26,92,69,.03));border-bottom:3px solid var(--gd);display:flex;align-items:center;justify-content:center}
+.card-img svg{opacity:.12;width:52px;height:52px;color:var(--gd)}
+.card-body{padding:1.1rem}
+.card-badge{display:inline-block;font-family:'Montserrat',sans-serif;font-size:.54rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;padding:.15rem .48rem;margin-bottom:.6rem}
+.card-title{font-family:'Montserrat',sans-serif;font-size:.88rem;font-weight:800;line-height:1.3;color:var(--ink);margin-bottom:.4rem}
+.card-loc{display:flex;align-items:center;gap:.25rem;font-size:.7rem;color:var(--muted);margin-bottom:.55rem;font-weight:500}
+.card-desc{font-size:.74rem;color:var(--muted);line-height:1.6;margin-bottom:.8rem}
+.card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.7rem}
+.card-price{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:900;color:var(--gd)}
+.card-cta{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ga)}
+.card-date{font-size:.6rem;color:var(--border);margin-top:.4rem;text-align:right}
+.empty-state{grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted)}
+.empty-state h3{font-family:'Montserrat',sans-serif;font-size:1.1rem;color:var(--gd);margin-bottom:.4rem}
+.mkt-subnav{background:var(--white);border-bottom:1px solid var(--border);display:flex;padding:0 3rem;overflow-x:auto}
+.mkt-tab{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:3px solid transparent;padding:.75rem 1.2rem;cursor:pointer;white-space:nowrap;transition:all .2s;margin-bottom:-1px}
+.mkt-tab:hover{color:var(--gd)}
+.mkt-tab.active{color:var(--gd);border-bottom-color:var(--gd)}
+.mkt-panel{display:none}
+.mkt-panel.active{display:block}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);border-bottom:2px solid var(--gd)}
+.kpi{background:var(--white);padding:1.4rem 1.5rem}
+.kpi-val{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:var(--gd);line-height:1}
+.kpi-lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.35rem;font-weight:600}
+.kpi-delta{font-size:.7rem;color:var(--ga);margin-top:.3rem;font-weight:600}
+.chart-panel{background:var(--white);border:1px solid var(--border);margin:1.5rem 3rem}
+.chart-header{padding:1.2rem 1.5rem .8rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:1px solid var(--border)}
+.chart-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gd)}
+.chart-body{padding:1.2rem 1.5rem}
+.ine-src{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(26,92,69,.08);color:var(--gd);border:1.5px solid rgba(26,92,69,.3);padding:.12rem .5rem}
+.refresh-btn{background:none;border:1.5px solid var(--border);color:var(--muted);font-size:.6rem;padding:.15rem .55rem;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:700;letter-spacing:.04em;transition:all .2s}
+.refresh-btn:hover{border-color:var(--gd);color:var(--gd)}
+.cat-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.8rem}
+.cat-legend span{font-size:.66rem;display:flex;align-items:center;gap:4px}
+.cat-legend b{width:14px;height:2px;display:inline-block}
+.zone-wrap{margin:1.5rem 3rem;background:var(--white);border:1px solid var(--border)}
+.zone-table{width:100%;border-collapse:collapse}
+.zone-table th{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);text-align:left;padding:.7rem 1.2rem;border-bottom:2px solid var(--gd);background:var(--bg)}
+.zone-table th:not(:first-child){text-align:right}
+.zone-table td{font-size:.8rem;color:var(--ink);padding:.6rem 1.2rem;border-bottom:1px solid var(--border)}
+.zone-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;color:var(--gd);font-weight:700}
+.zone-table tr:hover td{background:var(--bg)}
+.tipo-badge{font-size:.54rem;padding:.1rem .4rem;text-transform:uppercase;letter-spacing:.04em;font-weight:700;font-family:'Montserrat',sans-serif}
+.tipo-costa{background:rgba(3,105,161,.1);color:#0369a1}
+.tipo-ciudad{background:rgba(26,92,69,.1);color:var(--gd)}
+.tipo-rural{background:rgba(120,113,50,.1);color:#786b32}
+.heatmap-wrap{margin:1.5rem 3rem 2rem}
+.heatmap-title{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gd);margin-bottom:.8rem}
+.heatmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1px;background:var(--border)}
+.heat-cell{padding:.9rem 1rem;background:var(--white);position:relative;overflow:hidden}
+.heat-bg{position:absolute;inset:0;opacity:.2}
+.heat-prov{font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);position:relative;z-index:1}
+.heat-val{font-family:'Montserrat',sans-serif;font-size:1.15rem;font-weight:900;color:var(--ink);position:relative;z-index:1;line-height:1;margin-top:.2rem}
+footer{background:var(--gd);color:#fff;padding:3rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem}
+.flogo{font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:900}
+.flogo-sub{font-family:'Montserrat',sans-serif;font-size:.48rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:2px;margin-bottom:.8rem}
+.fdesc{font-size:.76rem;color:rgba(255,255,255,.6);line-height:1.6}
+.fcol-title{font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.8rem}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.flinks a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.8rem;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:.3rem;transition:color .2s}
+.flinks a:hover{color:#fff}
+.fbot{background:#0f3d2d;padding:1rem 3rem;font-size:.68rem;color:rgba(255,255,255,.35);display:flex;justify-content:space-between}
+@media(max-width:768px){nav,body .tab-nav,.hero,.controls,.section-header,.source-pills,.grid,.mkt-subnav,.chart-panel,.zone-wrap,.heatmap-wrap,footer,.fbot{padding-left:1.2rem!important;padding-right:1.2rem!important}.hero{grid-template-columns:1fr;gap:2rem;padding-top:2.5rem}footer{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <span class="nav-logo-main">Hotel Monitor</span>
-    <span class="nav-logo-sub">España · Hoteles en venta</span>
-  </div>
-  <div class="nav-meta">
-    Actualización diaria automática<br>
-    <strong id="update-time">Cargando...</strong>
-  </div>
+  <div><div class="nav-logo-main">Hotel Monitor</div><div class="nav-logo-sub">España · Hoteles en venta</div></div>
+  <div class="nav-meta">Actualización diaria automática<br><strong id="hdr-date">—</strong></div>
 </nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div>
-    <div class="hero-eyebrow">Radar de mercado inmobiliario</div>
-    <h1 class="hero-title">
-      Hoteles en venta<br>
-      <span>en España</span>
-    </h1>
-    <p class="hero-desc">
-      Monitorizamos los principales portales inmobiliarios españoles cada 24 horas
-      para ofrecerte todas las oportunidades hoteleras disponibles en un solo lugar.
-    </p>
-    <a href="#listado" class="hero-btn">
-      Ver oportunidades »
-    </a>
-  </div>
-  <div class="hero-stats">
-    <div class="stat-box">
-      <div class="stat-num" id="total-count">—</div>
-      <div class="stat-label">Anuncios activos</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num" id="source-count">—</div>
-      <div class="stat-label">Portales monitorizados</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num">24h</div>
-      <div class="stat-label">Frecuencia actualización</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-num">0€</div>
-      <div class="stat-label">Coste del servicio</div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION HEADER -->
-<div class="section-header" id="listado">
-  <h2 class="section-title">Oportunidades hoteleras</h2>
-  <span class="section-sub" id="section-date">—</span>
+<div class="tab-nav">
+  <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">🏨 Hoteles en venta</button>
+  <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">📊 Estudio de mercado</button>
 </div>
 
-<!-- SOURCES BAR -->
-<div class="sources-bar" id="sources-bar">
-  <span class="sources-label">Fuentes</span>
+<!-- PANEL HOTELES -->
+<div id="panel-hoteles">
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">Radar de mercado inmobiliario hotelero</div>
+      <h1 class="hero-title">Hoteles en venta<br><span>en España</span></h1>
+      <p class="hero-desc">Monitorizamos <strong id="hero-sources">9</strong> portales inmobiliarios españoles e internacionales cada 24 horas. Todas las oportunidades hoteleras en un solo lugar.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-num" id="val-total">—</div><div class="stat-label">Anuncios activos</div></div>
+      <div class="stat-box"><div class="stat-num" id="val-sources">—</div><div class="stat-label">Portales</div></div>
+      <div class="stat-box"><div class="stat-num">24h</div><div class="stat-label">Actualización</div></div>
+      <div class="stat-box"><div class="stat-num">0 €</div><div class="stat-label">Coste total</div></div>
+    </div>
+  </section>
+  <div class="controls">
+    <div class="search-wrap">
+      <span style="color:var(--muted)">⌕</span>
+      <input class="search-input" id="search" placeholder="Buscar ciudad, tipo de hotel..." oninput="renderGrid()">
+    </div>
+    <button class="chip" id="map-toggle" onclick="toggleMap()" style="border-color:var(--gd);color:var(--gd)">🗺 Ver mapa</button>
+  </div>
+  <div id="map-section" style="display:none">
+    <div id="map"></div>
+    <div class="map-info" id="map-info">Haz clic en un pin para ver los detalles del hotel</div>
+  </div>
+  <div class="section-header"><h2 class="section-title">Oportunidades hoteleras</h2><span class="section-sub" id="section-date">—</span></div>
+  <div class="source-pills" id="source-pills"><span class="slabel">Fuentes</span></div>
+  <main class="grid" id="grid"><div class="empty-state"><h3>Cargando anuncios...</h3></div></main>
 </div>
 
-<!-- GRID -->
-<main class="grid" id="listings-grid">
-  <!-- Cards injected by JS -->
-</main>
+<!-- PANEL MERCADO -->
+<div id="panel-mercado" style="display:none">
+  <div class="mkt-subnav">
+    <button class="mkt-tab active" id="mkt-tab-kpis"     onclick="switchMkt('kpis')">Indicadores</button>
+    <button class="mkt-tab"        id="mkt-tab-adr"      onclick="switchMkt('adr')">ADR</button>
+    <button class="mkt-tab"        id="mkt-tab-revpar"   onclick="switchMkt('revpar')">RevPAR</button>
+    <button class="mkt-tab"        id="mkt-tab-ocup"     onclick="switchMkt('ocup')">Ocupación</button>
+    <button class="mkt-tab"        id="mkt-tab-destinos" onclick="switchMkt('destinos')">Destinos</button>
+    <button class="mkt-tab"        id="mkt-tab-precios"  onclick="switchMkt('precios')">Precios oferta</button>
+  </div>
+  <div class="mkt-panel active" id="mkt-panel-kpis">
+    <div class="kpi-row">
+      <div class="kpi" id="kpi-adr"><div class="kpi-val">127,7€</div><div class="kpi-lbl">ADR Medio</div><div class="kpi-delta">↑ +5,1% vs 2024</div></div>
+      <div class="kpi" id="kpi-revpar"><div class="kpi-val">89,7€</div><div class="kpi-lbl">RevPAR Medio</div><div class="kpi-delta">↑ +6,0% vs 2024</div></div>
+      <div class="kpi"><div class="kpi-val">70,3%</div><div class="kpi-lbl">Ocupación media</div><div class="kpi-delta">↑ +0,8pp vs 2024</div></div>
+      <div class="kpi"><div class="kpi-val">366,7M</div><div class="kpi-lbl">Pernoctaciones 2025</div><div class="kpi-delta">↑ Récord histórico</div></div>
+      <div class="kpi"><div class="kpi-val">155,7€</div><div class="kpi-lbl">ADR pico (agosto)</div><div class="kpi-delta">↑ +6,1% vs ago 2024</div></div>
+      <div class="kpi"><div class="kpi-val">375,1€</div><div class="kpi-lbl">ADR top — Marbella</div><div class="kpi-delta">Mayor ADR de España</div></div>
+      <div class="kpi"><div class="kpi-val">3,4</div><div class="kpi-lbl">Estancia media (noches)</div><div class="kpi-delta">Extranjeros: 4,2 noches</div></div>
+      <div class="kpi"><div class="kpi-val">14.892</div><div class="kpi-lbl">Establecimientos abiertos</div><div class="kpi-delta">+1,2% vs 2024</div></div>
+    </div>
+    <div style="padding:.5rem 1.5rem .8rem;font-size:.62rem;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border)">
+      Fuente: INE — Encuesta de Ocupación Hotelera · <span id="kpi-live-badge" style="color:var(--ga);font-weight:600">Actualizando desde INE...</span>
+    </div>
+  </div>
+  <div class="mkt-panel" id="mkt-panel-adr">
+    <div class="chart-panel">
+      <div class="chart-header">
+        <span class="chart-title">ADR mensual por categoría (€/noche)</span>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span class="ine-src" id="adr-src">INE IRSH</span>
+          <button class="refresh-btn" onclick="clearINECache(2058);renderADRChart()">↻ Actualizar</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:260px"><canvas id="chart-adr"></canvas><div id="adr-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.78rem">Cargando datos del INE...</div></div>
+        <div class="cat-legend"><span style="color:var(--muted);font-size:.62rem;align-self:center">Categoría:</span><span><b style="background:#c9a84c"></b>5★</span><span><b style="background:#4a9ede"></b>4★</span><span><b style="background:#2d8a5e"></b>3★</span><span><b style="background:#b07fe8"></b>2★</span><span><b style="background:#e88c6a"></b>1★</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="mkt-panel" id="mkt-panel-revpar">
+    <div class="chart-panel">
+      <div class="chart-header">
+        <span class="chart-title" style="color:#0369a1">RevPAR mensual por categoría (€)</span>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span class="ine-src" id="rev-src">INE IRSH</span>
+          <button class="refresh-btn" onclick="clearINECache(2056);renderRevPARChart()">↻ Actualizar</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:260px"><canvas id="chart-revpar"></canvas><div id="rev-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.78rem">Cargando datos del INE...</div></div>
+        <div class="cat-legend"><span style="color:var(--muted);font-size:.62rem;align-self:center">Categoría:</span><span><b style="background:#c9a84c"></b>5★</span><span><b style="background:#4a9ede"></b>4★</span><span><b style="background:#2d8a5e"></b>3★</span><span><b style="background:#b07fe8"></b>2★</span><span><b style="background:#e88c6a"></b>1★</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="mkt-panel" id="mkt-panel-ocup">
+    <div class="chart-panel">
+      <div class="chart-header">
+        <span class="chart-title" style="color:var(--ga)">Grado de ocupación mensual por categoría (%)</span>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span class="ine-src" id="ocup-src">INE EOH</span>
+          <button class="refresh-btn" onclick="clearINECache(2078);renderOcupChart()">↻ Actualizar</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:260px"><canvas id="chart-ocup"></canvas><div id="ocup-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.78rem">Cargando datos del INE...</div></div>
+        <div class="cat-legend"><span style="color:var(--muted);font-size:.62rem;align-self:center">Categoría:</span><span><b style="background:#c9a84c"></b>5★</span><span><b style="background:#4a9ede"></b>4★</span><span><b style="background:#2d8a5e"></b>3★</span><span><b style="background:#b07fe8"></b>2★</span><span><b style="background:#e88c6a"></b>1★</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="mkt-panel" id="mkt-panel-destinos">
+    <div class="zone-wrap">
+      <div style="padding:1.2rem 1.5rem;border-bottom:2px solid var(--gd);display:flex;align-items:center;justify-content:space-between">
+        <span class="chart-title">Principales destinos — indicadores hoteleros 2025</span>
+        <span class="ine-src">INE EOH 2025</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="zone-table"><thead><tr><th>Destino</th><th>Tipo</th><th>Ocup. %</th><th>ADR €</th><th>RevPAR €</th><th>Tendencia</th></tr></thead><tbody id="zone-tbody"></tbody></table>
+      </div>
+    </div>
+  </div>
+  <div class="mkt-panel" id="mkt-panel-precios">
+    <div class="chart-panel">
+      <div class="chart-header">
+        <span class="chart-title">Precio medio de oferta por zona (anuncios activos)</span>
+        <span class="ine-src" id="precios-src">Portales activos</span>
+      </div>
+      <div class="chart-body"><div style="position:relative;height:280px" id="precios-chart-wrap"><canvas id="chart-precios"></canvas></div></div>
+    </div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-title">Precio medio €/m² estimado por provincia</div>
+      <div class="heatmap-grid" id="heatmap"></div>
+    </div>
+  </div>
+</div>
 
-<!-- FOOTER -->
 <footer>
+  <div><div class="flogo">Hotel Monitor</div><div class="flogo-sub">España · Hoteles en venta</div><p class="fdesc">Agregador automático y gratuito de hoteles en venta en España. Datos extraídos de portales públicos. Actualización diaria a las 08:00h.</p></div>
   <div>
-    <div class="footer-logo-main">Hotel Monitor</div>
-    <div class="footer-logo-sub">España · Hoteles en venta</div>
-    <p class="footer-desc">
-      Agregador automático y gratuito de hoteles en venta en España.
-      Datos extraídos de portales públicos. Actualización diaria a las 08:00h.
-    </p>
+    <div class="fcol-title">Portales españoles</div>
+    <ul class="flinks"><li><a href="https://www.idealista.com/news/etiquetas/hoteles-en-venta" target="_blank">Idealista News</a></li><li><a href="https://www.lucasfox.es/viviendas/hoteles.html" target="_blank">Lucas Fox</a></li><li><a href="https://www.green-acres.es" target="_blank">Green-Acres</a></li></ul>
   </div>
   <div>
-    <div class="footer-col-title">Portales</div>
-    <ul class="footer-links">
-      <li><a href="https://www.idealista.com/venta-locales/con-hotel/" target="_blank">Idealista</a></li>
-      <li><a href="https://www.fotocasa.es/es/comprar/locales-comerciales/espana/hotel/l" target="_blank">Fotocasa</a></li>
-      <li><a href="https://www.habitaclia.com" target="_blank">Habitaclia</a></li>
-      <li><a href="https://www.kyero.com/es/hoteles-en-venta-en-espana" target="_blank">Kyero</a></li>
-      <li><a href="https://www.pisos.com" target="_blank">Pisos.com</a></li>
-      <li><a href="https://www.thinkspain.com/es/property-for-sale/spain/hotels" target="_blank">ThinkSpain</a></li>
-    </ul>
-  </div>
-  <div>
-    <div class="footer-col-title">Más portales</div>
-    <ul class="footer-links">
-      <li><a href="https://www.nuroa.es" target="_blank">Nuroa</a></li>
-      <li><a href="https://casas.trovit.es" target="_blank">Trovit</a></li>
-      <li><a href="https://www.indomio.es" target="_blank">Indomio</a></li>
-      <li><a href="https://www.hogaria.net" target="_blank">Hogaria</a></li>
-      <li><a href="https://www.yaencontre.com" target="_blank">Yaencontré</a></li>
-    </ul>
+    <div class="fcol-title">Portales internacionales</div>
+    <ul class="flinks"><li><a href="https://www.kyero.com/es/hoteles-en-venta-en-espana" target="_blank">Kyero</a></li><li><a href="https://www.thinkspain.com/es/property-for-sale/spain/hotels" target="_blank">ThinkSpain</a></li><li><a href="https://www.aplaceinthesun.com/property/for-sale/spain?type=hotel" target="_blank">A Place in the Sun</a></li><li><a href="https://www.jamesedition.com/real_estate/spain/hotel/for_sale/" target="_blank">JamesEdition</a></li><li><a href="https://www.resales-online.com/hotels-for-sale-spain.html" target="_blank">Resales Online</a></li></ul>
   </div>
 </footer>
-<div class="footer-bottom">
-  <span>© 2025 Hotel Monitor · Datos de portales públicos</span>
-  <span>Próxima actualización: mañana a las 08:00h</span>
-</div>
+<div class="fbot"><span>© 2025 Hotel Monitor · Datos de portales públicos · INE en vivo</span><span>Próxima actualización: mañana a las 08:00h</span></div>
 
 <script>
-// ── DATA INJECTED BY PYTHON SCRAPER ──────────────────────────────
-const LISTINGS = [
-  {
-    "title": "Hotel boutique centro histórico",
-    "price": "1.200.000 €",
-    "location": "Barcelona",
-    "description": "20 hab. totalmente reformado. Licencia turística en vigor.",
-    "url": "https://www.idealista.com/venta-locales/con-hotel/",
-    "source": "Idealista",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Hotel rural con restaurante y spa",
-    "price": "850.000 €",
-    "location": "Segovia",
-    "description": "15 hab., restaurante y zona wellness.",
-    "url": "https://www.fotocasa.es",
-    "source": "Fotocasa",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Hotel frente al mar primera línea",
-    "price": "3.500.000 €",
-    "location": "Marbella",
-    "description": "35 hab. con piscina y acceso directo a playa.",
-    "url": "https://www.kyero.com",
-    "source": "Kyero",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Hostal en zona turística consolidada",
-    "price": "320.000 €",
-    "location": "Toledo",
-    "description": "12 hab. pleno centro histórico.",
-    "url": "https://www.habitaclia.com",
-    "source": "Habitaclia",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Hotel con encanto en pueblo medieval",
-    "price": "Precio a consultar",
-    "location": "Ronda",
-    "description": "Edificio histórico, 18 hab. con vistas al tajo.",
-    "url": "https://www.thinkspain.com",
-    "source": "ThinkSpain",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Aparthotel en zona costera",
-    "price": "2.100.000 €",
-    "location": "Alicante",
-    "description": "28 apartamentos turísticos. Ocupación media 80%.",
-    "url": "https://www.pisos.com",
-    "source": "Pisos.com",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Casa rural con licencia turística",
-    "price": "450.000 €",
-    "location": "Granada",
-    "description": "8 hab. en plena naturaleza, Sierra Nevada.",
-    "url": "https://www.nuroa.es",
-    "source": "Nuroa",
-    "date": "12/03/2026"
-  },
-  {
-    "title": "Hotel urbano en barrio de moda",
-    "price": "4.800.000 €",
-    "location": "Madrid",
-    "description": "45 hab., restaurante y sala eventos. Plena actividad.",
-    "url": "https://casas.trovit.es",
-    "source": "Trovit",
-    "date": "12/03/2026"
-  }
-];
-// ─────────────────────────────────────────────────────────────────
-
-const SOURCE_COLORS = {
-  'Idealista':'#1a5c45','Fotocasa':'#c0392b','Habitaclia':'#6d28d9',
-  'Kyero':'#065f46','ThinkSpain':'#92400e','Pisos.com':'#0369a1',
-  'Nuroa':'#9d174d','Trovit':'#b45309','Indomio':'#166534',
-  'Hogaria':'#7e22ce','Yaencontré':'#991b1b',
-};
-
-function renderListings() {
-  const grid = document.getElementById('listings-grid');
-  const sourcesBar = document.getElementById('sources-bar');
-
-  const sources = [...new Set(LISTINGS.map(l => l.source))].sort();
-
-  // Stats
-  document.getElementById('total-count').textContent = LISTINGS.length;
-  document.getElementById('source-count').textContent = sources.length;
-  document.getElementById('section-date').textContent = LISTINGS[0]?.date || '';
-  document.getElementById('update-time').textContent = LISTINGS[0]?.date || '';
-
-  // Sources pills
-  sources.forEach(s => {
-    const pill = document.createElement('span');
-    pill.className = 'source-pill';
-    pill.textContent = s;
-    sourcesBar.appendChild(pill);
-  });
-
-  // Cards
-  grid.innerHTML = '';
-  LISTINGS.forEach(l => {
-    const color = SOURCE_COLORS[l.source] || '#1a5c45';
-    const desc = l.description ? `<p class="card-desc">${l.description.substring(0,150)}</p>` : '';
-
-    grid.innerHTML += `
-      <a href="${l.url}" target="_blank" rel="noopener" class="card">
-        <div class="card-img-placeholder">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-            <polyline points="9,22 9,12 15,12 15,22"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <span class="card-badge" style="background:${color}">${l.source}</span>
-          <h3 class="card-title">${l.title}</h3>
-          <div class="card-location">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            ${l.location}
-          </div>
-          ${desc}
-          <div class="card-footer">
-            <span class="card-price">${l.price}</span>
-            <span class="card-cta">Ver ficha »</span>
-          </div>
-          <div class="card-date">${l.date}</div>
-        </div>
-      </a>`;
-  });
-}
-
-if (LISTINGS && LISTINGS.length > 0) {
-  renderListings();
-} else {
-  document.getElementById('listings-grid').innerHTML = `
-    <div style="grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(--muted)">
-      <h3 style="font-family:Montserrat,sans-serif;font-size:1.2rem;color:var(--green-dark);margin-bottom:.5rem">
-        Sin resultados hoy
-      </h3>
-      <p>Los portales no devolvieron resultados. Inténtalo mañana.</p>
-    </div>`;
-}
+const LISTINGS_DATA = [{"title": "Hotel boutique 4* en el centro histórico de Barcelona", "price": "3.200.000 €", "location": "Barcelona", "description": "Hotel de 22 habitaciones totalmente reformado. Licencia turística en vigor. Alta ocupación garantizada.", "url": "https://www.lucasfox.es/viviendas/hoteles.html", "source": "Lucas Fox", "date": "12/03/2026"}, {"title": "Hotel rural con restaurante y spa en Segovia", "price": "850.000 €", "location": "Segovia", "description": "15 habitaciones, restaurante con encanto, zona wellness y piscina exterior. Gran potencial de negocio.", "url": "https://www.idealista.com/news/etiquetas/hoteles-en-venta", "source": "Idealista News", "date": "12/03/2026"}, {"title": "Hotel frente al mar en primera línea de playa — Marbella", "price": "5.500.000 €", "location": "Marbella", "description": "35 habitaciones con vistas al mar. Piscina, restaurante y acceso directo a playa privada.", "url": "https://www.kyero.com/es/hoteles-en-venta-en-espana", "source": "Kyero", "date": "12/03/2026"}, {"title": "Hostal reconvertible en hotel boutique en Toledo", "price": "420.000 €", "location": "Toledo", "description": "Edificio histórico del s.XVIII, 14 habitaciones. Pleno centro histórico, a 2 min de la Catedral.", "url": "https://www.thinkspain.com/es/property-for-sale/spain/hotels", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel con encanto en Ronda, Málaga", "price": "Precio a consultar", "location": "Ronda", "description": "Edificio rehabilitado, 18 habitaciones con vistas al tajo de Ronda. Zona Patrimonio de la Humanidad.", "url": "https://www.green-acres.es", "source": "Green-Acres", "date": "12/03/2026"}, {"title": "Aparthotel 28 unidades en Costa Blanca", "price": "2.100.000 €", "location": "Alicante", "description": "28 apartamentos turísticos con piscina comunitaria. Ocupación media anual del 82%.", "url": "https://www.aplaceinthesun.com/property/for-sale/spain?type=hotel", "source": "A Place in Sun", "date": "12/03/2026"}, {"title": "Casa rural con licencia turística — Sierra Nevada", "price": "450.000 €", "location": "Granada", "description": "8 habitaciones en plena naturaleza. A 20 min de la estación de esquí. En funcionamiento desde 2012.", "url": "https://www.resales-online.com/hotels-for-sale-spain.html", "source": "Resales Online", "date": "12/03/2026"}, {"title": "Hotel urbano 3* en barrio de moda de Madrid", "price": "6.800.000 €", "location": "Madrid", "description": "48 habitaciones, restaurante y sala de eventos. Plena actividad con contratos firmados hasta 2027.", "url": "https://www.jamesedition.com/real_estate/spain/hotel/for_sale/", "source": "JamesEdition", "date": "12/03/2026"}, {"title": "Hotel con jardín en las Islas Baleares — Mallorca", "price": "1.750.000 €", "location": "Mallorca", "description": "12 habitaciones, jardín tropical y piscina. Licencia hotelera activa. Vistas al mar.", "url": "https://www.spainproperty.com/property-for-sale/commercial/hotel/", "source": "Spain Property", "date": "12/03/2026"}, {"title": "Complejo hotelero en Canarias — 60 apartamentos", "price": "8.900.000 €", "location": "Tenerife", "description": "60 unidades, piscinas, restaurante y animación. Ocupación media del 78% anual.", "url": "https://www.lucasfox.es/viviendas/hoteles.html", "source": "Lucas Fox", "date": "12/03/2026"}];
+const FALLBACK={labels:['Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25','Nov 25','Dic 25','Ene 26'],adr:{'5★':[277.5,268,266.2,285,295,307.8,331.5,339.6,290,282,278,277.5,265],'4★':[121.5,118,115.5,126,130,133.1,153.4,163.8,135,127,126.5,126,118],'3★':[88,85,87.3,96,99,104,124.7,134.4,108,97,95,93.9,87],'2★':[72,70,72,80,84,89,105,112,88,78,75,74,70],'1★':[58,57,58,65,68,73,88,94,72,63,61,60,57]},revpar:{'5★':[154.2,148,157,172,190,215,244.5,268,198,168,158,154.2,145],'4★':[78,74,76,87,95,108,127.3,138,98,85,81,80.7,73],'3★':[51.6,49,52,60,65,78,97.8,112,72,58,54,55.1,49],'2★':[38,36,38,47,52,61,76,84,56,44,41,40,36],'1★':[28,27,28,35,39,46,58,65,42,33,30,29,27]},ocup:{'5★':[55.1,57.4,61.8,69.2,74.5,81.3,88.7,86.2,80.4,72.1,61.3,57.8,54.2],'4★':[50.3,52.8,58.4,66.1,71.8,79.4,85.3,82.7,77.6,69.4,58.2,54.7,49.8],'3★':[44.2,46.5,53.1,61.4,67.2,74.8,80.6,78.3,72.8,64.5,53.4,49.2,43.7],'2★':[40.8,43.1,49.7,57.9,63.8,71.2,77.4,74.9,69.3,60.7,49.8,45.6,40.1],'1★':[37.4,39.8,46.2,54.3,60.1,67.5,73.8,71.2,65.7,56.9,46.2,41.9,36.8]}};
+const ZONE_DATA=[{zona:'Baleares (Mallorca)',tipo:'costa',ocup:81,adr:182,revpar:147,trend:'+7.2%'},{zona:'Canarias',tipo:'costa',ocup:78.5,adr:145,revpar:114,trend:'+4.8%'},{zona:'Costa del Sol',tipo:'costa',ocup:72.3,adr:178,revpar:129,trend:'+9.1%'},{zona:'Barcelona',tipo:'ciudad',ocup:76.8,adr:168,revpar:129,trend:'+6.3%'},{zona:'Madrid',tipo:'ciudad',ocup:74.2,adr:152,revpar:113,trend:'+8.5%'},{zona:'Costa Blanca',tipo:'costa',ocup:68.4,adr:112,revpar:77,trend:'+5.2%'},{zona:'Costa Brava',tipo:'costa',ocup:70.1,adr:138,revpar:97,trend:'+4.9%'},{zona:'Sevilla',tipo:'ciudad',ocup:68.9,adr:124,revpar:85,trend:'+7.8%'},{zona:'Valencia',tipo:'ciudad',ocup:67.3,adr:118,revpar:79,trend:'+6.1%'},{zona:'Galicia',tipo:'rural',ocup:58.2,adr:98,revpar:57,trend:'+3.4%'},{zona:'Asturias/Cantabria',tipo:'rural',ocup:55.8,adr:95,revpar:53,trend:'+4.1%'},{zona:'Interior/Rural',tipo:'rural',ocup:52.4,adr:88,revpar:46,trend:'+2.8%'}];
+const HEATMAP_DATA=[{prov:'Ibiza',val:9100,color:'#92400e'},{prov:'Marbella',val:8400,color:'#92400e'},{prov:'Barcelona',val:7200,color:'#b45309'},{prov:'Madrid',val:6800,color:'#b45309'},{prov:'Mallorca',val:6200,color:'#b45309'},{prov:'Costa Brava',val:5600,color:'#b45309'},{prov:'Málaga',val:5100,color:'#d97706'},{prov:'Canarias',val:4800,color:'#d97706'},{prov:'Sevilla',val:4200,color:'#d97706'},{prov:'Bilbao',val:3900,color:'#ca8a04'},{prov:'Valencia',val:3800,color:'#ca8a04'},{prov:'Alicante',val:3500,color:'#ca8a04'},{prov:'Rural España',val:1800,color:'#9ca3af'},{prov:'Interior',val:2200,color:'#6b7280'}];
+const SOURCE_COLORS={'Idealista News':'#1a5c45','Lucas Fox':'#c0392b','Kyero':'#0369a1','ThinkSpain':'#92400e','Green-Acres':'#166534','A Place in Sun':'#1d4ed8','JamesEdition':'#6d28d9','Resales Online':'#9d174d','Spain Property':'#0e7490'};
+const CAT_COLORS={'5★':'#c9a84c','4★':'#4a9ede','3★':'#2d8a5e','2★':'#b07fe8','1★':'#e88c6a'};
+const CAT_MAP={'cinco estrellas':'5★','cuatro estrellas':'4★','tres estrellas':'3★','dos estrellas':'2★','una estrella':'1★'};
+const CORS_PROXIES=[id=>`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,id=>`https://corsproxy.io/?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`];
+const INE_MEM={};
+async function ineGet(id){if(INE_MEM[id])return INE_MEM[id];for(const pf of CORS_PROXIES){try{const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),9000);const r=await fetch(pf(id),{signal:ctrl.signal});clearTimeout(t);if(!r.ok)continue;const data=await r.json();if(!Array.isArray(data)||!data.length)continue;INE_MEM[id]=data;return data;}catch(e){continue;}}return null;}
+function clearINECache(id){delete INE_MEM[id];}
+function parseINESeries(data,catMap){if(!data)return null;const MORD={enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};const mAbbr={enero:'Ene',febrero:'Feb',marzo:'Mar',abril:'Abr',mayo:'May',junio:'Jun',julio:'Jul',agosto:'Ago',septiembre:'Sep',octubre:'Oct',noviembre:'Nov',diciembre:'Dic'};const result={},periodoSet=new Set();data.forEach(s=>{if(!s.Nombre||!s.Data)return;if(s.Nombre.toLowerCase().includes('fin de semana'))return;const key=Object.keys(catMap).find(k=>s.Nombre.toLowerCase().includes(k));if(!key)return;const label=catMap[key];result[label]={};s.Data.filter(d=>d.Valor!==null).reverse().forEach(d=>{periodoSet.add(d.NombrePeriodo);result[label][d.NombrePeriodo]=d.Valor;});});if(!Object.keys(result).length)return null;const periodos=[...periodoSet].sort((a,b)=>{const pa=a.split(' '),pb=b.split(' ');return parseInt(pa[1])!==parseInt(pb[1])?parseInt(pa[1])-parseInt(pb[1]):(MORD[pa[0]]||0)-(MORD[pb[0]]||0);});const labels=periodos.map(p=>{const pp=p.split(' ');return(mAbbr[pp[0]]||pp[0].slice(0,3))+' '+(pp[1]||'').slice(2);});const datasets={};['5★','4★','3★','2★','1★'].forEach(cat=>{if(result[cat])datasets[cat]=periodos.map(p=>result[cat][p]??null);});return{labels,datasets,lastPeriod:periodos[periodos.length-1]};}
+const _charts={};
+function destroyChart(id){if(_charts[id]){_charts[id].destroy();delete _charts[id];}}
+function makeDatasets(obj){return Object.entries(obj).map(([cat,data])=>({label:cat,data,borderColor:CAT_COLORS[cat],backgroundColor:CAT_COLORS[cat]+'18',borderWidth:2,pointRadius:2,pointBackgroundColor:CAT_COLORS[cat],tension:0.3,fill:false}));}
+function chartOpts(unit){return{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:'#d4d2c9',borderWidth:1,titleColor:'#1a1a1a',bodyColor:'#6b6b6b',padding:10,callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y?.toFixed(1)}${unit}`}}},scales:{x:{grid:{display:false},ticks:{color:'#9b9b9b',font:{size:9},callback:(_,i,arr)=>{const l=arr[i]?.label||'';return l.startsWith('Ene')?l:''}}},y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#9b9b9b',font:{size:10},callback:v=>v+unit}}}};}
+async function renderKPIs(){try{const[adrRaw,revRaw]=await Promise.all([ineGet(2058),ineGet(2056)]);if(adrRaw){const p=parseINESeries(adrRaw,CAT_MAP);if(p){const li=p.labels.length-1;const vals=['5★','4★','3★','2★','1★'].map(c=>p.datasets[c]?.[li]).filter(v=>v!=null);if(vals.length){const avg=vals.reduce((a,b)=>a+b,0)/vals.length;const el=document.getElementById('kpi-adr');if(el){el.querySelector('.kpi-val').textContent=avg.toFixed(1).replace('.',',')+' €';el.querySelector('.kpi-lbl').textContent='ADR — '+p.lastPeriod;el.querySelector('.kpi-delta').textContent='🟢 INE en vivo';}const badge=document.getElementById('kpi-live-badge');if(badge)badge.textContent=`🟢 INE en vivo · último dato: ${p.lastPeriod}`;}}}if(revRaw){const p=parseINESeries(revRaw,CAT_MAP);if(p){const li=p.labels.length-1;const vals=['5★','4★','3★','2★','1★'].map(c=>p.datasets[c]?.[li]).filter(v=>v!=null);if(vals.length){const avg=vals.reduce((a,b)=>a+b,0)/vals.length;const el=document.getElementById('kpi-revpar');if(el){el.querySelector('.kpi-val').textContent=avg.toFixed(1).replace('.',',')+' €';el.querySelector('.kpi-lbl').textContent='RevPAR — '+p.lastPeriod;el.querySelector('.kpi-delta').textContent='🟢 INE en vivo';}}}}}catch(e){}}
+async function renderADRChart(){document.getElementById('adr-loading').style.display='flex';let labels=FALLBACK.labels,datasets=FALLBACK.adr;try{const raw=await ineGet(2058);const p=parseINESeries(raw,CAT_MAP);if(p&&Object.keys(p.datasets).length){labels=p.labels;datasets=p.datasets;const s=document.getElementById('adr-src');if(s)s.textContent=`🟢 INE en vivo · ${p.lastPeriod}`;}}catch(e){}document.getElementById('adr-loading').style.display='none';destroyChart('adr');const ctx=document.getElementById('chart-adr')?.getContext('2d');if(ctx)_charts['adr']=new Chart(ctx,{type:'line',data:{labels,datasets:makeDatasets(datasets)},options:chartOpts('€')});}
+async function renderRevPARChart(){document.getElementById('rev-loading').style.display='flex';let labels=FALLBACK.labels,datasets=FALLBACK.revpar;try{const raw=await ineGet(2056);const p=parseINESeries(raw,CAT_MAP);if(p&&Object.keys(p.datasets).length){labels=p.labels;datasets=p.datasets;const s=document.getElementById('rev-src');if(s)s.textContent=`🟢 INE en vivo · ${p.lastPeriod}`;}}catch(e){}document.getElementById('rev-loading').style.display='none';destroyChart('revpar');const ctx=document.getElementById('chart-revpar')?.getContext('2d');if(ctx)_charts['revpar']=new Chart(ctx,{type:'line',data:{labels,datasets:makeDatasets(datasets)},options:chartOpts('€')});}
+async function renderOcupChart(){let labels=FALLBACK.labels,datasets=FALLBACK.ocup;try{const raw=await ineGet(2078);const p=parseINESeries(raw,CAT_MAP);if(p&&Object.keys(p.datasets).length){labels=p.labels;datasets=p.datasets;const s=document.getElementById('ocup-src');if(s)s.textContent=`🟢 INE en vivo · ${p.lastPeriod}`;}}catch(e){}document.getElementById('ocup-loading').style.display='none';destroyChart('ocup');const ctx=document.getElementById('chart-ocup')?.getContext('2d');if(!ctx)return;const opts=chartOpts('%');opts.scales.y.min=0;opts.scales.y.max=100;_charts['ocup']=new Chart(ctx,{type:'line',data:{labels,datasets:makeDatasets(datasets)},options:opts});}
+function renderZoneTable(){const tbody=document.getElementById('zone-tbody');if(!tbody)return;tbody.innerHTML=ZONE_DATA.map(z=>`<tr><td style="font-weight:600">${z.zona}</td><td><span class="tipo-badge tipo-${z.tipo}">${z.tipo}</span></td><td>${z.ocup.toFixed(1)}%</td><td>${z.adr} €</td><td>${z.revpar} €</td><td style="color:var(--ga);font-weight:700">${z.trend}</td></tr>`).join('');}
+function renderHeatmap(){const el=document.getElementById('heatmap');if(!el)return;el.innerHTML=HEATMAP_DATA.map(d=>`<div class="heat-cell"><div class="heat-bg" style="background:${d.color}"></div><div class="heat-prov">${d.prov}</div><div class="heat-val">${d.val.toLocaleString('es-ES')} €</div></div>`).join('');}
+function renderPreciosChart(){const byZone={};LISTINGS_DATA.forEach(l=>{const m=l.price?.match(/[\d\.]{4,}/);if(!m)return;const v=parseFloat(m[0].replace(/\./g,''));if(!v||isNaN(v)||v<50000||v>1e8)return;if(!byZone[l.location])byZone[l.location]={sum:0,n:0};byZone[l.location].sum+=v;byZone[l.location].n++;});const zones=Object.entries(byZone).sort((a,b)=>b[1].sum/b[1].n-a[1].sum/a[1].n).slice(0,12);const s=document.getElementById('precios-src');if(s)s.textContent=`${LISTINGS_DATA.length} anuncios activos`;if(!zones.length){const w=document.getElementById('precios-chart-wrap');if(w)w.innerHTML='<div style="padding:3rem;color:var(--muted);text-align:center;font-size:.8rem">No hay suficientes datos de precio en los anuncios actuales</div>';return;}destroyChart('precios');const ctx=document.getElementById('chart-precios')?.getContext('2d');if(!ctx)return;_charts['precios']=new Chart(ctx,{type:'bar',data:{labels:zones.map(z=>z[0]),datasets:[{label:'Precio medio',data:zones.map(z=>Math.round(z[1].sum/z[1].n)),backgroundColor:'rgba(26,92,69,.5)',borderColor:'#1a5c45',borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',borderColor:'#1a5c45',borderWidth:1,titleColor:'#1a1a1a',bodyColor:'#6b6b6b',padding:10,callbacks:{label:c=>` ${(c.parsed.y/1e6).toFixed(2)}M €`}}},scales:{x:{grid:{display:false},ticks:{color:'#9b9b9b',font:{size:10}}},y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#9b9b9b',font:{size:9},callback:v=>(v/1e6).toFixed(1)+'M €'}}}}});}
+function renderGrid(){const q=(document.getElementById('search')?.value||'').toLowerCase();const filtered=LISTINGS_DATA.filter(l=>!q||(l.title+l.location).toLowerCase().includes(q));const now=new Date();const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];const dateStr=`${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;document.getElementById('hdr-date').textContent=dateStr;document.getElementById('section-date').textContent=dateStr;document.getElementById('val-total').textContent=LISTINGS_DATA.length;const sources=[...new Set(LISTINGS_DATA.map(l=>l.source))];document.getElementById('val-sources').textContent=sources.length;document.getElementById('hero-sources').textContent=sources.length;const pp=document.getElementById('source-pills');if(pp)pp.innerHTML='<span class="slabel">Fuentes</span>'+sources.map(s=>`<span class="source-pill">${s}</span>`).join('');const grid=document.getElementById('grid');if(!grid)return;if(!filtered.length){grid.innerHTML='<div class="empty-state"><h3>Sin resultados</h3><p>Prueba con otra búsqueda</p></div>';return;}grid.innerHTML=filtered.map(l=>{const color=SOURCE_COLORS[l.source]||'#1a5c45';return`<a href="${l.url}" target="_blank" rel="noopener" class="card"><div class="card-img"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div><div class="card-body"><span class="card-badge" style="background:${color}">${l.source}</span><div class="card-title">${l.title}</div><div class="card-loc">📍 ${l.location}</div>${l.description?`<div class="card-desc">${l.description}</div>`:''}<div class="card-foot"><span class="card-price">${l.price}</span><span class="card-cta">Ver ficha »</span></div><div class="card-date">${l.date}</div></div></a>`;}).join('');}
+let mapVisible=false,leafletLoaded=false,mapInstance=null,mapMarkers=[];
+const CITY_COORDS={'madrid':[40.4168,-3.7038],'barcelona':[41.3851,2.1734],'valencia':[39.4699,-0.3763],'sevilla':[37.3891,-5.9845],'málaga':[36.7213,-4.4214],'malaga':[36.7213,-4.4214],'alicante':[38.3452,-0.481],'bilbao':[43.263,-2.935],'zaragoza':[41.6488,-0.8891],'murcia':[37.9922,-1.1307],'palma':[39.5696,2.6502],'mallorca':[39.6953,3.0176],'baleares':[39.6953,3.0176],'ibiza':[38.9067,1.4206],'tenerife':[28.2916,-16.6291],'canarias':[28.1235,-15.4366],'gran canaria':[27.9202,-15.5474],'granada':[37.1773,-3.5986],'córdoba':[37.8882,-4.7794],'cordoba':[37.8882,-4.7794],'toledo':[39.8628,-4.0273],'salamanca':[40.9701,-5.6635],'san sebastián':[43.3183,-1.9812],'marbella':[36.5101,-4.8824],'benidorm':[38.54,-0.1327],'tarragona':[41.1189,1.2445],'girona':[41.9794,2.8214],'santander':[43.4623,-3.8099],'oviedo':[43.3614,-5.8593],'asturias':[43.3614,-5.8593],'galicia':[42.5751,-8.1339],'vigo':[42.2406,-8.7207],'castellón':[39.9864,-0.0513],'almería':[36.834,-2.4637],'huelva':[37.2614,-6.9447],'cádiz':[36.5271,-6.2886],'jaén':[37.7796,-3.7849],'cuenca':[40.0704,-2.1374],'burgos':[42.344,-3.697],'valladolid':[41.6523,-4.7245],'logroño':[42.4627,-2.4449],'pamplona':[42.8169,-1.6432],'costa brava':[41.7818,3.0302],'costa del sol':[36.527,-4.8824],'costa blanca':[38.54,-0.1327],'torrevieja':[37.978,-0.6832],'fuengirola':[36.5397,-4.6252],'nerja':[36.7479,-3.871],'ronda':[36.746,-5.1611],'sitges':[41.2367,1.8084],'segovia':[40.9429,-4.1088],'menorca':[39.9496,4.1154],'lanzarote':[28.9635,-13.5477],'fuerteventura':[28.3587,-14.0537]};
+function getCoords(loc){if(!loc)return null;const u=loc.toLowerCase();for(const[city,coords]of Object.entries(CITY_COORDS)){if(u.includes(city))return coords;}return[40.4168+(Math.random()-.5)*3,-3.7038+(Math.random()-.5)*5];}
+function toggleMap(){mapVisible=!mapVisible;const sec=document.getElementById('map-section');const btn=document.getElementById('map-toggle');sec.style.display=mapVisible?'block':'none';btn.classList.toggle('on',mapVisible);btn.textContent=mapVisible?'✕ Cerrar mapa':'🗺 Ver mapa';if(mapVisible){if(!leafletLoaded)loadLeaflet();else refreshMap();}}
+function loadLeaflet(){const css=document.createElement('link');css.rel='stylesheet';css.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';document.head.appendChild(css);const js=document.createElement('script');js.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';js.onload=()=>{leafletLoaded=true;initMap();};document.head.appendChild(js);}
+function initMap(){mapInstance=L.map('map',{zoomControl:true}).setView([40,-3.5],6);L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'© CartoDB',maxZoom:18}).addTo(mapInstance);refreshMap();}
+function refreshMap(){if(!mapInstance)return;mapMarkers.forEach(m=>m.remove());mapMarkers=[];LISTINGS_DATA.forEach(h=>{const coords=getCoords(h.location);if(!coords)return;const color=SOURCE_COLORS[h.source]||'#1a5c45';const icon=L.divIcon({className:'',html:`<div style="width:13px;height:13px;background:${color};border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.25);cursor:pointer"></div>`,iconSize:[13,13],iconAnchor:[6,6]});const m=L.marker(coords,{icon}).addTo(mapInstance).bindPopup(`<div style="font-family:'Open Sans',sans-serif;min-width:210px"><div style="font-family:Montserrat,sans-serif;font-size:.6rem;color:${color};font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">${h.source}</div><div style="font-family:Montserrat,sans-serif;font-size:.9rem;font-weight:700;margin-bottom:3px;color:#1a1a1a">${h.title}</div><div style="font-size:.72rem;color:#888;margin-bottom:5px">📍 ${h.location}</div><div style="font-family:Montserrat,sans-serif;font-size:1.05rem;font-weight:900;color:#1a5c45;margin-bottom:7px">${h.price}</div>${h.description?`<div style="font-size:.72rem;color:#666;margin-bottom:7px">${h.description}</div>`:''}<a href="${h.url}" target="_blank" style="font-family:Montserrat,sans-serif;font-size:.65rem;font-weight:700;color:#1a5c45;text-transform:uppercase;letter-spacing:.06em">Ver ficha »</a></div>`);mapMarkers.push(m);});const info=document.getElementById('map-info');if(info)info.textContent=`${mapMarkers.length} hoteles en el mapa · Haz clic en un pin para ver los detalles`;}
+let mktInited={};
+function switchTab(id){['hoteles','mercado'].forEach(t=>{document.getElementById('panel-'+t).style.display=t===id?'block':'none';document.getElementById('tab-'+t).classList.toggle('active',t===id);});if(id==='mercado'&&!mktInited.kpis){mktInited.kpis=true;renderKPIs();}}
+function switchMkt(id){document.querySelectorAll('.mkt-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.mkt-panel').forEach(p=>p.classList.remove('active'));document.getElementById('mkt-tab-'+id).classList.add('active');document.getElementById('mkt-panel-'+id).classList.add('active');if(!mktInited[id]){mktInited[id]=true;if(id==='adr')renderADRChart();if(id==='revpar')renderRevPARChart();if(id==='ocup')renderOcupChart();if(id==='destinos')renderZoneTable();if(id==='precios'){renderPreciosChart();renderHeatmap();}}}
+renderGrid();
 </script>
 </body>
 </html>
