@@ -1,613 +1,994 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Hotel Monitor · España</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hotel Monitor — Hoteles en Venta en España</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0a0906;--surface:#111009;--card:#16140f;--border:#2a2620;--border-light:#3a3530;
-  --gold:#d4a843;--gold-dim:#8a6e2a;--gold-glow:rgba(212,168,67,0.08);
-  --text:#e8e0d0;--muted:#6b6358;--accent:#c17f3a;--new:#4a8c5c;--new-glow:rgba(74,140,92,0.12);
+:root {
+  --gd: #1a5c45;
+  --gm: #2e7d5e;
+  --ga: #3d9970;
+  --bg: #f0efea;
+  --white: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #d4d2c9;
+  --dark: #111009;
+  --dark2: #181610;
+  --gold: #c9a84c;
+  --gold-dim: #7a6328;
 }
-body{font-family:'Archivo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-weight:300}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:0.4}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: 'Open Sans', sans-serif; }
 
-header{border-bottom:1px solid var(--border);padding:0 2.5rem;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(10,9,6,0.95);backdrop-filter:blur(12px);z-index:50}
-.brand-name{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold)}
-.brand-tag{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-left:1rem}
-.header-meta{font-size:0.7rem;color:var(--muted);text-align:right;line-height:1.6}
-.header-meta strong{color:var(--gold)}
+/* NAV */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.nav-brand { display: flex; flex-direction: column; }
+.nav-logo { font-family: 'Montserrat', sans-serif; font-size: 1.45rem; font-weight: 900; color: var(--gd); letter-spacing: -.01em; }
+.nav-sub { font-family: 'Montserrat', sans-serif; font-size: .48rem; font-weight: 700; letter-spacing: .22em; color: var(--muted); text-transform: uppercase; margin-top: 1px; }
+.nav-right { text-align: right; font-size: .7rem; color: var(--muted); line-height: 1.55; }
+.nav-right strong { color: var(--gd); font-weight: 700; }
 
 /* TABS */
-.tab-nav{display:flex;border-bottom:1px solid var(--border);background:var(--surface)}
-.tab-btn{padding:0.9rem 2rem;font-family:'Archivo',sans-serif;font-size:0.75rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;transition:all 0.2s}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-nav { background: var(--white); border-bottom: 2px solid var(--border); display: flex; padding: 0 3rem; }
+.tab-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: .88rem 1.5rem;
+  cursor: pointer;
+  margin-bottom: -2px;
+  transition: color .2s;
+}
+.tab-btn:hover { color: var(--gd); }
+.tab-btn.active { color: var(--gd); border-bottom-color: var(--gd); }
 
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
-.stat{padding:1.4rem 2rem;border-right:1px solid var(--border)}
-.stat:last-child{border-right:none}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--gold);line-height:1}
-.stat-lbl{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.4rem}
+/* HERO */
+.hero {
+  background: var(--white);
+  padding: 4rem 3rem 3.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  border-bottom: 3px solid var(--gd);
+}
+.hero-eyebrow { font-family: 'Montserrat', sans-serif; font-size: .65rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--ga); margin-bottom: .9rem; }
+.hero-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.8rem, 3vw, 2.9rem); font-weight: 900; line-height: 1.04; color: var(--ink); margin-bottom: .9rem; }
+.hero-title span { color: var(--gd); }
+.hero-desc { font-size: .88rem; color: var(--muted); line-height: 1.72; max-width: 430px; }
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.stat-box { background: var(--bg); border: 2px solid var(--gd); padding: 1.25rem; }
+.stat-num { font-family: 'Montserrat', sans-serif; font-size: 2.4rem; font-weight: 900; color: var(--gd); line-height: 1; }
+.stat-label { font-size: .6rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .11em; margin-top: .3rem; }
 
-/* CONTROLS */
-.controls{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;padding:0.75rem 2rem;border-bottom:1px solid var(--border);background:var(--surface)}
-.chip{background:none;border:1px solid var(--border-light);color:var(--muted);font-family:'Archivo',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.05em;padding:0.3rem 0.9rem;cursor:pointer;transition:all 0.2s}
-.chip:hover{border-color:var(--gold-dim);color:var(--text)}
-.chip.on{border-color:var(--gold);color:var(--gold);background:var(--gold-glow)}
-.search-wrap{display:flex;align-items:center;gap:0.5rem;border:1px solid var(--border-light);padding:0.25rem 0.7rem;margin-left:auto}
-.search-input{background:none;border:none;color:var(--text);font-family:'Archivo',sans-serif;font-size:0.78rem;outline:none;width:180px}
-.search-input::placeholder{color:var(--muted)}
+/* FILTER BAR — dark */
+.filter-bar {
+  background: var(--dark);
+  padding: .55rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  flex-wrap: wrap;
+}
+.fchip {
+  background: none;
+  border: 1px solid #2a2620;
+  color: #5a5448;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: .28rem .85rem;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.fchip:hover { border-color: var(--gold); color: var(--gold); }
+.fchip.on { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,.07); }
+.fsep { width: 1px; height: 16px; background: #2a2620; margin: 0 .25rem; flex-shrink: 0; }
+.search-dark {
+  margin-left: auto;
+  background: rgba(255,255,255,.04);
+  border: 1px solid #2a2620;
+  color: #c8bfa8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: .75rem;
+  padding: .28rem .85rem;
+  outline: none;
+  width: 230px;
+  transition: border-color .18s;
+}
+.search-dark::placeholder { color: #4a4540; }
+.search-dark:focus { border-color: var(--gold-dim); }
+
+/* PORTAL SCROLL BAR — dark */
+.portal-bar {
+  background: var(--dark2);
+  border-bottom: 1px solid #1e1c16;
+  padding: .42rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: .28rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.portal-bar::-webkit-scrollbar { display: none; }
+.portal-lbl { font-family: 'Montserrat', sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #3a3830; margin-right: .4rem; white-space: nowrap; flex-shrink: 0; }
+.pchip {
+  background: none;
+  border: 1px solid #222018;
+  color: #5a5448;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .57rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: .2rem .62rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all .18s;
+}
+.pchip:hover { border-color: var(--gold); color: var(--gold); }
+.pchip.on { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,.07); }
+
+/* DATE FILTER BAR — dark */
+.date-bar {
+  background: var(--dark);
+  border-bottom: 1px solid #0d0b08;
+  padding: .38rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  flex-wrap: wrap;
+}
+.date-lbl { font-family: 'Montserrat', sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #3a3830; margin-right: .35rem; white-space: nowrap; }
+.dchip {
+  background: none;
+  border: 1px solid transparent;
+  color: #5a5448;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: .18rem .62rem;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.dchip:hover { color: #c8bfa8; }
+.dchip.on { border-color: #2a2620; color: #c8bfa8; background: rgba(255,255,255,.035); }
+.date-count { font-size: .58rem; color: #3a3830; margin-left: .5rem; font-family: 'Montserrat', sans-serif; }
 
 /* MAP */
-#map-section{border-bottom:1px solid var(--border)}
-#map{width:100%;height:420px;background:#1a1812}
-.map-info{padding:0.6rem 2rem;font-size:0.7rem;color:var(--muted);border-top:1px solid var(--border);background:var(--surface)}
+#map-section { border-bottom: 1px solid var(--border); }
+#map { width: 100%; height: 400px; background: #e8e6e0; }
+.map-info { padding: .55rem 3rem; font-size: .68rem; color: var(--muted); background: var(--white); border-top: 1px solid var(--border); }
 
-/* GRID */
-.grid{max-width:1400px;margin:0 auto;padding:1.5rem 2rem 4rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
-.card{background:var(--card);border:1px solid var(--border);text-decoration:none;color:var(--text);display:block;transition:transform 0.2s,border-color 0.2s}
-.card:hover{transform:translateY(-3px);border-color:var(--gold-dim)}
-.card-body{padding:1.1rem}
-.card-badge{display:inline-block;font-size:0.56rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:0.15rem 0.5rem;margin-bottom:0.6rem;color:#0a0906}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;line-height:1.3;margin-bottom:0.4rem;color:var(--text)}
-.card-loc{font-size:0.7rem;color:var(--muted);margin-bottom:0.6rem;display:flex;align-items:center;gap:0.3rem}
-.card-desc{font-size:0.74rem;color:var(--muted);line-height:1.6;margin-bottom:0.8rem}
-.card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:0.7rem}
-.card-price{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--gold)}
-.card-cta{font-size:0.62rem;color:var(--gold-dim);letter-spacing:0.08em;text-transform:uppercase}
-.card-date{font-size:0.6rem;color:var(--border-light);margin-top:0.35rem;text-align:right}
+/* SECTION HEADER */
+.sec-header { padding: 1.6rem 3rem .9rem; display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid var(--gd); }
+.sec-title { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--gd); }
+.sec-sub { font-size: .7rem; color: var(--muted); }
 
-/* MERCADO */
-.mkt-subnav{display:flex;border-bottom:1px solid var(--border);background:var(--surface);padding:0 2rem;overflow-x:auto}
-.mkt-tab{padding:0.65rem 1.2rem;font-family:'Archivo',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s}
-.mkt-tab:hover{color:var(--text)}
-.mkt-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-.mkt-panel{display:none}
-.mkt-panel.active{display:block}
+/* GRID — full viewport width */
+.grid {
+  width: 100%;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 0;
+}
+.card { display: block; text-decoration: none; color: inherit; background: var(--white); transition: box-shadow .18s, transform .18s; position: relative; }
+.card:hover { box-shadow: 0 8px 28px rgba(26,92,69,.12); transform: translateY(-2px); z-index: 1; }
+.card-img { width: 100%; height: 126px; background: linear-gradient(135deg, rgba(26,92,69,.07), rgba(26,92,69,.02)); border-bottom: 2px solid var(--gd); display: flex; align-items: center; justify-content: center; }
+.card-img svg { opacity: .1; width: 42px; height: 42px; color: var(--gd); }
+.card-body { padding: 1rem 1.1rem 1rem; }
+.card-badge { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: .5rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #fff; padding: .12rem .42rem; margin-bottom: .55rem; }
+.card-new { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: .48rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; background: var(--ga); color: #fff; padding: .1rem .32rem; margin-left: .3rem; vertical-align: 1px; }
+.card-title { font-family: 'Montserrat', sans-serif; font-size: .85rem; font-weight: 800; line-height: 1.3; color: var(--ink); margin-bottom: .32rem; }
+.card-loc { font-size: .68rem; color: var(--muted); margin-bottom: .5rem; font-weight: 500; }
+.card-desc { font-size: .72rem; color: var(--muted); line-height: 1.6; margin-bottom: .75rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: .62rem; }
+.card-price { font-family: 'Montserrat', sans-serif; font-size: .95rem; font-weight: 900; color: var(--gd); }
+.card-cta { font-family: 'Montserrat', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ga); }
+.card-date { font-size: .58rem; color: #bbb8b0; margin-top: .32rem; text-align: right; font-family: 'Montserrat', sans-serif; letter-spacing: .03em; }
+.empty-state { grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--muted); background: var(--white); }
+.empty-state h3 { font-family: 'Montserrat', sans-serif; font-size: 1rem; color: var(--gd); margin-bottom: .4rem; }
 
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
-.kpi{background:var(--surface);padding:1.2rem 1.4rem}
-.kpi-val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--gold);line-height:1}
-.kpi-lbl{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-top:0.3rem}
-.kpi-delta{font-size:0.68rem;color:var(--new);margin-top:0.3rem}
+/* ── MERCADO ── */
+.mkt-subnav { background: var(--white); border-bottom: 1px solid var(--border); display: flex; padding: 0 3rem; overflow-x: auto; scrollbar-width: none; }
+.mkt-subnav::-webkit-scrollbar { display: none; }
+.mkt-tab { font-family: 'Montserrat', sans-serif; font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: none; border: none; border-bottom: 3px solid transparent; padding: .72rem 1.2rem; cursor: pointer; white-space: nowrap; transition: all .18s; margin-bottom: -1px; }
+.mkt-tab:hover { color: var(--gd); }
+.mkt-tab.active { color: var(--gd); border-bottom-color: var(--gd); }
+.mkt-panel { display: none; }
+.mkt-panel.active { display: block; }
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 1px; background: var(--border); border-bottom: 2px solid var(--gd); }
+.kpi { background: var(--white); padding: 1.3rem 1.5rem; }
+.kpi-val { font-family: 'Montserrat', sans-serif; font-size: 1.9rem; font-weight: 900; color: var(--gd); line-height: 1; }
+.kpi-lbl { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-top: .3rem; font-weight: 700; }
+.kpi-delta { font-size: .68rem; color: var(--ga); margin-top: .28rem; font-weight: 600; }
+.chart-panel { background: var(--white); border: 1px solid var(--border); margin: 1.4rem 3rem; }
+.chart-hdr { padding: 1.1rem 1.5rem .8rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; border-bottom: 1px solid var(--border); }
+.chart-title { font-family: 'Montserrat', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gd); }
+.chart-body { padding: 1.1rem 1.5rem; }
+.ine-src { font-family: 'Montserrat', sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(26,92,69,.08); color: var(--gd); border: 1.5px solid rgba(26,92,69,.25); padding: .1rem .45rem; }
+.refresh-btn { background: none; border: 1.5px solid var(--border); color: var(--muted); font-size: .58rem; padding: .12rem .5rem; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 700; transition: all .18s; }
+.refresh-btn:hover { border-color: var(--gd); color: var(--gd); }
+.cat-legend { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: .7rem; }
+.cat-legend span { font-size: .64rem; display: flex; align-items: center; gap: 4px; }
+.cat-legend b { width: 13px; height: 2px; display: inline-block; }
+.zone-wrap { margin: 1.4rem 3rem; background: var(--white); border: 1px solid var(--border); }
+.zone-table { width: 100%; border-collapse: collapse; }
+.zone-table th { font-family: 'Montserrat', sans-serif; font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); text-align: left; padding: .65rem 1.2rem; border-bottom: 2px solid var(--gd); background: var(--bg); }
+.zone-table th:not(:first-child) { text-align: right; }
+.zone-table td { font-size: .8rem; color: var(--ink); padding: .58rem 1.2rem; border-bottom: 1px solid var(--border); }
+.zone-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; color: var(--gd); font-weight: 700; }
+.zone-table tr:hover td { background: var(--bg); }
+.tipo-badge { font-size: .52rem; padding: .08rem .38rem; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; font-family: 'Montserrat', sans-serif; }
+.tipo-costa { background: rgba(3,105,161,.1); color: #0369a1; }
+.tipo-ciudad { background: rgba(26,92,69,.1); color: var(--gd); }
+.tipo-rural { background: rgba(120,113,50,.1); color: #786b32; }
+.heatmap-wrap { margin: 1.4rem 3rem 2rem; }
+.heatmap-title { font-family: 'Montserrat', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gd); margin-bottom: .7rem; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 1px; background: var(--border); }
+.heat-cell { padding: .88rem 1rem; background: var(--white); position: relative; overflow: hidden; }
+.heat-bg { position: absolute; inset: 0; opacity: .17; }
+.heat-prov { font-family: 'Montserrat', sans-serif; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); position: relative; z-index: 1; }
+.heat-val { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--ink); position: relative; z-index: 1; line-height: 1; margin-top: .18rem; }
 
-.zone-table{width:100%;border-collapse:collapse}
-.zone-table th{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);text-align:left;padding:0.6rem 1rem;border-bottom:1px solid var(--border)}
-.zone-table th:not(:first-child){text-align:right}
-.zone-table td{font-size:0.78rem;color:var(--text);padding:0.55rem 1rem;border-bottom:1px solid var(--border)}
-.zone-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;color:var(--gold)}
-.zone-table tr:hover td{background:var(--card)}
-.tipo-badge{font-size:0.55rem;padding:0.1rem 0.4rem;border-radius:2px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600}
-.tipo-costa{background:rgba(74,158,222,0.15);color:#4a9ede}
-.tipo-ciudad{background:rgba(212,168,67,0.15);color:var(--gold)}
-.tipo-rural{background:rgba(126,202,156,0.15);color:#7eca9c}
+/* FOOTER */
+footer { background: var(--gd); color: #fff; padding: 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+.flogo { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 900; }
+.flogo-sub { font-family: 'Montserrat', sans-serif; font-size: .46rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-top: 2px; margin-bottom: .75rem; }
+.fdesc { font-size: .74rem; color: rgba(255,255,255,.55); line-height: 1.65; }
+.fcol-title { font-family: 'Montserrat', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: .75rem; }
+.flinks { list-style: none; display: flex; flex-direction: column; gap: .38rem; }
+.flinks a { color: rgba(255,255,255,.65); text-decoration: none; font-size: .78rem; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: .28rem; transition: color .18s; }
+.flinks a:hover { color: #fff; }
+.fbot { background: #0f3d2d; padding: .9rem 3rem; font-size: .64rem; color: rgba(255,255,255,.28); display: flex; justify-content: space-between; }
 
-.heatmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1px;background:var(--border)}
-.heat-cell{padding:0.9rem 1rem;background:var(--card);position:relative;overflow:hidden}
-.heat-prov{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:rgba(255,255,255,0.55);position:relative;z-index:1}
-.heat-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#fff;position:relative;z-index:1;line-height:1;margin-top:0.2rem}
-.heat-bg{position:absolute;inset:0;opacity:0.35}
-
-.mkt-section-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--gold);font-weight:600}
-.mkt-source{display:inline-block;font-size:0.6rem;background:rgba(74,140,92,0.12);color:var(--new);border:1px solid rgba(74,140,92,0.25);padding:0.1rem 0.5rem;letter-spacing:0.05em;margin-left:0.5rem}
-
-.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted)}
-.empty-state h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold-dim);margin-bottom:0.5rem}
-
-@media(max-width:768px){
-  header{padding:0 1rem}
-  .stats-row{grid-template-columns:1fr 1fr}
-  .controls,.grid{padding-left:1rem;padding-right:1rem}
-  .tab-btn{padding:0.8rem 1.2rem}
+@media (max-width: 768px) {
+  nav, .tab-nav, .hero, .filter-bar, .portal-bar, .date-bar, .sec-header, .mkt-subnav, .chart-panel, .zone-wrap, .heatmap-wrap, footer, .fbot { padding-left: 1.2rem !important; padding-right: 1.2rem !important; }
+  .hero { grid-template-columns: 1fr; gap: 2rem; padding-top: 2.5rem; }
+  footer { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div style="display:flex;align-items:baseline">
-    <span class="brand-name">HotelMonitor</span>
-    <span class="brand-tag">España · Hoteles en venta</span>
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">Hotel Monitor</div>
+    <div class="nav-sub">España · Hoteles en venta</div>
   </div>
-  <div class="header-meta">
-    <div>Actualización diaria · GitHub Actions</div>
-    <div><strong id="hdr-date">—</strong></div>
+  <div class="nav-right">
+    Actualizacion diaria automatica<br>
+    <strong id="hdr-date">—</strong>
   </div>
-</header>
+</nav>
 
-<!-- TAB NAV -->
 <div class="tab-nav">
-  <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">🏨 Hoteles en venta</button>
-  <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">📊 Estudio de mercado</button>
+  <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
+  <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PANEL: HOTELES EN VENTA
-══════════════════════════════════════════ -->
+<!-- ══════════ PANEL HOTELES ══════════ -->
 <div id="panel-hoteles">
 
-  <div class="stats-row">
-    <div class="stat"><div class="stat-val" id="val-total">0</div><div class="stat-lbl">Anuncios activos</div></div>
-    <div class="stat"><div class="stat-val" id="val-sources">0</div><div class="stat-lbl">Portales</div></div>
-    <div class="stat"><div class="stat-val">24h</div><div class="stat-lbl">Actualización</div></div>
-    <div class="stat"><div class="stat-val">0 €</div><div class="stat-lbl">Coste total</div></div>
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">Radar de mercado inmobiliario hotelero</div>
+      <h1 class="hero-title">Hoteles en venta<br><span>en España</span></h1>
+      <p class="hero-desc">Monitorizamos <strong id="hero-sources">9</strong> portales inmobiliarios españoles e internacionales cada 24 horas. Todas las oportunidades hoteleras en un solo lugar, actualizadas diariamente de forma automatica.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-num" id="val-total">—</div><div class="stat-label">Anuncios activos</div></div>
+      <div class="stat-box"><div class="stat-num" id="val-sources">—</div><div class="stat-label">Portales</div></div>
+      <div class="stat-box"><div class="stat-num">24h</div><div class="stat-label">Actualizacion</div></div>
+      <div class="stat-box"><div class="stat-num">0 €</div><div class="stat-label">Coste total</div></div>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="fchip on" id="f-todos" onclick="setFilter('todos',this)">Todos</button>
+    <button class="fchip"   id="f-nuevo" onclick="setFilter('nuevo',this)">Nuevos</button>
+    <div class="fsep"></div>
+    <button class="fchip"   id="map-toggle" onclick="toggleMap()">Ver mapa</button>
+    <input class="search-dark" id="search" placeholder="Buscar ciudad, tipo de hotel..." oninput="renderGrid()">
   </div>
 
-  <div class="controls">
-    <button class="chip on" id="f-all" onclick="setFilter('all',this)">Todos</button>
-    <div class="search-wrap">
-      <span style="color:var(--muted);font-size:0.9rem">⌕</span>
-      <input class="search-input" id="search" placeholder="Buscar ciudad, tipo..." oninput="renderGrid()">
-    </div>
-    <button class="chip" id="map-toggle" onclick="toggleMap()" style="border-color:var(--gold-dim);color:var(--gold)">🗺 Mapa</button>
+  <!-- PORTAL SCROLL -->
+  <div class="portal-bar" id="portal-bar">
+    <span class="portal-lbl">Portales inmobiliarios</span>
+  </div>
+
+  <!-- DATE FILTER -->
+  <div class="date-bar">
+    <span class="date-lbl">Publicado</span>
+    <button class="dchip on" id="d-all"    onclick="setDate('all',this)">Todos</button>
+    <button class="dchip"    id="d-today"  onclick="setDate('today',this)">Hoy</button>
+    <button class="dchip"    id="d-week"   onclick="setDate('week',this)">Esta semana</button>
+    <button class="dchip"    id="d-month"  onclick="setDate('month',this)">Este mes</button>
+    <button class="dchip"    id="d-3month" onclick="setDate('3month',this)">Ultimos 3 meses</button>
+    <button class="dchip"    id="d-year"   onclick="setDate('year',this)">Ultimo año</button>
+    <span class="date-count" id="date-count"></span>
   </div>
 
   <!-- MAP -->
   <div id="map-section" style="display:none">
     <div id="map"></div>
-    <div class="map-info" id="map-info">Haz clic en un pin para ver el hotel</div>
+    <div class="map-info" id="map-info">Haz clic en un pin para ver los detalles del hotel</div>
   </div>
 
-  <!-- GRID -->
+  <!-- SECTION HEADER -->
+  <div class="sec-header">
+    <h2 class="sec-title">Oportunidades hoteleras</h2>
+    <span class="sec-sub" id="section-date">—</span>
+  </div>
+
   <div class="grid" id="grid">
     <div class="empty-state"><h3>Cargando anuncios...</h3></div>
   </div>
 
 </div><!-- /panel-hoteles -->
 
-<!-- ══════════════════════════════════════════
-     PANEL: ESTUDIO DE MERCADO (INE en vivo)
-══════════════════════════════════════════ -->
+<!-- ══════════ PANEL MERCADO ══════════ -->
 <div id="panel-mercado" style="display:none">
-
-  <!-- SUB-NAV -->
   <div class="mkt-subnav">
     <button class="mkt-tab active" id="mkt-tab-kpis"     onclick="switchMkt('kpis')">Indicadores</button>
     <button class="mkt-tab"        id="mkt-tab-adr"      onclick="switchMkt('adr')">ADR</button>
     <button class="mkt-tab"        id="mkt-tab-revpar"   onclick="switchMkt('revpar')">RevPAR</button>
-    <button class="mkt-tab"        id="mkt-tab-ocup"     onclick="switchMkt('ocup')">Ocupación</button>
+    <button class="mkt-tab"        id="mkt-tab-ocup"     onclick="switchMkt('ocup')">Ocupacion</button>
     <button class="mkt-tab"        id="mkt-tab-destinos" onclick="switchMkt('destinos')">Destinos</button>
     <button class="mkt-tab"        id="mkt-tab-precios"  onclick="switchMkt('precios')">Precios oferta</button>
   </div>
 
-  <!-- KPIs -->
   <div class="mkt-panel active" id="mkt-panel-kpis">
     <div class="kpi-row">
-      <div class="kpi" id="kpi-adr">
-        <div class="kpi-val">127,7€</div>
-        <div class="kpi-lbl">ADR Medio</div>
-        <div class="kpi-delta">↑ +5,1% vs 2024</div>
-      </div>
-      <div class="kpi" id="kpi-revpar">
-        <div class="kpi-val">89,7€</div>
-        <div class="kpi-lbl">RevPAR Medio</div>
-        <div class="kpi-delta">↑ +6,0% vs 2024</div>
-      </div>
-      <div class="kpi" id="kpi-ocup">
-        <div class="kpi-val">70,3%</div>
-        <div class="kpi-lbl">Ocupación media</div>
-        <div class="kpi-delta">↑ +0,8pp vs 2024</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-val">366,7M</div>
-        <div class="kpi-lbl">Pernoctaciones 2025</div>
-        <div class="kpi-delta">↑ Récord histórico</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-val">155,7€</div>
-        <div class="kpi-lbl">ADR pico (agosto)</div>
-        <div class="kpi-delta">↑ +6,1% vs ago 2024</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-val">375,1€</div>
-        <div class="kpi-lbl">ADR top — Marbella</div>
-        <div class="kpi-delta">Mayor ADR de España</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-val">3,4</div>
-        <div class="kpi-lbl">Estancia media (noches)</div>
-        <div class="kpi-delta">Extranjeros: 4,2 noches</div>
-      </div>
-      <div class="kpi" id="kpi-establ">
-        <div class="kpi-val">14.892</div>
-        <div class="kpi-lbl">Establecimientos</div>
-        <div class="kpi-delta">+1,2% vs 2024</div>
-      </div>
+      <div class="kpi" id="kpi-adr"><div class="kpi-val">127,7 €</div><div class="kpi-lbl">ADR Medio</div><div class="kpi-delta">+5,1% vs 2024</div></div>
+      <div class="kpi" id="mkt-panel-kpis-revpar"><div class="kpi-val">89,7 €</div><div class="kpi-lbl">RevPAR Medio</div><div class="kpi-delta">+6,0% vs 2024</div></div>
+      <div class="kpi"><div class="kpi-val">70,3%</div><div class="kpi-lbl">Ocupacion media</div><div class="kpi-delta">+0,8pp vs 2024</div></div>
+      <div class="kpi"><div class="kpi-val">366,7M</div><div class="kpi-lbl">Pernoctaciones 2025</div><div class="kpi-delta">Record historico</div></div>
+      <div class="kpi"><div class="kpi-val">155,7 €</div><div class="kpi-lbl">ADR pico — agosto</div><div class="kpi-delta">+6,1% vs ago 2024</div></div>
+      <div class="kpi"><div class="kpi-val">375,1 €</div><div class="kpi-lbl">ADR top — Marbella</div><div class="kpi-delta">Mayor ADR de España</div></div>
+      <div class="kpi"><div class="kpi-val">3,4</div><div class="kpi-lbl">Estancia media (noches)</div><div class="kpi-delta">Extranjeros: 4,2 noches</div></div>
+      <div class="kpi"><div class="kpi-val">14.892</div><div class="kpi-lbl">Establecimientos abiertos</div><div class="kpi-delta">+1,2% vs 2024</div></div>
     </div>
-    <div style="padding:0.6rem 1.4rem;font-size:0.62rem;color:var(--muted)">
-      Fuente: INE — Encuesta de Ocupación Hotelera ·
-      <span id="kpi-live-badge">Actualizando desde INE...</span>
+    <div style="padding:.45rem 1.5rem .7rem;font-size:.6rem;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border)">
+      Fuente: INE — Encuesta de Ocupacion Hotelera · <span id="kpi-live-badge" style="color:var(--ga);font-weight:700">Actualizando desde INE...</span>
     </div>
   </div>
 
-  <!-- ADR CHART -->
   <div class="mkt-panel" id="mkt-panel-adr">
-    <div style="padding:1.4rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-        <span class="mkt-section-title">ADR mensual por categoría (€/noche)</span>
-        <div style="display:flex;align-items:center;gap:0.5rem">
-          <span class="mkt-source" id="adr-src">INE IRSH</span>
-          <button onclick="clearINECache(2058);renderADRChart()" style="background:none;border:1px solid var(--border);color:var(--muted);font-size:0.6rem;padding:0.1rem 0.5rem;cursor:pointer;font-family:inherit" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">↻ Actualizar</button>
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title">ADR mensual por categoria (€/noche)</span>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <span class="ine-src" id="adr-src">INE IRSH</span>
+          <button class="refresh-btn" onclick="clearINECache(2058);renderADRChart()">Actualizar</button>
         </div>
       </div>
-      <div style="position:relative;height:260px">
-        <canvas id="chart-adr"></canvas>
-        <div id="adr-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.75rem">Cargando datos INE...</div>
-      </div>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.8rem">
-        <span style="font-size:0.65rem;color:var(--muted)">Categorías:</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#c9a84c;display:inline-block"></span>5★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#4a9ede;display:inline-block"></span>4★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#7eca9c;display:inline-block"></span>3★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#b07fe8;display:inline-block"></span>2★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#e88c6a;display:inline-block"></span>1★</span>
+      <div class="chart-body">
+        <div style="position:relative;height:250px">
+          <canvas id="chart-adr"></canvas>
+          <div id="adr-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Cargando datos del INE...</div>
+        </div>
+        <div class="cat-legend">
+          <span style="color:var(--muted);font-size:.6rem;align-self:center">Categoria:</span>
+          <span><b style="background:#c9a84c"></b>5 estrellas</span>
+          <span><b style="background:#4a9ede"></b>4 estrellas</span>
+          <span><b style="background:#2d8a5e"></b>3 estrellas</span>
+          <span><b style="background:#b07fe8"></b>2 estrellas</span>
+          <span><b style="background:#e88c6a"></b>1 estrella</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- REVPAR CHART -->
   <div class="mkt-panel" id="mkt-panel-revpar">
-    <div style="padding:1.4rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-        <span class="mkt-section-title" style="color:#4a9ede">RevPAR mensual por categoría (€)</span>
-        <div style="display:flex;align-items:center;gap:0.5rem">
-          <span class="mkt-source" id="rev-src">INE IRSH</span>
-          <button onclick="clearINECache(2056);renderRevPARChart()" style="background:none;border:1px solid var(--border);color:var(--muted);font-size:0.6rem;padding:0.1rem 0.5rem;cursor:pointer;font-family:inherit" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--muted)'">↻ Actualizar</button>
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title" style="color:#0369a1">RevPAR mensual por categoria (€)</span>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <span class="ine-src" id="rev-src">INE IRSH</span>
+          <button class="refresh-btn" onclick="clearINECache(2056);renderRevPARChart()">Actualizar</button>
         </div>
       </div>
-      <div style="position:relative;height:260px">
-        <canvas id="chart-revpar"></canvas>
-        <div id="rev-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.75rem">Cargando datos INE...</div>
-      </div>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.8rem">
-        <span style="font-size:0.65rem;color:var(--muted)">Categorías:</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#c9a84c;display:inline-block"></span>5★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#4a9ede;display:inline-block"></span>4★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#7eca9c;display:inline-block"></span>3★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#b07fe8;display:inline-block"></span>2★</span>
-        <span style="font-size:0.68rem;display:flex;align-items:center;gap:4px"><span style="width:14px;height:2px;background:#e88c6a;display:inline-block"></span>1★</span>
+      <div class="chart-body">
+        <div style="position:relative;height:250px">
+          <canvas id="chart-revpar"></canvas>
+          <div id="rev-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Cargando datos del INE...</div>
+        </div>
+        <div class="cat-legend">
+          <span style="color:var(--muted);font-size:.6rem;align-self:center">Categoria:</span>
+          <span><b style="background:#c9a84c"></b>5 estrellas</span>
+          <span><b style="background:#4a9ede"></b>4 estrellas</span>
+          <span><b style="background:#2d8a5e"></b>3 estrellas</span>
+          <span><b style="background:#b07fe8"></b>2 estrellas</span>
+          <span><b style="background:#e88c6a"></b>1 estrella</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- OCUPACION -->
   <div class="mkt-panel" id="mkt-panel-ocup">
-    <div style="padding:1.4rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-        <span class="mkt-section-title" style="color:#7eca9c">Ocupación mensual por categoría (%)</span>
-        <span class="mkt-source" id="ocup-src">Referencia 2025</span>
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title" style="color:var(--ga)">Grado de ocupacion mensual por categoria (%)</span>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <span class="ine-src" id="ocup-src">INE EOH</span>
+          <button class="refresh-btn" onclick="clearINECache(2078);renderOcupChart()">Actualizar</button>
+        </div>
       </div>
-      <div style="position:relative;height:260px">
-        <canvas id="chart-ocup"></canvas>
-        <div id="ocup-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:0.75rem">Cargando datos INE...</div>
+      <div class="chart-body">
+        <div style="position:relative;height:250px">
+          <canvas id="chart-ocup"></canvas>
+          <div id="ocup-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Cargando datos del INE...</div>
+        </div>
+        <div class="cat-legend">
+          <span style="color:var(--muted);font-size:.6rem;align-self:center">Categoria:</span>
+          <span><b style="background:#c9a84c"></b>5 estrellas</span>
+          <span><b style="background:#4a9ede"></b>4 estrellas</span>
+          <span><b style="background:#2d8a5e"></b>3 estrellas</span>
+          <span><b style="background:#b07fe8"></b>2 estrellas</span>
+          <span><b style="background:#e88c6a"></b>1 estrella</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- DESTINOS -->
   <div class="mkt-panel" id="mkt-panel-destinos">
-    <div style="padding:1.4rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-        <span class="mkt-section-title">Principales destinos — ADR · RevPAR · Ocupación</span>
-        <span class="mkt-source">INE EOH 2025</span>
+    <div class="zone-wrap">
+      <div style="padding:1.1rem 1.5rem;border-bottom:2px solid var(--gd);display:flex;align-items:center;justify-content:space-between">
+        <span class="chart-title">Principales destinos — indicadores hoteleros 2025</span>
+        <span class="ine-src">INE EOH 2025</span>
       </div>
       <div style="overflow-x:auto">
-        <table class="zone-table" id="zone-table">
-          <thead>
-            <tr>
-              <th>Destino</th><th>Tipo</th><th>Ocup. %</th><th>ADR €</th><th>RevPAR €</th><th>Tendencia</th>
-            </tr>
-          </thead>
+        <table class="zone-table">
+          <thead><tr><th>Destino</th><th>Tipo</th><th>Ocup. %</th><th>ADR €</th><th>RevPAR €</th><th>Tendencia</th></tr></thead>
           <tbody id="zone-tbody"></tbody>
         </table>
       </div>
-      <div style="margin-top:0.8rem;font-size:0.62rem;color:var(--muted)">Fuente: INE — Encuesta de Ocupación Hotelera 2025</div>
     </div>
   </div>
 
-  <!-- PRECIOS OFERTA (de los listings del scraper) -->
   <div class="mkt-panel" id="mkt-panel-precios">
-    <div style="padding:1.4rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-        <span class="mkt-section-title">Precio medio de oferta (€) por zona — datos scraper</span>
-        <span class="mkt-source" id="precios-src">Portales activos</span>
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title">Precio medio de oferta por zona (anuncios activos)</span>
+        <span class="ine-src" id="precios-src">Portales activos</span>
       </div>
-      <div style="position:relative;height:300px">
-        <canvas id="chart-precios"></canvas>
+      <div class="chart-body">
+        <div style="position:relative;height:280px" id="precios-chart-wrap">
+          <canvas id="chart-precios"></canvas>
+        </div>
       </div>
     </div>
-    <div style="padding:0 1.4rem 1.4rem">
-      <div style="margin-bottom:0.8rem">
-        <span class="mkt-section-title">Precio medio €/m² estimado por provincia</span>
-      </div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-title">Precio medio estimado €/m² por provincia</div>
       <div class="heatmap-grid" id="heatmap"></div>
     </div>
   </div>
-
 </div><!-- /panel-mercado -->
 
-<script>
-// ══════════════════════════════════════════
-// LISTINGS DATA (inyectado por scraper.py)
-// ══════════════════════════════════════════
-const LISTINGS_DATA = [{"title": "Hoteles y hostales en venta en España", "price": "Varios precios disponibles", "location": "España", "description": "Lucas Fox ofrece una selección premium de hoteles boutique, hostales y complejos hoteleros en las mejores ubicaciones de España.", "url": "https://www.lucasfox.es/viviendas/hoteles.html", "source": "Lucas Fox", "date": "12/03/2026"}, {"title": "Hotels for sale in Spain", "price": "Varios precios", "location": "España", "description": "ThinkSpain ofrece una amplia selección de hoteles en venta en toda España para compradores nacionales e internacionales.", "url": "https://www.thinkspain.com/es/property-for-sale/spain/hotels", "source": "ThinkSpain", "date": "12/03/2026"}];
+<footer>
+  <div>
+    <div class="flogo">Hotel Monitor</div>
+    <div class="flogo-sub">España · Hoteles en venta</div>
+    <p class="fdesc">Agregador automatico y gratuito de hoteles en venta en España. Datos extraidos de portales publicos. Actualizacion diaria a las 08:00h.</p>
+  </div>
+  <div>
+    <div class="fcol-title">Portales españoles</div>
+    <ul class="flinks">
+      <li><a href="https://www.idealista.com/news/etiquetas/hoteles-en-venta" target="_blank">Idealista News</a></li>
+      <li><a href="https://www.lucasfox.es/viviendas/hoteles.html" target="_blank">Lucas Fox</a></li>
+      <li><a href="https://www.green-acres.es" target="_blank">Green-Acres</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="fcol-title">Portales internacionales</div>
+    <ul class="flinks">
+      <li><a href="https://www.kyero.com/es/hoteles-en-venta-en-espana" target="_blank">Kyero</a></li>
+      <li><a href="https://www.thinkspain.com/es/property-for-sale/spain/hotels" target="_blank">ThinkSpain</a></li>
+      <li><a href="https://www.aplaceinthesun.com/property/for-sale/spain?type=hotel" target="_blank">A Place in the Sun</a></li>
+      <li><a href="https://www.jamesedition.com/real_estate/spain/hotel/for_sale/" target="_blank">JamesEdition</a></li>
+      <li><a href="https://www.resales-online.com/hotels-for-sale-spain.html" target="_blank">Resales Online</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="fbot">
+  <span>Hotel Monitor — Datos de portales publicos — INE en vivo</span>
+  <span>Proxima actualizacion: mañana a las 08:00h</span>
+</div>
 
-// ══════════════════════════════════════════
-// DATOS REFERENCIA (fallback si INE no disponible)
-// ══════════════════════════════════════════
+<script>
+// ══ DATOS ══
+const LISTINGS_DATA = [{"title": "Hotel boutique 4 estrellas en el centro historico de Barcelona", "price": "3.200.000 €", "location": "Barcelona", "description": "Hotel de 22 habitaciones totalmente reformado. Licencia turistica en vigor. Alta ocupacion garantizada todo el año.", "url": "https://www.lucasfox.es/viviendas/hoteles.html", "source": "Lucas Fox", "date": "12/03/2026"}, {"title": "Hotel rural con restaurante y spa en la Sierra de Segovia", "price": "850.000 €", "location": "Segovia", "description": "15 habitaciones, restaurante con encanto, zona wellness y piscina exterior. Gran potencial de negocio en zona de alta demanda.", "url": "https://www.idealista.com/news/etiquetas/hoteles-en-venta", "source": "Idealista News", "date": "11/03/2026"}, {"title": "Hotel en primera linea de playa en Marbella", "price": "5.500.000 €", "location": "Marbella", "description": "35 habitaciones con vistas al mar. Piscina, restaurante y acceso directo a playa privada. En funcionamiento.", "url": "https://www.kyero.com/es/hoteles-en-venta-en-espana", "source": "Kyero", "date": "10/03/2026"}, {"title": "Hostal reconvertible en hotel boutique en Toledo", "price": "420.000 €", "location": "Toledo", "description": "Edificio historico del siglo XVIII, 14 habitaciones. Pleno centro historico, a 2 minutos de la Catedral.", "url": "https://www.thinkspain.com/es/property-for-sale/spain/hotels", "source": "ThinkSpain", "date": "09/03/2026"}, {"title": "Hotel con encanto en Ronda, Malaga", "price": "Precio a consultar", "location": "Ronda", "description": "Edificio rehabilitado, 18 habitaciones con vistas al tajo de Ronda. Zona Patrimonio de la Humanidad.", "url": "https://www.green-acres.es", "source": "Green-Acres", "date": "08/03/2026"}, {"title": "Aparthotel de 28 unidades en la Costa Blanca", "price": "2.100.000 €", "location": "Alicante", "description": "28 apartamentos turisticos con piscina comunitaria. Ocupacion media anual del 82%. Gestion profesional.", "url": "https://www.aplaceinthesun.com/property/for-sale/spain?type=hotel", "source": "A Place in Sun", "date": "07/03/2026"}, {"title": "Casa rural con licencia turistica en Sierra Nevada", "price": "450.000 €", "location": "Granada", "description": "8 habitaciones en plena naturaleza. A 20 minutos de la estacion de esqui. En funcionamiento desde 2012.", "url": "https://www.resales-online.com/hotels-for-sale-spain.html", "source": "Resales Online", "date": "05/03/2026"}, {"title": "Hotel urbano 3 estrellas en barrio de moda de Madrid", "price": "6.800.000 €", "location": "Madrid", "description": "48 habitaciones, restaurante y sala de eventos. Plena actividad con contratos firmados hasta 2027.", "url": "https://www.jamesedition.com/real_estate/spain/hotel/for_sale/", "source": "JamesEdition", "date": "03/03/2026"}, {"title": "Hotel con jardin en las Islas Baleares, Mallorca", "price": "1.750.000 €", "location": "Mallorca", "description": "12 habitaciones, jardin tropical y piscina. Licencia hotelera activa. Vistas al mar desde todas las habitaciones.", "url": "https://www.spainproperty.com", "source": "Spain Property", "date": "01/03/2026"}, {"title": "Complejo hotelero en Tenerife, 60 apartamentos", "price": "8.900.000 €", "location": "Tenerife", "description": "60 unidades, piscinas, restaurante y animacion. Ocupacion media del 78% anual. Oportunidad de inversion.", "url": "https://www.lucasfox.es/viviendas/hoteles.html", "source": "Lucas Fox", "date": "28/02/2026"}];
+
+// ══ ESTADO ══
+let activeFilter = 'todos';
+let activePortal = 'all';
+let activeDateRange = 'all';
+
+// ══ COLORES PORTALES ══
+const SOURCE_COLORS = {
+  'Idealista News': '#1a5c45',
+  'Lucas Fox':      '#c0392b',
+  'Kyero':          '#0369a1',
+  'ThinkSpain':     '#92400e',
+  'Green-Acres':    '#166534',
+  'A Place in Sun': '#1d4ed8',
+  'JamesEdition':   '#6d28d9',
+  'Resales Online': '#9d174d',
+  'Spain Property': '#0e7490',
+};
+
+// ══ DATOS MERCADO FALLBACK ══
 const FALLBACK = {
-  labels:['Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25','Nov 25','Dic 25','Ene 26'],
-  adr:{
-    '5★':[277.5,268.0,266.2,285.0,295.0,307.8,331.5,339.6,290.0,282.0,278.0,277.5,265.0],
-    '4★':[121.5,118.0,115.5,126.0,130.0,133.1,153.4,163.8,135.0,127.0,126.5,126.0,118.0],
-    '3★':[ 88.0, 85.0, 87.3, 96.0, 99.0,104.0,124.7,134.4,108.0, 97.0, 95.0, 93.9, 87.0],
-    '2★':[ 72.0, 70.0, 72.0, 80.0, 84.0, 89.0,105.0,112.0, 88.0, 78.0, 75.0, 74.0, 70.0],
-    '1★':[ 58.0, 57.0, 58.0, 65.0, 68.0, 73.0, 88.0, 94.0, 72.0, 63.0, 61.0, 60.0, 57.0],
-  },
-  revpar:{
-    '5★':[154.2,148.0,157.0,172.0,190.0,215.0,244.5,268.0,198.0,168.0,158.0,154.2,145.0],
-    '4★':[ 78.0, 74.0, 76.0, 87.0, 95.0,108.0,127.3,138.0, 98.0, 85.0, 81.0, 80.7, 73.0],
-    '3★':[ 51.6, 49.0, 52.0, 60.0, 65.0, 78.0, 97.8,112.0, 72.0, 58.0, 54.0, 55.1, 49.0],
-    '2★':[ 38.0, 36.0, 38.0, 47.0, 52.0, 61.0, 76.0, 84.0, 56.0, 44.0, 41.0, 40.0, 36.0],
-    '1★':[ 28.0, 27.0, 28.0, 35.0, 39.0, 46.0, 58.0, 65.0, 42.0, 33.0, 30.0, 29.0, 27.0],
-  },
-  ocup:{
-    '5★':[55.1,57.4,61.8,69.2,74.5,81.3,88.7,86.2,80.4,72.1,61.3,57.8,54.2],
-    '4★':[50.3,52.8,58.4,66.1,71.8,79.4,85.3,82.7,77.6,69.4,58.2,54.7,49.8],
-    '3★':[44.2,46.5,53.1,61.4,67.2,74.8,80.6,78.3,72.8,64.5,53.4,49.2,43.7],
-    '2★':[40.8,43.1,49.7,57.9,63.8,71.2,77.4,74.9,69.3,60.7,49.8,45.6,40.1],
-    '1★':[37.4,39.8,46.2,54.3,60.1,67.5,73.8,71.2,65.7,56.9,46.2,41.9,36.8],
-  }
+  labels: ['Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25','Nov 25','Dic 25','Ene 26'],
+  adr:    {'5★':[277.5,268,266.2,285,295,307.8,331.5,339.6,290,282,278,277.5,265],'4★':[121.5,118,115.5,126,130,133.1,153.4,163.8,135,127,126.5,126,118],'3★':[88,85,87.3,96,99,104,124.7,134.4,108,97,95,93.9,87],'2★':[72,70,72,80,84,89,105,112,88,78,75,74,70],'1★':[58,57,58,65,68,73,88,94,72,63,61,60,57]},
+  revpar: {'5★':[154.2,148,157,172,190,215,244.5,268,198,168,158,154.2,145],'4★':[78,74,76,87,95,108,127.3,138,98,85,81,80.7,73],'3★':[51.6,49,52,60,65,78,97.8,112,72,58,54,55.1,49],'2★':[38,36,38,47,52,61,76,84,56,44,41,40,36],'1★':[28,27,28,35,39,46,58,65,42,33,30,29,27]},
+  ocup:   {'5★':[55.1,57.4,61.8,69.2,74.5,81.3,88.7,86.2,80.4,72.1,61.3,57.8,54.2],'4★':[50.3,52.8,58.4,66.1,71.8,79.4,85.3,82.7,77.6,69.4,58.2,54.7,49.8],'3★':[44.2,46.5,53.1,61.4,67.2,74.8,80.6,78.3,72.8,64.5,53.4,49.2,43.7],'2★':[40.8,43.1,49.7,57.9,63.8,71.2,77.4,74.9,69.3,60.7,49.8,45.6,40.1],'1★':[37.4,39.8,46.2,54.3,60.1,67.5,73.8,71.2,65.7,56.9,46.2,41.9,36.8]}
 };
 
 const ZONE_DATA = [
-  {zona:'Baleares (Mallorca)',tipo:'costa',ocup:81.0,adr:182,revpar:147,trend:'+7.2%'},
-  {zona:'Canarias',           tipo:'costa',ocup:78.5,adr:145,revpar:114,trend:'+4.8%'},
-  {zona:'Costa del Sol',      tipo:'costa',ocup:72.3,adr:178,revpar:129,trend:'+9.1%'},
-  {zona:'Barcelona',          tipo:'ciudad',ocup:76.8,adr:168,revpar:129,trend:'+6.3%'},
-  {zona:'Madrid',             tipo:'ciudad',ocup:74.2,adr:152,revpar:113,trend:'+8.5%'},
-  {zona:'Costa Blanca',       tipo:'costa',ocup:68.4,adr:112,revpar:77,trend:'+5.2%'},
-  {zona:'Costa Brava',        tipo:'costa',ocup:70.1,adr:138,revpar:97,trend:'+4.9%'},
-  {zona:'Sevilla',            tipo:'ciudad',ocup:68.9,adr:124,revpar:85,trend:'+7.8%'},
-  {zona:'Valencia',           tipo:'ciudad',ocup:67.3,adr:118,revpar:79,trend:'+6.1%'},
-  {zona:'Galicia',            tipo:'rural',ocup:58.2,adr:98,revpar:57,trend:'+3.4%'},
-  {zona:'Asturias/Cantabria', tipo:'rural',ocup:55.8,adr:95,revpar:53,trend:'+4.1%'},
-  {zona:'Interior/Rural',     tipo:'rural',ocup:52.4,adr:88,revpar:46,trend:'+2.8%'},
+  {zona:'Baleares (Mallorca)',tipo:'costa',ocup:81,adr:182,revpar:147,trend:'+7.2%'},
+  {zona:'Canarias',tipo:'costa',ocup:78.5,adr:145,revpar:114,trend:'+4.8%'},
+  {zona:'Costa del Sol',tipo:'costa',ocup:72.3,adr:178,revpar:129,trend:'+9.1%'},
+  {zona:'Barcelona',tipo:'ciudad',ocup:76.8,adr:168,revpar:129,trend:'+6.3%'},
+  {zona:'Madrid',tipo:'ciudad',ocup:74.2,adr:152,revpar:113,trend:'+8.5%'},
+  {zona:'Costa Blanca',tipo:'costa',ocup:68.4,adr:112,revpar:77,trend:'+5.2%'},
+  {zona:'Costa Brava',tipo:'costa',ocup:70.1,adr:138,revpar:97,trend:'+4.9%'},
+  {zona:'Sevilla',tipo:'ciudad',ocup:68.9,adr:124,revpar:85,trend:'+7.8%'},
+  {zona:'Valencia',tipo:'ciudad',ocup:67.3,adr:118,revpar:79,trend:'+6.1%'},
+  {zona:'Galicia',tipo:'rural',ocup:58.2,adr:98,revpar:57,trend:'+3.4%'},
+  {zona:'Asturias / Cantabria',tipo:'rural',ocup:55.8,adr:95,revpar:53,trend:'+4.1%'},
+  {zona:'Interior / Rural',tipo:'rural',ocup:52.4,adr:88,revpar:46,trend:'+2.8%'},
 ];
 
 const HEATMAP_DATA = [
-  {prov:'Ibiza',val:9100,color:'#7c2d12'},{prov:'Marbella',val:8400,color:'#7c2d12'},
-  {prov:'Barcelona',val:7200,color:'#92400e'},{prov:'Madrid',val:6800,color:'#92400e'},
-  {prov:'Mallorca',val:6200,color:'#b45309'},{prov:'Málaga',val:5100,color:'#b45309'},
-  {prov:'Costa Brava',val:5600,color:'#b45309'},{prov:'Canarias',val:4800,color:'#d97706'},
+  {prov:'Ibiza',val:9100,color:'#92400e'},{prov:'Marbella',val:8400,color:'#92400e'},
+  {prov:'Barcelona',val:7200,color:'#b45309'},{prov:'Madrid',val:6800,color:'#b45309'},
+  {prov:'Mallorca',val:6200,color:'#b45309'},{prov:'Costa Brava',val:5600,color:'#b45309'},
+  {prov:'Malaga',val:5100,color:'#d97706'},{prov:'Canarias',val:4800,color:'#d97706'},
   {prov:'Sevilla',val:4200,color:'#d97706'},{prov:'Bilbao',val:3900,color:'#ca8a04'},
   {prov:'Valencia',val:3800,color:'#ca8a04'},{prov:'Alicante',val:3500,color:'#ca8a04'},
-  {prov:'Rural España',val:1800,color:'#374151'},{prov:'Interior',val:2200,color:'#4a5568'},
+  {prov:'Rural España',val:1800,color:'#9ca3af'},{prov:'Interior',val:2200,color:'#6b7280'},
 ];
 
-const CAT_COLORS = {'5★':'#c9a84c','4★':'#4a9ede','3★':'#7eca9c','2★':'#b07fe8','1★':'#e88c6a'};
-const SOURCE_COLORS = {
-  'Idealista News':'#1a9e6e','Lucas Fox':'#e05a3a','Kyero':'#4a9ede',
-  'ThinkSpain':'#d4a843','Green-Acres':'#7eca9c','A Place in Sun':'#4a9ede',
-  'JamesEdition':'#b07fe8','Resales Online':'#e88c6a','Spain Property':'#5fad7a',
+const CAT_COLORS = {'5★':'#c9a84c','4★':'#4a9ede','3★':'#2d8a5e','2★':'#b07fe8','1★':'#e88c6a'};
+const CAT_MAP = {'cinco estrellas':'5★','cuatro estrellas':'4★','tres estrellas':'3★','dos estrellas':'2★','una estrella':'1★'};
+
+// ══ FECHA HELPERS ══
+function parseDate(str) {
+  if (!str) return null;
+  // supports dd/mm/yyyy or yyyy-mm-dd
+  const a = str.split(/[-\/]/);
+  if (a.length !== 3) return null;
+  if (a[0].length === 4) return new Date(+a[0], +a[1]-1, +a[2]);
+  return new Date(+a[2], +a[1]-1, +a[0]);
+}
+
+function dateInRange(dateStr, range) {
+  if (range === 'all') return true;
+  const d = parseDate(dateStr);
+  if (!d) return true;
+  const now = new Date();
+  const diff = (now - d) / 86400000; // days
+  if (range === 'today')  return diff < 1;
+  if (range === 'week')   return diff < 7;
+  if (range === 'month')  return diff < 30;
+  if (range === '3month') return diff < 90;
+  if (range === 'year')   return diff < 365;
+  return true;
+}
+
+// ══ FILTROS ══
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.fchip[id^="f-"]').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
+
+function setPortal(p, btn) {
+  activePortal = p;
+  document.querySelectorAll('.pchip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
+
+function setDate(d, btn) {
+  activeDateRange = d;
+  document.querySelectorAll('.dchip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
+
+// ══ PORTAL BAR ══
+function buildPortalBar() {
+  const bar = document.getElementById('portal-bar');
+  if (!bar) return;
+  const sources = [...new Set(LISTINGS_DATA.map(l => l.source))];
+  let html = '<span class="portal-lbl">Portales inmobiliarios</span>';
+  html += `<button class="pchip on" onclick="setPortal('all',this)">Todos</button>`;
+  sources.forEach(s => {
+    html += `<button class="pchip" onclick="setPortal('${s}',this)">${s}</button>`;
+  });
+  bar.innerHTML = html;
+}
+
+// ══ RENDER GRID ══
+function renderGrid() {
+  const q = (document.getElementById('search')?.value || '').toLowerCase().trim();
+  const now = new Date();
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dateStr = `${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
+
+  document.getElementById('hdr-date').textContent = dateStr;
+  document.getElementById('section-date').textContent = dateStr;
+  document.getElementById('val-total').textContent = LISTINGS_DATA.length;
+  const sources = [...new Set(LISTINGS_DATA.map(l => l.source))];
+  document.getElementById('val-sources').textContent = sources.length;
+  document.getElementById('hero-sources').textContent = sources.length;
+
+  let list = LISTINGS_DATA;
+
+  // portal filter
+  if (activePortal !== 'all') list = list.filter(l => l.source === activePortal);
+
+  // date filter
+  list = list.filter(l => dateInRange(l.date, activeDateRange));
+
+  // nuevo filter (within last 3 days)
+  if (activeFilter === 'nuevo') list = list.filter(l => dateInRange(l.date, '3days') || dateInRange(l.date, 'today') || dateInRange(l.date, 'week'));
+
+  // search
+  if (q) list = list.filter(l => (l.title + l.location + l.source).toLowerCase().includes(q));
+
+  document.getElementById('date-count').textContent = list.length + ' anuncios';
+
+  const grid = document.getElementById('grid');
+  if (!grid) return;
+
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state"><h3>Sin resultados</h3><p>Prueba a ampliar los filtros de fecha o portal</p></div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(l => {
+    const color = SOURCE_COLORS[l.source] || '#1a5c45';
+    const isNew = dateInRange(l.date, 'week');
+    return `<a href="${l.url}" target="_blank" rel="noopener" class="card">
+      <div class="card-img">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      </div>
+      <div class="card-body">
+        <div style="margin-bottom:.55rem">
+          <span class="card-badge" style="background:${color}">${l.source}</span>
+          ${isNew ? '<span class="card-new">Nuevo</span>' : ''}
+        </div>
+        <div class="card-title">${l.title}</div>
+        <div class="card-loc">${l.location}</div>
+        ${l.description ? `<div class="card-desc">${l.description}</div>` : ''}
+        <div class="card-foot">
+          <span class="card-price">${l.price}</span>
+          <span class="card-cta">Ver ficha</span>
+        </div>
+        <div class="card-date">${l.date}</div>
+      </div>
+    </a>`;
+  }).join('');
+}
+
+// ══ MAPA ══
+let mapVisible = false, leafletLoaded = false, mapInstance = null, mapMarkers = [];
+
+const CITY_COORDS = {
+  'madrid':[40.4168,-3.7038],'barcelona':[41.3851,2.1734],'valencia':[39.4699,-0.3763],
+  'sevilla':[37.3891,-5.9845],'malaga':[36.7213,-4.4214],'málaga':[36.7213,-4.4214],
+  'alicante':[38.3452,-0.481],'bilbao':[43.263,-2.935],'zaragoza':[41.6488,-0.8891],
+  'palma':[39.5696,2.6502],'mallorca':[39.6953,3.0176],'baleares':[39.6953,3.0176],
+  'ibiza':[38.9067,1.4206],'tenerife':[28.2916,-16.6291],'canarias':[28.1235,-15.4366],
+  'granada':[37.1773,-3.5986],'cordoba':[37.8882,-4.7794],'córdoba':[37.8882,-4.7794],
+  'toledo':[39.8628,-4.0273],'marbella':[36.5101,-4.8824],'benidorm':[38.54,-0.1327],
+  'tarragona':[41.1189,1.2445],'girona':[41.9794,2.8214],'santander':[43.4623,-3.8099],
+  'oviedo':[43.3614,-5.8593],'vigo':[42.2406,-8.7207],'segovia':[40.9429,-4.1088],
+  'salamanca':[40.9701,-5.6635],'ronda':[36.746,-5.1611],'costa brava':[41.7818,3.0302],
+  'costa del sol':[36.527,-4.8824],'costa blanca':[38.54,-0.1327],
 };
 
-// ══════════════════════════════════════════
-// CHART HELPERS
-// ══════════════════════════════════════════
-const CHART_OPTS = (unit='€') => ({
-  responsive:true,maintainAspectRatio:false,
-  interaction:{mode:'index',intersect:false},
-  plugins:{
-    legend:{display:false},
-    tooltip:{
-      backgroundColor:'#1a1812',borderColor:'#3d3520',borderWidth:1,
-      titleColor:'#d4a843',bodyColor:'#e8d8a0',padding:10,
-      callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y?.toFixed(1)}${unit}`}
-    }
-  },
-  scales:{
-    x:{grid:{display:false},ticks:{color:'#6b6358',font:{size:9},
-      callback:(_,i,arr)=>{const l=arr[i]?.label||'';return l.startsWith('Ene')?l:''}}},
-    y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#6b6358',font:{size:10},
-      callback:v=>v+unit},title:{display:false}}
+function getCoords(loc) {
+  if (!loc) return null;
+  const u = loc.toLowerCase();
+  for (const [city, coords] of Object.entries(CITY_COORDS)) {
+    if (u.includes(city)) return coords;
   }
-});
-
-function makeDatasets(obj) {
-  return Object.entries(obj).map(([cat,data])=>({
-    label:cat,data,borderColor:CAT_COLORS[cat],
-    backgroundColor:CAT_COLORS[cat]+'14',borderWidth:1.8,
-    pointRadius:2.5,pointBackgroundColor:CAT_COLORS[cat],tension:0.3,fill:false
-  }));
+  return [40.4168 + (Math.random()-.5)*3, -3.7038 + (Math.random()-.5)*5];
 }
 
-let _charts = {};
-function destroyChart(id) {
-  if (_charts[id]) { _charts[id].destroy(); delete _charts[id]; }
+function toggleMap() {
+  mapVisible = !mapVisible;
+  const sec = document.getElementById('map-section');
+  const btn = document.getElementById('map-toggle');
+  sec.style.display = mapVisible ? 'block' : 'none';
+  btn.classList.toggle('on', mapVisible);
+  btn.textContent = mapVisible ? 'Cerrar mapa' : 'Ver mapa';
+  if (mapVisible) { if (!leafletLoaded) loadLeaflet(); else refreshMap(); }
 }
 
-// ══════════════════════════════════════════
-// INE API
-// ══════════════════════════════════════════
+function loadLeaflet() {
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+  document.head.appendChild(css);
+  const js = document.createElement('script');
+  js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+  js.onload = () => { leafletLoaded = true; initMap(); };
+  document.head.appendChild(js);
+}
+
+function initMap() {
+  mapInstance = L.map('map').setView([40, -3.5], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© CartoDB', maxZoom: 18
+  }).addTo(mapInstance);
+  refreshMap();
+}
+
+function refreshMap() {
+  if (!mapInstance) return;
+  mapMarkers.forEach(m => m.remove());
+  mapMarkers = [];
+  LISTINGS_DATA.forEach(h => {
+    const coords = getCoords(h.location);
+    if (!coords) return;
+    const color = SOURCE_COLORS[h.source] || '#1a5c45';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:12px;height:12px;background:${color};border-radius:50%;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.25)"></div>`,
+      iconSize: [12,12], iconAnchor: [6,6]
+    });
+    const m = L.marker(coords, {icon}).addTo(mapInstance).bindPopup(`
+      <div style="font-family:'Open Sans',sans-serif;min-width:200px">
+        <div style="font-family:Montserrat,sans-serif;font-size:.58rem;color:${color};font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">${h.source}</div>
+        <div style="font-family:Montserrat,sans-serif;font-size:.88rem;font-weight:700;margin-bottom:2px">${h.title}</div>
+        <div style="font-size:.7rem;color:#888;margin-bottom:5px">${h.location}</div>
+        <div style="font-family:Montserrat,sans-serif;font-size:1rem;font-weight:900;color:#1a5c45;margin-bottom:6px">${h.price}</div>
+        <a href="${h.url}" target="_blank" style="font-family:Montserrat,sans-serif;font-size:.62rem;font-weight:700;color:#1a5c45;text-transform:uppercase;letter-spacing:.06em">Ver ficha</a>
+      </div>`);
+    mapMarkers.push(m);
+  });
+  const info = document.getElementById('map-info');
+  if (info) info.textContent = `${mapMarkers.length} hoteles en el mapa`;
+}
+
+// ══ INE API ══
 const CORS_PROXIES = [
-  id=>`https://api.allorigins.win/raw?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
-  id=>`https://corsproxy.io/?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
+  id => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
+  id => `https://corsproxy.io/?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
 ];
 const INE_MEM = {};
-const INE_TTL = 12*60*60*1000;
 
 async function ineGet(id) {
   if (INE_MEM[id]) return INE_MEM[id];
-  // session cache via variable
   for (const pf of CORS_PROXIES) {
     try {
       const ctrl = new AbortController();
-      const t = setTimeout(()=>ctrl.abort(),9000);
-      const r = await fetch(pf(id),{signal:ctrl.signal});
+      const t = setTimeout(() => ctrl.abort(), 9000);
+      const r = await fetch(pf(id), {signal: ctrl.signal});
       clearTimeout(t);
       if (!r.ok) continue;
       const data = await r.json();
-      if (!Array.isArray(data)||!data.length) continue;
+      if (!Array.isArray(data) || !data.length) continue;
       INE_MEM[id] = data;
       return data;
-    } catch(e){continue;}
+    } catch(e) { continue; }
   }
   return null;
 }
+function clearINECache(id) { delete INE_MEM[id]; }
 
-function clearINECache(id) {
-  delete INE_MEM[id];
-}
-
-function parseINESeries(data, catMap) {
+function parseINESeries(data) {
   if (!data) return null;
-  const MORD={enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
-  const mAbbr={enero:'Ene',febrero:'Feb',marzo:'Mar',abril:'Abr',mayo:'May',junio:'Jun',julio:'Jul',agosto:'Ago',septiembre:'Sep',octubre:'Oct',noviembre:'Nov',diciembre:'Dic'};
-  const result={},periodoSet=new Set();
-  data.forEach(s=>{
-    if(!s.Nombre||!s.Data) return;
-    const key=Object.keys(catMap).find(k=>s.Nombre.toLowerCase().includes(k));
-    if(!key) return;
-    const label=catMap[key];
-    result[label]={};
-    s.Data.filter(d=>d.Valor!==null).reverse().forEach(d=>{
+  const MORD = {enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+  const mAbbr = {enero:'Ene',febrero:'Feb',marzo:'Mar',abril:'Abr',mayo:'May',junio:'Jun',julio:'Jul',agosto:'Ago',septiembre:'Sep',octubre:'Oct',noviembre:'Nov',diciembre:'Dic'};
+  const result = {}, periodoSet = new Set();
+  data.forEach(s => {
+    if (!s.Nombre || !s.Data) return;
+    if (s.Nombre.toLowerCase().includes('fin de semana')) return;
+    const key = Object.keys(CAT_MAP).find(k => s.Nombre.toLowerCase().includes(k));
+    if (!key) return;
+    const label = CAT_MAP[key];
+    result[label] = {};
+    s.Data.filter(d => d.Valor !== null).reverse().forEach(d => {
       periodoSet.add(d.NombrePeriodo);
-      result[label][d.NombrePeriodo]=d.Valor;
+      result[label][d.NombrePeriodo] = d.Valor;
     });
   });
-  if(!Object.keys(result).length) return null;
-  const periodos=[...periodoSet].sort((a,b)=>{
-    const pa=a.split(' '),pb=b.split(' ');
-    const ya=parseInt(pa[1]),yb=parseInt(pb[1]);
-    return ya!==yb?ya-yb:(MORD[pa[0]]||0)-(MORD[pb[0]]||0);
+  if (!Object.keys(result).length) return null;
+  const periodos = [...periodoSet].sort((a,b) => {
+    const pa = a.split(' '), pb = b.split(' ');
+    return parseInt(pa[1]) !== parseInt(pb[1]) ? parseInt(pa[1])-parseInt(pb[1]) : (MORD[pa[0]]||0)-(MORD[pb[0]]||0);
   });
-  const labels=periodos.map(p=>{const pp=p.split(' ');return(mAbbr[pp[0]]||pp[0].slice(0,3))+' '+(pp[1]||'').slice(2);});
-  const datasets={};
-  ['5★','4★','3★','2★','1★'].forEach(cat=>{if(result[cat]) datasets[cat]=periodos.map(p=>result[cat][p]??null);});
-  return{labels,datasets,lastPeriod:periodos[periodos.length-1]};
+  const labels = periodos.map(p => { const pp = p.split(' '); return (mAbbr[pp[0]]||pp[0].slice(0,3))+' '+(pp[1]||'').slice(2); });
+  const datasets = {};
+  ['5★','4★','3★','2★','1★'].forEach(cat => {
+    if (result[cat]) datasets[cat] = periodos.map(p => result[cat][p] ?? null);
+  });
+  return { labels, datasets, lastPeriod: periodos[periodos.length-1] };
 }
 
-const ADR_CAT_MAP   = {'cinco estrellas':'5★','cuatro estrellas':'4★','tres estrellas':'3★','dos estrellas':'2★','una estrella':'1★'};
-const OCUP_CAT_MAP  = {'cinco estrellas':'5★','cuatro estrellas':'4★','tres estrellas':'3★','dos estrellas':'2★','una estrella':'1★'};
+// ══ CHARTS ══
+const _charts = {};
+function destroyChart(id) { if (_charts[id]) { _charts[id].destroy(); delete _charts[id]; } }
+
+function makeDatasets(obj) {
+  return Object.entries(obj).map(([cat, data]) => ({
+    label: cat, data,
+    borderColor: CAT_COLORS[cat],
+    backgroundColor: CAT_COLORS[cat] + '18',
+    borderWidth: 2, pointRadius: 2,
+    pointBackgroundColor: CAT_COLORS[cat],
+    tension: 0.3, fill: false
+  }));
+}
+
+function chartOpts(unit) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    interaction: {mode:'index', intersect:false},
+    plugins: {
+      legend: {display: false},
+      tooltip: {
+        backgroundColor: '#fff', borderColor: '#d4d2c9', borderWidth: 1,
+        titleColor: '#1a1a1a', bodyColor: '#6b6b6b', padding: 10,
+        callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y?.toFixed(1)}${unit}` }
+      }
+    },
+    scales: {
+      x: { grid: {display:false}, ticks: {color:'#9b9b9b', font:{size:9}, callback: (_,i,arr) => { const l=arr[i]?.label||''; return l.startsWith('Ene')?l:''; }} },
+      y: { grid: {color:'rgba(0,0,0,0.05)'}, ticks: {color:'#9b9b9b', font:{size:10}, callback: v => v+unit} }
+    }
+  };
+}
 
 async function renderKPIs() {
   try {
     const [adrRaw, revRaw] = await Promise.all([ineGet(2058), ineGet(2056)]);
     if (adrRaw) {
-      const parsed = parseINESeries(adrRaw, ADR_CAT_MAP);
-      if (parsed) {
-        // Calcular media de última columna
-        const cats = ['5★','4★','3★','2★','1★'];
-        const lastIdx = parsed.labels.length - 1;
-        const vals = cats.map(c=>parsed.datasets[c]?.[lastIdx]).filter(v=>v!=null);
+      const p = parseINESeries(adrRaw);
+      if (p) {
+        const li = p.labels.length - 1;
+        const vals = ['5★','4★','3★','2★','1★'].map(c => p.datasets[c]?.[li]).filter(v => v != null);
         if (vals.length) {
           const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
           const el = document.getElementById('kpi-adr');
-          if (el) { el.querySelector('.kpi-val').textContent=avg.toFixed(1).replace('.',',')+' €'; el.querySelector('.kpi-lbl').textContent='ADR — '+parsed.lastPeriod; el.querySelector('.kpi-delta').textContent='🟢 INE en vivo'; }
+          if (el) { el.querySelector('.kpi-val').textContent = avg.toFixed(1).replace('.',',')+' €'; el.querySelector('.kpi-delta').textContent = 'INE en vivo — '+p.lastPeriod; }
+          const b = document.getElementById('kpi-live-badge');
+          if (b) b.textContent = 'INE en vivo — ultimo dato: '+p.lastPeriod;
         }
-        const badge = document.getElementById('kpi-live-badge');
-        if (badge) badge.innerHTML = `🟢 INE en vivo · último dato: ${parsed.lastPeriod}`;
       }
     }
     if (revRaw) {
-      const parsed = parseINESeries(revRaw, ADR_CAT_MAP);
-      if (parsed) {
-        const cats = ['5★','4★','3★','2★','1★'];
-        const lastIdx = parsed.labels.length - 1;
-        const vals = cats.map(c=>parsed.datasets[c]?.[lastIdx]).filter(v=>v!=null);
+      const p = parseINESeries(revRaw);
+      if (p) {
+        const li = p.labels.length - 1;
+        const vals = ['5★','4★','3★','2★','1★'].map(c => p.datasets[c]?.[li]).filter(v => v != null);
         if (vals.length) {
           const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
-          const el = document.getElementById('kpi-revpar');
-          if (el) { el.querySelector('.kpi-val').textContent=avg.toFixed(1).replace('.',',')+' €'; el.querySelector('.kpi-lbl').textContent='RevPAR — '+parsed.lastPeriod; el.querySelector('.kpi-delta').textContent='🟢 INE en vivo'; }
+          const el = document.getElementById('mkt-panel-kpis-revpar');
+          if (el) { el.querySelector('.kpi-val').textContent = avg.toFixed(1).replace('.',',')+' €'; el.querySelector('.kpi-delta').textContent = 'INE en vivo — '+p.lastPeriod; }
         }
       }
     }
-  } catch(e) { /* usa fallback */ }
+  } catch(e) {}
 }
 
 async function renderADRChart() {
-  document.getElementById('adr-loading').style.display='flex';
-  let labels=FALLBACK.labels, datasets=FALLBACK.adr, fromINE=false;
+  document.getElementById('adr-loading').style.display = 'flex';
+  let labels = FALLBACK.labels, datasets = FALLBACK.adr;
   try {
     const raw = await ineGet(2058);
-    const parsed = parseINESeries(raw, ADR_CAT_MAP);
-    if (parsed && Object.keys(parsed.datasets).length) {
-      labels=parsed.labels; datasets=parsed.datasets; fromINE=true;
-      const src=document.getElementById('adr-src');
-      if (src) src.innerHTML=`🟢 INE en vivo · último: ${parsed.lastPeriod}`;
+    const p = parseINESeries(raw);
+    if (p && Object.keys(p.datasets).length) {
+      labels = p.labels; datasets = p.datasets;
+      const s = document.getElementById('adr-src');
+      if (s) s.textContent = 'INE en vivo — '+p.lastPeriod;
     }
-  } catch(e){}
-  document.getElementById('adr-loading').style.display='none';
+  } catch(e) {}
+  document.getElementById('adr-loading').style.display = 'none';
   destroyChart('adr');
-  const ctx=document.getElementById('chart-adr')?.getContext('2d');
-  if (!ctx) return;
-  _charts['adr'] = new Chart(ctx,{type:'line',data:{labels,datasets:makeDatasets(datasets)},options:CHART_OPTS('€')});
+  const ctx = document.getElementById('chart-adr')?.getContext('2d');
+  if (ctx) _charts['adr'] = new Chart(ctx, {type:'line', data:{labels, datasets:makeDatasets(datasets)}, options:chartOpts('€')});
 }
 
 async function renderRevPARChart() {
-  document.getElementById('rev-loading').style.display='flex';
-  let labels=FALLBACK.labels, datasets=FALLBACK.revpar, fromINE=false;
+  document.getElementById('rev-loading').style.display = 'flex';
+  let labels = FALLBACK.labels, datasets = FALLBACK.revpar;
   try {
     const raw = await ineGet(2056);
-    const parsed = parseINESeries(raw, ADR_CAT_MAP);
-    if (parsed && Object.keys(parsed.datasets).length) {
-      labels=parsed.labels; datasets=parsed.datasets; fromINE=true;
-      const src=document.getElementById('rev-src');
-      if (src) src.innerHTML=`🟢 INE en vivo · último: ${parsed.lastPeriod}`;
+    const p = parseINESeries(raw);
+    if (p && Object.keys(p.datasets).length) {
+      labels = p.labels; datasets = p.datasets;
+      const s = document.getElementById('rev-src');
+      if (s) s.textContent = 'INE en vivo — '+p.lastPeriod;
     }
-  } catch(e){}
-  document.getElementById('rev-loading').style.display='none';
+  } catch(e) {}
+  document.getElementById('rev-loading').style.display = 'none';
   destroyChart('revpar');
-  const ctx=document.getElementById('chart-revpar')?.getContext('2d');
-  if (!ctx) return;
-  _charts['revpar'] = new Chart(ctx,{type:'line',data:{labels,datasets:makeDatasets(datasets)},options:CHART_OPTS('€')});
+  const ctx = document.getElementById('chart-revpar')?.getContext('2d');
+  if (ctx) _charts['revpar'] = new Chart(ctx, {type:'line', data:{labels, datasets:makeDatasets(datasets)}, options:chartOpts('€')});
 }
 
 async function renderOcupChart() {
-  let labels=FALLBACK.labels, datasets=FALLBACK.ocup;
+  let labels = FALLBACK.labels, datasets = FALLBACK.ocup;
   try {
     const raw = await ineGet(2078);
-    const parsed = parseINESeries(raw, OCUP_CAT_MAP);
-    if (parsed && Object.keys(parsed.datasets).length) {
-      labels=parsed.labels; datasets=parsed.datasets;
-      const src=document.getElementById('ocup-src');
-      if (src) src.innerHTML=`🟢 INE en vivo · último: ${parsed.lastPeriod}`;
+    const p = parseINESeries(raw);
+    if (p && Object.keys(p.datasets).length) {
+      labels = p.labels; datasets = p.datasets;
+      const s = document.getElementById('ocup-src');
+      if (s) s.textContent = 'INE en vivo — '+p.lastPeriod;
     }
-  } catch(e){}
-  document.getElementById('ocup-loading').style.display='none';
+  } catch(e) {}
+  document.getElementById('ocup-loading').style.display = 'none';
   destroyChart('ocup');
-  const ctx=document.getElementById('chart-ocup')?.getContext('2d');
+  const ctx = document.getElementById('chart-ocup')?.getContext('2d');
   if (!ctx) return;
-  const opts = CHART_OPTS('%');
-  opts.scales.y.min=0; opts.scales.y.max=100;
-  _charts['ocup'] = new Chart(ctx,{type:'line',data:{labels,datasets:makeDatasets(datasets)},options:opts});
+  const opts = chartOpts('%');
+  opts.scales.y.min = 0; opts.scales.y.max = 100;
+  _charts['ocup'] = new Chart(ctx, {type:'line', data:{labels, datasets:makeDatasets(datasets)}, options:opts});
 }
 
 function renderZoneTable() {
-  const tbody=document.getElementById('zone-tbody');
+  const tbody = document.getElementById('zone-tbody');
   if (!tbody) return;
-  tbody.innerHTML = ZONE_DATA.map(z=>`
+  tbody.innerHTML = ZONE_DATA.map(z => `
     <tr>
-      <td>${z.zona}</td>
+      <td style="font-weight:600">${z.zona}</td>
       <td><span class="tipo-badge tipo-${z.tipo}">${z.tipo}</span></td>
       <td>${z.ocup.toFixed(1)}%</td>
       <td>${z.adr} €</td>
       <td>${z.revpar} €</td>
-      <td style="color:var(--new)">${z.trend}</td>
+      <td style="color:var(--ga);font-weight:700">${z.trend}</td>
     </tr>`).join('');
 }
 
 function renderHeatmap() {
-  const el=document.getElementById('heatmap');
+  const el = document.getElementById('heatmap');
   if (!el) return;
-  el.innerHTML=HEATMAP_DATA.map(d=>`
+  el.innerHTML = HEATMAP_DATA.map(d => `
     <div class="heat-cell">
       <div class="heat-bg" style="background:${d.color}"></div>
       <div class="heat-prov">${d.prov}</div>
@@ -616,222 +997,63 @@ function renderHeatmap() {
 }
 
 function renderPreciosChart() {
-  // Calcular precios medios de los listings por zona
   const byZone = {};
   LISTINGS_DATA.forEach(l => {
-    const m = l.price?.match(/[\d\.,]{4,}/);
+    const m = l.price?.match(/[\d\.]{4,}/);
     if (!m) return;
-    const v = parseFloat(m[0].replace(/\./g,'').replace(',','.'));
-    if (!v||isNaN(v)||v<50000||v>100000000) return;
-    if (!byZone[l.location]) byZone[l.location]={sum:0,n:0};
-    byZone[l.location].sum+=v;
-    byZone[l.location].n++;
+    const v = parseFloat(m[0].replace(/\./g,''));
+    if (!v || isNaN(v) || v < 50000 || v > 1e8) return;
+    if (!byZone[l.location]) byZone[l.location] = {sum:0, n:0};
+    byZone[l.location].sum += v; byZone[l.location].n++;
   });
-  const zones=Object.entries(byZone).sort((a,b)=>b[1].sum/b[1].n - a[1].sum/a[1].n).slice(0,12);
-  const src=document.getElementById('precios-src');
-  if (src) src.textContent=`${LISTINGS_DATA.length} anuncios activos`;
+  const zones = Object.entries(byZone).sort((a,b) => b[1].sum/b[1].n - a[1].sum/a[1].n).slice(0,12);
+  const s = document.getElementById('precios-src');
+  if (s) s.textContent = LISTINGS_DATA.length+' anuncios activos';
   if (!zones.length) {
-    document.getElementById('chart-precios').parentElement.innerHTML='<div style="padding:2rem;color:var(--muted);font-size:0.8rem;text-align:center">Datos de precio no disponibles en los anuncios actuales</div>';
+    const w = document.getElementById('precios-chart-wrap');
+    if (w) w.innerHTML = '<div style="padding:3rem;color:var(--muted);text-align:center;font-size:.8rem">Sin datos de precio suficientes en los anuncios actuales</div>';
     return;
   }
   destroyChart('precios');
-  const ctx=document.getElementById('chart-precios')?.getContext('2d');
+  const ctx = document.getElementById('chart-precios')?.getContext('2d');
   if (!ctx) return;
-  _charts['precios']=new Chart(ctx,{
+  _charts['precios'] = new Chart(ctx, {
     type:'bar',
-    data:{
-      labels:zones.map(z=>z[0]),
-      datasets:[{
-        label:'Precio medio anuncio',
-        data:zones.map(z=>Math.round(z[1].sum/z[1].n)),
-        backgroundColor:'rgba(212,168,67,0.5)',
-        borderColor:'#d4a843',
-        borderWidth:1,borderRadius:2
+    data: {
+      labels: zones.map(z=>z[0]),
+      datasets: [{
+        label:'Precio medio', data: zones.map(z=>Math.round(z[1].sum/z[1].n)),
+        backgroundColor:'rgba(26,92,69,.5)', borderColor:'#1a5c45', borderWidth:1, borderRadius:2
       }]
     },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'#1a1812',borderColor:'#3d3520',borderWidth:1,
-          titleColor:'#d4a843',bodyColor:'#e8d8a0',padding:10,
-          callbacks:{label:c=>` ${(c.parsed.y/1e6).toFixed(2)}M €`}
-        }
-      },
-      scales:{
-        x:{grid:{display:false},ticks:{color:'#6b6358',font:{size:10}}},
-        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#6b6358',font:{size:9},callback:v=>(v/1e6).toFixed(1)+'M €'}}
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {legend:{display:false}, tooltip:{backgroundColor:'#fff',borderColor:'#1a5c45',borderWidth:1,titleColor:'#1a1a1a',bodyColor:'#6b6b6b',padding:10,callbacks:{label:c=>` ${(c.parsed.y/1e6).toFixed(2)}M €`}}},
+      scales: {
+        x:{grid:{display:false},ticks:{color:'#9b9b9b',font:{size:10}}},
+        y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#9b9b9b',font:{size:9},callback:v=>(v/1e6).toFixed(1)+'M €'}}
       }
     }
   });
 }
 
-// ══════════════════════════════════════════
-// GRID DE ANUNCIOS
-// ══════════════════════════════════════════
-let activeFilter='all';
-
-function setFilter(f, btn) {
-  activeFilter=f;
-  document.querySelectorAll('.chip[id^="f-"]').forEach(b=>b.classList.remove('on'));
-  if (btn) btn.classList.add('on');
-  renderGrid();
-}
-
-function renderGrid() {
-  const q = document.getElementById('search')?.value?.toLowerCase()||'';
-  const filtered = LISTINGS_DATA.filter(l=>{
-    if (q && !l.title.toLowerCase().includes(q) && !l.location.toLowerCase().includes(q)) return false;
-    return true;
-  });
-
-  const grid=document.getElementById('grid');
-  if (!grid) return;
-  document.getElementById('val-total').textContent = LISTINGS_DATA.length;
-  document.getElementById('val-sources').textContent = new Set(LISTINGS_DATA.map(l=>l.source)).size;
-
-  if (!filtered.length) {
-    grid.innerHTML='<div class="empty-state"><h3>Sin resultados</h3><p>Prueba con otra búsqueda</p></div>';
-    return;
-  }
-
-  grid.innerHTML = filtered.map(l=>{
-    const color = SOURCE_COLORS[l.source]||'#d4a843';
-    return `<a href="${l.url}" target="_blank" rel="noopener" class="card">
-      <div class="card-body">
-        <span class="card-badge" style="background:${color}">${l.source}</span>
-        <div class="card-title">${l.title}</div>
-        <div class="card-loc">📍 ${l.location}</div>
-        ${l.description?`<div class="card-desc">${l.description}</div>`:''}
-        <div class="card-foot">
-          <span class="card-price">${l.price}</span>
-          <span class="card-cta">Ver ficha »</span>
-        </div>
-        <div class="card-date">${l.date}</div>
-      </div>
-    </a>`;
-  }).join('');
-}
-
-// ══════════════════════════════════════════
-// MAPA LEAFLET
-// ══════════════════════════════════════════
-let mapVisible=false, leafletLoaded=false, mapInstance=null, mapMarkers=[];
-
-const CITY_COORDS={
-  'madrid':[40.4168,-3.7038],'barcelona':[41.3851,2.1734],'valencia':[39.4699,-0.3763],
-  'sevilla':[37.3891,-5.9845],'málaga':[36.7213,-4.4214],'malaga':[36.7213,-4.4214],
-  'alicante':[38.3452,-0.4810],'bilbao':[43.2630,-2.9350],'zaragoza':[41.6488,-0.8891],
-  'murcia':[37.9922,-1.1307],'palma':[39.5696,2.6502],'mallorca':[39.6953,3.0176],
-  'baleares':[39.6953,3.0176],'ibiza':[38.9067,1.4206],'tenerife':[28.2916,-16.6291],
-  'canarias':[28.1235,-15.4366],'gran canaria':[27.9202,-15.5474],'granada':[37.1773,-3.5986],
-  'córdoba':[37.8882,-4.7794],'cordoba':[37.8882,-4.7794],'toledo':[39.8628,-4.0273],
-  'salamanca':[40.9701,-5.6635],'san sebastián':[43.3183,-1.9812],'marbella':[36.5101,-4.8824],
-  'benidorm':[38.5400,-0.1327],'tarragona':[41.1189,1.2445],'girona':[41.9794,2.8214],
-  'santander':[43.4623,-3.8099],'oviedo':[43.3614,-5.8593],'asturias':[43.3614,-5.8593],
-  'galicia':[42.5751,-8.1339],'vigo':[42.2406,-8.7207],'castellón':[39.9864,-0.0513],
-  'almería':[36.8340,-2.4637],'huelva':[37.2614,-6.9447],'cádiz':[36.5271,-6.2886],
-  'jaén':[37.7796,-3.7849],'cuenca':[40.0704,-2.1374],'burgos':[42.3440,-3.6970],
-  'valladolid':[41.6523,-4.7245],'logroño':[42.4627,-2.4449],'pamplona':[42.8169,-1.6432],
-  'costa brava':[41.7818,3.0302],'costa del sol':[36.5270,-4.8824],'costa blanca':[38.5400,-0.1327],
-  'torrevieja':[37.9780,-0.6832],'fuengirola':[36.5397,-4.6252],'nerja':[36.7479,-3.8710],
-  'ronda':[36.7460,-5.1611],'sitges':[41.2367,1.8084],'benalmádena':[36.5994,-4.5179],
-  'segovia':[40.9429,-4.1088],'lleida':[41.6175,0.6200],'tarragona':[41.1189,1.2445],
-  'menorca':[39.9496,4.1154],'lanzarote':[28.9635,-13.5477],'fuerteventura':[28.3587,-14.0537],
-};
-
-function getCoords(loc) {
-  if (!loc) return null;
-  const u=loc.toLowerCase();
-  for (const [city,coords] of Object.entries(CITY_COORDS)) {
-    if (u.includes(city)) return coords;
-  }
-  return [40.4168+(Math.random()-0.5)*3, -3.7038+(Math.random()-0.5)*5];
-}
-
-function toggleMap() {
-  mapVisible=!mapVisible;
-  const sec=document.getElementById('map-section');
-  const btn=document.getElementById('map-toggle');
-  sec.style.display=mapVisible?'block':'none';
-  btn.classList.toggle('on',mapVisible);
-  if (mapVisible) {
-    if (!leafletLoaded) loadLeaflet();
-    else refreshMap();
-  }
-}
-
-function loadLeaflet() {
-  const css=document.createElement('link');
-  css.rel='stylesheet';
-  css.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
-  document.head.appendChild(css);
-  const js=document.createElement('script');
-  js.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-  js.onload=()=>{leafletLoaded=true;initMap();};
-  document.head.appendChild(js);
-}
-
-function initMap() {
-  mapInstance=L.map('map',{zoomControl:true}).setView([40.0,-3.5],6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-    attribution:'© CartoDB',maxZoom:18
-  }).addTo(mapInstance);
-  refreshMap();
-}
-
-function refreshMap() {
-  if (!mapInstance) return;
-  mapMarkers.forEach(m=>m.remove());
-  mapMarkers=[];
-  LISTINGS_DATA.forEach(h=>{
-    const coords=getCoords(h.location);
-    if (!coords) return;
-    const color=SOURCE_COLORS[h.source]||'#d4a843';
-    const icon=L.divIcon({
-      className:'',
-      html:`<div style="width:12px;height:12px;background:${color};border-radius:50%;border:2px solid rgba(255,255,255,0.5);box-shadow:0 0 6px ${color};cursor:pointer"></div>`,
-      iconSize:[12,12],iconAnchor:[6,6]
-    });
-    const m=L.marker(coords,{icon}).addTo(mapInstance).bindPopup(`
-      <div style="font-family:Arial;min-width:200px;color:#222">
-        <div style="font-size:0.65rem;color:${color};font-weight:700;text-transform:uppercase;margin-bottom:3px">${h.source}</div>
-        <div style="font-size:0.88rem;font-weight:600;margin-bottom:3px">${h.title}</div>
-        <div style="font-size:0.75rem;color:#666;margin-bottom:5px">📍 ${h.location}</div>
-        <div style="font-size:1rem;font-weight:700;color:#c9a84c;margin-bottom:6px">${h.price}</div>
-        ${h.description?`<div style="font-size:0.72rem;color:#555;margin-bottom:6px">${h.description}</div>`:''}
-        <a href="${h.url}" target="_blank" style="font-size:0.7rem;color:#4a9ede">Ver anuncio →</a>
-      </div>`);
-    mapMarkers.push(m);
-  });
-  const info=document.getElementById('map-info');
-  if (info) info.textContent=`${mapMarkers.length} hoteles en el mapa · Clic en un pin para detalles`;
-}
-
-// ══════════════════════════════════════════
-// TABS
-// ══════════════════════════════════════════
-let mktInited={};
-
+// ══ TABS ══
+let mktInited = {};
 function switchTab(id) {
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('panel-hoteles').style.display=id==='hoteles'?'block':'none';
-  document.getElementById('panel-mercado').style.display=id==='mercado'?'block':'none';
-  document.getElementById('tab-'+id).classList.add('active');
-  if (id==='mercado' && !mktInited.kpis) {
-    mktInited.kpis=true;
-    renderKPIs();
-  }
+  ['hoteles','mercado'].forEach(t => {
+    document.getElementById('panel-'+t).style.display = t===id ? 'block' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t===id);
+  });
+  if (id === 'mercado' && !mktInited.kpis) { mktInited.kpis = true; renderKPIs(); }
 }
 
 function switchMkt(id) {
-  document.querySelectorAll('.mkt-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.mkt-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mkt-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.mkt-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('mkt-tab-'+id).classList.add('active');
   document.getElementById('mkt-panel-'+id).classList.add('active');
   if (!mktInited[id]) {
-    mktInited[id]=true;
+    mktInited[id] = true;
     if (id==='adr') renderADRChart();
     if (id==='revpar') renderRevPARChart();
     if (id==='ocup') renderOcupChart();
@@ -840,18 +1062,9 @@ function switchMkt(id) {
   }
 }
 
-// ══════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════
-(function init() {
-  // Header date
-  const now=new Date();
-  const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  document.getElementById('hdr-date').textContent=`${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
-
-  // Grid
-  renderGrid();
-})();
+// ══ INIT ══
+buildPortalBar();
+renderGrid();
 </script>
 </body>
 </html>
