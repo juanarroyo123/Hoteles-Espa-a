@@ -1033,13 +1033,16 @@ const INE_STATIC_DATA = {
 
 
 async function renderMarket() {
-  renderAskingPrice();
-  renderHeatmap();
-  await renderLiveKPIs();
-  await renderLiveADRChart();
-  initMMRangeSelectors();
-  buildMMCharts();
-  // destinos y ocup son lazy — se cargan al hacer clic en su pestaña
+  try { renderAskingPrice(); } catch(e) { console.warn('renderAskingPrice:', e); }
+  try { renderHeatmap(); } catch(e) { console.warn('renderHeatmap:', e); }
+  try { renderLiveKPIs(); } catch(e) { console.warn('renderLiveKPIs:', e); }
+  try {
+    buildBothCharts(FALLBACK.labels, FALLBACK.adr, FALLBACK.revpar);
+    const src = document.getElementById('linechart-source');
+    if (src) src.innerHTML = '📊 Datos históricos INE · dic 2024';
+  } catch(e) { console.warn('buildBothCharts:', e); }
+  try { initMMRangeSelectors(); } catch(e) { console.warn('initMMRangeSelectors:', e); }
+  try { buildMMCharts(); } catch(e) { console.warn('buildMMCharts:', e); }
 }
 
 
@@ -1077,9 +1080,6 @@ function getDatasets(datasetsObj, mode) {
   // Comparativa — 5 líneas
   return makeDatasets(datasetsObj, []);
 }
-
-let chartADR = null;
-let chartREV = null;
 
 function rebuildChart(which) {
   if (!lastLabels.length) return;
@@ -2274,7 +2274,7 @@ function filterZones(q) {
 function renderAskingPrice() {
   const grid = document.getElementById('asking-grid');
   const byZone = {};
-  HOTELES.forEach(h => {
+  hoteles.forEach(h => {
     if (!h.location || !h.price || h.price === 'Precio a consultar') return;
     const precio = parseFloat(h.price.replace(/[^0-9]/g, ''));
     if (!precio || precio < 50000) return;
