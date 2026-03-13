@@ -18,10 +18,18 @@ CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hoteles_c
 HOTEL_KW = ['hotel','hostal','hostel','pensión','pension','aparthotel',
             'posada','parador','fonda','casa rural','alojamiento turístico',
             'albergue','resort','casa de huespedes','bed and breakfast',
-            'hotel boutique','boutique hotel','complejo hotelero','negocio hotelero']
+            'hotel boutique','boutique hotel','complejo hotelero','negocio hotelero',
+            'guesthouse','b&b','inn ','lodge','rural house']
+
+# Títulos/páginas a descartar aunque tengan keyword de hotel
+SPAM_KW = ['404', 'página no encontrada', 'page not found', 'property for sale',
+           'property for rent', 'i want to advertise', 'advertise on think',
+           'sign up', 'register', 'login', 'cookie', 'privacy policy',
+           'terms of use', 'contact us', 'about us']
 
 def es_hotel(texto):
     t = (texto or '').lower()
+    if any(s in t for s in SPAM_KW): return False
     return any(k in t for k in HOTEL_KW)
 
 def clean(s):
