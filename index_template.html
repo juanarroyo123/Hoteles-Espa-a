@@ -2419,10 +2419,25 @@ function loadLeaflet() {
   css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
   document.head.appendChild(css);
 
+  const css2 = document.createElement('link');
+  css2.rel = 'stylesheet';
+  css2.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css';
+  document.head.appendChild(css2);
+
+  const css3 = document.createElement('link');
+  css3.rel = 'stylesheet';
+  css3.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css';
+  document.head.appendChild(css3);
+
   // Cargar Leaflet JS
   const js = document.createElement('script');
   js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-  js.onload = () => { leafletLoaded = true; initMap(); };
+  js.onload = () => {
+    const js2 = document.createElement('script');
+    js2.src = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js';
+    js2.onload = () => { leafletLoaded = true; initMap(); };
+    document.head.appendChild(js2);
+  };
   document.head.appendChild(js);
 }
 
@@ -2443,6 +2458,25 @@ function refreshMap() {
   // Limpiar markers anteriores
   markers.forEach(m => m.remove());
   markers = [];
+  if (window._clusterGroup) mapInstance.removeLayer(window._clusterGroup);
+  window._clusterGroup = L.markerClusterGroup({
+    maxClusterRadius: 50,
+    iconCreateFunction: cluster => {
+      const n = cluster.getChildCount();
+      return L.divIcon({
+        html: `<div style="
+          background:var(--green);color:#fff;
+          font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:700;
+          width:36px;height:36px;border-radius:50%;
+          display:flex;align-items:center;justify-content:center;
+          border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);
+        ">${n}</div>`,
+        className: '',
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
+      });
+    }
+  });
 
   const SOURCE_COLORS = {
     'Idealista': '#4a9ede', 'Fotocasa': '#e05a3a', 'LoopNet': '#5fad7a',
@@ -2473,7 +2507,6 @@ function refreshMap() {
     });
 
     const marker = L.marker(coords, { icon })
-      .addTo(mapInstance)
       .bindPopup(`
         <div style="font-family:Arial;min-width:200px">
           <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.source || 'Fuente'}</div>
@@ -2484,8 +2517,10 @@ function refreshMap() {
         </div>
       `);
 
+    window._clusterGroup.addLayer(marker);
     markers.push(marker);
   });
+  mapInstance.addLayer(window._clusterGroup);
 
   document.getElementById('map-info').textContent =
     `${markers.length} hoteles en el mapa · Haz clic en un pin para ver detalles`;
