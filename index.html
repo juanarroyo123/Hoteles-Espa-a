@@ -133,31 +133,31 @@ header{
 /* ══ VIEW BAR (dentro del header) ═══════════════════════ */
 .view-bar{
   display:flex;align-items:center;
-  border-top:1px solid var(--border);
+  background:var(--green);
   margin:0 -2.5rem;
   padding:0 2.5rem;
 }
 .tab-btn{
   padding:0.7rem 1.3rem;background:none;border:none;
   border-bottom:2px solid transparent;
-  color:var(--muted);
+  color:rgba(255,255,255,0.65);
   font-family:'Montserrat',sans-serif;
   font-size:0.68rem;font-weight:700;
   letter-spacing:0.1em;text-transform:uppercase;
   cursor:pointer;transition:all 0.15s;margin-bottom:-2px;
 }
 .tab-btn:first-child{padding-left:0}
-.tab-btn:hover{color:var(--text)}
-.tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
+.tab-btn:hover{color:#fff}
+.tab-btn.active{color:#fff;border-bottom-color:#fff}
 .map-btn{
   margin-left:auto;padding:0.38rem 1rem;
-  background:transparent;border:1px solid var(--border-dark);
-  color:var(--text-mid);
+  background:transparent;border:1px solid rgba(255,255,255,0.4);
+  color:rgba(255,255,255,0.85);
   font-family:'Montserrat',sans-serif;
   font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;
   cursor:pointer;transition:all 0.15s;
 }
-.map-btn:hover,.map-btn.on{background:var(--green);border-color:var(--green);color:#fff}
+.map-btn:hover,.map-btn.on{background:rgba(255,255,255,0.2);border-color:#fff;color:#fff}
 
 /* ══ FILTER SECTION ═════════════════════════════════════ */
 .filter-section{background:#fff;border-bottom:1px solid var(--border)}
