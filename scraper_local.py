@@ -91,13 +91,6 @@ def init_driver():
     opts = uc.ChromeOptions()
     opts.add_argument('--window-size=1920,1080')
     opts.add_argument('--lang=es-ES')
-    # Flags para GitHub Actions / servidores sin pantalla
-    if os.environ.get('GITHUB_ACTIONS'):
-        opts.add_argument('--headless=new')
-        opts.add_argument('--no-sandbox')
-        opts.add_argument('--disable-dev-shm-usage')
-        opts.add_argument('--disable-gpu')
-        opts.add_argument('--disable-software-rasterizer')
     driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
     print('Chrome listo.\n')
     return driver
@@ -178,95 +171,132 @@ def add_listing(item):
     return True
 
 # ══════════════════════════════════════════════════════
-# 1. THINKSPAIN — paginación real ?numpag=N por región
+# 1. THINKSPAIN — requests + JSON-LD, sin Selenium, rápido y completo
 # ══════════════════════════════════════════════════════
 def scrape_thinkspain(driver):
+    """ThinkSpain via requests + JSON-LD — no necesita Selenium"""
+    import requests as req_mod
     print('→ ThinkSpain...')
-    seen_this = set()
 
-    # Paso 1: obtener todas las URLs de región desde la página principal
-    driver.get('https://www.thinkspain.com/property-for-sale/hotels')
-    time.sleep(6)
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-    time.sleep(2)
-    soup = BeautifulSoup(driver.page_source, 'lxml')
-    region_urls = list(set([
-        'https://www.thinkspain.com' + a['href']
-        for a in soup.find_all('a', href=True)
-        if re.match(r'^/property-for-sale/[^/]+/hotels$', a['href'])
-    ]))
-    # Añadir URLs base importantes
-    region_urls = [
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+        'Referer': 'https://www.thinkspain.com/',
+    }
+
+    BASE_URLS = [
         'https://www.thinkspain.com/property-for-sale/hotels',
         'https://www.thinkspain.com/property-for-sale/guest-houses-bed-breakfasts',
-    ] + region_urls
-    print(f'  Regiones encontradas: {len(region_urls)}')
+        'https://www.thinkspain.com/property-for-sale/andalucia/hotels',
+        'https://www.thinkspain.com/property-for-sale/costa-del-sol/hotels',
+        'https://www.thinkspain.com/property-for-sale/costa-blanca/hotels',
+        'https://www.thinkspain.com/property-for-sale/catalonia/hotels',
+        'https://www.thinkspain.com/property-for-sale/balearic-islands/hotels',
+        'https://www.thinkspain.com/property-for-sale/canary-islands/hotels',
+        'https://www.thinkspain.com/property-for-sale/madrid/hotels',
+        'https://www.thinkspain.com/property-for-sale/valencia/hotels',
+        'https://www.thinkspain.com/property-for-sale/galicia/hotels',
+        'https://www.thinkspain.com/property-for-sale/murcia/hotels',
+        'https://www.thinkspain.com/property-for-sale/asturias/hotels',
+        'https://www.thinkspain.com/property-for-sale/cantabria/hotels',
+        'https://www.thinkspain.com/property-for-sale/castilla-y-leon/hotels',
+        'https://www.thinkspain.com/property-for-sale/extremadura/hotels',
+        'https://www.thinkspain.com/property-for-sale/aragon/hotels',
+        'https://www.thinkspain.com/property-for-sale/basque-country/hotels',
+    ]
 
-    def extraer_anuncios_pagina(driver, url):
-        """Carga una URL de ThinkSpain y extrae los anuncios esperando el JS"""
-        driver.get(url)
-        # Esperar a que carguen los anuncios (buscar links con texto de precio o título)
-        time.sleep(5)
-        driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-        time.sleep(1)
-        soup = BeautifulSoup(driver.page_source, 'lxml')
+    def parsear_titulo_ts(name):
+        # 1. Quitar precio del inicio (ej: "6.900.000 € Hotel en venta...")
+        t = re.sub(r'^[\d][\d.,]*\s*€\s*', '', name).strip()
+        t = re.sub(r'^€\s*[\d][\d.,]*\s*', '', t).strip()
+        # 2. Quitar ref y sufijos de precio
+        t = re.sub(r'\s*\(Ref:.*?\)', '', t)
+        t = re.sub(r'\s*-\s*€.*', '', t).strip()
+        # 3. Quitar título duplicado (ThinkSpain repite "Hotel en X Hotel en X")
+        words = t.split()
+        if len(words) >= 8:
+            mid = len(words) // 2
+            p1 = ' '.join(words[:mid])
+            p2 = ' '.join(words[mid:])
+            if p1.lower()[:20] == p2.lower()[:20]:
+                t = p1
+        # 4. Traducir campos en inglés
+        t = re.sub(r'\bfor sale\b', 'en venta', t, flags=re.IGNORECASE)
+        t = re.sub(r'(\d+)\s+bedroom\s+', r'\1 habitaciones ', t, flags=re.IGNORECASE)
+        t = t.strip()
+        # 5. Extraer localización
+        m = re.search(r'(?:en venta en|in)\s+(.+?)(?:\s+Hotel|\s+Guesthouse|$)', t, re.IGNORECASE)
+        if m:
+            loc = m.group(1).strip().rstrip(',').strip()
+        else:
+            m2 = re.search(r'in\s+(.+)$', t, re.IGNORECASE)
+            loc = m2.group(1).strip() if m2 else 'España'
+        return t, loc
 
-        enc = 0
-        # Buscar todos los contenedores de anuncio — ThinkSpain envuelve cada anuncio
-        # en un enlace o div con precio y título
-        # Estrategia: buscar pares (título + precio) cerca de un enlace
-        processed_hrefs = set()
-        for a in soup.find_all('a', href=True):
-            href = a['href']
-            if not re.match(r'^/property-for-sale/\d+$', href):
-                continue
-            if href in processed_hrefs: continue
-            processed_hrefs.add(href)
-            full_url = 'https://www.thinkspain.com' + href
-            url_clean = full_url.split('?')[0].rstrip('/')
-            if url_clean in seen_this: continue
+    def extraer_precio_ts(name):
+        # Precio suele estar al inicio: "6.900.000 € Hotel..."
+        m = re.search(r'^([\d][\d.,]+)\s*€', name.strip())
+        if m:
+            return m.group(1) + ' €'
+        m = re.search(r'€\s*([\d][\d.,]+)', name)
+        if m:
+            return m.group(1) + ' €'
+        m = re.search(r'([\d][\d.,]+)\s*€', name)
+        if m:
+            return m.group(1) + ' €'
+        return 'Precio a consultar'
 
-            # Buscar el contenedor padre con título y precio
-            container = a
-            for _ in range(5):
-                container = container.parent
-                if not container: break
-                title_el = container.find(['h2','h3','h4'])
-                price_el = container.find(class_=re.compile(r'price|precio', re.I))
-                loc_el   = container.find(class_=re.compile(r'location|area|town|city|municipality', re.I))
-                desc_el  = container.find('p')
-                if title_el and price_el:
-                    break
+    seen_urls = set()
+    total_ts = 0
 
-            title = clean((title_el or a).get_text()) if title_el else clean(a.get_text())
-            if len(title) < 8: continue
-            seen_this.add(url_clean)
-            added = add_listing({
-                'title':       title,
-                'price':       clean(price_el.get_text()) if price_el else 'Precio a consultar',
-                'location':    clean(loc_el.get_text()) if loc_el else 'España',
-                'description': clean(desc_el.get_text()) if desc_el else '',
-                'url':         url_clean,
-                'source':      'ThinkSpain'
-            })
-            if added: enc += 1
-        return enc
-
-    # Paso 2: raspar cada región página a página
-    for base_url in region_urls:
-        region = base_url.split('/')[-2] if base_url.endswith('/hotels') or base_url.endswith('/guest-houses-bed-breakfasts') else base_url.split('/')[-1]
+    for base_url in BASE_URLS:
+        region = base_url.split('/')[-1]
         paginas_vacias = 0
         for numpag in range(1, 50):
             url = base_url if numpag == 1 else f'{base_url}?numpag={numpag}'
-            enc = extraer_anuncios_pagina(driver, url)
-            total = len([x for x in found_listings if x['source']=='ThinkSpain'])
-            if enc > 0:
-                print(f'  {region} p{numpag}: {enc} nuevos | Total TS: {total}')
-                paginas_vacias = 0
-            else:
-                paginas_vacias += 1
-            if paginas_vacias >= 2: break
-            time.sleep(0.5)
+            try:
+                r = req_mod.get(url, headers=HEADERS, timeout=15)
+                if r.status_code != 200:
+                    break
+                soup = BeautifulSoup(r.text, 'lxml')
+                enc = 0
+                for s in soup.find_all('script', type='application/ld+json'):
+                    try:
+                        data = json.loads(s.get_text())
+                        if data.get('@type') != 'ItemList': continue
+                        for item in data.get('itemListElement', []):
+                            prod = item.get('item', {})
+                            url_anuncio = prod.get('url','').split('?')[0].rstrip('/')
+                            if not url_anuncio or url_anuncio in seen_urls: continue
+                            name = prod.get('name','')
+                            if not name: continue
+                            titulo, loc = parsear_titulo_ts(name)
+                            precio = extraer_precio_ts(name)
+                            desc = clean(prod.get('description',''))
+                            seen_urls.add(url_anuncio)
+                            added = add_listing({
+                                'title': titulo,
+                                'price': precio,
+                                'location': loc,
+                                'description': desc,
+                                'url': url_anuncio,
+                                'source': 'ThinkSpain'
+                            })
+                            if added: enc += 1
+                    except Exception:
+                        continue
+                total_ts += enc
+                if enc > 0:
+                    print(f'  {region} p{numpag}: {enc} nuevos | Total TS: {total_ts}')
+                    paginas_vacias = 0
+                else:
+                    paginas_vacias += 1
+                if paginas_vacias >= 2: break
+                time.sleep(0.3)
+            except Exception as e:
+                print(f'  Error {region} p{numpag}: {e}')
+                break
 
 
 # ══════════════════════════════════════════════════════

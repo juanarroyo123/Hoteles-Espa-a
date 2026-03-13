@@ -618,7 +618,40 @@ header{
 </div>
 
 <script>
-const HOTELES = __LISTINGS_JSON__;
+const HOTELES = (function(raw) {
+  return raw.map(h => {
+    // --- Limpiar título duplicado ---
+    let title = (h.title || '').trim();
+    // Quitar precio del inicio: "6.900.000 € Hotel en venta..."
+    title = title.replace(/^[\d][\d.,]*\s*€\s*/i, '').trim();
+    // Quitar duplicado: "Hotel en X Hotel en X" → "Hotel en X"
+    const tw = title.split(' ');
+    if (tw.length >= 8) {
+      const mid = Math.ceil(tw.length / 2);
+      const p1 = tw.slice(0, mid).join(' ');
+      const p2 = tw.slice(mid).join(' ');
+      if (p1.toLowerCase().slice(0,20) === p2.toLowerCase().slice(0,20)) title = p1;
+    }
+
+    // --- Limpiar precio ---
+    let price = (h.price || '').trim();
+    // Si price contiene texto largo (título incluido), extraer solo el número
+    if (price.length > 20) {
+      const m = price.match(/([\d][\d.,]+)\s*€/) || price.match(/€\s*([\d][\d.,]+)/);
+      price = m ? m[1] + ' €' : 'Precio a consultar';
+    }
+
+    // --- Limpiar location ---
+    let loc = (h.location || '').trim();
+    // Si location contiene el título o precio, extraer del título
+    if (loc.length > 50 || /\d{4,}/.test(loc) || /Hotel en venta/i.test(loc)) {
+      const m = title.match(/(?:en venta en|in)\s+(.+?)(?:\s+Hotel|\s+Guesthouse|$)/i);
+      loc = m ? m[1].trim().replace(/,$/, '') : 'España';
+    }
+
+    return { ...h, title, price, location: loc };
+  });
+})(__LISTINGS_JSON__);
 
 let portalFilter = 'todos';
 let dateFilter   = 'all';
