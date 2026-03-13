@@ -267,8 +267,6 @@ header{
 .card-location{font-family:'Open Sans',sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:0.7rem;display:flex;align-items:center;gap:0.3rem}
 .card-desc{font-size:0.78rem;line-height:1.65;color:var(--text-mid);margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.9rem;border-top:1px solid var(--border)}
-.badge-new{background:var(--green);color:#fff;font-size:0.55rem;font-weight:700;letter-spacing:0.1em;padding:0.2rem 0.5rem;border-radius:2px;margin-left:auto}
-.card-sep{border:none;border-top:1px solid var(--border);margin:0.8rem 0}
 .card-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--green);line-height:1}
 .card-link{font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:1px;transition:border-color 0.15s;font-weight:600}
 .card-link:hover{border-bottom-color:var(--green)}
@@ -819,12 +817,10 @@ function render() {
       <div class="card-top">
         <span class="source-badge ${badgeClass}">${h.source||'Otro'}</span>
         <span class="card-date" title="${h.date||''}">${fechaRel}</span>
-        ${isNew?'<span class="badge-new">NUEVO</span>':''}
       </div>
       <div class="card-title">${title}</div>
       ${h.location?`<div class="card-location">◎ ${h.location}</div>`:''}
       ${desc?`<div class="card-desc">${desc}</div>`:''}
-      <div class="card-sep"></div>
       <div class="card-footer">
         <div class="card-price">${h.price||'Precio a consultar'}</div>
         ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Ver ficha →</a>`:''}
