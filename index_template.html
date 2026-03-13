@@ -421,7 +421,8 @@ header{
         </div>
       </div>
     </div>
-    <button class="map-btn" id="map-toggle" onclick="toggleMap()" style="margin-left:auto">🗺 Ver mapa</button>
+    <span id="results-count" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);white-space:nowrap"></span>
+      <button class="map-btn" id="map-toggle" onclick="toggleMap()" style="margin-left:auto">🗺 Ver mapa</button>
   </div>
 </div>
 
@@ -726,6 +727,8 @@ function render() {
   const grid = document.getElementById('grid');
   const countEl = document.getElementById('date-count');
   if (countEl) countEl.textContent = dateFilter !== 'all' ? `${list.length} resultado${list.length!==1?'s':''}` : '';
+  const resCount = document.getElementById('results-count');
+  if (resCount) resCount.textContent = `${list.length} resultado${list.length!==1?'s':''}`;
 
   if (!list.length) {
     grid.innerHTML = `<div class="empty">
