@@ -632,23 +632,12 @@ const HOTELES = (function(raw) {
   }).map(h => {
     // --- Limpiar título duplicado ---
     let title = (h.title || '').trim();
-    // Extraer precio del título si lo tiene (antes de borrarlo)
-    let precioDelTitulo = null;
-    const mPrecioFinal = title.match(/[-–]\s*â[^\d]*([\d][\d.,]+)/i) ||
-                         title.match(/[-–]\s*€\s*([\d][\d.,]+)/i) ||
-                         title.match(/[-–]\s*([\d][\d.,]+)\s*€/i);
-    const mPrecioInicio = title.match(/^([\d][\d.,]+)\s*€/i);
-    if (mPrecioFinal) precioDelTitulo = mPrecioFinal[1];
-    else if (mPrecioInicio) precioDelTitulo = mPrecioInicio[1];
     // Quitar precio del inicio: "6.900.000 € Hotel en venta..."
     title = title.replace(/^[\d][\d.,]*\s*€\s*/i, '').trim();
-    // Quitar precio al final: "Hotel en X - â¬ 490,000"
-    title = title.replace(/\s*-\s*â.*$/i, '').trim();
+    // Quitar precio del final: "Hotel en X - â¬ 599,000" o "- € 599,000" o "- 599,000 €"
     title = title.replace(/\s*[-–]\s*[â¬€$£]\s*[\d][\d.,]*/g, '').trim();
     title = title.replace(/\s*[-–]\s*[\d][\d.,]*\s*[â¬€$£]/g, '').trim();
     title = title.replace(/\s*â¬.*$/i, '').trim();
-    // Quitar guión colgante al final
-    title = title.replace(/\s*[-–]\s*$/, '').trim();
     // Traducir "in LUGAR" → "en LUGAR" (ThinkSpain en inglés)
     title = title.replace(/\bin\s+/g, 'en ');
     title = title.replace(/\bfor sale\b/gi, 'en venta');
@@ -673,15 +662,10 @@ const HOTELES = (function(raw) {
       const m = price.match(/([\d][\d.,]+)\s*[€â]/) || 
                 price.match(/[€â]\s*([\d][\d.,]+)/) ||
                 price.match(/([\d][\d.,]{4,})/);
-      price = m ? m[1].replace(',', '.') + ' €' : '';
+      price = m ? m[1].replace(',', '.') + ' €' : 'Precio a consultar';
     }
     // Limpiar caracteres raros del precio
     price = price.replace(/â¬/g, '€').replace(/â/g, '').trim();
-    // Si no hay precio, usar el extraído del título
-    if (!price && precioDelTitulo) {
-      price = precioDelTitulo.replace(/,/g, '.') + ' €';
-    }
-    if (!price) price = 'Precio a consultar';
 
     // --- Limpiar location ---
     let loc = (h.location || '').trim();
@@ -1051,9 +1035,6 @@ const INE_STATIC_DATA = {
 async function renderMarket() {
   renderAskingPrice();
   renderHeatmap();
-
-  renderAskingPrice();
-  renderHeatmap();
   await renderLiveKPIs();
   await renderLiveADRChart();
   initMMRangeSelectors();
@@ -1096,6 +1077,9 @@ function getDatasets(datasetsObj, mode) {
   // Comparativa — 5 líneas
   return makeDatasets(datasetsObj, []);
 }
+
+let chartADR = null;
+let chartREV = null;
 
 function rebuildChart(which) {
   if (!lastLabels.length) return;
@@ -2290,7 +2274,7 @@ function filterZones(q) {
 function renderAskingPrice() {
   const grid = document.getElementById('asking-grid');
   const byZone = {};
-  hoteles.forEach(h => {
+  HOTELES.forEach(h => {
     if (!h.location || !h.price || h.price === 'Precio a consultar') return;
     const precio = parseFloat(h.price.replace(/[^0-9]/g, ''));
     if (!precio || precio < 50000) return;
