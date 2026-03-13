@@ -632,12 +632,15 @@ const HOTELES = (function(raw) {
   }).map(h => {
     // --- Limpiar título duplicado ---
     let title = (h.title || '').trim();
+    // Quitar precio al final: "Hotel en X - â¬ 490,000"
+    title = title.replace(/\s*-\s*â.*$/i, '').trim();
+    // Quitar precio al final con €: "Hotel en X - € 490,000" o "- 490,000 €"
+    title = title.replace(/\s*-\s*€\s*[\d].*$/i, '').trim();
+    title = title.replace(/\s*-\s*[\d][\d.,]+\s*€.*$/i, '').trim();
+    // Quitar guión colgante al final
+    title = title.replace(/\s*-\s*$/, '').trim();
     // Quitar precio del inicio: "6.900.000 € Hotel en venta..."
     title = title.replace(/^[\d][\d.,]*\s*€\s*/i, '').trim();
-    // Quitar precio del final: "Hotel en X - â¬ 599,000" o "- € 599,000" o "- 599,000 €"
-    title = title.replace(/\s*[-–]\s*[â¬€$£]\s*[\d][\d.,]*/g, '').trim();
-    title = title.replace(/\s*[-–]\s*[\d][\d.,]*\s*[â¬€$£]/g, '').trim();
-    title = title.replace(/\s*â¬.*$/i, '').trim();
     // Traducir "in LUGAR" → "en LUGAR" (ThinkSpain en inglés)
     title = title.replace(/\bin\s+/g, 'en ');
     title = title.replace(/\bfor sale\b/gi, 'en venta');
