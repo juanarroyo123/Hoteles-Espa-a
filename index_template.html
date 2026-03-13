@@ -263,11 +263,13 @@ header{
 .badge-habitaclia,.badge-milanuncios,.badge-negociostraspaso{background:#f5f0fd;color:#6b3fa0}
 .badge-otro{background:#f5f4f0;color:#6a6560}
 .card-date{margin-left:auto;font-size:0.65rem;color:var(--muted);font-family:'Montserrat',sans-serif}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;line-height:1.3;color:var(--green);margin-bottom:0.4rem}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;line-height:1.25;color:var(--green);margin-bottom:0.3rem}
 .card-location{font-family:'Open Sans',sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:0.7rem;display:flex;align-items:center;gap:0.3rem}
 .card-desc{font-size:0.78rem;line-height:1.65;color:var(--text-mid);margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.9rem;border-top:1px solid var(--border)}
-.card-price{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--green);line-height:1}
+.badge-new{background:var(--green);color:#fff;font-size:0.55rem;font-weight:700;letter-spacing:0.1em;padding:0.2rem 0.5rem;border-radius:2px;margin-left:auto}
+.card-sep{border:none;border-top:1px solid var(--border);margin:0.8rem 0}
+.card-price{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--green);line-height:1}
 .card-link{font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:1px;transition:border-color 0.15s;font-weight:600}
 .card-link:hover{border-bottom-color:var(--green)}
 
@@ -755,23 +757,41 @@ function render() {
     const isNew      = isRecente(h.date, 7);
     const delay      = Math.min(i, 20) * 0.03;
     const url        = (h.url||'').replace(/'/g,"\\'");
-    // Limpiar títulos duplicados (ThinkSpain repite "Hotel en X Hotel en X")
-    let title = h.title || 'Hotel en venta';
+    // Limpiar título: quitar duplicados (ThinkSpain repite el título)
+    let title = (h.title || 'Hotel en venta').trim();
+    // Si la segunda mitad empieza igual que la primera, quedarse con la primera mitad
     const tw = title.split(' ');
-    if (tw.length >= 8) {
+    if (tw.length >= 6) {
       const mid = Math.ceil(tw.length / 2);
       const p1 = tw.slice(0, mid).join(' ');
       const p2 = tw.slice(mid).join(' ');
-      if (p2.slice(0,12) === p1.slice(0,12)) title = p1;
+      if (p1.toLowerCase().slice(0,15) === p2.toLowerCase().slice(0,15)) title = p1;
     }
+    // Limpiar descripción: quitar repetición del título y texto basura al inicio
+    let desc = (h.description || '').trim();
+    // Quitar si empieza con precio o título repetido (ej: "© 2.250.000 € Hotel en venta...")
+    desc = desc.replace(/^[©®]\s*[\d.,]+\s*€?\s*/i, '').trim();
+    // Quitar si los primeros 40 chars de desc coinciden con el título
+    if (desc.toLowerCase().slice(0,40) === title.toLowerCase().slice(0,40)) {
+      // Buscar segunda oración
+      const dotIdx = desc.indexOf('. ', 30);
+      desc = dotIdx > 0 ? desc.slice(dotIdx + 2) : '';
+    }
+    // Quitar repetición extra del título al final de desc
+    const titleShort = title.slice(0, 20).toLowerCase();
+    const dupIdx = desc.toLowerCase().lastIndexOf(titleShort, desc.length - 20);
+    if (dupIdx > desc.length * 0.6) desc = desc.slice(0, dupIdx).trim();
+
     return `<div class="card${isNew?' is-new':''}" style="animation-delay:${delay}s" onclick="window.open('${url}','_blank')">
       <div class="card-top">
         <span class="source-badge ${badgeClass}">${h.source||'Otro'}</span>
         <span class="card-date" title="${h.date||''}">${fechaRel}</span>
+        ${isNew?'<span class="badge-new">NUEVO</span>':''}
       </div>
       <div class="card-title">${title}</div>
       ${h.location?`<div class="card-location">◎ ${h.location}</div>`:''}
-      ${h.description?`<div class="card-desc">${h.description}</div>`:''}
+      ${desc?`<div class="card-desc">${desc}</div>`:''}
+      <div class="card-sep"></div>
       <div class="card-footer">
         <div class="card-price">${h.price||'Precio a consultar'}</div>
         ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Ver ficha →</a>`:''}
