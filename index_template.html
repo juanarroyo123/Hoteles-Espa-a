@@ -2188,10 +2188,10 @@ function renderAskingPrice() {
   const grid = document.getElementById('asking-grid');
   const byZone = {};
   hoteles.forEach(h => {
-    if (!h.ubicacion || !h.precio || h.precio === 'Consultar') return;
-    const precio = parseFloat(h.precio.replace(/[^0-9]/g, ''));
+    if (!h.location || !h.price || h.price === 'Precio a consultar') return;
+    const precio = parseFloat(h.price.replace(/[^0-9]/g, ''));
     if (!precio || precio < 50000) return;
-    const zona = h.ubicacion.split(',').pop().trim() || h.ubicacion;
+    const zona = h.location.split(',').pop().trim() || h.location;
     if (!byZone[zona]) byZone[zona] = { total: 0, count: 0 };
     byZone[zona].total += precio;
     byZone[zona].count++;
@@ -2308,8 +2308,8 @@ function loadLeaflet() {
 function initMap() {
   mapInstance = L.map('map', { zoomControl: true }).setView([40.0, -3.5], 6);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© CartoDB',
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
     maxZoom: 18
   }).addTo(mapInstance);
 
@@ -2329,11 +2329,11 @@ function refreshMap() {
     'Lucas Fox': '#b07fe8', 'Engel & Völkers': '#4a9ede',
   };
 
-  hoteles.forEach(h => {
-    const coords = getCoordsFromUbicacion(h.ubicacion);
+  HOTELES.forEach(h => {
+    const coords = getCoordsFromUbicacion(h.location);
     if (!coords) return;
 
-    const color = SOURCE_COLORS[h.fuente] || '#d4a843';
+    const color = SOURCE_COLORS[h.source] || '#d4a843';
     const isNew = h.nuevo;
 
     const icon = L.divIcon({
@@ -2355,10 +2355,10 @@ function refreshMap() {
       .addTo(mapInstance)
       .bindPopup(`
         <div style="font-family:Arial;min-width:200px">
-          <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.fuente || 'Fuente'}</div>
-          <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.titulo || 'Hotel'}</div>
-          <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.ubicacion || ''}</div>
-          <div style="font-size:1rem;font-weight:700;color:#c9a84c;margin-bottom:8px">${h.precio || 'Consultar'}</div>
+          <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.source || 'Fuente'}</div>
+          <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.title || 'Hotel'}</div>
+          <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.location || ''}</div>
+          <div style="font-size:1rem;font-weight:700;color:#c9a84c;margin-bottom:8px">${h.price || 'Consultar'}</div>
           ${h.descripcion ? `<div style="font-size:0.75rem;color:#555;margin-bottom:8px">${h.descripcion}</div>` : ''}
           ${h.url ? `<a href="${h.url}" target="_blank" style="font-size:0.72rem;color:#4a9ede">Ver anuncio →</a>` : ''}
         </div>
@@ -2370,6 +2370,25 @@ function refreshMap() {
   document.getElementById('map-info').textContent =
     `${markers.length} hoteles en el mapa · Haz clic en un pin para ver detalles`;
 }
+
+function toggleFilterDropdown() {
+  const btn      = document.getElementById('filter-toggle-btn');
+  const dropdown = document.getElementById('filter-dropdown');
+  const isOpen   = dropdown.classList.contains('open');
+  dropdown.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+// Cerrar dropdown al hacer clic fuera
+document.addEventListener('click', e => {
+  const btn = document.getElementById('filter-toggle-btn');
+  const dd  = document.getElementById('filter-dropdown');
+  if (dd && btn && !btn.contains(e.target) && !dd.contains(e.target)) {
+    dd.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+
 
 init();
 
