@@ -634,6 +634,18 @@ const HOTELES = (function(raw) {
     let title = (h.title || '').trim();
     // Quitar precio del inicio: "6.900.000 € Hotel en venta..."
     title = title.replace(/^[\d][\d.,]*\s*€\s*/i, '').trim();
+    // Quitar precio del final: "Hotel en X - â¬ 599,000" o "- € 599,000" o "- 599,000 €"
+    title = title.replace(/\s*[-–]\s*[â¬€$£]\s*[\d][\d.,]*/g, '').trim();
+    title = title.replace(/\s*[-–]\s*[\d][\d.,]*\s*[â¬€$£]/g, '').trim();
+    title = title.replace(/\s*â¬.*$/i, '').trim();
+    // Traducir "in LUGAR" → "en LUGAR" (ThinkSpain en inglés)
+    title = title.replace(/\bin\s+/g, 'en ');
+    title = title.replace(/\bfor sale\b/gi, 'en venta');
+    title = title.replace(/(\d+)\s+bedroom/gi, '$1 habitaciones');
+    title = title.replace(/\bwith\b/gi, 'con');
+    title = title.replace(/\bpool\b/gi, 'piscina');
+    title = title.replace(/\bgarage\b/gi, 'garaje');
+    title = title.replace(/\bcity\b/gi, 'ciudad');
     // Quitar duplicado: "Hotel en X Hotel en X" → "Hotel en X"
     const tw = title.split(' ');
     if (tw.length >= 8) {
@@ -645,18 +657,29 @@ const HOTELES = (function(raw) {
 
     // --- Limpiar precio ---
     let price = (h.price || '').trim();
-    // Si price contiene texto largo (título incluido), extraer solo el número
-    if (price.length > 20) {
-      const m = price.match(/([\d][\d.,]+)\s*€/) || price.match(/€\s*([\d][\d.,]+)/);
-      price = m ? m[1] + ' €' : 'Precio a consultar';
+    // Si price contiene texto largo o caracteres rotos, extraer solo el número
+    if (price.length > 20 || price.includes('â') || /[a-zA-Z]{3,}/.test(price)) {
+      const m = price.match(/([\d][\d.,]+)\s*[€â]/) || 
+                price.match(/[€â]\s*([\d][\d.,]+)/) ||
+                price.match(/([\d][\d.,]{4,})/);
+      price = m ? m[1].replace(',', '.') + ' €' : 'Precio a consultar';
     }
+    // Limpiar caracteres raros del precio
+    price = price.replace(/â¬/g, '€').replace(/â/g, '').trim();
 
     // --- Limpiar location ---
     let loc = (h.location || '').trim();
-    // Si location contiene el título o precio, extraer del título
-    if (loc.length > 50 || /\d{4,}/.test(loc) || /Hotel en venta/i.test(loc)) {
-      const m = title.match(/(?:en venta en|in)\s+(.+?)(?:\s+Hotel|\s+Guesthouse|$)/i);
-      loc = m ? m[1].trim().replace(/,$/, '') : 'España';
+    // Si location contiene precio o texto basura, limpiar
+    if (loc.length > 50 || /\d{4,}/.test(loc) || /Hotel en venta/i.test(loc) || loc.includes('â')) {
+      // Intentar extraer del título primero
+      const m = title.match(/(?:en venta en|en )\s*([A-ZÁÉÍÓÚÑ][\w\s]+?)(?:\s+con\s|\s+con\b|\s*,|$)/i);
+      if (m) {
+        loc = m[1].trim();
+      } else {
+        // Quitar precio y caracteres raros del loc
+        loc = loc.replace(/\s*[-–]\s*â¬.*$/, '').replace(/\s*[-–]\s*€.*$/, '').replace(/â¬/g,'').trim();
+        if (/\d{4,}/.test(loc)) loc = 'España';
+      }
     }
 
     return { ...h, title, price, location: loc };
