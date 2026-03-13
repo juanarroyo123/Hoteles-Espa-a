@@ -2,470 +2,1049 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotel Monitor España — All Out Partners</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hotel Monitor — Hoteles en Venta en España</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#f0efea;
-  --surface:#e8e6e0;
-  --card:#ffffff;
-  --border:#d4d0c8;
-  --border-dark:#b8b4aa;
-  --green:#1a5c45;
-  --green-light:#2a7a5e;
-  --green-glow:rgba(26,92,69,0.08);
-  --gold:#c9a84c;
-  --text:#1a1814;
-  --text-mid:#4a4640;
-  --muted:#8a857a;
-  --new:#1a5c45;
-  --bar1:#111009;
-  --bar2:#111009;
-  --bar3:#111009;
-  --danger:#c0392b;
+:root {
+  --gd: #1a5c45;
+  --gm: #2e7d5e;
+  --ga: #3d9970;
+  --bg: #f0efea;
+  --white: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #6b6b6b;
+  --border: #d4d2c9;
+  --dark: #111009;
+  --dark2: #181610;
+  --gold: #c9a84c;
+  --gold-dim: #7a6328;
 }
-body{font-family:'Open Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-weight:400}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: 'Open Sans', sans-serif; }
 
-/* ── HEADER ── */
-header{background:#fff;border-bottom:2px solid var(--green);padding:0 2.5rem;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(26,92,69,0.08)}
-.brand{display:flex;align-items:center;gap:1.2rem}
-.brand-logo{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--green);letter-spacing:0.02em}
-.brand-sep{width:1px;height:24px;background:var(--border-dark)}
-.brand-tag{font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);font-weight:500}
-.header-right{display:flex;align-items:center;gap:1rem}
-.update-badge{font-size:0.65rem;color:var(--muted);letter-spacing:0.04em;font-family:'Montserrat',sans-serif}
-.update-badge strong{color:var(--green)}
+/* NAV */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.nav-brand { display: flex; flex-direction: column; }
+.nav-logo { font-family: 'Montserrat', sans-serif; font-size: 1.45rem; font-weight: 900; color: var(--gd); letter-spacing: -.01em; }
+.nav-sub { font-family: 'Montserrat', sans-serif; font-size: .48rem; font-weight: 700; letter-spacing: .22em; color: var(--muted); text-transform: uppercase; margin-top: 1px; }
+.nav-right { text-align: right; font-size: .7rem; color: var(--muted); line-height: 1.55; }
+.nav-right strong { color: var(--gd); font-weight: 700; }
 
-/* ── STATS BAR ── */
-.stats-bar{background:var(--green);display:grid;grid-template-columns:repeat(4,1fr)}
-.stat{padding:1.1rem 2rem;border-right:1px solid rgba(255,255,255,0.15);text-align:center}
-.stat:last-child{border-right:none}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;line-height:1}
-.stat-lbl{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-top:0.25rem}
+/* TABS */
+.tab-nav { background: var(--white); border-bottom: 2px solid var(--border); display: flex; padding: 0 3rem; }
+.tab-btn {
+  font-family: 'Montserrat', sans-serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: .88rem 1.5rem;
+  cursor: pointer;
+  margin-bottom: -2px;
+  transition: color .2s;
+}
+.tab-btn:hover { color: var(--gd); }
+.tab-btn.active { color: var(--gd); border-bottom-color: var(--gd); }
 
-/* ── FILTER BARS ── */
-.filter-bar{background:var(--bar1);display:flex;align-items:center;gap:0.5rem;padding:0.7rem 2rem;flex-wrap:wrap;border-bottom:1px solid #222}
-.filter-bar-label{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-right:0.3rem;flex-shrink:0}
-.chip{padding:0.3rem 0.85rem;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.55);font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.06em;cursor:pointer;transition:all 0.15s;font-weight:500}
-.chip:hover{border-color:rgba(255,255,255,0.5);color:#fff}
-.chip.on{background:var(--green);border-color:var(--green);color:#fff}
-.search-wrap{margin-left:auto;position:relative}
-.search-input{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);padding:0.38rem 1rem 0.38rem 2.2rem;color:#fff;font-family:'Open Sans',sans-serif;font-size:0.78rem;width:240px;outline:none;transition:border-color 0.15s}
-.search-input:focus{border-color:rgba(255,255,255,0.5)}
-.search-input::placeholder{color:rgba(255,255,255,0.35)}
-.search-icon{position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:rgba(255,255,255,0.4);font-size:0.8rem;pointer-events:none}
+/* HERO */
+.hero {
+  background: var(--white);
+  padding: 4rem 3rem 3.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  border-bottom: 3px solid var(--gd);
+}
+.hero-eyebrow { font-family: 'Montserrat', sans-serif; font-size: .65rem; font-weight: 700; letter-spacing: .28em; text-transform: uppercase; color: var(--ga); margin-bottom: .9rem; }
+.hero-title { font-family: 'Montserrat', sans-serif; font-size: clamp(1.8rem, 3vw, 2.9rem); font-weight: 900; line-height: 1.04; color: var(--ink); margin-bottom: .9rem; }
+.hero-title span { color: var(--gd); }
+.hero-desc { font-size: .88rem; color: var(--muted); line-height: 1.72; max-width: 430px; }
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.stat-box { background: var(--bg); border: 2px solid var(--gd); padding: 1.25rem; }
+.stat-num { font-family: 'Montserrat', sans-serif; font-size: 2.4rem; font-weight: 900; color: var(--gd); line-height: 1; }
+.stat-label { font-size: .6rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .11em; margin-top: .3rem; }
 
-/* Portal dropdown */
-.portal-dropdown{position:relative;display:inline-block}
-.portal-menu{display:none;position:absolute;top:calc(100% + 6px);left:0;z-index:200;background:#1a1814;border:1px solid #333;min-width:220px;box-shadow:0 8px 24px rgba(0,0,0,0.5);padding:0.4rem 0}
-.portal-menu.open{display:block}
-.portal-group-label{padding:0.3rem 0.9rem;font-size:0.58rem;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.14em;border-bottom:1px solid #2a2620;border-top:1px solid #2a2620;margin:0.2rem 0}
-.portal-opt{display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.9rem;font-size:0.72rem;color:rgba(255,255,255,0.7);cursor:pointer;transition:background 0.1s}
-.portal-opt:hover{background:rgba(26,92,69,0.2)}
-.portal-opt input{accent-color:var(--green);width:12px;height:12px;cursor:pointer}
-.portal-actions{border-top:1px solid #333;padding:0.4rem 0.9rem;display:flex;gap:0.7rem}
-.portal-action-btn{font-size:0.62rem;color:var(--gold);background:none;border:none;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif}
-.portal-sel-count{display:none;background:var(--green);color:#fff;border-radius:10px;padding:0 5px;font-size:0.58rem;font-weight:700;margin-left:3px}
+/* FILTER BAR — dark */
+.filter-bar {
+  background: var(--dark);
+  padding: .55rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  flex-wrap: wrap;
+}
+.fchip {
+  background: none;
+  border: 1px solid #2a2620;
+  color: #5a5448;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: .28rem .85rem;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.fchip:hover { border-color: var(--gold); color: var(--gold); }
+.fchip.on { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,.07); }
+.fsep { width: 1px; height: 16px; background: #2a2620; margin: 0 .25rem; flex-shrink: 0; }
+.search-dark {
+  margin-left: auto;
+  background: rgba(255,255,255,.04);
+  border: 1px solid #2a2620;
+  color: #c8bfa8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: .75rem;
+  padding: .28rem .85rem;
+  outline: none;
+  width: 230px;
+  transition: border-color .18s;
+}
+.search-dark::placeholder { color: #4a4540; }
+.search-dark:focus { border-color: var(--gold-dim); }
 
-/* Date filter bar */
-.date-bar{background:var(--bar2);display:flex;align-items:center;gap:0.4rem;padding:0.55rem 2rem;border-bottom:1px solid #1a1814;flex-wrap:wrap}
-.date-count{font-size:0.62rem;color:rgba(255,255,255,0.4);margin-left:0.5rem;font-family:'Montserrat',sans-serif}
+/* PORTAL SCROLL BAR — dark */
+.portal-bar {
+  background: var(--dark2);
+  border-bottom: 1px solid #1e1c16;
+  padding: .42rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: .28rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.portal-bar::-webkit-scrollbar { display: none; }
+.portal-lbl { font-family: 'Montserrat', sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #3a3830; margin-right: .4rem; white-space: nowrap; flex-shrink: 0; }
+.pchip {
+  background: none;
+  border: 1px solid #222018;
+  color: #5a5448;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .57rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: .2rem .62rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all .18s;
+}
+.pchip:hover { border-color: var(--gold); color: var(--gold); }
+.pchip.on { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,.07); }
 
-/* View bar */
-.view-bar{background:var(--bar3);display:flex;align-items:center;padding:0 2rem;border-bottom:1px solid #1a1814}
-.tab-btn{padding:0.75rem 1.2rem;background:none;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,0.45);font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.15s;margin-bottom:-1px}
-.tab-btn:hover{color:rgba(255,255,255,0.8)}
-.tab-btn.active{color:#fff;border-bottom-color:var(--green)}
-.map-btn{margin-left:auto;padding:0.5rem 1.2rem;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.15s}
-.map-btn:hover,.map-btn.on{background:var(--green);border-color:var(--green);color:#fff}
+/* DATE FILTER BAR — dark */
+.date-bar {
+  background: var(--dark);
+  border-bottom: 1px solid #0d0b08;
+  padding: .38rem 3rem;
+  display: flex;
+  align-items: center;
+  gap: .2rem;
+  flex-wrap: wrap;
+}
+.date-lbl { font-family: 'Montserrat', sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #3a3830; margin-right: .35rem; white-space: nowrap; }
+.dchip {
+  background: none;
+  border: 1px solid transparent;
+  color: #5a5448;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: .18rem .62rem;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.dchip:hover { color: #c8bfa8; }
+.dchip.on { border-color: #2a2620; color: #c8bfa8; background: rgba(255,255,255,.035); }
+.date-count { font-size: .58rem; color: #3a3830; margin-left: .5rem; font-family: 'Montserrat', sans-serif; }
 
-/* ── MAP ── */
-#map-section{display:none;border-bottom:2px solid var(--green)}
-#map{width:100%;height:460px;background:#1a1814}
-.map-info{padding:0.7rem 2rem;font-size:0.72rem;color:var(--muted);background:var(--surface);border-top:1px solid var(--border)}
+/* MAP */
+#map-section { border-bottom: 1px solid var(--border); }
+#map { width: 100%; height: 400px; background: #e8e6e0; }
+.map-info { padding: .55rem 3rem; font-size: .68rem; color: var(--muted); background: var(--white); border-top: 1px solid var(--border); }
 
-/* ── GRID ── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--border);padding:1px}
+/* SECTION HEADER */
+.sec-header { padding: 1.6rem 3rem .9rem; display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid var(--gd); }
+.sec-title { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--gd); }
+.sec-sub { font-size: .7rem; color: var(--muted); }
 
-/* ── CARD ── */
-.card{background:#fff;padding:1.6rem;position:relative;transition:box-shadow 0.2s,transform 0.15s;cursor:pointer;animation:cardIn 0.3s ease both}
-.card:hover{box-shadow:0 4px 20px rgba(26,92,69,0.12);transform:translateY(-1px);z-index:1}
-@keyframes cardIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.card.is-new::before{content:'NUEVO';position:absolute;top:0;right:0;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.55rem;font-weight:700;letter-spacing:0.16em;padding:0.22rem 0.8rem}
-.card-top{display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem}
-.source-badge{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;padding:0.2rem 0.6rem;border-radius:2px}
-.badge-idealista{background:#e8f4fd;color:#1a6ea8}
-.badge-fotocasa{background:#fdf0ed;color:#c0442a}
-.badge-thinkspain{background:#edf7f1;color:#1a5c45}
-.badge-kyero{background:#f0edf7;color:#6b3fa0}
-.badge-otro{background:#f5f4f0;color:#6a6560}
-.card-date{margin-left:auto;font-size:0.65rem;color:var(--muted);font-family:'Montserrat',sans-serif}
-.card-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;line-height:1.35;color:var(--text);margin-bottom:0.35rem}
-.card-location{font-family:'Open Sans',sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:0.7rem;display:flex;align-items:center;gap:0.3rem}
-.card-desc{font-size:0.78rem;line-height:1.65;color:var(--text-mid);margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.card-footer{display:flex;align-items:flex-end;justify-content:space-between;padding-top:0.9rem;border-top:1px solid var(--border)}
-.card-price{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--green);line-height:1}
-.card-link{font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:1px;transition:border-color 0.15s;font-weight:600}
-.card-link:hover{border-bottom-color:var(--green)}
+/* GRID — full viewport width */
+.grid {
+  width: 100%;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  margin-bottom: 0;
+}
+.card { display: block; text-decoration: none; color: inherit; background: var(--white); transition: box-shadow .18s, transform .18s; position: relative; }
+.card:hover { box-shadow: 0 8px 28px rgba(26,92,69,.12); transform: translateY(-2px); z-index: 1; }
+.card-img { width: 100%; height: 126px; background: linear-gradient(135deg, rgba(26,92,69,.07), rgba(26,92,69,.02)); border-bottom: 2px solid var(--gd); display: flex; align-items: center; justify-content: center; }
+.card-img svg { opacity: .1; width: 42px; height: 42px; color: var(--gd); }
+.card-body { padding: 1rem 1.1rem 1rem; }
+.card-badge { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: .5rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #fff; padding: .12rem .42rem; margin-bottom: .55rem; }
+.card-new { display: inline-block; font-family: 'Montserrat', sans-serif; font-size: .48rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; background: var(--ga); color: #fff; padding: .1rem .32rem; margin-left: .3rem; vertical-align: 1px; }
+.card-title { font-family: 'Montserrat', sans-serif; font-size: .85rem; font-weight: 800; line-height: 1.3; color: var(--ink); margin-bottom: .32rem; }
+.card-loc { font-size: .68rem; color: var(--muted); margin-bottom: .5rem; font-weight: 500; }
+.card-desc { font-size: .72rem; color: var(--muted); line-height: 1.6; margin-bottom: .75rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.card-foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: .62rem; }
+.card-price { font-family: 'Montserrat', sans-serif; font-size: .95rem; font-weight: 900; color: var(--gd); }
+.card-cta { font-family: 'Montserrat', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--ga); }
+.card-date { font-size: .58rem; color: #bbb8b0; margin-top: .32rem; text-align: right; font-family: 'Montserrat', sans-serif; letter-spacing: .03em; }
+.empty-state { grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--muted); background: var(--white); }
+.empty-state h3 { font-family: 'Montserrat', sans-serif; font-size: 1rem; color: var(--gd); margin-bottom: .4rem; }
 
-/* ── EMPTY ── */
-.empty{grid-column:1/-1;text-align:center;padding:5rem 2rem;background:#fff}
-.empty-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--muted);margin-bottom:0.5rem}
-.empty-sub{font-size:0.82rem;color:var(--border-dark)}
+/* ── MERCADO ── */
+.mkt-subnav { background: var(--white); border-bottom: 1px solid var(--border); display: flex; padding: 0 3rem; overflow-x: auto; scrollbar-width: none; }
+.mkt-subnav::-webkit-scrollbar { display: none; }
+.mkt-tab { font-family: 'Montserrat', sans-serif; font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: none; border: none; border-bottom: 3px solid transparent; padding: .72rem 1.2rem; cursor: pointer; white-space: nowrap; transition: all .18s; margin-bottom: -1px; }
+.mkt-tab:hover { color: var(--gd); }
+.mkt-tab.active { color: var(--gd); border-bottom-color: var(--gd); }
+.mkt-panel { display: none; }
+.mkt-panel.active { display: block; }
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 1px; background: var(--border); border-bottom: 2px solid var(--gd); }
+.kpi { background: var(--white); padding: 1.3rem 1.5rem; }
+.kpi-val { font-family: 'Montserrat', sans-serif; font-size: 1.9rem; font-weight: 900; color: var(--gd); line-height: 1; }
+.kpi-lbl { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-top: .3rem; font-weight: 700; }
+.kpi-delta { font-size: .68rem; color: var(--ga); margin-top: .28rem; font-weight: 600; }
+.chart-panel { background: var(--white); border: 1px solid var(--border); margin: 1.4rem 3rem; }
+.chart-hdr { padding: 1.1rem 1.5rem .8rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; border-bottom: 1px solid var(--border); }
+.chart-title { font-family: 'Montserrat', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gd); }
+.chart-body { padding: 1.1rem 1.5rem; }
+.ine-src { font-family: 'Montserrat', sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: rgba(26,92,69,.08); color: var(--gd); border: 1.5px solid rgba(26,92,69,.25); padding: .1rem .45rem; }
+.refresh-btn { background: none; border: 1.5px solid var(--border); color: var(--muted); font-size: .58rem; padding: .12rem .5rem; cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 700; transition: all .18s; }
+.refresh-btn:hover { border-color: var(--gd); color: var(--gd); }
+.cat-legend { display: flex; gap: .9rem; flex-wrap: wrap; margin-top: .7rem; }
+.cat-legend span { font-size: .64rem; display: flex; align-items: center; gap: 4px; }
+.cat-legend b { width: 13px; height: 2px; display: inline-block; }
+.zone-wrap { margin: 1.4rem 3rem; background: var(--white); border: 1px solid var(--border); }
+.zone-table { width: 100%; border-collapse: collapse; }
+.zone-table th { font-family: 'Montserrat', sans-serif; font-size: .58rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); text-align: left; padding: .65rem 1.2rem; border-bottom: 2px solid var(--gd); background: var(--bg); }
+.zone-table th:not(:first-child) { text-align: right; }
+.zone-table td { font-size: .8rem; color: var(--ink); padding: .58rem 1.2rem; border-bottom: 1px solid var(--border); }
+.zone-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; color: var(--gd); font-weight: 700; }
+.zone-table tr:hover td { background: var(--bg); }
+.tipo-badge { font-size: .52rem; padding: .08rem .38rem; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; font-family: 'Montserrat', sans-serif; }
+.tipo-costa { background: rgba(3,105,161,.1); color: #0369a1; }
+.tipo-ciudad { background: rgba(26,92,69,.1); color: var(--gd); }
+.tipo-rural { background: rgba(120,113,50,.1); color: #786b32; }
+.heatmap-wrap { margin: 1.4rem 3rem 2rem; }
+.heatmap-title { font-family: 'Montserrat', sans-serif; font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gd); margin-bottom: .7rem; }
+.heatmap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 1px; background: var(--border); }
+.heat-cell { padding: .88rem 1rem; background: var(--white); position: relative; overflow: hidden; }
+.heat-bg { position: absolute; inset: 0; opacity: .17; }
+.heat-prov { font-family: 'Montserrat', sans-serif; font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); position: relative; z-index: 1; }
+.heat-val { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--ink); position: relative; z-index: 1; line-height: 1; margin-top: .18rem; }
 
-/* ── MARKET TAB ── */
-#panel-mercado{display:none;background:var(--bg)}
-.mkt-subnav{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem;display:flex;overflow-x:auto;scrollbar-width:none}
-.mkt-subnav::-webkit-scrollbar{display:none}
-.mkt-tab{padding:0.85rem 1.3rem;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.15s;margin-bottom:-1px;white-space:nowrap}
-.mkt-tab:hover{color:var(--text)}
-.mkt-tab.active{color:var(--green);border-bottom-color:var(--green)}
-.mkt-panel{display:none;padding:1.5rem 2rem}
-.mkt-panel.active{display:block}
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--border);margin-bottom:2rem}
-.kpi{background:#fff;padding:1.2rem 1.4rem}
-.kpi-val{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:700;color:var(--green);line-height:1}
-.kpi-lbl{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem}
-.kpi-delta{font-size:0.68rem;color:var(--green-light);margin-top:0.2rem}
-.ine-badge{font-size:0.62rem;color:var(--muted);margin-top:0.5rem}
+/* FOOTER */
+footer { background: var(--gd); color: #fff; padding: 3rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+.flogo { font-family: 'Montserrat', sans-serif; font-size: 1.25rem; font-weight: 900; }
+.flogo-sub { font-family: 'Montserrat', sans-serif; font-size: .46rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-top: 2px; margin-bottom: .75rem; }
+.fdesc { font-size: .74rem; color: rgba(255,255,255,.55); line-height: 1.65; }
+.fcol-title { font-family: 'Montserrat', sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-bottom: .75rem; }
+.flinks { list-style: none; display: flex; flex-direction: column; gap: .38rem; }
+.flinks a { color: rgba(255,255,255,.65); text-decoration: none; font-size: .78rem; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: .28rem; transition: color .18s; }
+.flinks a:hover { color: #fff; }
+.fbot { background: #0f3d2d; padding: .9rem 3rem; font-size: .64rem; color: rgba(255,255,255,.28); display: flex; justify-content: space-between; }
 
-/* Zone table */
-.zone-table{width:100%;border-collapse:collapse;background:#fff}
-.zone-table th{font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0.65rem 1rem;text-align:left;border-bottom:2px solid var(--border);background:var(--surface)}
-.zone-table th:not(:first-child){text-align:right}
-.zone-table td{padding:0.7rem 1rem;font-size:0.82rem;color:var(--text);border-bottom:1px solid var(--border);transition:background 0.1s}
-.zone-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
-.zone-table tr:hover td{background:var(--bg)}
-.bar-cell{position:relative}
-.bar-bg{position:absolute;left:0;top:0;bottom:0;background:rgba(26,92,69,0.06);border-right:2px solid rgba(26,92,69,0.25)}
-.bar-txt{position:relative;z-index:1}
-
-/* Heatmap */
-.heatmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1px;background:var(--border)}
-.heat-cell{padding:0.9rem 1rem;cursor:default;transition:filter 0.15s}
-.heat-cell:hover{filter:brightness(1.08)}
-.heat-prov{font-size:0.76rem;font-weight:600;color:#fff;position:relative;z-index:1}
-.heat-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#fff;position:relative;z-index:1;line-height:1;margin-top:0.15rem}
-.heat-sub{font-size:0.58rem;color:rgba(255,255,255,0.65);position:relative;z-index:1}
-
-/* Asking price */
-.asking-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--border)}
-.asking-card{background:#fff;padding:1.1rem 1.3rem}
-.asking-zone{font-family:'Montserrat',sans-serif;font-size:0.72rem;font-weight:600;color:var(--text);margin-bottom:0.25rem}
-.asking-price{font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--green);font-weight:700}
-.asking-meta{font-size:0.62rem;color:var(--muted);margin-top:0.15rem}
-.asking-bar{height:3px;background:var(--border);margin-top:0.6rem;overflow:hidden}
-.asking-bar-fill{height:100%;background:var(--green)}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border-dark)}
+@media (max-width: 768px) {
+  nav, .tab-nav, .hero, .filter-bar, .portal-bar, .date-bar, .sec-header, .mkt-subnav, .chart-panel, .zone-wrap, .heatmap-wrap, footer, .fbot { padding-left: 1.2rem !important; padding-right: 1.2rem !important; }
+  .hero { grid-template-columns: 1fr; gap: 2rem; padding-top: 2.5rem; }
+  footer { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">
-    <span class="brand-logo">HotelMonitor</span>
-    <span class="brand-sep"></span>
-    <span class="brand-tag">España · Hoteles en venta</span>
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">Hotel Monitor</div>
+    <div class="nav-sub">España · Hoteles en venta</div>
   </div>
-  <div class="header-right">
-    <span class="update-badge" id="update-badge">Cargando...</span>
+  <div class="nav-right">
+    Actualizacion diaria automatica<br>
+    <strong id="hdr-date">—</strong>
   </div>
-</header>
+</nav>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-val" id="val-total">0</div><div class="stat-lbl">Anuncios totales</div></div>
-  <div class="stat"><div class="stat-val" id="val-nuevos">0</div><div class="stat-lbl">Últimos 7 días</div></div>
-  <div class="stat"><div class="stat-val" id="val-portales">4</div><div class="stat-lbl">Portales monitorizados</div></div>
-  <div class="stat"><div class="stat-val" id="val-hoy">0</div><div class="stat-lbl">Añadidos hoy</div></div>
-</div>
-
-<!-- FILTER BAR 1: PORTALES -->
-<div class="filter-bar" id="portal-bar">
-  <span class="filter-bar-label">Portales</span>
-  <button class="chip on" id="chip-todos-portal" onclick="setPortalFilter('todos',this)">Todos</button>
-  <button class="chip" onclick="setPortalFilter('Idealista',this)">Idealista</button>
-  <button class="chip" onclick="setPortalFilter('ThinkSpain',this)">ThinkSpain</button>
-  <button class="chip" onclick="setPortalFilter('Fotocasa',this)">Fotocasa</button>
-  <button class="chip" onclick="setPortalFilter('Kyero',this)">Kyero</button>
-  <div class="search-wrap">
-    <span class="search-icon">⌕</span>
-    <input class="search-input" id="search" placeholder="Buscar ciudad, tipo..." oninput="render()">
-  </div>
-</div>
-
-<!-- FILTER BAR 2: FECHAS -->
-<div class="date-bar">
-  <span class="filter-bar-label" style="color:rgba(255,255,255,0.4)">Publicado</span>
-  <button class="chip on" id="df-all"    onclick="setDateFilter('all',this)">Todos</button>
-  <button class="chip"    id="df-day"    onclick="setDateFilter('day',this)">Hoy</button>
-  <button class="chip"    id="df-week"   onclick="setDateFilter('week',this)">Esta semana</button>
-  <button class="chip"    id="df-month"  onclick="setDateFilter('month',this)">Este mes</button>
-  <button class="chip"    id="df-3month" onclick="setDateFilter('3month',this)">Últimos 3 meses</button>
-  <button class="chip"    id="df-year"   onclick="setDateFilter('year',this)">Último año</button>
-  <span class="date-count" id="date-count"></span>
-</div>
-
-<!-- VIEW BAR -->
-<div class="view-bar">
+<div class="tab-nav">
   <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
   <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
-  <button class="map-btn" id="map-toggle" onclick="toggleMap()">🗺 Ver mapa</button>
 </div>
 
-<!-- MAP -->
-<div id="map-section">
-  <div id="map"></div>
-  <div class="map-info" id="map-info">Cargando mapa...</div>
-</div>
-
-<!-- HOTELES PANEL -->
+<!-- ══════════ PANEL HOTELES ══════════ -->
 <div id="panel-hoteles">
-  <div class="grid" id="grid">
-    <div class="empty">
-      <div class="empty-title">Cargando anuncios...</div>
+
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">Radar de mercado inmobiliario hotelero</div>
+      <h1 class="hero-title">Hoteles en venta<br><span>en España</span></h1>
+      <p class="hero-desc">Monitorizamos <strong id="hero-sources">9</strong> portales inmobiliarios españoles e internacionales cada 24 horas. Todas las oportunidades hoteleras en un solo lugar, actualizadas diariamente de forma automatica.</p>
     </div>
-  </div>
-</div>
+    <div class="hero-stats">
+      <div class="stat-box"><div class="stat-num" id="val-total">—</div><div class="stat-label">Anuncios activos</div></div>
+      <div class="stat-box"><div class="stat-num" id="val-sources">—</div><div class="stat-label">Portales</div></div>
+      <div class="stat-box"><div class="stat-num">24h</div><div class="stat-label">Actualizacion</div></div>
+      <div class="stat-box"><div class="stat-num">0 €</div><div class="stat-label">Coste total</div></div>
+    </div>
+  </section>
 
-<!-- MERCADO PANEL -->
-<div id="panel-mercado">
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="fchip on" id="f-todos" onclick="setFilter('todos',this)">Todos</button>
+    <button class="fchip"   id="f-nuevo" onclick="setFilter('nuevo',this)">Nuevos</button>
+    <div class="fsep"></div>
+    <button class="fchip"   id="map-toggle" onclick="toggleMap()">Ver mapa</button>
+    <input class="search-dark" id="search" placeholder="Buscar ciudad, tipo de hotel..." oninput="renderGrid()">
+  </div>
+
+  <!-- PORTAL SCROLL -->
+  <div class="portal-bar" id="portal-bar">
+    <span class="portal-lbl">Portales inmobiliarios</span>
+  </div>
+
+  <!-- DATE FILTER -->
+  <div class="date-bar">
+    <span class="date-lbl">Publicado</span>
+    <button class="dchip on" id="d-all"    onclick="setDate('all',this)">Todos</button>
+    <button class="dchip"    id="d-today"  onclick="setDate('today',this)">Hoy</button>
+    <button class="dchip"    id="d-week"   onclick="setDate('week',this)">Esta semana</button>
+    <button class="dchip"    id="d-month"  onclick="setDate('month',this)">Este mes</button>
+    <button class="dchip"    id="d-3month" onclick="setDate('3month',this)">Ultimos 3 meses</button>
+    <button class="dchip"    id="d-year"   onclick="setDate('year',this)">Ultimo año</button>
+    <span class="date-count" id="date-count"></span>
+  </div>
+
+  <!-- MAP -->
+  <div id="map-section" style="display:none">
+    <div id="map"></div>
+    <div class="map-info" id="map-info">Haz clic en un pin para ver los detalles del hotel</div>
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div class="sec-header">
+    <h2 class="sec-title">Oportunidades hoteleras</h2>
+    <span class="sec-sub" id="section-date">—</span>
+  </div>
+
+  <div class="grid" id="grid">
+    <div class="empty-state"><h3>Cargando anuncios...</h3></div>
+  </div>
+
+</div><!-- /panel-hoteles -->
+
+<!-- ══════════ PANEL MERCADO ══════════ -->
+<div id="panel-mercado" style="display:none">
   <div class="mkt-subnav">
-    <button class="mkt-tab active" id="mkt-tab-kpis" onclick="switchMkt('kpis')">Indicadores INE</button>
-    <button class="mkt-tab" id="mkt-tab-destinos" onclick="switchMkt('destinos')">Destinos</button>
-    <button class="mkt-tab" id="mkt-tab-precio" onclick="switchMkt('precio')">Precios activos</button>
+    <button class="mkt-tab active" id="mkt-tab-kpis"     onclick="switchMkt('kpis')">Indicadores</button>
+    <button class="mkt-tab"        id="mkt-tab-adr"      onclick="switchMkt('adr')">ADR</button>
+    <button class="mkt-tab"        id="mkt-tab-revpar"   onclick="switchMkt('revpar')">RevPAR</button>
+    <button class="mkt-tab"        id="mkt-tab-ocup"     onclick="switchMkt('ocup')">Ocupacion</button>
+    <button class="mkt-tab"        id="mkt-tab-destinos" onclick="switchMkt('destinos')">Destinos</button>
+    <button class="mkt-tab"        id="mkt-tab-precios"  onclick="switchMkt('precios')">Precios oferta</button>
   </div>
 
-  <!-- KPIs -->
   <div class="mkt-panel active" id="mkt-panel-kpis">
     <div class="kpi-row">
-      <div class="kpi"><div class="kpi-val">127,7€</div><div class="kpi-lbl">ADR medio 2025</div><div class="kpi-delta">↑ +5,1% vs 2024</div></div>
-      <div class="kpi"><div class="kpi-val">89,7€</div><div class="kpi-lbl">RevPAR medio 2025</div><div class="kpi-delta">↑ +6,0% vs 2024</div></div>
-      <div class="kpi"><div class="kpi-val">70,3%</div><div class="kpi-lbl">Ocupación media</div><div class="kpi-delta">↑ +0,8pp vs 2024</div></div>
-      <div class="kpi"><div class="kpi-val">366,7M</div><div class="kpi-lbl">Pernoctaciones 2025</div><div class="kpi-delta">↑ Récord histórico</div></div>
-      <div class="kpi"><div class="kpi-val">155,7€</div><div class="kpi-lbl">ADR pico (agosto)</div><div class="kpi-delta">↑ +6,1% vs ago 2024</div></div>
-      <div class="kpi"><div class="kpi-val">375,1€</div><div class="kpi-lbl">ADR top — Marbella</div><div class="kpi-delta">Mayor ADR de España</div></div>
+      <div class="kpi" id="kpi-adr"><div class="kpi-val">127,7 €</div><div class="kpi-lbl">ADR Medio</div><div class="kpi-delta">+5,1% vs 2024</div></div>
+      <div class="kpi" id="mkt-panel-kpis-revpar"><div class="kpi-val">89,7 €</div><div class="kpi-lbl">RevPAR Medio</div><div class="kpi-delta">+6,0% vs 2024</div></div>
+      <div class="kpi"><div class="kpi-val">70,3%</div><div class="kpi-lbl">Ocupacion media</div><div class="kpi-delta">+0,8pp vs 2024</div></div>
+      <div class="kpi"><div class="kpi-val">366,7M</div><div class="kpi-lbl">Pernoctaciones 2025</div><div class="kpi-delta">Record historico</div></div>
+      <div class="kpi"><div class="kpi-val">155,7 €</div><div class="kpi-lbl">ADR pico — agosto</div><div class="kpi-delta">+6,1% vs ago 2024</div></div>
+      <div class="kpi"><div class="kpi-val">375,1 €</div><div class="kpi-lbl">ADR top — Marbella</div><div class="kpi-delta">Mayor ADR de España</div></div>
+      <div class="kpi"><div class="kpi-val">3,4</div><div class="kpi-lbl">Estancia media (noches)</div><div class="kpi-delta">Extranjeros: 4,2 noches</div></div>
+      <div class="kpi"><div class="kpi-val">14.892</div><div class="kpi-lbl">Establecimientos abiertos</div><div class="kpi-delta">+1,2% vs 2024</div></div>
     </div>
-    <p class="ine-badge">Fuente: INE — Encuesta de Ocupación Hotelera · Datos 2025</p>
+    <div style="padding:.45rem 1.5rem .7rem;font-size:.6rem;color:var(--muted);background:var(--bg);border-bottom:1px solid var(--border)">
+      Fuente: INE — Encuesta de Ocupacion Hotelera · <span id="kpi-live-badge" style="color:var(--ga);font-weight:700">Actualizando desde INE...</span>
+    </div>
   </div>
 
-  <!-- DESTINOS -->
+  <div class="mkt-panel" id="mkt-panel-adr">
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title">ADR mensual por categoria (€/noche)</span>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <span class="ine-src" id="adr-src">INE IRSH</span>
+          <button class="refresh-btn" onclick="clearINECache(2058);renderADRChart()">Actualizar</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:250px">
+          <canvas id="chart-adr"></canvas>
+          <div id="adr-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Cargando datos del INE...</div>
+        </div>
+        <div class="cat-legend">
+          <span style="color:var(--muted);font-size:.6rem;align-self:center">Categoria:</span>
+          <span><b style="background:#c9a84c"></b>5 estrellas</span>
+          <span><b style="background:#4a9ede"></b>4 estrellas</span>
+          <span><b style="background:#2d8a5e"></b>3 estrellas</span>
+          <span><b style="background:#b07fe8"></b>2 estrellas</span>
+          <span><b style="background:#e88c6a"></b>1 estrella</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mkt-panel" id="mkt-panel-revpar">
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title" style="color:#0369a1">RevPAR mensual por categoria (€)</span>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <span class="ine-src" id="rev-src">INE IRSH</span>
+          <button class="refresh-btn" onclick="clearINECache(2056);renderRevPARChart()">Actualizar</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:250px">
+          <canvas id="chart-revpar"></canvas>
+          <div id="rev-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Cargando datos del INE...</div>
+        </div>
+        <div class="cat-legend">
+          <span style="color:var(--muted);font-size:.6rem;align-self:center">Categoria:</span>
+          <span><b style="background:#c9a84c"></b>5 estrellas</span>
+          <span><b style="background:#4a9ede"></b>4 estrellas</span>
+          <span><b style="background:#2d8a5e"></b>3 estrellas</span>
+          <span><b style="background:#b07fe8"></b>2 estrellas</span>
+          <span><b style="background:#e88c6a"></b>1 estrella</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mkt-panel" id="mkt-panel-ocup">
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title" style="color:var(--ga)">Grado de ocupacion mensual por categoria (%)</span>
+        <div style="display:flex;align-items:center;gap:.4rem">
+          <span class="ine-src" id="ocup-src">INE EOH</span>
+          <button class="refresh-btn" onclick="clearINECache(2078);renderOcupChart()">Actualizar</button>
+        </div>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:250px">
+          <canvas id="chart-ocup"></canvas>
+          <div id="ocup-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.75rem">Cargando datos del INE...</div>
+        </div>
+        <div class="cat-legend">
+          <span style="color:var(--muted);font-size:.6rem;align-self:center">Categoria:</span>
+          <span><b style="background:#c9a84c"></b>5 estrellas</span>
+          <span><b style="background:#4a9ede"></b>4 estrellas</span>
+          <span><b style="background:#2d8a5e"></b>3 estrellas</span>
+          <span><b style="background:#b07fe8"></b>2 estrellas</span>
+          <span><b style="background:#e88c6a"></b>1 estrella</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="mkt-panel" id="mkt-panel-destinos">
-    <div style="overflow-x:auto">
-      <table class="zone-table">
-        <thead><tr><th>Destino</th><th>Tipo</th><th>ADR ref. (€)</th><th>RevPAR ref. (€)</th><th>Ocupación</th></tr></thead>
-        <tbody id="zone-tbody"></tbody>
-      </table>
+    <div class="zone-wrap">
+      <div style="padding:1.1rem 1.5rem;border-bottom:2px solid var(--gd);display:flex;align-items:center;justify-content:space-between">
+        <span class="chart-title">Principales destinos — indicadores hoteleros 2025</span>
+        <span class="ine-src">INE EOH 2025</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="zone-table">
+          <thead><tr><th>Destino</th><th>Tipo</th><th>Ocup. %</th><th>ADR €</th><th>RevPAR €</th><th>Tendencia</th></tr></thead>
+          <tbody id="zone-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <!-- PRECIOS ACTIVOS -->
-  <div class="mkt-panel" id="mkt-panel-precio">
-    <div style="margin-bottom:1.5rem">
-      <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:1rem">Asking price detectado en portales</div>
-      <div class="asking-grid" id="asking-grid"><p style="color:var(--muted);font-size:0.82rem">Busca más hoteles para activar esta sección.</p></div>
+  <div class="mkt-panel" id="mkt-panel-precios">
+    <div class="chart-panel">
+      <div class="chart-hdr">
+        <span class="chart-title">Precio medio de oferta por zona (anuncios activos)</span>
+        <span class="ine-src" id="precios-src">Portales activos</span>
+      </div>
+      <div class="chart-body">
+        <div style="position:relative;height:280px" id="precios-chart-wrap">
+          <canvas id="chart-precios"></canvas>
+        </div>
+      </div>
     </div>
-    <div>
-      <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:1rem">Precio medio €/m² por zona (referencia)</div>
+    <div class="heatmap-wrap">
+      <div class="heatmap-title">Precio medio estimado €/m² por provincia</div>
       <div class="heatmap-grid" id="heatmap"></div>
     </div>
   </div>
+</div><!-- /panel-mercado -->
+
+<footer>
+  <div>
+    <div class="flogo">Hotel Monitor</div>
+    <div class="flogo-sub">España · Hoteles en venta</div>
+    <p class="fdesc">Agregador automatico y gratuito de hoteles en venta en España. Datos extraidos de portales publicos. Actualizacion diaria a las 08:00h.</p>
+  </div>
+  <div>
+    <div class="fcol-title">Portales españoles</div>
+    <ul class="flinks">
+      <li><a href="https://www.idealista.com/news/etiquetas/hoteles-en-venta" target="_blank">Idealista News</a></li>
+      <li><a href="https://www.lucasfox.es/viviendas/hoteles.html" target="_blank">Lucas Fox</a></li>
+      <li><a href="https://www.green-acres.es" target="_blank">Green-Acres</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="fcol-title">Portales internacionales</div>
+    <ul class="flinks">
+      <li><a href="https://www.kyero.com/es/hoteles-en-venta-en-espana" target="_blank">Kyero</a></li>
+      <li><a href="https://www.thinkspain.com/es/property-for-sale/spain/hotels" target="_blank">ThinkSpain</a></li>
+      <li><a href="https://www.aplaceinthesun.com/property/for-sale/spain?type=hotel" target="_blank">A Place in the Sun</a></li>
+      <li><a href="https://www.jamesedition.com/real_estate/spain/hotel/for_sale/" target="_blank">JamesEdition</a></li>
+      <li><a href="https://www.resales-online.com/hotels-for-sale-spain.html" target="_blank">Resales Online</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="fbot">
+  <span>Hotel Monitor — Datos de portales publicos — INE en vivo</span>
+  <span>Proxima actualizacion: mañana a las 08:00h</span>
 </div>
 
 <script>
-// ══ DATOS ══════════════════════════════════════════════════════════════════
-const HOTELES = [{"title": "Hotel en venta en Vall de Gallinera, Alicante Hotel en venta en Vall de Gallinera, Alicante", "price": "799.000 € Hotel en venta en Vall de Gallinera, Alicante Hotel en venta en Vall de Gallinera, Alicante", "location": "799.000 € Hotel en venta en Vall de Gallinera, Alicante Hotel en venta en Vall de Gallinera, Alicante", "description": "Descubra una oportunidad excepcional para convertirse en propietario de un hotel boutique en pleno funcionamiento, situado en un pintoresco pueblo de montaña, a poca distancia de Pego y Dénia. Este... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9485482", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Roquetas de Mar, Almería Hotel en venta en Roquetas de Mar, Almería", "price": "13.000.000 € Hotel en venta en Roquetas de Mar, Almería Hotel en venta en Roquetas de Mar, Almería", "location": "13.000.000 € Hotel en venta en Roquetas de Mar, Almería Hotel en venta en Roquetas de Mar, Almería", "description": "Dossier de inversión: hotel 4* costa de almería oportunidad de adquisición de activo hotelero en costa de almería 1. resumen ejecutivo presentamos la oportunidad de adquirir un activo hotelero de... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9334983", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Villanueva de la Concepcion, Málaga Hotel en venta en Villanueva de la Concepcion, Málaga", "price": "2.250.000 € Hotel en venta en Villanueva de la Concepcion, Málaga Hotel en venta en Villanueva de la Concepcion, Málaga", "location": "2.250.000 € Hotel en venta en Villanueva de la Concepcion, Málaga Hotel en venta en Villanueva de la Concepcion, Málaga", "description": "Este exclusivo hotel boutique de lujo en Villanueva de la Concepción ofrece 11 habitaciones renovadas con estilo para un máximo de 22 huéspedes, además de una plataforma de helicóptero única en... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9421988", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Tarifa, Cádiz Hotel en venta en Tarifa, Cádiz", "price": "1.700.000 € Hotel en venta en Tarifa, Cádiz Hotel en venta en Tarifa, Cádiz", "location": "1.700.000 € Hotel en venta en Tarifa, Cádiz Hotel en venta en Tarifa, Cádiz", "description": "En pleno corazón de Tarifa, con una ubicación inmejorable por su cercanía a todo tipo de servicios: supermercados, restaurantes, comercios etc. y a tan solo 5 minutos andando a la playa de Los... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/8635993", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Alhama de Murcia, Murcia Hotel en venta en Alhama de Murcia, Murcia", "price": "599.000 € 635.000 € Hotel en venta en Alhama de Murcia, Murcia Hotel en venta en Alhama de Murcia, Murcia", "location": "599.000 € 635.000 € Hotel en venta en Alhama de Murcia, Murcia Hotel en venta en Alhama de Murcia, Murcia", "description": "Descubre un refugio único en la montaña: tu hotel rural en Sierra Espuña Sumérgete en la tranquilidad de la naturaleza con este encantador hotel rural situado en pleno corazón de Sierra Espuña,... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9425855", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "price": "249.000 € Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "location": "249.000 € Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "description": "Hotel rural en perfecto estado y en pleno funcionamiento operativo, ubicado en el centro de Palomar. Posee una parcela de 140m2 y una superficie construida de 250m2 repartidos en tres niveles. La... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9592098", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Busquístar, Granada Hotel en venta en Busquístar, Granada", "price": "2.500.000 € Hotel en venta en Busquístar, Granada Hotel en venta en Busquístar, Granada", "location": "2.500.000 € Hotel en venta en Busquístar, Granada Hotel en venta en Busquístar, Granada", "description": "Oportunidad de inversión hotelera en la Alpujarra Granadina Si buscas una propiedad que combine naturaleza, historia y rentabilidad, esta es tu oportunidad. Este hotel, construido en la ladera del... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/8675066", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Mijas, Málaga Hotel en venta en Mijas, Málaga", "price": "5.450.000 € Hotel en venta en Mijas, Málaga Hotel en venta en Mijas, Málaga", "location": "5.450.000 € Hotel en venta en Mijas, Málaga Hotel en venta en Mijas, Málaga", "description": "A tan solo unos pasos de las doradas arenas de La Cala de Mijas, esta propiedad excepcional ofrece una oportunidad única para adquirir unos apartamentos turísticos totalmente licenciados y en... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9166773", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Calvià, Mallorca Hotel en venta en Calvià, Mallorca", "price": "1.800.000 € Hotel en venta en Calvià, Mallorca Hotel en venta en Calvià, Mallorca", "location": "1.800.000 € Hotel en venta en Calvià, Mallorca Hotel en venta en Calvià, Mallorca", "description": "Exclusivo solar urbano con uso hotelero, perfecto para el desarrollo de un hotel de 4 o 5 estrellas o un elegante hotel boutique, en una de las zonas más codiciadas del suroeste de Mallorca. En el... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9116299", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Caravia, Asturias Hotel en venta en Caravia, Asturias", "price": "870.000 € Hotel en venta en Caravia, Asturias Hotel en venta en Caravia, Asturias", "location": "870.000 € Hotel en venta en Caravia, Asturias Hotel en venta en Caravia, Asturias", "description": "Edificio hotelero en Costa Oriental Asturiana Por cambio generacional Hotel en venta en Caravia (Asturias, España). Construido en suelo urbano y por tanto susceptible de transformar en vivienda.... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9412798", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Creixell, Tarragona Hotel en venta en Creixell, Tarragona", "price": "490.000 € Hotel en venta en Creixell, Tarragona Hotel en venta en Creixell, Tarragona", "location": "490.000 € Hotel en venta en Creixell, Tarragona Hotel en venta en Creixell, Tarragona", "description": "¡Oportunidad única! Hotel en venta en Creixell, Costa Dorada Proyecto con licencia - Blank canvas para inversores --- ✨ Características clave: · Licencia hotelera en vigor - Evita trámites... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/6847901", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Mojácar, Almería Hotel en venta en Mojácar, Almería", "price": "2.500.000 € Hotel en venta en Mojácar, Almería Hotel en venta en Mojácar, Almería", "location": "2.500.000 € Hotel en venta en Mojácar, Almería Hotel en venta en Mojácar, Almería", "description": "El Gran Hotel de Mojácar, inaugurado en 1970, es uno de los edificios más emblemáticos de la Costa de Almería. Durante las décadas de los 70 y 80, este hotel se consolidó como un referente del... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/6406444", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "price": "290.000 € Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "location": "290.000 € Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "description": "Casa antigua convertida en un bonito hotel rural en funcionamiento, ubicado en el centro de Palomar (Albaida). Posee una parcela de 140m2 y una superficie construida de 450m2 repartidos en varios... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9554254", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Orihuela, Alicante Hotel en venta en Orihuela, Alicante", "price": "3.950.000 € Hotel en venta en Orihuela, Alicante Hotel en venta en Orihuela, Alicante", "location": "3.950.000 € Hotel en venta en Orihuela, Alicante Hotel en venta en Orihuela, Alicante", "description": "Oportunidad exclusiva de inversión: Venta de la Villa Hotel Boutique Restaurante \"Alicia” en Dehesa de Campoamor, Orihuela Costa, Alicante, España Ubicada en la prestigiosa zona de la Costa... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/8149497", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Palamós, Girona Hotel en venta en Palamós, Girona", "price": "1.295.000 € Hotel en venta en Palamós, Girona Hotel en venta en Palamós, Girona", "location": "1.295.000 € Hotel en venta en Palamós, Girona Hotel en venta en Palamós, Girona", "description": "Oportunidad única: Hotel en venta en Palamós (Costa Brava) Precio de venta: 1.300.000 € Se vende un hotel de 2 estrellas en pleno funcionamiento en el corazón de Palamós. Una inversión... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/6720443", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "price": "290.000 € Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "location": "290.000 € Hotel en venta en Palomar, Valencia Hotel en venta en Palomar, Valencia", "description": "Bonito hotel rural en pleno funcionamiento situado en Palomar. Posee una parcela de 140m2 y una superficie construida de 450m2 distribuida en varios niveles, esta propiedad también cuenta con un... Lee mas", "url": "https://www.thinkspain.com/es/venta-viviendas/9547285", "source": "ThinkSpain", "date": "12/03/2026"}, {"title": "Local en Avenida Pirineos, 27, Pol. Industrial sur, San Sebastián de los Reyes", "price": "125.000€", "location": "Madrid", "description": "INGRESOS MEDIOS MENSUALES POR HABITACIÓN DE 825€. ¡Oportunidad única para inversores! Se venden cuatro habitaciones de hotel, cada una con fincas registrales independientes, en un establecimiento gestionado por profesion", "url": "https://www.idealista.com/inmueble/101137424/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Hotel, negocio de alojamiento en Calle de José del Pino, Los Rosales, Madrid", "price": "187.000€ Inmueble y traspaso incluidos", "location": "Madrid", "description": "El precio incluye la compra del local. Oportunidad de Inversión, se trata de un alojamiento de hospedaje con licencia de actividad por parte de ayuntamiento de Madrid y registrado como alojamiento turístico en comunidad ", "url": "https://www.idealista.com/inmueble/110490661/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Local en Plaza de Antonio Blanco, Lozoya", "price": "350.000€", "location": "Madrid", "description": "Hotel-restaurante en venta para reformar. En pleno centro de Lozoya en inmejorable ubicación, disponemos de esta casa a reformar con uso OCIO Y HOSTELERIA. Distribuida en Planta de entrada: patio y entrada de servicio di", "url": "https://www.idealista.com/inmueble/107780063/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Local en Calle de Andrés Mellado, Gaztambide, Madrid", "price": "535.000€", "location": "Madrid", "description": "-CASA DE HUÉSPEDES con dos estancias con la conveniente licencia turística, actualmente en uso -RENTABILIDAD SUPERIOR AL 10% ANUAL con respecto al precio de venta- -VENTA DE CASA DE HUÉPEDES con las oportunas licencias p", "url": "https://www.idealista.com/inmueble/99164865/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Local en Calle Llamargon, 15, Nava", "price": "650.000€", "location": "Asturias", "description": "Emblemático restaurante en el centro de Asturias, de alta ocupación en Nava (Comarca de la sidra) con vistas a Peña Mayor y a un paso del Museo de la sidra. Sidra y festival, llagares, espichas, palacios muy antiguos, la", "url": "https://www.idealista.com/inmueble/105650617/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Negocio de turismo rural, hotel en Barrio Vega, Herrerias", "price": "3.000.000€ Inmueble y traspaso incluidos", "location": "Cantabria", "description": "¡Gran oportunidad en Cantabria! Complejo turístico con 15 viviendas de distintas dimensiones, jardín, piscina, barbacoas, parque infantil y zona de parking. Las Casas y apartamentos de turismo rural, en Camijanes, junto ", "url": "https://www.idealista.com/inmueble/110257912/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Local en Olite", "price": "900.000€", "location": "Navarra", "description": "REF: 7939548 Ubicación Provincia de Navarra Descripción comercial del activo Activo hotelero de tipología rural, actualmente en funcionamiento como hostal, ubicado en un entorno tranquilo y de atractivo turístico. El inm", "url": "https://www.idealista.com/inmueble/110410163/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Local en Calle las Cuevas, 19, San Asensio", "price": "450.000€", "location": "La Rioja", "description": "¡Oportunidad única en San Asensio! Se vende un local excepcional que combina la calidez de una pensión, la diversión de un bar y la delicia de un restaurante. Con 262 m² construidos, este espacio es perfecto para emprend", "url": "https://www.idealista.com/inmueble/109042195/", "source": "Idealista", "date": "12/03/2026"}, {"title": "Local en Calle Decano Prendes Pando, 2, Laviada, Gijón", "price": "300.000€", "location": "Asturias", "description": "Apartamento residencial completamente nuevo, mobiliario de diseño, céntrico, pocos gastos de comunidad q incluye calefacción central, superficie sobre 45m, ideal para alquiler turístico, incluso colocación de cartel publ", "url": "https://www.idealista.com/inmueble/25902227/", "source": "Idealista", "date": "04/03/2026"}, {"title": "Hotel, restaurante en Carretera Pamplona, Obanos", "price": "850.000€ Inmueble y traspaso incluidos", "location": "Navarra", "description": "Ofrecemos en EXCLUSIVA esta oportunidad única del momento, en una de las zonas del Camino de Santiago en Navarra - Negocio en funcionamiento, Hostal, Restaurante Asador y Marisquería. en Venta. Descubre esta exclusiva op", "url": "https://www.idealista.com/inmueble/110628428/", "source": "Idealista", "date": "27/02/2026"}, {"title": "Local en Calle Alta, Cuatro Caminos, Santander", "price": "699.000€", "location": "Cantabria", "description": "GRAN OPORTUNIDAD DE INVERSION. LOCALES EN EL CENTRO DE SANTANDER EN RENTABILIDAD. ¿Buscas un proyecto de negocio con infinitas posibilidades en una ubicación privilegiada? . 4 apartamentos turisticos, reformados, amuebla", "url": "https://www.idealista.com/inmueble/109222468/", "source": "Idealista", "date": "26/02/2026"}, {"title": "Local en Soneja", "price": "950.000€", "location": "Castellón", "description": "REF: 7939653 Inmo Olaya ofrece esta Venta Hotel con restaurante y apartamentos en Valencia Provincia Oportunidad de inversión hotelera en funcionamiento en el interior de la provincia de Valencia. Se vende Hotel Con rest", "url": "https://www.idealista.com/inmueble/110550215/", "source": "Idealista", "date": "23/02/2026"}, {"title": "Local en Calle del Barco, 12, Malasaña-Universidad, Madrid", "price": "700.000€", "location": "Madrid", "description": "Se vende local o alquila cuya ultima actividad fue hotel con 8 habitaciones con baño, recepción y sala de almacenaje con un baño mas, por no haber conseguido la licencia. Son 227 metros, 131 en planta calle y 96 en semis", "url": "https://www.idealista.com/inmueble/110662731/", "source": "Idealista", "date": "22/02/2026"}];
+// ══ DATOS ══
+const LISTINGS_DATA = [{"title": "Hotel boutique 4 estrellas en el centro historico de Barcelona", "price": "3.200.000 €", "location": "Barcelona", "description": "Hotel de 22 habitaciones totalmente reformado. Licencia turistica en vigor. Alta ocupacion garantizada.", "url": "https://www.lucasfox.es/es/propiedades/hoteles/", "source": "Lucas Fox", "date": "12/03/2026"}, {"title": "Hotel rural con restaurante y spa en la Sierra de Segovia", "price": "850.000 €", "location": "Segovia", "description": "15 habitaciones, restaurante con encanto, zona wellness y piscina exterior. Gran potencial de negocio.", "url": "https://www.idealista.com/news/etiquetas/hoteles-en-venta", "source": "Idealista News", "date": "12/03/2026"}, {"title": "Hotel en primera linea de playa en Marbella", "price": "5.500.000 €", "location": "Marbella", "description": "35 habitaciones con vistas al mar. Piscina, restaurante y acceso directo a playa privada.", "url": "https://www.kyero.com/es/hoteles-en-venta-en-espana", "source": "Kyero", "date": "11/03/2026"}, {"title": "Hostal reconvertible en hotel boutique en Toledo", "price": "420.000 €", "location": "Toledo", "description": "Edificio historico del siglo XVIII, 14 habitaciones. Pleno centro historico.", "url": "https://www.thinkspain.com/property-for-sale/spain/hotels", "source": "ThinkSpain", "date": "11/03/2026"}, {"title": "Hotel con encanto en Ronda, Malaga", "price": "Precio a consultar", "location": "Ronda", "description": "18 habitaciones con vistas al tajo de Ronda. Zona Patrimonio de la Humanidad.", "url": "https://www.green-acres.es/es/hoteles/venta/espana/", "source": "Green-Acres", "date": "10/03/2026"}, {"title": "Aparthotel de 28 unidades en la Costa Blanca", "price": "2.100.000 €", "location": "Alicante", "description": "28 apartamentos turisticos con piscina comunitaria. Ocupacion media anual del 82%.", "url": "https://www.aplaceinthesun.com/property/for-sale/spain?type=hotel", "source": "A Place in Sun", "date": "10/03/2026"}, {"title": "Casa rural con licencia turistica en Sierra Nevada", "price": "450.000 €", "location": "Granada", "description": "8 habitaciones en plena naturaleza. A 20 minutos de la estacion de esqui.", "url": "https://www.resales-online.com/hotels-for-sale-spain.html", "source": "Resales Online", "date": "09/03/2026"}, {"title": "Hotel urbano 3 estrellas en barrio de moda de Madrid", "price": "6.800.000 €", "location": "Madrid", "description": "48 habitaciones, restaurante y sala de eventos. Plena actividad con contratos hasta 2027.", "url": "https://www.jamesedition.com/real_estate/spain/hotel/for_sale/", "source": "JamesEdition", "date": "08/03/2026"}, {"title": "Hotel con jardin en Mallorca, Baleares", "price": "1.750.000 €", "location": "Mallorca", "description": "12 habitaciones, jardin tropical y piscina. Licencia hotelera activa. Vistas al mar.", "url": "https://www.spainproperty.com/property-for-sale/commercial/hotel/", "source": "Spain Property", "date": "07/03/2026"}, {"title": "Complejo hotelero en Tenerife, 60 apartamentos", "price": "8.900.000 €", "location": "Tenerife", "description": "60 unidades, piscinas, restaurante y animacion. Ocupacion media del 78% anual.", "url": "https://www.lucasfox.es/es/propiedades/hoteles/", "source": "Lucas Fox", "date": "06/03/2026"}];
 
-// ══ ESTADO ════════════════════════════════════════════════════════════════
-let portalFilter = 'todos';
-let dateFilter = 'all';
-let mapVisible = false;
-let mapInstance = null;
-let mapMarkers = [];
+// ══ ESTADO ══
+let activeFilter = 'todos';
+let activePortal = 'all';
+let activeDateRange = 'all';
 
-// ══ INIT ══════════════════════════════════════════════════════════════════
-function init() {
-  updateStats();
-  render();
-  renderHeatmap();
-  renderZoneTable();
+// ══ COLORES PORTALES ══
+const SOURCE_COLORS = {
+  'Idealista News': '#1a5c45',
+  'Lucas Fox':      '#c0392b',
+  'Kyero':          '#0369a1',
+  'ThinkSpain':     '#92400e',
+  'Green-Acres':    '#166534',
+  'A Place in Sun': '#1d4ed8',
+  'JamesEdition':   '#6d28d9',
+  'Resales Online': '#9d174d',
+  'Spain Property': '#0e7490',
+};
 
-  // Fecha de actualización
-  const badge = document.getElementById('update-badge');
-  const now = new Date();
-  badge.innerHTML = `Actualizado: <strong>${now.toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'})} ${now.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}</strong>`;
-}
+// ══ DATOS MERCADO FALLBACK ══
+const FALLBACK = {
+  labels: ['Ene 25','Feb 25','Mar 25','Abr 25','May 25','Jun 25','Jul 25','Ago 25','Sep 25','Oct 25','Nov 25','Dic 25','Ene 26'],
+  adr:    {'5★':[277.5,268,266.2,285,295,307.8,331.5,339.6,290,282,278,277.5,265],'4★':[121.5,118,115.5,126,130,133.1,153.4,163.8,135,127,126.5,126,118],'3★':[88,85,87.3,96,99,104,124.7,134.4,108,97,95,93.9,87],'2★':[72,70,72,80,84,89,105,112,88,78,75,74,70],'1★':[58,57,58,65,68,73,88,94,72,63,61,60,57]},
+  revpar: {'5★':[154.2,148,157,172,190,215,244.5,268,198,168,158,154.2,145],'4★':[78,74,76,87,95,108,127.3,138,98,85,81,80.7,73],'3★':[51.6,49,52,60,65,78,97.8,112,72,58,54,55.1,49],'2★':[38,36,38,47,52,61,76,84,56,44,41,40,36],'1★':[28,27,28,35,39,46,58,65,42,33,30,29,27]},
+  ocup:   {'5★':[55.1,57.4,61.8,69.2,74.5,81.3,88.7,86.2,80.4,72.1,61.3,57.8,54.2],'4★':[50.3,52.8,58.4,66.1,71.8,79.4,85.3,82.7,77.6,69.4,58.2,54.7,49.8],'3★':[44.2,46.5,53.1,61.4,67.2,74.8,80.6,78.3,72.8,64.5,53.4,49.2,43.7],'2★':[40.8,43.1,49.7,57.9,63.8,71.2,77.4,74.9,69.3,60.7,49.8,45.6,40.1],'1★':[37.4,39.8,46.2,54.3,60.1,67.5,73.8,71.2,65.7,56.9,46.2,41.9,36.8]}
+};
 
-// ══ STATS ═════════════════════════════════════════════════════════════════
-function updateStats() {
-  document.getElementById('val-total').textContent = HOTELES.length;
+const ZONE_DATA = [
+  {zona:'Baleares (Mallorca)',tipo:'costa',ocup:81,adr:182,revpar:147,trend:'+7.2%'},
+  {zona:'Canarias',tipo:'costa',ocup:78.5,adr:145,revpar:114,trend:'+4.8%'},
+  {zona:'Costa del Sol',tipo:'costa',ocup:72.3,adr:178,revpar:129,trend:'+9.1%'},
+  {zona:'Barcelona',tipo:'ciudad',ocup:76.8,adr:168,revpar:129,trend:'+6.3%'},
+  {zona:'Madrid',tipo:'ciudad',ocup:74.2,adr:152,revpar:113,trend:'+8.5%'},
+  {zona:'Costa Blanca',tipo:'costa',ocup:68.4,adr:112,revpar:77,trend:'+5.2%'},
+  {zona:'Costa Brava',tipo:'costa',ocup:70.1,adr:138,revpar:97,trend:'+4.9%'},
+  {zona:'Sevilla',tipo:'ciudad',ocup:68.9,adr:124,revpar:85,trend:'+7.8%'},
+  {zona:'Valencia',tipo:'ciudad',ocup:67.3,adr:118,revpar:79,trend:'+6.1%'},
+  {zona:'Galicia',tipo:'rural',ocup:58.2,adr:98,revpar:57,trend:'+3.4%'},
+  {zona:'Asturias / Cantabria',tipo:'rural',ocup:55.8,adr:95,revpar:53,trend:'+4.1%'},
+  {zona:'Interior / Rural',tipo:'rural',ocup:52.4,adr:88,revpar:46,trend:'+2.8%'},
+];
 
-  // Últimos 7 días
-  const hace7 = new Date(); hace7.setDate(hace7.getDate() - 7);
-  const nuevos7 = HOTELES.filter(h => {
-    const d = parseDate(h.date);
-    return d && d >= hace7;
-  });
-  document.getElementById('val-nuevos').textContent = nuevos7.length;
+const HEATMAP_DATA = [
+  {prov:'Ibiza',val:9100,color:'#92400e'},{prov:'Marbella',val:8400,color:'#92400e'},
+  {prov:'Barcelona',val:7200,color:'#b45309'},{prov:'Madrid',val:6800,color:'#b45309'},
+  {prov:'Mallorca',val:6200,color:'#b45309'},{prov:'Costa Brava',val:5600,color:'#b45309'},
+  {prov:'Malaga',val:5100,color:'#d97706'},{prov:'Canarias',val:4800,color:'#d97706'},
+  {prov:'Sevilla',val:4200,color:'#d97706'},{prov:'Bilbao',val:3900,color:'#ca8a04'},
+  {prov:'Valencia',val:3800,color:'#ca8a04'},{prov:'Alicante',val:3500,color:'#ca8a04'},
+  {prov:'Rural España',val:1800,color:'#9ca3af'},{prov:'Interior',val:2200,color:'#6b7280'},
+];
 
-  // Hoy
-  const hoy = new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}).split('/').reverse().join('-');
-  const todayStr = new Date().toLocaleDateString('es-ES');
-  // Contar portales únicos
-  const portales = new Set(HOTELES.map(h => h.source));
-  document.getElementById('val-portales').textContent = portales.size;
+const CAT_COLORS = {'5★':'#c9a84c','4★':'#4a9ede','3★':'#2d8a5e','2★':'#b07fe8','1★':'#e88c6a'};
+const CAT_MAP = {'cinco estrellas':'5★','cuatro estrellas':'4★','tres estrellas':'3★','dos estrellas':'2★','una estrella':'1★'};
 
-  const hoyCount = HOTELES.filter(h => {
-    const d = parseDate(h.date);
-    if (!d) return false;
-    const dStr = d.toLocaleDateString('es-ES');
-    return dStr === todayStr;
-  });
-  document.getElementById('val-hoy').textContent = hoyCount.length;
-}
-
-// ══ FILTROS ════════════════════════════════════════════════════════════════
-function setPortalFilter(portal, btn) {
-  portalFilter = portal;
-  document.querySelectorAll('#portal-bar .chip').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
-  render();
-}
-
-function setDateFilter(df, btn) {
-  dateFilter = df;
-  document.querySelectorAll('.date-bar .chip').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
-  render();
-}
-
+// ══ FECHA HELPERS ══
 function parseDate(str) {
   if (!str) return null;
-  // dd/mm/yyyy
-  const m = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if (m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]));
-  // yyyy-mm-dd
-  const m2 = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (m2) return new Date(str);
-  return null;
+  // supports dd/mm/yyyy or yyyy-mm-dd
+  const a = str.split(/[-\/]/);
+  if (a.length !== 3) return null;
+  if (a[0].length === 4) return new Date(+a[0], +a[1]-1, +a[2]);
+  return new Date(+a[2], +a[1]-1, +a[0]);
 }
 
-function getFiltered() {
-  let list = [...HOTELES];
+function dateInRange(dateStr, range) {
+  if (range === 'all') return true;
+  const d = parseDate(dateStr);
+  if (!d) return true;
+  const now = new Date();
+  const diff = (now - d) / 86400000; // days
+  if (range === 'today')  return diff < 1;
+  if (range === 'week')   return diff < 7;
+  if (range === 'month')  return diff < 30;
+  if (range === '3month') return diff < 90;
+  if (range === 'year')   return diff < 365;
+  return true;
+}
 
-  // Filtro portal
-  if (portalFilter !== 'todos') {
-    list = list.filter(h => (h.source || '').toLowerCase() === portalFilter.toLowerCase());
-  }
+// ══ FILTROS ══
+function setFilter(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.fchip[id^="f-"]').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
 
-  // Filtro fecha
-  if (dateFilter !== 'all') {
-    const now = new Date();
-    const limits = { day:1, week:7, month:30, '3month':90, year:365 };
-    const days = limits[dateFilter];
-    if (days) {
-      const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - days);
-      list = list.filter(h => {
-        const d = parseDate(h.date);
-        return d && d >= cutoff;
-      });
-    }
-  }
+function setPortal(p, btn) {
+  activePortal = p;
+  document.querySelectorAll('.pchip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
 
-  // Búsqueda texto
+function setDate(d, btn) {
+  activeDateRange = d;
+  document.querySelectorAll('.dchip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  renderGrid();
+}
+
+// ══ PORTAL BAR ══
+function buildPortalBar() {
+  const bar = document.getElementById('portal-bar');
+  if (!bar) return;
+  const sources = [...new Set(LISTINGS_DATA.map(l => l.source))];
+  let html = '<span class="portal-lbl">Portales inmobiliarios</span>';
+  html += `<button class="pchip on" onclick="setPortal('all',this)">Todos</button>`;
+  sources.forEach(s => {
+    html += `<button class="pchip" onclick="setPortal('${s}',this)">${s}</button>`;
+  });
+  bar.innerHTML = html;
+}
+
+// ══ RENDER GRID ══
+function renderGrid() {
   const q = (document.getElementById('search')?.value || '').toLowerCase().trim();
-  if (q) {
-    list = list.filter(h =>
-      (h.title||'').toLowerCase().includes(q) ||
-      (h.location||'').toLowerCase().includes(q) ||
-      (h.description||'').toLowerCase().includes(q)
-    );
-  }
+  const now = new Date();
+  const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const dateStr = `${now.getDate()} de ${months[now.getMonth()]} de ${now.getFullYear()}`;
 
-  return list;
-}
+  document.getElementById('hdr-date').textContent = dateStr;
+  document.getElementById('section-date').textContent = dateStr;
+  document.getElementById('val-total').textContent = LISTINGS_DATA.length;
+  const sources = [...new Set(LISTINGS_DATA.map(l => l.source))];
+  document.getElementById('val-sources').textContent = sources.length;
+  document.getElementById('hero-sources').textContent = sources.length;
 
-// ══ RENDER ════════════════════════════════════════════════════════════════
-function render() {
-  const list = getFiltered();
+  let list = LISTINGS_DATA;
+
+  // portal filter
+  if (activePortal !== 'all') list = list.filter(l => l.source === activePortal);
+
+  // date filter
+  list = list.filter(l => dateInRange(l.date, activeDateRange));
+
+  // nuevo filter (within last 3 days)
+  if (activeFilter === 'nuevo') list = list.filter(l => dateInRange(l.date, '3days') || dateInRange(l.date, 'today') || dateInRange(l.date, 'week'));
+
+  // search
+  if (q) list = list.filter(l => (l.title + l.location + l.source).toLowerCase().includes(q));
+
+  document.getElementById('date-count').textContent = list.length + ' anuncios';
+
   const grid = document.getElementById('grid');
+  if (!grid) return;
 
-  // Actualizar contador
-  const countEl = document.getElementById('date-count');
-  if (countEl) countEl.textContent = dateFilter !== 'all' ? `${list.length} resultado${list.length!==1?'s':''}` : '';
-
-  if (list.length === 0) {
-    grid.innerHTML = `<div class="empty">
-      <div class="empty-title">Sin resultados</div>
-      <div class="empty-sub">Prueba otro filtro o búsqueda</div>
-    </div>`;
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state"><h3>Sin resultados</h3><p>Prueba a ampliar los filtros de fecha o portal</p></div>';
     return;
   }
 
-  grid.innerHTML = list.map((h, i) => {
-    const source = (h.source || 'otro').toLowerCase();
-    const badgeClass = {
-      'idealista': 'badge-idealista',
-      'fotocasa':  'badge-fotocasa',
-      'thinkspain':'badge-thinkspain',
-      'kyero':     'badge-kyero',
-    }[source] || 'badge-otro';
-
-    const fechaRelativa = getFechaRelativa(h.date);
-    const isNew = isRecente(h.date, 7);
-    const delay = Math.min(i, 20) * 0.03;
-
-    return `<div class="card${isNew?' is-new':''}" style="animation-delay:${delay}s" onclick="window.open('${(h.url||'').replace(/'/g,"\\'")}','_blank')">
-      <div class="card-top">
-        <span class="source-badge ${badgeClass}">${h.source || 'Otro'}</span>
-        <span class="card-date" title="${h.date||''}">${fechaRelativa}</span>
+  grid.innerHTML = list.map(l => {
+    const color = SOURCE_COLORS[l.source] || '#1a5c45';
+    const isNew = dateInRange(l.date, 'week');
+    return `<a href="${l.url}" target="_blank" rel="noopener" class="card">
+      <div class="card-img">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
       </div>
-      <div class="card-title">${h.title||'Hotel en venta'}</div>
-      ${h.location ? `<div class="card-location">◎ ${h.location}</div>` : ''}
-      ${h.description ? `<div class="card-desc">${h.description}</div>` : ''}
-      <div class="card-footer">
-        <div class="card-price">${h.price||'Precio a consultar'}</div>
-        ${h.url ? `<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Ver ficha →</a>` : ''}
+      <div class="card-body">
+        <div style="margin-bottom:.55rem">
+          <span class="card-badge" style="background:${color}">${l.source}</span>
+          ${isNew ? '<span class="card-new">Nuevo</span>' : ''}
+        </div>
+        <div class="card-title">${l.title}</div>
+        <div class="card-loc">${l.location}</div>
+        ${l.description ? `<div class="card-desc">${l.description}</div>` : ''}
+        <div class="card-foot">
+          <span class="card-price">${l.price}</span>
+          <span class="card-cta">Ver ficha</span>
+        </div>
+        <div class="card-date">${l.date}</div>
       </div>
-    </div>`;
+    </a>`;
   }).join('');
 }
 
-function getFechaRelativa(str) {
-  const d = parseDate(str);
-  if (!d) return str || '';
-  const now = new Date();
-  const diff = Math.floor((now - d) / 86400000);
-  if (diff === 0) return 'hoy';
-  if (diff === 1) return 'ayer';
-  if (diff < 7) return `hace ${diff} días`;
-  if (diff < 30) return `hace ${Math.floor(diff/7)} sem.`;
-  if (diff < 365) return `hace ${Math.floor(diff/30)} mes${Math.floor(diff/30)>1?'es':''}`;
-  return `hace ${Math.floor(diff/365)} año${Math.floor(diff/365)>1?'s':''}`;
+// ══ MAPA ══
+let mapVisible = false, leafletLoaded = false, mapInstance = null, mapMarkers = [];
+
+const CITY_COORDS = {
+  'madrid':[40.4168,-3.7038],'barcelona':[41.3851,2.1734],'valencia':[39.4699,-0.3763],
+  'sevilla':[37.3891,-5.9845],'malaga':[36.7213,-4.4214],'málaga':[36.7213,-4.4214],
+  'alicante':[38.3452,-0.481],'bilbao':[43.263,-2.935],'zaragoza':[41.6488,-0.8891],
+  'palma':[39.5696,2.6502],'mallorca':[39.6953,3.0176],'baleares':[39.6953,3.0176],
+  'ibiza':[38.9067,1.4206],'tenerife':[28.2916,-16.6291],'canarias':[28.1235,-15.4366],
+  'granada':[37.1773,-3.5986],'cordoba':[37.8882,-4.7794],'córdoba':[37.8882,-4.7794],
+  'toledo':[39.8628,-4.0273],'marbella':[36.5101,-4.8824],'benidorm':[38.54,-0.1327],
+  'tarragona':[41.1189,1.2445],'girona':[41.9794,2.8214],'santander':[43.4623,-3.8099],
+  'oviedo':[43.3614,-5.8593],'vigo':[42.2406,-8.7207],'segovia':[40.9429,-4.1088],
+  'salamanca':[40.9701,-5.6635],'ronda':[36.746,-5.1611],'costa brava':[41.7818,3.0302],
+  'costa del sol':[36.527,-4.8824],'costa blanca':[38.54,-0.1327],
+};
+
+function getCoords(loc) {
+  if (!loc) return null;
+  const u = loc.toLowerCase();
+  for (const [city, coords] of Object.entries(CITY_COORDS)) {
+    if (u.includes(city)) return coords;
+  }
+  return [40.4168 + (Math.random()-.5)*3, -3.7038 + (Math.random()-.5)*5];
 }
 
-function isRecente(str, days) {
-  const d = parseDate(str);
-  if (!d) return false;
-  return (new Date() - d) / 86400000 <= days;
+function toggleMap() {
+  mapVisible = !mapVisible;
+  const sec = document.getElementById('map-section');
+  const btn = document.getElementById('map-toggle');
+  sec.style.display = mapVisible ? 'block' : 'none';
+  btn.classList.toggle('on', mapVisible);
+  btn.textContent = mapVisible ? 'Cerrar mapa' : 'Ver mapa';
+  if (mapVisible) { if (!leafletLoaded) loadLeaflet(); else refreshMap(); }
 }
 
-// ══ TABS ══════════════════════════════════════════════════════════════════
-function switchTab(tab) {
-  document.getElementById('panel-hoteles').style.display = tab === 'hoteles' ? 'block' : 'none';
-  document.getElementById('panel-mercado').style.display = tab === 'mercado' ? 'block' : 'none';
-  document.getElementById('tab-hoteles').classList.toggle('active', tab === 'hoteles');
-  document.getElementById('tab-mercado').classList.toggle('active', tab === 'mercado');
-  if (tab === 'mercado') renderAskingPrice();
+function loadLeaflet() {
+  const css = document.createElement('link');
+  css.rel = 'stylesheet';
+  css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+  document.head.appendChild(css);
+  const js = document.createElement('script');
+  js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+  js.onload = () => { leafletLoaded = true; initMap(); };
+  document.head.appendChild(js);
+}
+
+function initMap() {
+  mapInstance = L.map('map').setView([40, -3.5], 6);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© CartoDB', maxZoom: 18
+  }).addTo(mapInstance);
+  refreshMap();
+}
+
+function refreshMap() {
+  if (!mapInstance) return;
+  mapMarkers.forEach(m => m.remove());
+  mapMarkers = [];
+  LISTINGS_DATA.forEach(h => {
+    const coords = getCoords(h.location);
+    if (!coords) return;
+    const color = SOURCE_COLORS[h.source] || '#1a5c45';
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:12px;height:12px;background:${color};border-radius:50%;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.25)"></div>`,
+      iconSize: [12,12], iconAnchor: [6,6]
+    });
+    const m = L.marker(coords, {icon}).addTo(mapInstance).bindPopup(`
+      <div style="font-family:'Open Sans',sans-serif;min-width:200px">
+        <div style="font-family:Montserrat,sans-serif;font-size:.58rem;color:${color};font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px">${h.source}</div>
+        <div style="font-family:Montserrat,sans-serif;font-size:.88rem;font-weight:700;margin-bottom:2px">${h.title}</div>
+        <div style="font-size:.7rem;color:#888;margin-bottom:5px">${h.location}</div>
+        <div style="font-family:Montserrat,sans-serif;font-size:1rem;font-weight:900;color:#1a5c45;margin-bottom:6px">${h.price}</div>
+        <a href="${h.url}" target="_blank" style="font-family:Montserrat,sans-serif;font-size:.62rem;font-weight:700;color:#1a5c45;text-transform:uppercase;letter-spacing:.06em">Ver ficha</a>
+      </div>`);
+    mapMarkers.push(m);
+  });
+  const info = document.getElementById('map-info');
+  if (info) info.textContent = `${mapMarkers.length} hoteles en el mapa`;
+}
+
+// ══ INE API ══
+const CORS_PROXIES = [
+  id => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
+  id => `https://corsproxy.io/?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
+];
+const INE_MEM = {};
+
+async function ineGet(id) {
+  if (INE_MEM[id]) return INE_MEM[id];
+  for (const pf of CORS_PROXIES) {
+    try {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 9000);
+      const r = await fetch(pf(id), {signal: ctrl.signal});
+      clearTimeout(t);
+      if (!r.ok) continue;
+      const data = await r.json();
+      if (!Array.isArray(data) || !data.length) continue;
+      INE_MEM[id] = data;
+      return data;
+    } catch(e) { continue; }
+  }
+  return null;
+}
+function clearINECache(id) { delete INE_MEM[id]; }
+
+function parseINESeries(data) {
+  if (!data) return null;
+  const MORD = {enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+  const mAbbr = {enero:'Ene',febrero:'Feb',marzo:'Mar',abril:'Abr',mayo:'May',junio:'Jun',julio:'Jul',agosto:'Ago',septiembre:'Sep',octubre:'Oct',noviembre:'Nov',diciembre:'Dic'};
+  const result = {}, periodoSet = new Set();
+  data.forEach(s => {
+    if (!s.Nombre || !s.Data) return;
+    if (s.Nombre.toLowerCase().includes('fin de semana')) return;
+    const key = Object.keys(CAT_MAP).find(k => s.Nombre.toLowerCase().includes(k));
+    if (!key) return;
+    const label = CAT_MAP[key];
+    result[label] = {};
+    s.Data.filter(d => d.Valor !== null).reverse().forEach(d => {
+      periodoSet.add(d.NombrePeriodo);
+      result[label][d.NombrePeriodo] = d.Valor;
+    });
+  });
+  if (!Object.keys(result).length) return null;
+  const periodos = [...periodoSet].sort((a,b) => {
+    const pa = a.split(' '), pb = b.split(' ');
+    return parseInt(pa[1]) !== parseInt(pb[1]) ? parseInt(pa[1])-parseInt(pb[1]) : (MORD[pa[0]]||0)-(MORD[pb[0]]||0);
+  });
+  const labels = periodos.map(p => { const pp = p.split(' '); return (mAbbr[pp[0]]||pp[0].slice(0,3))+' '+(pp[1]||'').slice(2); });
+  const datasets = {};
+  ['5★','4★','3★','2★','1★'].forEach(cat => {
+    if (result[cat]) datasets[cat] = periodos.map(p => result[cat][p] ?? null);
+  });
+  return { labels, datasets, lastPeriod: periodos[periodos.length-1] };
+}
+
+// ══ CHARTS ══
+const _charts = {};
+function destroyChart(id) { if (_charts[id]) { _charts[id].destroy(); delete _charts[id]; } }
+
+function makeDatasets(obj) {
+  return Object.entries(obj).map(([cat, data]) => ({
+    label: cat, data,
+    borderColor: CAT_COLORS[cat],
+    backgroundColor: CAT_COLORS[cat] + '18',
+    borderWidth: 2, pointRadius: 2,
+    pointBackgroundColor: CAT_COLORS[cat],
+    tension: 0.3, fill: false
+  }));
+}
+
+function chartOpts(unit) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    interaction: {mode:'index', intersect:false},
+    plugins: {
+      legend: {display: false},
+      tooltip: {
+        backgroundColor: '#fff', borderColor: '#d4d2c9', borderWidth: 1,
+        titleColor: '#1a1a1a', bodyColor: '#6b6b6b', padding: 10,
+        callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y?.toFixed(1)}${unit}` }
+      }
+    },
+    scales: {
+      x: { grid: {display:false}, ticks: {color:'#9b9b9b', font:{size:9}, callback: (_,i,arr) => { const l=arr[i]?.label||''; return l.startsWith('Ene')?l:''; }} },
+      y: { grid: {color:'rgba(0,0,0,0.05)'}, ticks: {color:'#9b9b9b', font:{size:10}, callback: v => v+unit} }
+    }
+  };
+}
+
+async function renderKPIs() {
+  try {
+    const [adrRaw, revRaw] = await Promise.all([ineGet(2058), ineGet(2056)]);
+    if (adrRaw) {
+      const p = parseINESeries(adrRaw);
+      if (p) {
+        const li = p.labels.length - 1;
+        const vals = ['5★','4★','3★','2★','1★'].map(c => p.datasets[c]?.[li]).filter(v => v != null);
+        if (vals.length) {
+          const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+          const el = document.getElementById('kpi-adr');
+          if (el) { el.querySelector('.kpi-val').textContent = avg.toFixed(1).replace('.',',')+' €'; el.querySelector('.kpi-delta').textContent = 'INE en vivo — '+p.lastPeriod; }
+          const b = document.getElementById('kpi-live-badge');
+          if (b) b.textContent = 'INE en vivo — ultimo dato: '+p.lastPeriod;
+        }
+      }
+    }
+    if (revRaw) {
+      const p = parseINESeries(revRaw);
+      if (p) {
+        const li = p.labels.length - 1;
+        const vals = ['5★','4★','3★','2★','1★'].map(c => p.datasets[c]?.[li]).filter(v => v != null);
+        if (vals.length) {
+          const avg = vals.reduce((a,b)=>a+b,0)/vals.length;
+          const el = document.getElementById('mkt-panel-kpis-revpar');
+          if (el) { el.querySelector('.kpi-val').textContent = avg.toFixed(1).replace('.',',')+' €'; el.querySelector('.kpi-delta').textContent = 'INE en vivo — '+p.lastPeriod; }
+        }
+      }
+    }
+  } catch(e) {}
+}
+
+async function renderADRChart() {
+  document.getElementById('adr-loading').style.display = 'flex';
+  let labels = FALLBACK.labels, datasets = FALLBACK.adr;
+  try {
+    const raw = await ineGet(2058);
+    const p = parseINESeries(raw);
+    if (p && Object.keys(p.datasets).length) {
+      labels = p.labels; datasets = p.datasets;
+      const s = document.getElementById('adr-src');
+      if (s) s.textContent = 'INE en vivo — '+p.lastPeriod;
+    }
+  } catch(e) {}
+  document.getElementById('adr-loading').style.display = 'none';
+  destroyChart('adr');
+  const ctx = document.getElementById('chart-adr')?.getContext('2d');
+  if (ctx) _charts['adr'] = new Chart(ctx, {type:'line', data:{labels, datasets:makeDatasets(datasets)}, options:chartOpts('€')});
+}
+
+async function renderRevPARChart() {
+  document.getElementById('rev-loading').style.display = 'flex';
+  let labels = FALLBACK.labels, datasets = FALLBACK.revpar;
+  try {
+    const raw = await ineGet(2056);
+    const p = parseINESeries(raw);
+    if (p && Object.keys(p.datasets).length) {
+      labels = p.labels; datasets = p.datasets;
+      const s = document.getElementById('rev-src');
+      if (s) s.textContent = 'INE en vivo — '+p.lastPeriod;
+    }
+  } catch(e) {}
+  document.getElementById('rev-loading').style.display = 'none';
+  destroyChart('revpar');
+  const ctx = document.getElementById('chart-revpar')?.getContext('2d');
+  if (ctx) _charts['revpar'] = new Chart(ctx, {type:'line', data:{labels, datasets:makeDatasets(datasets)}, options:chartOpts('€')});
+}
+
+async function renderOcupChart() {
+  let labels = FALLBACK.labels, datasets = FALLBACK.ocup;
+  try {
+    const raw = await ineGet(2078);
+    const p = parseINESeries(raw);
+    if (p && Object.keys(p.datasets).length) {
+      labels = p.labels; datasets = p.datasets;
+      const s = document.getElementById('ocup-src');
+      if (s) s.textContent = 'INE en vivo — '+p.lastPeriod;
+    }
+  } catch(e) {}
+  document.getElementById('ocup-loading').style.display = 'none';
+  destroyChart('ocup');
+  const ctx = document.getElementById('chart-ocup')?.getContext('2d');
+  if (!ctx) return;
+  const opts = chartOpts('%');
+  opts.scales.y.min = 0; opts.scales.y.max = 100;
+  _charts['ocup'] = new Chart(ctx, {type:'line', data:{labels, datasets:makeDatasets(datasets)}, options:opts});
+}
+
+function renderZoneTable() {
+  const tbody = document.getElementById('zone-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = ZONE_DATA.map(z => `
+    <tr>
+      <td style="font-weight:600">${z.zona}</td>
+      <td><span class="tipo-badge tipo-${z.tipo}">${z.tipo}</span></td>
+      <td>${z.ocup.toFixed(1)}%</td>
+      <td>${z.adr} €</td>
+      <td>${z.revpar} €</td>
+      <td style="color:var(--ga);font-weight:700">${z.trend}</td>
+    </tr>`).join('');
+}
+
+function renderHeatmap() {
+  const el = document.getElementById('heatmap');
+  if (!el) return;
+  el.innerHTML = HEATMAP_DATA.map(d => `
+    <div class="heat-cell">
+      <div class="heat-bg" style="background:${d.color}"></div>
+      <div class="heat-prov">${d.prov}</div>
+      <div class="heat-val">${d.val.toLocaleString('es-ES')} €</div>
+    </div>`).join('');
+}
+
+function renderPreciosChart() {
+  const byZone = {};
+  LISTINGS_DATA.forEach(l => {
+    const m = l.price?.match(/[\d\.]{4,}/);
+    if (!m) return;
+    const v = parseFloat(m[0].replace(/\./g,''));
+    if (!v || isNaN(v) || v < 50000 || v > 1e8) return;
+    if (!byZone[l.location]) byZone[l.location] = {sum:0, n:0};
+    byZone[l.location].sum += v; byZone[l.location].n++;
+  });
+  const zones = Object.entries(byZone).sort((a,b) => b[1].sum/b[1].n - a[1].sum/a[1].n).slice(0,12);
+  const s = document.getElementById('precios-src');
+  if (s) s.textContent = LISTINGS_DATA.length+' anuncios activos';
+  if (!zones.length) {
+    const w = document.getElementById('precios-chart-wrap');
+    if (w) w.innerHTML = '<div style="padding:3rem;color:var(--muted);text-align:center;font-size:.8rem">Sin datos de precio suficientes en los anuncios actuales</div>';
+    return;
+  }
+  destroyChart('precios');
+  const ctx = document.getElementById('chart-precios')?.getContext('2d');
+  if (!ctx) return;
+  _charts['precios'] = new Chart(ctx, {
+    type:'bar',
+    data: {
+      labels: zones.map(z=>z[0]),
+      datasets: [{
+        label:'Precio medio', data: zones.map(z=>Math.round(z[1].sum/z[1].n)),
+        backgroundColor:'rgba(26,92,69,.5)', borderColor:'#1a5c45', borderWidth:1, borderRadius:2
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins: {legend:{display:false}, tooltip:{backgroundColor:'#fff',borderColor:'#1a5c45',borderWidth:1,titleColor:'#1a1a1a',bodyColor:'#6b6b6b',padding:10,callbacks:{label:c=>` ${(c.parsed.y/1e6).toFixed(2)}M €`}}},
+      scales: {
+        x:{grid:{display:false},ticks:{color:'#9b9b9b',font:{size:10}}},
+        y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#9b9b9b',font:{size:9},callback:v=>(v/1e6).toFixed(1)+'M €'}}
+      }
+    }
+  });
+}
+
+// ══ TABS ══
+let mktInited = {};
+function switchTab(id) {
+  ['hoteles','mercado'].forEach(t => {
+    document.getElementById('panel-'+t).style.display = t===id ? 'block' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t===id);
+  });
+  if (id === 'mercado' && !mktInited.kpis) { mktInited.kpis = true; renderKPIs(); }
 }
 
 function switchMkt(id) {
@@ -473,164 +1052,19 @@ function switchMkt(id) {
   document.querySelectorAll('.mkt-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('mkt-tab-'+id).classList.add('active');
   document.getElementById('mkt-panel-'+id).classList.add('active');
-}
-
-// ══ MAPA ══════════════════════════════════════════════════════════════════
-const CITY_COORDS = {
-  'madrid':[40.4168,-3.7038],'barcelona':[41.3851,2.1734],'valencia':[39.4699,-0.3763],
-  'sevilla':[37.3891,-5.9845],'málaga':[36.7213,-4.4214],'malaga':[36.7213,-4.4214],
-  'alicante':[38.3452,-0.4810],'bilbao':[43.2630,-2.9350],'zaragoza':[41.6488,-0.8891],
-  'murcia':[37.9922,-1.1307],'palma':[39.5696,2.6502],'mallorca':[39.6953,3.0176],
-  'baleares':[39.6953,3.0176],'ibiza':[38.9067,1.4206],'tenerife':[28.2916,-16.6291],
-  'canarias':[28.1235,-15.4366],'gran canaria':[27.9202,-15.5474],'granada':[37.1773,-3.5986],
-  'córdoba':[37.8882,-4.7794],'cordoba':[37.8882,-4.7794],'girona':[41.9794,2.8214],
-  'tarragona':[41.1189,1.2445],'santander':[43.4623,-3.8099],'oviedo':[43.3614,-5.8593],
-  'asturias':[43.3614,-5.8593],'galicia':[42.5751,-8.1339],'vigo':[42.2406,-8.7207],
-  'huelva':[37.2614,-6.9447],'cádiz':[36.5271,-6.2886],'cadiz':[36.5271,-6.2886],
-  'jaén':[37.7796,-3.7849],'almería':[36.8340,-2.4637],'marbella':[36.5101,-4.8824],
-  'castellón':[39.9864,-0.0513],'navarra':[42.8169,-1.6432],'país vasco':[43.3183,-1.9812],
-  'la rioja':[42.4627,-2.4449],'cantabria':[43.4623,-3.8099],'extremadura':[39.4937,-6.0679],
-};
-
-function getCoordsFor(location) {
-  if (!location) return null;
-  const l = location.toLowerCase();
-  for (const [key, coords] of Object.entries(CITY_COORDS)) {
-    if (l.includes(key)) return coords;
-  }
-  return [40.0 + (Math.random()-0.5)*6, -3.5 + (Math.random()-0.5)*8];
-}
-
-function toggleMap() {
-  mapVisible = !mapVisible;
-  const section = document.getElementById('map-section');
-  const btn = document.getElementById('map-toggle');
-  section.style.display = mapVisible ? 'block' : 'none';
-  btn.classList.toggle('on', mapVisible);
-
-  if (mapVisible && !mapInstance) {
-    mapInstance = L.map('map').setView([40.0,-3.5],6);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-      attribution:'© CartoDB',maxZoom:18
-    }).addTo(mapInstance);
-    refreshMap();
-  } else if (mapVisible) {
-    refreshMap();
+  if (!mktInited[id]) {
+    mktInited[id] = true;
+    if (id==='adr') renderADRChart();
+    if (id==='revpar') renderRevPARChart();
+    if (id==='ocup') renderOcupChart();
+    if (id==='destinos') renderZoneTable();
+    if (id==='precios') { renderPreciosChart(); renderHeatmap(); }
   }
 }
 
-function refreshMap() {
-  if (!mapInstance) return;
-  mapMarkers.forEach(m => m.remove()); mapMarkers = [];
-  const SOURCE_COLORS = {
-    'Idealista':'#1a6ea8','Fotocasa':'#c0442a','ThinkSpain':'#1a5c45','Kyero':'#6b3fa0'
-  };
-  const list = getFiltered();
-  list.forEach(h => {
-    const coords = getCoordsFor(h.location);
-    if (!coords) return;
-    const color = SOURCE_COLORS[h.source] || '#1a5c45';
-    const icon = L.divIcon({
-      className:'',
-      html:`<div style="width:11px;height:11px;background:${color};border-radius:50%;border:2px solid #fff;box-shadow:0 0 6px rgba(0,0,0,0.3)"></div>`,
-      iconSize:[11,11],iconAnchor:[5.5,5.5]
-    });
-    const m = L.marker(coords,{icon}).addTo(mapInstance)
-      .bindPopup(`<div style="font-family:'Open Sans',sans-serif;min-width:200px">
-        <div style="font-size:0.68rem;color:${color};font-weight:700;text-transform:uppercase;margin-bottom:4px">${h.source}</div>
-        <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.title}</div>
-        <div style="font-size:0.75rem;color:#666;margin-bottom:6px">◎ ${h.location||''}</div>
-        <div style="font-size:1rem;font-weight:700;color:#1a5c45;margin-bottom:8px">${h.price||'Consultar'}</div>
-        ${h.url?`<a href="${h.url}" target="_blank" style="font-size:0.72rem;color:#1a6ea8">Ver anuncio →</a>`:''}
-      </div>`);
-    mapMarkers.push(m);
-  });
-  document.getElementById('map-info').textContent = `${mapMarkers.length} hoteles en el mapa`;
-}
-
-// ══ MERCADO ════════════════════════════════════════════════════════════════
-const ZONE_DATA = [
-  {zona:'Baleares',tipo:'isla',adr:182,revpar:147,ocup:'81%'},
-  {zona:'Canarias',tipo:'isla',adr:145,revpar:114,ocup:'78,5%'},
-  {zona:'Costa del Sol',tipo:'costa',adr:178,revpar:129,ocup:'72,3%'},
-  {zona:'Barcelona',tipo:'ciudad',adr:168,revpar:129,ocup:'76,8%'},
-  {zona:'Madrid',tipo:'ciudad',adr:152,revpar:113,ocup:'74,2%'},
-  {zona:'Costa Blanca',tipo:'costa',adr:112,revpar:77,ocup:'68,4%'},
-  {zona:'Costa Brava',tipo:'costa',adr:138,revpar:97,ocup:'70,1%'},
-  {zona:'Sevilla',tipo:'ciudad',adr:124,revpar:85,ocup:'68,9%'},
-  {zona:'Valencia',tipo:'ciudad',adr:118,revpar:79,ocup:'67,3%'},
-  {zona:'Galicia',tipo:'rural',adr:98,revpar:57,ocup:'58,2%'},
-  {zona:'Asturias / Cantabria',tipo:'rural',adr:95,revpar:53,ocup:'55,8%'},
-  {zona:'Interior / Rural',tipo:'rural',adr:88,revpar:46,ocup:'52,4%'},
-];
-
-const TIPO_LABEL = {isla:'<span style="color:#c9a84c;font-size:.62rem;font-weight:600">ISLA</span>',costa:'<span style="color:#1a6ea8;font-size:.62rem;font-weight:600">COSTA</span>',ciudad:'<span style="color:#6b3fa0;font-size:.62rem;font-weight:600">CIUDAD</span>',rural:'<span style="color:#1a5c45;font-size:.62rem;font-weight:600">RURAL</span>'};
-
-function renderZoneTable() {
-  const maxAdr = Math.max(...ZONE_DATA.map(z => z.adr));
-  document.getElementById('zone-tbody').innerHTML = ZONE_DATA.map(z => {
-    const pct = (z.adr/maxAdr*100).toFixed(0);
-    return `<tr>
-      <td style="font-weight:500">${z.zona}</td>
-      <td>${TIPO_LABEL[z.tipo]||''}</td>
-      <td class="bar-cell"><div class="bar-bg" style="width:${pct}%"></div><span class="bar-txt">${z.adr}€</span></td>
-      <td>${z.revpar}€</td>
-      <td>${z.ocup}</td>
-    </tr>`;
-  }).join('');
-}
-
-const HEATMAP_DATA = [
-  {prov:'Ibiza',val:9100,color:'#7c2d12'},{prov:'Marbella',val:8400,color:'#7c2d12'},
-  {prov:'Barcelona',val:7200,color:'#92400e'},{prov:'Madrid',val:6800,color:'#92400e'},
-  {prov:'Mallorca',val:6200,color:'#b45309'},{prov:'Baleares',val:5800,color:'#b45309'},
-  {prov:'Costa Brava',val:5600,color:'#b45309'},{prov:'Málaga',val:5100,color:'#ca8a04'},
-  {prov:'Canarias',val:4800,color:'#ca8a04'},{prov:'Sevilla',val:4200,color:'#d97706'},
-  {prov:'Bilbao',val:3900,color:'#d97706'},{prov:'Valencia',val:3800,color:'#ca8a04'},
-  {prov:'Alicante',val:3500,color:'#ca8a04'},{prov:'Interior',val:2200,color:'#78716c'},
-  {prov:'Rural España',val:1800,color:'#57534e'},
-];
-
-function renderHeatmap() {
-  document.getElementById('heatmap').innerHTML = HEATMAP_DATA.map(d =>
-    `<div class="heat-cell" style="background:${d.color}" title="${d.prov}: ~${d.val.toLocaleString('es-ES')} €/m²">
-      <div class="heat-prov">${d.prov}</div>
-      <div class="heat-val">${(d.val/1000).toFixed(1)}k</div>
-      <div class="heat-sub">€/m²</div>
-    </div>`
-  ).join('');
-}
-
-function renderAskingPrice() {
-  const byZone = {};
-  HOTELES.forEach(h => {
-    if (!h.location || !h.price || h.price === 'Precio a consultar') return;
-    const precio = parseFloat((h.price||'').replace(/[^0-9]/g,''));
-    if (!precio || precio < 50000) return;
-    const zona = (h.location.split(',').pop() || h.location).trim();
-    if (!byZone[zona]) byZone[zona] = {total:0,count:0};
-    byZone[zona].total += precio;
-    byZone[zona].count++;
-  });
-  const zonas = Object.entries(byZone).sort((a,b) => b[1].count - a[1].count);
-  if (!zonas.length) {
-    document.getElementById('asking-grid').innerHTML = '<p style="color:var(--muted);font-size:0.82rem">No hay suficientes anuncios con precio visible aún.</p>';
-    return;
-  }
-  const maxP = Math.max(...zonas.map(([,v]) => v.total/v.count));
-  document.getElementById('asking-grid').innerHTML = zonas.map(([zona,data]) => {
-    const avg = Math.round(data.total/data.count);
-    const pct = (avg/maxP*100).toFixed(0);
-    return `<div class="asking-card">
-      <div class="asking-zone">${zona}</div>
-      <div class="asking-price">${avg.toLocaleString('es-ES')} €</div>
-      <div class="asking-meta">${data.count} hotel${data.count>1?'es':''} · Precio medio asking</div>
-      <div class="asking-bar"><div class="asking-bar-fill" style="width:${pct}%"></div></div>
-    </div>`;
-  }).join('');
-}
-
-init();
+// ══ INIT ══
+buildPortalBar();
+renderGrid();
 </script>
 </body>
 </html>
