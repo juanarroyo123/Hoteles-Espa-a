@@ -32,42 +32,45 @@ header{
   background:#fff;
   border-bottom:2px solid var(--green);
   padding:0 2.5rem;
+  display:flex;
+  flex-direction:column;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 16px rgba(26,92,69,0.07);
+}
+.header-top{
   height:70px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-  box-shadow:0 2px 16px rgba(26,92,69,0.07);
+  width:100%;
 }
 .header-left{display:flex;align-items:center;gap:1.4rem}
 
-.aop-logo{display:flex;align-items:center;gap:0.55rem;text-decoration:none}
-.aop-emblem{
-  width:36px;height:36px;background:var(--green);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.aop-emblem span{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.05rem;font-weight:700;color:#fff;
-  letter-spacing:0.04em;line-height:1;
-}
-.aop-name{
+.aop-logo{display:flex;align-items:center;text-decoration:none}
+.aop-wordmark{display:flex;flex-direction:column;line-height:1}
+.aop-allout{
   font-family:'Montserrat',sans-serif;
-  font-size:0.58rem;font-weight:600;
-  letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--text-mid);line-height:1.3;
+  font-size:1.45rem;font-weight:700;
+  color:var(--green);letter-spacing:-0.01em;line-height:1;
+}
+.aop-cappartners{
+  font-family:'Montserrat',sans-serif;
+  font-size:0.52rem;font-weight:500;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--muted);margin-top:0.1rem;
 }
 .header-sep{width:1px;height:28px;background:var(--border-dark);flex-shrink:0}
 .brand{display:flex;flex-direction:column;gap:0.1rem}
 .brand-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.55rem;font-weight:700;
-  color:var(--green);letter-spacing:0.02em;line-height:1;
+  font-family:'Montserrat',sans-serif;
+  font-size:1.62rem;font-weight:800;
+  color:var(--green);letter-spacing:-0.03em;line-height:1;
 }
 .brand-sub{
   font-family:'Montserrat',sans-serif;
   font-size:0.52rem;letter-spacing:0.22em;
   text-transform:uppercase;color:var(--muted);font-weight:500;
+  margin-top:0.18rem;
 }
 .header-right{display:flex;align-items:center;gap:1rem}
 .update-badge{
@@ -77,33 +80,77 @@ header{
 }
 .update-badge strong{color:var(--green)}
 
-/* ══ STATS BAR ═══════════════════════════════════════════ */
-.stats-bar{background:var(--green);display:grid;grid-template-columns:repeat(4,1fr)}
-.stat{padding:1.1rem 2rem;border-right:1px solid rgba(255,255,255,0.15);text-align:center}
-.stat:last-child{border-right:none}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:#fff;line-height:1}
-.stat-lbl{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-top:0.25rem}
-
-/* ══ VIEW BAR ════════════════════════════════════════════ */
-.view-bar{
+.hero{
   background:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2.2rem 2.5rem;
+  border-bottom:1px solid var(--border);
+  gap:3rem;
+}
+.hero-left{flex:1;max-width:420px}
+.hero-eyebrow{
+  font-family:'Montserrat',sans-serif;
+  font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:0.7rem;
+}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.6rem;font-weight:700;
+  color:var(--text);line-height:1.2;margin-bottom:0.2rem;
+}
+.hero-title span{color:var(--green);font-weight:700}
+.hero-desc{
+  font-size:0.82rem;color:var(--muted);
+  line-height:1.7;margin-top:0.9rem;
+  font-family:'Open Sans',sans-serif;
+}
+.kpi-bar{
+  flex:0 0 55%;
+  display:grid;grid-template-columns:repeat(2,1fr);
+  border:1px solid var(--border);
+}
+.kpi-box{
+  padding:1.4rem 1.8rem;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  transition:background 0.15s;
+}
+.kpi-box:nth-child(2){border-right:none}
+.kpi-box:nth-child(3){border-bottom:none}
+.kpi-box:nth-child(4){border-right:none;border-bottom:none}
+.kpi-box:hover{background:var(--bg)}
+.kpi-box-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-weight:600;
+  color:var(--green);line-height:1;margin-bottom:0.6rem;
+}
+.kpi-box-lbl{
+  font-family:'Montserrat',sans-serif;
+  font-size:0.55rem;letter-spacing:0.16em;
+  text-transform:uppercase;color:var(--muted);font-weight:500;
+}
+
+/* ══ VIEW BAR (dentro del header) ═══════════════════════ */
+.view-bar{
   display:flex;align-items:center;
-  padding:0 2rem;
-  border-bottom:2px solid var(--border);
+  border-top:1px solid var(--border);
+  margin:0 -2.5rem;
+  padding:0 2.5rem;
 }
 .tab-btn{
-  padding:0.85rem 1.3rem;background:none;border:none;
+  padding:0.7rem 1.3rem;background:none;border:none;
   border-bottom:2px solid transparent;
   color:var(--muted);
   font-family:'Montserrat',sans-serif;
-  font-size:0.65rem;font-weight:600;
+  font-size:0.68rem;font-weight:700;
   letter-spacing:0.1em;text-transform:uppercase;
   cursor:pointer;transition:all 0.15s;margin-bottom:-2px;
 }
+.tab-btn:first-child{padding-left:0}
 .tab-btn:hover{color:var(--text)}
 .tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
 .map-btn{
-  margin-left:auto;padding:0.45rem 1.1rem;
+  margin-left:auto;padding:0.38rem 1rem;
   background:transparent;border:1px solid var(--border-dark);
   color:var(--text-mid);
   font-family:'Montserrat',sans-serif;
@@ -114,35 +161,16 @@ header{
 
 /* ══ FILTER SECTION ═════════════════════════════════════ */
 .filter-section{background:#fff;border-bottom:1px solid var(--border)}
-.filter-bar{
-  display:flex;align-items:center;gap:0.5rem;
-  padding:0.65rem 2rem;flex-wrap:wrap;
-  border-bottom:1px solid var(--border);
+.filter-bar-single{
+  display:flex;align-items:center;gap:0.8rem;
+  padding:0.7rem 2.5rem;
 }
-.filter-bar:last-child{border-bottom:none}
-.filter-bar-label{
-  font-family:'Montserrat',sans-serif;
-  font-size:0.57rem;letter-spacing:0.18em;
-  text-transform:uppercase;color:var(--muted);
-  margin-right:0.4rem;flex-shrink:0;font-weight:600;
-}
-.chip{
-  padding:0.28rem 0.85rem;
-  border:1px solid var(--border-dark);
-  background:transparent;color:var(--text-mid);
-  font-family:'Montserrat',sans-serif;
-  font-size:0.63rem;letter-spacing:0.05em;
-  cursor:pointer;transition:all 0.15s;font-weight:500;
-}
-.chip:hover{border-color:var(--green);color:var(--green)}
-.chip.on{background:var(--green);border-color:var(--green);color:#fff}
-.date-count{font-size:0.62rem;color:var(--muted);margin-left:0.5rem;font-family:'Montserrat',sans-serif}
-.search-wrap{margin-left:auto;position:relative}
+.search-wrap{position:relative;flex:0 0 280px}
 .search-input{
   background:#fff;border:1px solid var(--border-dark);
-  padding:0.38rem 1rem 0.38rem 2.2rem;
+  padding:0.42rem 1rem 0.42rem 2.2rem;
   color:var(--text);font-family:'Open Sans',sans-serif;
-  font-size:0.78rem;width:240px;outline:none;transition:border-color 0.15s;
+  font-size:0.78rem;width:100%;outline:none;transition:border-color 0.15s;
 }
 .search-input:focus{border-color:var(--green)}
 .search-input::placeholder{color:var(--muted)}
@@ -151,6 +179,65 @@ header{
   transform:translateY(-50%);color:var(--muted);
   font-size:0.85rem;pointer-events:none;
 }
+/* Botón filtros */
+.filter-btn{
+  display:flex;align-items:center;gap:0.5rem;
+  padding:0.42rem 1.1rem;
+  background:transparent;border:1px solid var(--border-dark);
+  color:var(--text-mid);font-family:'Montserrat',sans-serif;
+  font-size:0.62rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.15s;position:relative;
+}
+.filter-btn:hover,.filter-btn.open{background:var(--green);border-color:var(--green);color:#fff}
+.filter-btn .filter-arrow{font-size:0.55rem;transition:transform 0.2s}
+.filter-btn.open .filter-arrow{transform:rotate(180deg)}
+.filter-active-count{
+  background:var(--green);color:#fff;
+  font-size:0.5rem;font-weight:700;
+  padding:0.1rem 0.4rem;border-radius:10px;
+  display:none;
+}
+.filter-active-count.visible{display:inline}
+/* Panel desplegable */
+.filter-dropdown{
+  display:none;position:absolute;
+  top:100%;left:0;
+  background:#fff;border:1px solid var(--border);
+  box-shadow:0 8px 32px rgba(26,92,69,0.10);
+  z-index:200;min-width:380px;
+  animation:dropIn 0.18s ease;
+}
+.filter-dropdown.open{display:block}
+@keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.filter-dropdown-section{padding:1rem 1.4rem;border-bottom:1px solid var(--border)}
+.filter-dropdown-section:last-child{border-bottom:none}
+.filter-dropdown-label{
+  font-family:'Montserrat',sans-serif;font-size:0.55rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:0.65rem;
+}
+.filter-chips{display:flex;flex-wrap:wrap;gap:0.4rem}
+.chip{
+  padding:0.25rem 0.8rem;
+  border:1px solid var(--border-dark);
+  background:transparent;color:var(--text-mid);
+  font-family:'Montserrat',sans-serif;
+  font-size:0.62rem;letter-spacing:0.04em;
+  cursor:pointer;transition:all 0.15s;font-weight:500;
+}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+.filter-dropdown-footer{
+  padding:0.7rem 1.4rem;background:var(--surface);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.filter-reset{
+  font-family:'Montserrat',sans-serif;font-size:0.6rem;
+  color:var(--muted);background:none;border:none;cursor:pointer;
+  letter-spacing:0.08em;text-transform:uppercase;font-weight:600;
+}
+.filter-reset:hover{color:var(--danger)}
+.date-count{font-size:0.62rem;color:var(--muted);font-family:'Montserrat',sans-serif;margin-left:0.3rem}
 
 /* ══ MAP ═════════════════════════════════════════════════ */
 #map-section{display:none;border-bottom:2px solid var(--green)}
@@ -235,60 +322,85 @@ header{
 
 <!-- ══ HEADER ════════════════════════════════════════════ -->
 <header>
-  <div class="header-left">
-    <a class="aop-logo" href="#" title="All Out Partners">
-      <div class="aop-emblem"><span>AOP</span></div>
-      <div class="aop-name">All Out<br>Partners</div>
-    </a>
-    <div class="header-sep"></div>
-    <div class="brand">
-      <div class="brand-name">Hotel Monitor</div>
-      <div class="brand-sub">España · Hoteles en venta</div>
+  <div class="header-top">
+    <div class="header-left">
+      <div class="brand">
+        <div class="brand-name">Hotel Monitor</div>
+        <div class="brand-sub">España · Hoteles en venta</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="update-badge" id="update-badge">Actualización diaria automática</div>
     </div>
   </div>
-  <div class="header-right">
-    <div class="update-badge" id="update-badge">Actualización diaria automática</div>
+  <!-- Pestañas dentro del header -->
+  <div class="view-bar">
+    <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
+    <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
   </div>
 </header>
 
-<!-- ══ STATS BAR ══════════════════════════════════════════ -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-val" id="val-total">0</div><div class="stat-lbl">Anuncios totales</div></div>
-  <div class="stat"><div class="stat-val" id="val-nuevos">0</div><div class="stat-lbl">Últimos 7 días</div></div>
-  <div class="stat"><div class="stat-val" id="val-portales">—</div><div class="stat-lbl">Portales monitorizados</div></div>
-  <div class="stat"><div class="stat-val" id="val-hoy">0</div><div class="stat-lbl">Añadidos hoy</div></div>
+
+
+<!-- ══ HERO ═══════════════════════════════════════════════ -->
+<div class="hero" id="hero-main">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Radar de mercado inmobiliario hotelero</div>
+    <div class="hero-title">Hoteles en venta<br><span>en España</span></div>
+    <p class="hero-desc">Monitorizamos los principales portales inmobiliarios españoles e internacionales cada 24 horas. Todas las oportunidades hoteleras en un solo lugar, actualizadas diariamente de forma automática.</p>
+  </div>
+  <div class="kpi-bar">
+    <div class="kpi-box"><div class="kpi-box-val" id="hk-total">—</div><div class="kpi-box-lbl">Anuncios totales</div></div>
+    <div class="kpi-box"><div class="kpi-box-val" id="hk-nuevos">—</div><div class="kpi-box-lbl">Últimos 7 días</div></div>
+    <div class="kpi-box"><div class="kpi-box-val" id="hk-portales">—</div><div class="kpi-box-lbl">Portales monitorizados</div></div>
+    <div class="kpi-box"><div class="kpi-box-val" id="hk-hoy">—</div><div class="kpi-box-lbl">Añadidos hoy</div></div>
+  </div>
 </div>
 
-<!-- ══ VIEW BAR (tabs) ════════════════════════════════════ -->
-<div class="view-bar">
-  <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
-  <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
-  <button class="map-btn" id="map-toggle" onclick="toggleMap()">🗺 Ver mapa</button>
-</div>
+
 
 <!-- ══ FILTROS ════════════════════════════════════════════ -->
 <div class="filter-section" id="filter-section">
-  <div class="filter-bar" id="portal-bar">
-    <span class="filter-bar-label">Portales</span>
-    <button class="chip on" id="chip-todos-portal" onclick="setPortalFilter('todos',this)">Todos</button>
-    <button class="chip" onclick="setPortalFilter('Idealista',this)">Idealista</button>
-    <button class="chip" onclick="setPortalFilter('ThinkSpain',this)">ThinkSpain</button>
-    <button class="chip" onclick="setPortalFilter('Fotocasa',this)">Fotocasa</button>
-    <button class="chip" onclick="setPortalFilter('Kyero',this)">Kyero</button>
+  <div class="filter-bar-single">
     <div class="search-wrap">
       <span class="search-icon">⌕</span>
       <input class="search-input" id="search" placeholder="Buscar ciudad, tipo de hotel..." oninput="render()">
     </div>
-  </div>
-  <div class="filter-bar">
-    <span class="filter-bar-label">Publicado</span>
-    <button class="chip on" id="df-all"    onclick="setDateFilter('all',this)">Todos</button>
-    <button class="chip"    id="df-day"    onclick="setDateFilter('day',this)">Hoy</button>
-    <button class="chip"    id="df-week"   onclick="setDateFilter('week',this)">Esta semana</button>
-    <button class="chip"    id="df-month"  onclick="setDateFilter('month',this)">Este mes</button>
-    <button class="chip"    id="df-3month" onclick="setDateFilter('3month',this)">Últimos 3 meses</button>
-    <button class="chip"    id="df-year"   onclick="setDateFilter('year',this)">Último año</button>
-    <span class="date-count" id="date-count"></span>
+    <div style="position:relative">
+      <button class="filter-btn" id="filter-toggle-btn" onclick="toggleFilterDropdown()">
+        ⚙ Filtros
+        <span class="filter-arrow">▾</span>
+        <span class="filter-active-count" id="filter-count"></span>
+      </button>
+      <div class="filter-dropdown" id="filter-dropdown">
+        <div class="filter-dropdown-section">
+          <div class="filter-dropdown-label">Portal</div>
+          <div class="filter-chips" id="portal-bar">
+            <button class="chip on" id="chip-todos-portal" onclick="setPortalFilter('todos',this)">Todos</button>
+            <button class="chip" onclick="setPortalFilter('Idealista',this)">Idealista</button>
+            <button class="chip" onclick="setPortalFilter('ThinkSpain',this)">ThinkSpain</button>
+            <button class="chip" onclick="setPortalFilter('Fotocasa',this)">Fotocasa</button>
+            <button class="chip" onclick="setPortalFilter('Kyero',this)">Kyero</button>
+          </div>
+        </div>
+        <div class="filter-dropdown-section">
+          <div class="filter-dropdown-label">Fecha de publicación</div>
+          <div class="filter-chips">
+            <button class="chip on" id="df-all"    onclick="setDateFilter('all',this)">Todos</button>
+            <button class="chip"    id="df-day"    onclick="setDateFilter('day',this)">Hoy</button>
+            <button class="chip"    id="df-week"   onclick="setDateFilter('week',this)">Esta semana</button>
+            <button class="chip"    id="df-month"  onclick="setDateFilter('month',this)">Este mes</button>
+            <button class="chip"    id="df-3month" onclick="setDateFilter('3month',this)">Últimos 3 meses</button>
+            <button class="chip"    id="df-year"   onclick="setDateFilter('year',this)">Último año</button>
+          </div>
+        </div>
+        <div class="filter-dropdown-footer">
+          <span class="date-count" id="date-count"></span>
+          <button class="filter-reset" onclick="resetFilters()">Limpiar filtros</button>
+        </div>
+      </div>
+    </div>
+    <button class="map-btn" id="map-toggle" onclick="toggleMap()" style="margin-left:auto">🗺 Ver mapa</button>
   </div>
 </div>
 
@@ -307,6 +419,24 @@ header{
 
 <!-- ══ PANEL MERCADO ══════════════════════════════════════ -->
 <div id="panel-mercado">
+
+  <!-- Hero mercado -->
+  <div class="hero" id="hero-mercado">
+    <div class="hero-left" style="max-width:420px;flex-shrink:0">
+      <div class="hero-eyebrow">Estudio de mercado hotelero</div>
+      <div class="hero-title">Sector hotelero<br><span>en España</span></div>
+      <p class="hero-desc">Análisis del mercado hotelero español con indicadores clave de ocupación, precios y demanda. Datos actualizados del INE y principales fuentes sectoriales para apoyar decisiones de inversión.</p>
+    </div>
+    <div class="kpi-bar" style="grid-template-columns:repeat(3,1fr);flex:0 0 55%">
+      <div class="kpi-box" style="border-right:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="kpi-box-val">127,7€</div><div class="kpi-box-lbl">ADR medio nacional</div></div>
+      <div class="kpi-box" style="border-right:1px solid var(--border);border-bottom:1px solid var(--border)"><div class="kpi-box-val">89,7€</div><div class="kpi-box-lbl">RevPAR medio</div></div>
+      <div class="kpi-box" style="border-right:none;border-bottom:1px solid var(--border)"><div class="kpi-box-val">70,3%</div><div class="kpi-box-lbl">Ocupación media</div></div>
+      <div class="kpi-box" style="border-right:1px solid var(--border);border-bottom:none"><div class="kpi-box-val">366,7M</div><div class="kpi-box-lbl">Pernoctaciones 2024</div></div>
+      <div class="kpi-box" style="border-right:1px solid var(--border);border-bottom:none"><div class="kpi-box-val">94,2M</div><div class="kpi-box-lbl">Turistas internacionales</div></div>
+      <div class="kpi-box" style="border-right:none;border-bottom:none"><div class="kpi-box-val">+6,0%</div><div class="kpi-box-lbl">Crecim. RevPAR vs 2023</div></div>
+    </div>
+  </div>
+
   <div class="mkt-subnav">
     <button class="mkt-tab active" id="mkt-tab-kpis"     onclick="switchMkt('kpis')">Indicadores INE</button>
     <button class="mkt-tab"        id="mkt-tab-destinos" onclick="switchMkt('destinos')">Destinos</button>
@@ -384,18 +514,25 @@ function updatePortalChips() {
 }
 
 function updateStats() {
-  document.getElementById('val-total').textContent = HOTELES.length;
-  const hace7 = new Date(); hace7.setDate(hace7.getDate() - 7);
+    const hace7 = new Date(); hace7.setDate(hace7.getDate() - 7);
   const nuevos7 = HOTELES.filter(h => { const d = parseDate(h.date); return d && d >= hace7; });
-  document.getElementById('val-nuevos').textContent = nuevos7.length;
-  const portales = new Set(HOTELES.map(h => h.source).filter(Boolean));
-  document.getElementById('val-portales').textContent = portales.size;
-  const todayStr = new Date().toLocaleDateString('es-ES');
+    const portales = new Set(HOTELES.map(h => h.source).filter(Boolean));
+    const todayStr = new Date().toLocaleDateString('es-ES');
   const hoyCount = HOTELES.filter(h => {
     const d = parseDate(h.date);
     return d && d.toLocaleDateString('es-ES') === todayStr;
   });
-  document.getElementById('val-hoy').textContent = hoyCount.length;
+  // Hero KPIs
+  const hkTotal    = document.getElementById('hk-total');
+  const hkNuevos   = document.getElementById('hk-nuevos');
+  const hkPortales = document.getElementById('hk-portales');
+  const hkHoy      = document.getElementById('hk-hoy');
+  if (hkTotal)    hkTotal.textContent    = HOTELES.length;
+  if (hkPortales) hkPortales.textContent = new Set(HOTELES.map(h => h.source).filter(Boolean)).size;
+  const hace7b = new Date(); hace7b.setDate(hace7b.getDate()-7);
+  if (hkNuevos) hkNuevos.textContent = HOTELES.filter(h=>{const d=parseDate(h.date);return d&&d>=hace7b;}).length;
+  const todayStrb = new Date().toLocaleDateString('es-ES');
+  if (hkHoy) hkHoy.textContent = HOTELES.filter(h=>{const d=parseDate(h.date);return d&&d.toLocaleDateString('es-ES')===todayStrb;}).length;
 }
 
 function setPortalFilter(portal, btn) {
@@ -514,6 +651,7 @@ function switchTab(tab) {
   document.getElementById('panel-hoteles').style.display  = isH ? 'block' : 'none';
   document.getElementById('panel-mercado').style.display  = isH ? 'none'  : 'block';
   document.getElementById('filter-section').style.display = isH ? 'block' : 'none';
+  document.getElementById('hero-main').style.display      = isH ? 'flex'  : 'none';
   document.getElementById('tab-hoteles').classList.toggle('active', isH);
   document.getElementById('tab-mercado').classList.toggle('active', !isH);
   if (!isH) renderAskingPrice();
@@ -670,6 +808,34 @@ function renderAskingPrice() {
       <div class="asking-bar"><div class="asking-bar-fill" style="width:${pct}%"></div></div>
     </div>`;
   }).join('');
+}
+
+function toggleFilterDropdown() {
+  const btn = document.getElementById('filter-toggle-btn');
+  const dropdown = document.getElementById('filter-dropdown');
+  const isOpen = dropdown.classList.contains('open');
+  dropdown.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+// Cerrar dropdown al hacer click fuera
+document.addEventListener('click', function(e) {
+  const btn = document.getElementById('filter-toggle-btn');
+  const dropdown = document.getElementById('filter-dropdown');
+  if (btn && dropdown && !btn.contains(e.target) && !dropdown.contains(e.target)) {
+    dropdown.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+
+function resetFilters() {
+  // Reset portal
+  setPortalFilter('todos', document.getElementById('chip-todos-portal'));
+  // Reset fecha
+  setDateFilter('all', document.getElementById('df-all'));
+  // Reset search
+  const s = document.getElementById('search');
+  if (s) { s.value = ''; render(); }
 }
 
 init();
