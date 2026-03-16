@@ -632,13 +632,24 @@ const HOTELES = (function(raw) {
   }).map(h => {
     // --- Limpiar título duplicado ---
     let title = (h.title || '').trim();
-    // Quitar precio del inicio: "6.900.000 € Hotel en venta..."
+    // Extraer precio del título antes de borrarlo
+    let precioDelTitulo = null;
+    const mPF = title.match(/[-–]\s*â[^\d]*([\d][\d.,]+)/i) ||
+                title.match(/[-–]\s*€\s*([\d][\d.,]+)/i) ||
+                title.match(/[-–]\s*([\d][\d.,]+)\s*€/i);
+    const mPI = title.match(/^([\d][\d.,]+)\s*€/i);
+    if (mPF) precioDelTitulo = mPF[1];
+    else if (mPI) precioDelTitulo = mPI[1];
+    // Quitar precio al final con â (símbolo € mal codificado)
+    title = title.replace(/\s*-\s*â.*$/i, '').trim();
+    // Quitar precio al final con €
+    title = title.replace(/\s*-\s*€\s*[\d].*$/i, '').trim();
+    title = title.replace(/\s*-\s*[\d][\d.,]+\s*€.*$/i, '').trim();
+    // Quitar guión colgante
+    title = title.replace(/\s*[-–]\s*$/, '').trim();
+    // Quitar precio al inicio
     title = title.replace(/^[\d][\d.,]*\s*€\s*/i, '').trim();
-    // Quitar precio del final: "Hotel en X - â¬ 599,000" o "- € 599,000" o "- 599,000 €"
-    title = title.replace(/\s*[-–]\s*[â¬€$£]\s*[\d][\d.,]*/g, '').trim();
-    title = title.replace(/\s*[-–]\s*[\d][\d.,]*\s*[â¬€$£]/g, '').trim();
-    title = title.replace(/\s*â¬.*$/i, '').trim();
-    // Traducir "in LUGAR" → "en LUGAR" (ThinkSpain en inglés)
+    // Traducir inglés → español (ThinkSpain)
     title = title.replace(/\bin\s+/g, 'en ');
     title = title.replace(/\bfor sale\b/gi, 'en venta');
     title = title.replace(/(\d+)\s+bedroom/gi, '$1 habitaciones');
@@ -657,15 +668,20 @@ const HOTELES = (function(raw) {
 
     // --- Limpiar precio ---
     let price = (h.price || '').trim();
+    // Limpiar â¬ (€ mal codificado)
+    price = price.replace(/â¬/g, '€').replace(/â[^\w]/g, '€').trim();
     // Si price contiene texto largo o caracteres rotos, extraer solo el número
     if (price.length > 20 || price.includes('â') || /[a-zA-Z]{3,}/.test(price)) {
-      const m = price.match(/([\d][\d.,]+)\s*[€â]/) || 
-                price.match(/[€â]\s*([\d][\d.,]+)/) ||
+      const m = price.match(/([\d][\d.,]+)\s*€/) ||
+                price.match(/€\s*([\d][\d.,]+)/) ||
                 price.match(/([\d][\d.,]{4,})/);
-      price = m ? m[1].replace(',', '.') + ' €' : 'Precio a consultar';
+      price = m ? m[1].replace(/,/g, '.') + ' €' : '';
     }
-    // Limpiar caracteres raros del precio
-    price = price.replace(/â¬/g, '€').replace(/â/g, '').trim();
+    // Usar precio extraído del título si no hay precio
+    if (!price && precioDelTitulo) {
+      price = precioDelTitulo.replace(/,/g, '.') + ' €';
+    }
+    if (!price) price = 'Precio a consultar';
 
     // --- Limpiar location ---
     let loc = (h.location || '').trim();
