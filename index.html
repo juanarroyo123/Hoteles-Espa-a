@@ -708,6 +708,15 @@ let mapVisible   = false;
 let mapInstance  = null;
 let mapMarkers   = [];
 
+// Estudio de mercado — gráficos
+let chartADR    = null;
+let chartREV    = null;
+let modeADR     = 'comp';
+let modeREV     = 'comp';
+let lastLabels  = [];
+let lastADRData = {};
+let lastREVData = {};
+
 function init() {
   updateBadge();
   updateStats();
@@ -901,12 +910,6 @@ function isRecente(str, days) {
 
 function switchTab(tab) {
   const isH = tab === 'hoteles';
-  // Cerrar mapa si vamos a mercado
-  if (!isH && mapVisible) {
-    mapVisible = false;
-    document.getElementById('map-section').style.display = 'none';
-    document.getElementById('map-toggle').classList.remove('on');
-  }
   document.getElementById('panel-hoteles').style.display  = isH ? 'block' : 'none';
   document.getElementById('panel-mercado').style.display  = isH ? 'none'  : 'block';
   document.getElementById('filter-section').style.display = isH ? 'block' : 'none';
@@ -1054,6 +1057,19 @@ const INE_STATIC_DATA = {
 // ─────────────────────────────────────────────────────────────────────────
 
 
+const INE_MEM = {};
+async function ineGet(tableId) {
+  if (INE_MEM[tableId]) return INE_MEM[tableId];
+  try {
+    const url = `https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${tableId}?nult=36`;
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    const data = await r.json();
+    INE_MEM[tableId] = data;
+    return data;
+  } catch(e) { return null; }
+}
+
 async function renderMarket() {
   try { renderAskingPrice(); } catch(e) { console.warn('renderAskingPrice:', e); }
   try { renderHeatmap(); } catch(e) { console.warn('renderHeatmap:', e); }
@@ -1101,6 +1117,25 @@ function getDatasets(datasetsObj, mode) {
   }
   // Comparativa — 5 líneas
   return makeDatasets(datasetsObj, []);
+}
+
+function setChartMode(which, mode, btn) {
+  if (which === 'adr') {
+    modeADR = mode;
+    document.getElementById('adr-mode-comp')?.classList.toggle('on', mode === 'comp');
+    document.getElementById('adr-mode-media')?.classList.toggle('on', mode === 'media');
+    rebuildChart('adr');
+  } else if (which === 'rev') {
+    modeREV = mode;
+    document.getElementById('rev-mode-comp')?.classList.toggle('on', mode === 'comp');
+    document.getElementById('rev-mode-media')?.classList.toggle('on', mode === 'media');
+    rebuildChart('rev');
+  } else if (which === 'ocup') {
+    currentOcupMode = mode;
+    document.getElementById('ocup-mode-comp')?.classList.toggle('on', mode === 'comp');
+    document.getElementById('ocup-mode-media')?.classList.toggle('on', mode === 'media');
+    buildOcupLineChart(window._ocupLineLabels, window._ocupLineDatasets);
+  }
 }
 
 function rebuildChart(which) {
