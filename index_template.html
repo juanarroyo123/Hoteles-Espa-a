@@ -2373,10 +2373,10 @@ function renderAskingPrice() {
   const grid = document.getElementById('asking-grid');
   const byZone = {};
   HOTELES.forEach(h => {
-    if (!h.ubicacion || !h.precio || h.precio === 'Consultar') return;
-    const precio = parseFloat(h.precio.replace(/[^0-9]/g, ''));
+    if (!h.location || !h.price || h.price === 'Precio a consultar') return;
+    const precio = parseFloat(h.price.replace(/[^0-9]/g, ''));
     if (!precio || precio < 50000) return;
-    const zona = h.ubicacion.split(',').pop().trim() || h.ubicacion;
+    const zona = h.location.split(',').pop().trim() || h.location;
     if (!byZone[zona]) byZone[zona] = { total: 0, count: 0 };
     byZone[zona].total += precio;
     byZone[zona].count++;
@@ -2514,11 +2514,11 @@ function refreshMap() {
   };
 
   HOTELES.forEach(h => {
-    const coords = getCoordsFromUbicacion(h.ubicacion);
+    const coords = getCoordsFromUbicacion(h.location);
     if (!coords) return;
 
-    const color = SOURCE_COLORS[h.fuente] || '#d4a843';
-    const isNew = h.nuevo;
+    const color = SOURCE_COLORS[h.source] || '#d4a843';
+    const isNew = isRecente(h.date, 7);
 
     const icon = L.divIcon({
       className: '',
@@ -2539,11 +2539,11 @@ function refreshMap() {
       .addTo(mapInstance)
       .bindPopup(`
         <div style="font-family:Arial;min-width:200px">
-          <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.fuente || 'Fuente'}</div>
-          <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.titulo || 'Hotel'}</div>
-          <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.ubicacion || ''}</div>
-          <div style="font-size:1rem;font-weight:700;color:#c9a84c;margin-bottom:8px">${h.precio || 'Consultar'}</div>
-          ${h.descripcion ? `<div style="font-size:0.75rem;color:#555;margin-bottom:8px">${h.descripcion}</div>` : ''}
+          <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.source || 'Fuente'}</div>
+          <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.title || 'Hotel'}</div>
+          <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.location || ''}</div>
+          <div style="font-size:1rem;font-weight:700;color:#c9a84c;margin-bottom:8px">${h.price || 'Precio a consultar'}</div>
+          ${h.description ? `<div style='font-size:0.75rem;color:#555;margin-bottom:8px'>${h.description}</div>` : ''}
           ${h.url ? `<a href="${h.url}" target="_blank" style="font-size:0.72rem;color:#4a9ede">Ver anuncio →</a>` : ''}
         </div>
       `);
