@@ -495,6 +495,7 @@ header{
           <select id="adr-line-from" onchange="rebuildLineChart('adr')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
           <span style="font-size:0.62rem;color:var(--muted)">a</span>
           <select id="adr-line-to" onchange="rebuildLineChart('adr')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
+          <span id="adr-line-growth" style="font-size:0.75rem;font-weight:700;padding:0.15rem 0.6rem;border-radius:3px"></span>
           <button class="chip on" id="adr-mode-comp" onclick="setChartMode('adr','comp',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Comparativa</button>
           <button class="chip" id="adr-mode-media" onclick="setChartMode('adr','media',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Media</button>
         </div>
@@ -543,6 +544,7 @@ header{
           <select id="rev-line-from" onchange="rebuildLineChart('rev')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
           <span style="font-size:0.62rem;color:var(--muted)">a</span>
           <select id="rev-line-to" onchange="rebuildLineChart('rev')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
+          <span id="rev-line-growth" style="font-size:0.75rem;font-weight:700;padding:0.15rem 0.6rem;border-radius:3px"></span>
           <button class="chip on" id="rev-mode-comp" onclick="setChartMode('rev','comp',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Comparativa</button>
           <button class="chip" id="rev-mode-media" onclick="setChartMode('rev','media',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Media</button>
         </div>
@@ -1004,29 +1006,62 @@ const INE_MEM   = {};
 function initLineRangeSelectors() {
   const pts = buildFullSeries('adr');
   const years = [...new Set(pts.map(p => p.year))].sort();
+  const opts = years.map(y => `<option value="${y}">${y}</option>`).join('');
 
   ['adr-line-from','rev-line-from'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join('');
-    el.value = 2019; // default start
+    el.innerHTML = opts;
+    el.value = 2019;
   });
   ['adr-line-to','rev-line-to'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join('');
+    el.innerHTML = opts;
     el.value = years[years.length - 1];
   });
+
+  // Trigger initial render with default range
+  rebuildLineChart('adr');
+  rebuildLineChart('rev');
+}
+
+function updateLineBadge(which, filtered, metrica) {
+  const badgeId = which + '-line-growth';
+  const badge = document.getElementById(badgeId);
+  if (!badge) return;
+
+  const cats = ['5★','4★','3★','2★','1★'];
+  // Media de todas las categorías en el primer y último punto válido
+  const firstVals = filtered.find(p => cats.some(c => p.vals[c] != null));
+  const lastVals  = [...filtered].reverse().find(p => cats.some(c => p.vals[c] != null));
+  if (!firstVals || !lastVals) { badge.textContent = ''; return; }
+
+  const avg = pts => {
+    const v = cats.map(c => pts.vals[c]).filter(v => v != null);
+    return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null;
+  };
+  const first = avg(firstVals), last = avg(lastVals);
+  if (!first || !last) { badge.textContent = ''; return; }
+
+  const growth = ((last - first) / first) * 100;
+  const pos = growth >= 0;
+  badge.textContent = (pos?'+':'') + growth.toFixed(1) + '%';
+  badge.style.cssText = `font-size:0.75rem;font-weight:700;padding:0.15rem 0.6rem;border-radius:3px;
+    background:${pos?'rgba(26,92,69,0.08)':'rgba(192,57,43,0.08)'};
+    color:${pos?'var(--green)':'#c0392b'};
+    border:1px solid ${pos?'rgba(26,92,69,0.2)':'rgba(192,57,43,0.2)'};
+    letter-spacing:0.03em`;
 }
 
 function rebuildLineChart(which) {
   const fromEl = document.getElementById(which + '-line-from');
   const toEl   = document.getElementById(which + '-line-to');
-  const fromY  = fromEl ? parseInt(fromEl.value) : 2010;
+  const fromY  = fromEl ? parseInt(fromEl.value) : 2019;
   const toY    = toEl   ? parseInt(toEl.value)   : 2026;
 
-  const metrica = which === 'adr' ? 'adr' : 'revpar';
-  const allPts  = buildFullSeries(metrica);
+  const metrica  = which === 'adr' ? 'adr' : 'revpar';
+  const allPts   = buildFullSeries(metrica);
   const filtered = allPts.filter(p => p.year >= fromY && p.year <= toY);
 
   const labels = filtered.map(p => p.label);
@@ -1034,25 +1069,27 @@ function rebuildLineChart(which) {
   const data   = {};
   cats.forEach(c => { data[c] = filtered.map(p => p.vals[c] ?? null); });
 
+  updateLineBadge(which, filtered, metrica);
+
+  const mode  = which === 'adr' ? modeADR : modeREV;
+  const yLbl  = which === 'adr' ? 'ADR (€/noche)' : 'RevPAR (€)';
+  const canvasId = which === 'adr' ? 'chart-adr-line' : 'chart-rev-line';
+  const el = document.getElementById(canvasId);
+  if (!el) return;
+
   if (which === 'adr') {
-    lastLabels  = labels;
-    lastADRData = data;
-    const el = document.getElementById('chart-adr-line');
+    lastLabels = labels; lastADRData = data;
     if (chartADR) chartADR.destroy();
     chartADR = new Chart(el.getContext('2d'), {
-      type: 'line',
-      data: { labels, datasets: getDatasets(data, modeADR) },
-      options: CHART_OPTS_LIGHT('ADR (€/noche)')
+      type:'line', data:{labels, datasets:getDatasets(data, modeADR)},
+      options: CHART_OPTS_LIGHT(yLbl)
     });
   } else {
-    lastLabels  = labels;
-    lastREVData = data;
-    const el = document.getElementById('chart-rev-line');
+    lastLabels = labels; lastREVData = data;
     if (chartREV) chartREV.destroy();
     chartREV = new Chart(el.getContext('2d'), {
-      type: 'line',
-      data: { labels, datasets: getDatasets(data, modeREV) },
-      options: CHART_OPTS_LIGHT('RevPAR (€)')
+      type:'line', data:{labels, datasets:getDatasets(data, modeREV)},
+      options: CHART_OPTS_LIGHT(yLbl)
     });
   }
 }
