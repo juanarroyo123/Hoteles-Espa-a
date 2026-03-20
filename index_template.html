@@ -316,6 +316,7 @@ header{
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border-dark)}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 .kpi-row{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);margin-bottom:0}
 .kpi{background:#fff;padding:1.2rem 1.4rem;flex:1 1 200px}
@@ -337,8 +338,6 @@ header{
 .heat-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#fff;position:relative;z-index:1;line-height:1;margin-top:0.2rem}
 .heat-sub{font-size:0.6rem;color:rgba(255,255,255,0.6);position:relative;z-index:1}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-
 </head>
 <body>
 
@@ -491,7 +490,11 @@ header{
         <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted)">ADR por categoría — serie histórica</div>
         <span style="font-size:0.62rem;color:var(--muted);padding:0.15rem 0.5rem;border:1px solid var(--border);border-radius:2px">INE IRSH</span>
         <button onclick="clearINECache()" style="background:none;border:1px solid var(--border);color:var(--muted);font-size:0.6rem;padding:0.1rem 0.5rem;border-radius:2px;cursor:pointer;font-family:inherit">↻ Actualizar</button>
-        <div style="display:flex;gap:0.5rem;margin-left:auto;flex-wrap:wrap">
+        <div style="display:flex;gap:0.5rem;margin-left:auto;flex-wrap:wrap;align-items:center">
+          <span style="font-size:0.62rem;color:var(--muted)">De</span>
+          <select id="adr-line-from" onchange="rebuildLineChart('adr')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
+          <span style="font-size:0.62rem;color:var(--muted)">a</span>
+          <select id="adr-line-to" onchange="rebuildLineChart('adr')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
           <button class="chip on" id="adr-mode-comp" onclick="setChartMode('adr','comp',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Comparativa</button>
           <button class="chip" id="adr-mode-media" onclick="setChartMode('adr','media',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Media</button>
         </div>
@@ -535,7 +538,11 @@ header{
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap">
         <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted)">RevPAR por categoría — serie histórica</div>
         <span style="font-size:0.62rem;color:var(--muted);padding:0.15rem 0.5rem;border:1px solid var(--border);border-radius:2px">INE IRSH</span>
-        <div style="display:flex;gap:0.5rem;margin-left:auto;flex-wrap:wrap">
+        <div style="display:flex;gap:0.5rem;margin-left:auto;flex-wrap:wrap;align-items:center">
+          <span style="font-size:0.62rem;color:var(--muted)">De</span>
+          <select id="rev-line-from" onchange="rebuildLineChart('rev')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
+          <span style="font-size:0.62rem;color:var(--muted)">a</span>
+          <select id="rev-line-to" onchange="rebuildLineChart('rev')" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
           <button class="chip on" id="rev-mode-comp" onclick="setChartMode('rev','comp',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Comparativa</button>
           <button class="chip" id="rev-mode-media" onclick="setChartMode('rev','media',this)" style="padding:0.15rem 0.6rem;font-size:0.6rem">Media</button>
         </div>
@@ -993,6 +1000,63 @@ let lastADRData = {};
 let lastREVData = {};
 const INE_MEM   = {};
 
+// ── LINE CHART RANGE SELECTORS ────────────────────────────────────────────
+function initLineRangeSelectors() {
+  const pts = buildFullSeries('adr');
+  const years = [...new Set(pts.map(p => p.year))].sort();
+
+  ['adr-line-from','rev-line-from'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join('');
+    el.value = 2019; // default start
+  });
+  ['adr-line-to','rev-line-to'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join('');
+    el.value = years[years.length - 1];
+  });
+}
+
+function rebuildLineChart(which) {
+  const fromEl = document.getElementById(which + '-line-from');
+  const toEl   = document.getElementById(which + '-line-to');
+  const fromY  = fromEl ? parseInt(fromEl.value) : 2010;
+  const toY    = toEl   ? parseInt(toEl.value)   : 2026;
+
+  const metrica = which === 'adr' ? 'adr' : 'revpar';
+  const allPts  = buildFullSeries(metrica);
+  const filtered = allPts.filter(p => p.year >= fromY && p.year <= toY);
+
+  const labels = filtered.map(p => p.label);
+  const cats   = ['5★','4★','3★','2★','1★'];
+  const data   = {};
+  cats.forEach(c => { data[c] = filtered.map(p => p.vals[c] ?? null); });
+
+  if (which === 'adr') {
+    lastLabels  = labels;
+    lastADRData = data;
+    const el = document.getElementById('chart-adr-line');
+    if (chartADR) chartADR.destroy();
+    chartADR = new Chart(el.getContext('2d'), {
+      type: 'line',
+      data: { labels, datasets: getDatasets(data, modeADR) },
+      options: CHART_OPTS_LIGHT('ADR (€/noche)')
+    });
+  } else {
+    lastLabels  = labels;
+    lastREVData = data;
+    const el = document.getElementById('chart-rev-line');
+    if (chartREV) chartREV.destroy();
+    chartREV = new Chart(el.getContext('2d'), {
+      type: 'line',
+      data: { labels, datasets: getDatasets(data, modeREV) },
+      options: CHART_OPTS_LIGHT('RevPAR (€)')
+    });
+  }
+}
+
 function setChartMode(which, mode, btn) {
   if (which === 'adr') {
     modeADR = mode;
@@ -1165,24 +1229,8 @@ function getDatasets(datasetsObj, mode) {
 }
 
 function rebuildChart(which) {
-  if (!lastLabels.length) return;
-  if (which === 'adr') {
-    const el = document.getElementById('chart-adr-line');
-    if (chartADR) chartADR.destroy();
-    chartADR = new Chart(el.getContext('2d'), {
-      type: 'line',
-      data: { labels: lastLabels, datasets: getDatasets(lastADRData, modeADR) },
-      options: CHART_OPTS_LIGHT('ADR (€/noche)')
-    });
-  } else {
-    const el = document.getElementById('chart-rev-line');
-    if (chartREV) chartREV.destroy();
-    chartREV = new Chart(el.getContext('2d'), {
-      type: 'line',
-      data: { labels: lastLabels, datasets: getDatasets(lastREVData, modeREV) },
-      options: CHART_OPTS_LIGHT('RevPAR (€)')
-    });
-  }
+  // Rebuild respecting current line range selector
+  rebuildLineChart(which);
 }
 
 // Datos de respaldo inmediatos — mensuales 2025 + ene/feb 2026 (notas de prensa INE)
@@ -2366,6 +2414,7 @@ async function clearINECache() {
 
 function renderLiveADRChart() {
   buildBothCharts(FALLBACK.labels, FALLBACK.adr, FALLBACK.revpar);
+  initLineRangeSelectors();
   initMMRangeSelectors();
   initMMRevRangeSelectors();
   buildMMCharts();
