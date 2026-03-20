@@ -510,6 +510,14 @@ header{
     <div style="border-top:1px solid var(--border);padding:1.4rem">
       <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap">
         <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted)">Media móvil ADR</div>
+        <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
+          <button class="chip on" id="mm-cat-media" onclick="selectMMCat('media',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">Media</button>
+          <button class="chip" id="mm-cat-5" onclick="selectMMCat('5★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">5★</button>
+          <button class="chip" id="mm-cat-4" onclick="selectMMCat('4★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">4★</button>
+          <button class="chip" id="mm-cat-3" onclick="selectMMCat('3★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">3★</button>
+          <button class="chip" id="mm-cat-2" onclick="selectMMCat('2★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">2★</button>
+          <button class="chip" id="mm-cat-1" onclick="selectMMCat('1★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">1★</button>
+        </div>
         <span style="font-size:0.62rem;color:var(--muted)">De</span>
         <select id="mm-from" onchange="buildMMCharts()" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
         <span style="font-size:0.62rem;color:var(--muted)">a</span>
@@ -546,6 +554,14 @@ header{
     <div style="border-top:1px solid var(--border);padding:1.4rem">
       <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap">
         <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted)">Media móvil RevPAR</div>
+        <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
+          <button class="chip on" id="mm-rev-cat-media" onclick="selectMMRevCat('media',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">Media</button>
+          <button class="chip" id="mm-rev-cat-5" onclick="selectMMRevCat('5★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">5★</button>
+          <button class="chip" id="mm-rev-cat-4" onclick="selectMMRevCat('4★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">4★</button>
+          <button class="chip" id="mm-rev-cat-3" onclick="selectMMRevCat('3★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">3★</button>
+          <button class="chip" id="mm-rev-cat-2" onclick="selectMMRevCat('2★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">2★</button>
+          <button class="chip" id="mm-rev-cat-1" onclick="selectMMRevCat('1★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">1★</button>
+        </div>
         <span style="font-size:0.62rem;color:var(--muted)">De</span>
         <select id="mm-rev-from" onchange="buildRevMMChart()" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
         <span style="font-size:0.62rem;color:var(--muted)">a</span>
@@ -575,6 +591,14 @@ header{
     <div style="border-top:1px solid var(--border);padding:1.4rem">
       <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap">
         <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted)">Media móvil ocupación</div>
+        <div style="display:flex;gap:0.3rem;flex-wrap:wrap">
+          <button class="chip on" id="ocup-mm-cat-media" onclick="selectOcupMMCat('media',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">Media</button>
+          <button class="chip" id="ocup-mm-cat-5" onclick="selectOcupMMCat('5★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">5★</button>
+          <button class="chip" id="ocup-mm-cat-4" onclick="selectOcupMMCat('4★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">4★</button>
+          <button class="chip" id="ocup-mm-cat-3" onclick="selectOcupMMCat('3★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">3★</button>
+          <button class="chip" id="ocup-mm-cat-2" onclick="selectOcupMMCat('2★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">2★</button>
+          <button class="chip" id="ocup-mm-cat-1" onclick="selectOcupMMCat('1★',this)" style="padding:0.12rem 0.5rem;font-size:0.58rem">1★</button>
+        </div>
         <span style="font-size:0.62rem;color:var(--muted)">De</span>
         <select id="ocup-mm-from" onchange="buildOcupMMChart()" style="background:#fff;border:1px solid var(--border);color:var(--text);font-family:'Montserrat',sans-serif;font-size:0.65rem;padding:0.15rem 0.4rem;cursor:pointer"></select>
         <span style="font-size:0.62rem;color:var(--muted)">a</span>
@@ -958,6 +982,31 @@ const ADR_CATEGORIAS = [
   { cat: '3★', adr: 112.0 }, { cat: '2★', adr: 88.0 }, { cat: '1★', adr: 72.0 },
 ];
 
+// ── CHART STATE ───────────────────────────────────────────────────────────
+let chartADR    = null;
+let chartREV    = null;
+let modeADR     = 'comp';
+let modeREV     = 'comp';
+let lastLabels  = [];
+let lastADRData = {};
+let lastREVData = {};
+const INE_MEM   = {};
+
+function setChartMode(which, mode, btn) {
+  if (which === 'adr') {
+    modeADR = mode;
+    document.getElementById('adr-mode-comp')?.classList.toggle('on', mode === 'comp');
+    document.getElementById('adr-mode-media')?.classList.toggle('on', mode === 'media');
+  } else if (which === 'rev') {
+    modeREV = mode;
+    document.getElementById('rev-mode-comp')?.classList.toggle('on', mode === 'comp');
+    document.getElementById('rev-mode-media')?.classList.toggle('on', mode === 'media');
+  } else if (which === 'ocup') {
+    setOcupMode(mode, btn);
+    return;
+  }
+  rebuildChart(which === 'adr' ? 'adr' : 'rev');
+}
 // ── INE API LIVE DATA ─────────────────────────────────────────────────────
 // Múltiples proxies CORS en orden de preferencia
 
@@ -1084,22 +1133,34 @@ function computeMedia(datasetsObj) {
 }
 
 function getDatasets(datasetsObj, mode) {
+  const isLong = lastLabels.length > 60;
   if (mode === 'media') {
     const media = computeMedia(datasetsObj);
     return [{
       label: 'Media total',
       data: media,
       borderColor: '#1a5c45',
-      backgroundColor: 'rgba(201,168,76,0.1)',
+      backgroundColor: 'rgba(26,92,69,0.06)',
       borderWidth: 2.5,
-      pointRadius: 3.5,
+      pointRadius: isLong ? 0 : 3.5,
       pointBackgroundColor: '#1a5c45',
       tension: 0.3,
       fill: true,
     }];
   }
   // Comparativa — 5 líneas
-  return makeDatasets(datasetsObj, []);
+  const cats = ['5★','4★','3★','2★','1★'];
+  return cats.map(c => ({
+    label: c,
+    data: datasetsObj[c] || [],
+    borderColor: CAT_COLORS[c] || '#999',
+    backgroundColor: 'transparent',
+    borderWidth: 2,
+    pointRadius: isLong ? 0 : 3,
+    pointBackgroundColor: CAT_COLORS[c] || '#999',
+    tension: 0.3,
+    fill: false,
+  }));
 }
 
 function rebuildChart(which) {
@@ -1110,7 +1171,7 @@ function rebuildChart(which) {
     chartADR = new Chart(el.getContext('2d'), {
       type: 'line',
       data: { labels: lastLabels, datasets: getDatasets(lastADRData, modeADR) },
-      options: CHART_OPTS('ADR')
+      options: CHART_OPTS_LIGHT('ADR (€/noche)')
     });
   } else {
     const el = document.getElementById('chart-rev-line');
@@ -1118,7 +1179,7 @@ function rebuildChart(which) {
     chartREV = new Chart(el.getContext('2d'), {
       type: 'line',
       data: { labels: lastLabels, datasets: getDatasets(lastREVData, modeREV) },
-      options: CHART_OPTS('RevPAR')
+      options: CHART_OPTS_LIGHT('RevPAR (€)')
     });
   }
 }
@@ -1504,18 +1565,19 @@ function buildOcupLineChart(labels, datasets) {
   document.getElementById('ocup-loading').style.display = 'none';
 
   const cats = ['5★','4★','3★','2★','1★'];
+  const isLong = labels.length > 60;
   let chartDatasets;
   if (currentOcupMode === 'media') {
     const avgData = labels.map((_, i) => {
       const vals = cats.map(c => datasets[c]?.[i]).filter(v => v != null);
       return vals.length ? +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(2) : null;
     });
-    chartDatasets = [{ label:'Media', data: avgData, borderColor:'#7eca9c', backgroundColor:'rgba(126,202,156,0.08)', borderWidth:2, pointRadius:3, tension:0.3, fill:true }];
+    chartDatasets = [{ label:'Media', data: avgData, borderColor:'#1a5c45', backgroundColor:'rgba(26,92,69,0.06)', borderWidth:2, pointRadius:0, tension:0.3, fill:true }];
   } else {
     chartDatasets = cats.map(c => ({
       label: c, data: datasets[c] || [],
       borderColor: CAT_COLORS[c], backgroundColor: CAT_COLORS[c]+'18',
-      borderWidth: 1.8, pointRadius: 3, pointBackgroundColor: CAT_COLORS[c], tension: 0.3, fill: false
+      borderWidth: 1.8, pointRadius: isLong ? 0 : 3, pointBackgroundColor: CAT_COLORS[c], tension: 0.3, fill: false
     }));
   }
 
@@ -1528,17 +1590,17 @@ function buildOcupLineChart(labels, datasets) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor:'#1a1812', borderColor:'#3d3520', borderWidth:1,
-          titleColor:'#7eca9c', bodyColor:'#e8d8a0', padding:10,
+          backgroundColor: '#fff', borderColor: '#d4d0c8', borderWidth: 1,
+          titleColor: '#1a5c45', bodyColor: '#4a4640', padding: 10,
           callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y?.toFixed(1)}%` }
         }
       },
       scales: {
-        x: { grid:{display:false}, ticks:{color:'#8a7a50', font:{size:9},
+        x: { grid:{display:false}, ticks:{color:'#8a857a', font:{size:9, family:"'Montserrat',sans-serif"},
           callback:(_, idx) => { const l=labels[idx]||''; return l.startsWith('Ene')?l:''; }
         }},
-        y: { grid:{color:'rgba(255,255,255,0.05)'}, ticks:{color:'#8a7a50',font:{size:10},callback:v=>v+'%'},
-          min:0, max:100, title:{display:true, text:'Ocupación (%)', color:'#8a7a50', font:{size:9}} }
+        y: { grid:{color:'rgba(0,0,0,0.05)'}, ticks:{color:'#8a857a',font:{size:10},callback:v=>v+'%'},
+          min:0, max:100, title:{display:true, text:'Ocupación (%)', color:'#8a857a', font:{size:9}} }
       }
     }
   });
@@ -1580,28 +1642,28 @@ function buildOcupMMChart() {
   const rangeEl = document.getElementById('ocup-mm-range-label');
   if (rangeEl) rangeEl.textContent = `${allPoints[fromIdx]?.label} → ${allPoints[toIdx]?.label} · ${toIdx-fromIdx+1} meses`;
 
-  const color = currentOcupMMCat === 'media' ? '#7eca9c' : (CAT_COLORS[currentOcupMMCat] || '#7eca9c');
+  const color = currentOcupMMCat === 'media' ? '#1a5c45' : (CAT_COLORS[currentOcupMMCat] || '#1a5c45');
   const ctx = document.getElementById('chart-ocup-mm')?.getContext('2d');
   if (!ctx) return;
   if (chartOcupMM) chartOcupMM.destroy();
   chartOcupMM = new Chart(ctx, {
     type: 'bar',
-    data: { labels, datasets:[{ data:mm, backgroundColor:color+'bb', borderColor:color, borderWidth:1, borderRadius:1 }] },
+    data: { labels, datasets:[{ data:mm, backgroundColor:color+'bb', borderColor:color, borderWidth:1, borderRadius:2 }] },
     options: {
       responsive:true, maintainAspectRatio:false,
       interaction:{mode:'index',intersect:false},
       plugins: {
         legend:{display:false},
         tooltip:{
-          backgroundColor:'#1a1812',borderColor:'#3d3520',borderWidth:1,
-          titleColor:'#7eca9c',bodyColor:'#e8d8a0',padding:10,
+          backgroundColor:'#fff',borderColor:'#d4d0c8',borderWidth:1,
+          titleColor:'#1a5c45',bodyColor:'#4a4640',padding:10,
           callbacks:{label:c=>` MM12: ${c.parsed.y?.toFixed(1)}%`}
         }
       },
       scales: {
-        x:{grid:{display:false}, ticks:{color:'#8a7a50',font:{size:9},
+        x:{grid:{display:false}, ticks:{color:'#8a857a',font:{size:9,family:"'Montserrat',sans-serif"},
           callback:(_,idx)=>{const l=labels[idx]||'';return l.startsWith('Ene')?l:'';}}},
-        y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#8a7a50',font:{size:10},callback:v=>v+'%'},
+        y:{grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#8a857a',font:{size:10},callback:v=>v+'%'},
           min:0,max:100}
       }
     }
@@ -1609,15 +1671,19 @@ function buildOcupMMChart() {
 }
 
 async function renderLiveOcupChart() {
-  // Mostrar fallback inmediatamente
-  buildOcupLineChart(OCUP_FALLBACK.labels, OCUP_FALLBACK.datasets);
+  // Construir serie completa 2010→hoy
+  const allPts = buildOcupFullSeries();
+  const labels = allPts.map(p => p.label);
+  const cats = ['5★','4★','3★','2★','1★'];
+  const datasets = {};
+  cats.forEach(c => { datasets[c] = allPts.map(p => p[c] ?? null); });
+
+  buildOcupLineChart(labels, datasets);
   initOcupMMRangeSelectors();
   buildOcupMMChart();
 
   const src = document.getElementById('ocup-linechart-source');
-  if (src) src.textContent = 'Referencia 2025 · actualizando desde INE...';
-
-  if (src) src.innerHTML = '📊 Datos históricos INE · dic 2024';
+  if (src) src.innerHTML = '📊 Serie histórica INE 2010–2026';
 }
 
 
@@ -1947,7 +2013,7 @@ function buildRevMMChart() {
     type: 'bar',
     data: {
       labels,
-      datasets: [{ data: mm, backgroundColor: color + 'bb', borderColor: color, borderWidth: 1, borderRadius: 1 }]
+      datasets: [{ data: mm, backgroundColor: color + 'bb', borderColor: color, borderWidth: 1, borderRadius: 2 }]
     },
     options: {
       responsive: true, maintainAspectRatio: false,
@@ -1955,21 +2021,21 @@ function buildRevMMChart() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#1a1812', borderColor: '#3d3520', borderWidth: 1,
-          titleColor: '#4a9ede', bodyColor: '#e8d8a0', padding: 10,
-          callbacks: { label: ctx => ` MM12: ${ctx.parsed.y?.toFixed(1)}€` }
+          backgroundColor: '#fff', borderColor: '#d4d0c8', borderWidth: 1,
+          titleColor: '#1a5c45', bodyColor: '#4a4640', padding: 10,
+          callbacks: { label: c => ` MM12: ${c.parsed.y?.toFixed(1)}€` }
         }
       },
       scales: {
         x: {
           grid: { display: false },
-          ticks: { color: '#8a7a50', font: { size: 9 },
+          ticks: { color: '#8a857a', font: { size: 9, family: "'Montserrat',sans-serif" },
             callback: (_, idx) => { const l = labels[idx]||''; return l.startsWith('Ene') ? l : ''; }
           }
         },
         y: {
-          grid: { color: 'rgba(255,255,255,0.05)' },
-          ticks: { color: '#8a7a50', font: { size: 10 }, callback: v => v + '€' },
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { color: '#8a857a', font: { size: 10 }, callback: v => v + '€' },
           beginAtZero: false
         }
       }
@@ -2069,7 +2135,7 @@ function buildMMChart(canvasId, metrica, cat) {
         backgroundColor: color + 'bb',
         borderColor: color,
         borderWidth: 1,
-        borderRadius: 1,
+        borderRadius: 2,
       }]
     },
     options: {
@@ -2079,8 +2145,12 @@ function buildMMChart(canvasId, metrica, cat) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#1a1812', borderColor: '#3d3520', borderWidth: 1,
-          titleColor: '#1a5c45', bodyColor: '#e8d8a0', padding: 10,
+          backgroundColor: '#fff',
+          borderColor: '#d4d0c8',
+          borderWidth: 1,
+          titleColor: '#1a5c45',
+          bodyColor: '#4a4640',
+          padding: 10,
           callbacks: { label: ctx => ` MM12: ${ctx.parsed.y?.toFixed(1)}€` }
         }
       },
@@ -2088,13 +2158,13 @@ function buildMMChart(canvasId, metrica, cat) {
         x: {
           grid: { display: false },
           ticks: {
-            color: '#8a7a50', font: { size: 9 },
+            color: '#8a857a', font: { size: 9, family: "'Montserrat',sans-serif" },
             callback: (_, idx) => { const l = labels[idx]||''; return l.startsWith('Ene') ? l : ''; }
           }
         },
         y: {
-          grid: { color: 'rgba(255,255,255,0.05)' },
-          ticks: { color: '#8a7a50', font: { size: 10 }, callback: v => v + '€' },
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { color: '#8a857a', font: { size: 10 }, callback: v => v + '€' },
           beginAtZero: false
         }
       }
@@ -2117,18 +2187,18 @@ const CHART_OPTS = (title) => ({
   plugins: {
     legend: { display: false },
     tooltip: {
-      backgroundColor: '#1a1812',
-      borderColor: '#3d3520',
+      backgroundColor: '#fff',
+      borderColor: '#d4d0c8',
       borderWidth: 1,
       titleColor: '#1a5c45',
-      bodyColor: '#e8d8a0',
+      bodyColor: '#4a4640',
       padding: 10,
       callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(1)}€` }
     }
   },
   scales: {
-    x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#8a7a50', font: { size: 10 } } },
-    y: { grid: { color: 'rgba(255,255,255,0.06)' }, ticks: { color: '#8a7a50', font: { size: 10 }, callback: v => v + '€' }, beginAtZero: false }
+    x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#8a857a', font: { size: 10 } } },
+    y: { grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { color: '#8a857a', font: { size: 10 }, callback: v => v + '€' }, beginAtZero: false }
   }
 });
 
@@ -2146,31 +2216,92 @@ function makeDatasets(dataObj, labels) {
 }
 
 function buildBothCharts(labels, adrData, revData) {
-  // Guardar estado para el toggle
-  lastLabels = labels;
-  lastADRData = adrData;
-  lastREVData = revData;
+  // Construir serie completa 2010→hoy desde los datos históricos
+  const fullPtsADR = buildFullSeries('adr');
+  const fullPtsREV = buildFullSeries('revpar');
+
+  // Convertir allPoints a formato {labels, datasets} para ADR
+  const fullLabels = fullPtsADR.map(p => p.label);
+  const cats = ['5★','4★','3★','2★','1★'];
+  const fullADR = {};
+  const fullREV = {};
+  cats.forEach(c => {
+    fullADR[c] = fullPtsADR.map(p => p.vals[c] ?? null);
+    fullREV[c] = fullPtsREV.map(p => p.vals[c] ?? null);
+  });
+
+  // Guardar estado para toggle
+  lastLabels  = fullLabels;
+  lastADRData = fullADR;
+  lastREVData = fullREV;
 
   // ADR chart
   const adrEl = document.getElementById('chart-adr-line');
-  document.getElementById('adr-loading').style.display = 'none';
+  const adrLoading = document.getElementById('adr-loading');
+  if (adrLoading) adrLoading.style.display = 'none';
   if (chartADR) chartADR.destroy();
   chartADR = new Chart(adrEl.getContext('2d'), {
     type: 'line',
-    data: { labels, datasets: getDatasets(adrData, modeADR) },
-    options: CHART_OPTS('ADR')
+    data: { labels: fullLabels, datasets: getDatasets(fullADR, modeADR) },
+    options: CHART_OPTS_LIGHT('ADR (€/noche)')
   });
 
   // RevPAR chart
   const revEl = document.getElementById('chart-rev-line');
-  document.getElementById('rev-loading').style.display = 'none';
+  const revLoading = document.getElementById('rev-loading');
+  if (revLoading) revLoading.style.display = 'none';
   if (chartREV) chartREV.destroy();
   chartREV = new Chart(revEl.getContext('2d'), {
     type: 'line',
-    data: { labels, datasets: getDatasets(revData, modeREV) },
-    options: CHART_OPTS('RevPAR')
+    data: { labels: fullLabels, datasets: getDatasets(fullREV, modeREV) },
+    options: CHART_OPTS_LIGHT('RevPAR (€)')
   });
 }
+
+// Opciones de gráfico con estilo claro (mismo que la web)
+const CHART_OPTS_LIGHT = (yLabel) => ({
+  responsive: true,
+  maintainAspectRatio: false,
+  interaction: { mode: 'index', intersect: false },
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: '#fff',
+      borderColor: '#d4d0c8',
+      borderWidth: 1,
+      titleColor: '#1a5c45',
+      bodyColor: '#4a4640',
+      padding: 10,
+      callbacks: {
+        label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '€' : '—'}`
+      }
+    }
+  },
+  scales: {
+    x: {
+      grid: { color: 'rgba(0,0,0,0.04)' },
+      ticks: {
+        color: '#8a857a',
+        font: { size: 9, family: "'Montserrat', sans-serif" },
+        maxRotation: 0,
+        callback: (_, idx) => {
+          const l = lastLabels[idx] || '';
+          return l.startsWith('Ene') ? l : '';
+        }
+      }
+    },
+    y: {
+      grid: { color: 'rgba(0,0,0,0.05)' },
+      ticks: {
+        color: '#8a857a',
+        font: { size: 10, family: "'Montserrat', sans-serif" },
+        callback: v => v + '€'
+      },
+      beginAtZero: false,
+      title: { display: true, text: yLabel, color: '#8a857a', font: { size: 9 } }
+    }
+  }
+});
 
 function parseINEToChartData(tableData) {
   const catKeys = {
@@ -2235,9 +2366,11 @@ async function clearINECache() {
 function renderLiveADRChart() {
   buildBothCharts(FALLBACK.labels, FALLBACK.adr, FALLBACK.revpar);
   initMMRangeSelectors();
+  initMMRevRangeSelectors();
   buildMMCharts();
+  buildRevMMChart();
   const src = document.getElementById('linechart-source');
-  if (src) src.innerHTML = '📊 Datos históricos INE · dic 2024';
+  if (src) src.innerHTML = '📊 Serie histórica INE 2010–2026';
 }
 
 // ── LIVE ZONE TABLE — puntos turísticos INE ───────────────────────────────
