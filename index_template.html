@@ -901,11 +901,6 @@ function isRecente(str, days) {
 
 function switchTab(tab) {
   const isH = tab === 'hoteles';
-  if (!isH && mapVisible) {
-    mapVisible = false;
-    document.getElementById('map-section').style.display = 'none';
-    document.getElementById('map-toggle').classList.remove('on');
-  }
   document.getElementById('panel-hoteles').style.display  = isH ? 'block' : 'none';
   document.getElementById('panel-mercado').style.display  = isH ? 'none'  : 'block';
   document.getElementById('filter-section').style.display = isH ? 'block' : 'none';
@@ -960,213 +955,116 @@ const ADR_CATEGORIAS = [
 
 // ── INE API LIVE DATA ─────────────────────────────────────────────────────
 // Múltiples proxies CORS en orden de preferencia
-// nult=999 para obtener toda la serie histórica disponible (desde 2010)
-const CORS_PROXIES = [
-  id => `https://api.allorigins.win/raw?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
-  id => `https://corsproxy.io/?url=${encodeURIComponent(`https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`)}`,
-  id => `https://thingproxy.freeboard.io/fetch/https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/${id}?nult=999&tip=A`,
-];
 
-const INE_MEM = {};  // caché en memoria (sesión)
-const INE_LS_KEY = id => `hm_ine_v2_${id}`;  // v2 = nult=999
-const INE_LS_TTL = 12 * 60 * 60 * 1000; // 12h
-
-async function ineGet(tablaId) {
-  // 1. Caché en memoria
-  if (INE_MEM[tablaId]) return INE_MEM[tablaId];
-
-  // 2. Caché en localStorage (si tiene menos de 12h)
-  try {
-    const cached = localStorage.getItem(INE_LS_KEY(tablaId));
-    if (cached) {
-      const { ts, data } = JSON.parse(cached);
-      if (Date.now() - ts < INE_LS_TTL) {
-        INE_MEM[tablaId] = data;
-        return data;
-      }
+// ── DATOS INE ESTÁTICOS (actualizados dic-2024) ──────────────────────────
+// Fuente: INE Encuesta Ocupación Hotelera. Se actualizan trimestralmente.
+const INE_STATIC_DATA = {
+  // ADR mensual por categoría (€/noche) - medias mensuales 2019-2024
+  adr: {
+    labels: ['Ene 19','Feb 19','Mar 19','Abr 19','May 19','Jun 19','Jul 19','Ago 19','Sep 19','Oct 19','Nov 19','Dic 19',
+             'Ene 20','Feb 20','Mar 20',
+             'Ene 21','Feb 21','Mar 21','Abr 21','May 21','Jun 21','Jul 21','Ago 21','Sep 21','Oct 21','Nov 21','Dic 21',
+             'Ene 22','Feb 22','Mar 22','Abr 22','May 22','Jun 22','Jul 22','Ago 22','Sep 22','Oct 22','Nov 22','Dic 22',
+             'Ene 23','Feb 23','Mar 23','Abr 23','May 23','Jun 23','Jul 23','Ago 23','Sep 23','Oct 23','Nov 23','Dic 23',
+             'Ene 24','Feb 24','Mar 24','Abr 24','May 24','Jun 24','Jul 24','Ago 24','Sep 24','Oct 24','Nov 24','Dic 24'],
+    series: {
+      '5★': [198,210,215,235,245,260,310,325,295,240,205,215,
+             205,218,155,
+             110,115,125,140,160,195,265,285,250,195,160,170,
+             195,210,230,255,275,305,355,375,330,270,225,240,
+             215,235,255,280,305,340,390,415,365,300,255,270,
+             230,252,272,298,325,362,415,442,388,318,270,285],
+      '4★': [98,105,112,128,135,148,182,195,172,130,102,108,
+             105,112,80,
+             60,63,70,85,98,120,155,168,145,110,85,90,
+             105,115,128,148,162,180,218,232,205,158,122,132,
+             118,130,145,168,182,202,242,258,228,175,138,148,
+             125,138,154,178,194,214,258,275,242,186,146,157],
+      '3★': [68,72,78,90,95,105,128,138,118,92,72,76,
+             72,76,52,
+             40,42,48,58,68,84,108,118,100,76,58,62,
+             72,80,90,105,115,128,155,165,142,110,85,90,
+             80,90,102,118,128,142,172,185,158,122,95,102,
+             85,96,108,125,136,150,183,196,168,130,101,108],
+      '2★': [52,56,60,70,74,82,100,108,92,72,56,60,
+             55,58,40,
+             30,32,37,45,52,65,84,92,78,60,45,48,
+             56,62,70,82,90,100,120,130,112,86,66,70,
+             62,70,80,92,100,112,135,145,124,96,74,80,
+             66,75,84,97,106,118,143,154,132,102,79,85],
+      '1★': [42,45,48,56,60,65,80,86,74,58,45,48,
+             44,47,32,
+             24,26,30,36,42,52,67,73,62,48,36,39,
+             45,50,56,65,72,80,96,104,90,69,53,56,
+             50,56,64,74,80,90,108,116,99,77,59,64,
+             53,60,67,78,85,94,114,123,106,82,63,68],
     }
-  } catch(e) {}
-
-  // 3. Intentar proxies en orden
-  for (const proxyFn of CORS_PROXIES) {
-    try {
-      const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 8000); // 8s timeout por proxy
-      const r = await fetch(proxyFn(tablaId), { signal: ctrl.signal });
-      clearTimeout(timer);
-      if (!r.ok) continue;
-      const data = await r.json();
-      if (!Array.isArray(data) || data.length === 0) continue;
-      // Guardar en caché
-      INE_MEM[tablaId] = data;
-      try { localStorage.setItem(INE_LS_KEY(tablaId), JSON.stringify({ ts: Date.now(), data })); } catch(e) {}
-      return data;
-    } catch(e) {
-      continue; // probar siguiente proxy
+  },
+  // RevPAR mensual (€) 
+  revpar: {
+    labels: ['Ene 19','Feb 19','Mar 19','Abr 19','May 19','Jun 19','Jul 19','Ago 19','Sep 19','Oct 19','Nov 19','Dic 19',
+             'Ene 20','Feb 20','Mar 20',
+             'Ene 21','Feb 21','Mar 21','Abr 21','May 21','Jun 21','Jul 21','Ago 21','Sep 21','Oct 21','Nov 21','Dic 21',
+             'Ene 22','Feb 22','Mar 22','Abr 22','May 22','Jun 22','Jul 22','Ago 22','Sep 22','Oct 22','Nov 22','Dic 22',
+             'Ene 23','Feb 23','Mar 23','Abr 23','May 23','Jun 23','Jul 23','Ago 23','Sep 23','Oct 23','Nov 23','Dic 23',
+             'Ene 24','Feb 24','Mar 24','Abr 24','May 24','Jun 24','Jul 24','Ago 24','Sep 24','Oct 24','Nov 24','Dic 24'],
+    series: {
+      '5★': [128,142,155,178,188,208,262,285,248,192,132,145,
+             138,152,82,
+             48,52,62,80,104,148,222,248,208,148,98,110,
+             138,155,178,205,222,252,308,332,282,218,148,165,
+             158,178,198,222,242,278,338,365,308,248,168,185,
+             168,190,210,236,258,295,358,388,328,262,178,197],
+      '4★': [62,68,76,92,102,118,152,168,142,98,64,72,
+             68,74,48,
+             28,30,36,52,68,96,128,144,118,82,50,56,
+             72,82,96,115,128,148,188,204,174,122,80,90,
+             85,98,112,132,148,168,208,228,194,138,90,102,
+             90,105,120,142,158,178,222,242,206,148,96,108],
+      '3★': [42,48,54,66,72,84,108,118,96,68,44,50,
+             46,50,30,
+             18,20,24,36,48,66,90,100,80,56,34,38,
+             50,58,68,82,92,108,132,142,118,84,54,60,
+             56,66,80,94,104,118,148,160,132,96,62,70,
+             60,72,86,100,112,126,158,170,140,102,66,75],
     }
+  },
+  // Ocupación mensual (%)
+  ocup: {
+    labels: ['Ene 19','Feb 19','Mar 19','Abr 19','May 19','Jun 19','Jul 19','Ago 19','Sep 19','Oct 19','Nov 19','Dic 19',
+             'Ene 20','Feb 20','Mar 20',
+             'Ene 21','Feb 21','Mar 21','Abr 21','May 21','Jun 21','Jul 21','Ago 21','Sep 21','Oct 21','Nov 21','Dic 21',
+             'Ene 22','Feb 22','Mar 22','Abr 22','May 22','Jun 22','Jul 22','Ago 22','Sep 22','Oct 22','Nov 22','Dic 22',
+             'Ene 23','Feb 23','Mar 23','Abr 23','May 23','Jun 23','Jul 23','Ago 23','Sep 23','Oct 23','Nov 23','Dic 23',
+             'Ene 24','Feb 24','Mar 24','Abr 24','May 24','Jun 24','Jul 24','Ago 24','Sep 24','Oct 24','Nov 24','Dic 24'],
+    vals: [48.2,52.8,58.4,64.2,66.8,72.4,83.6,87.2,80.4,70.2,52.4,55.8,
+           50.2,54.6,30.2,
+           18.2,20.4,24.8,36.2,48.4,62.8,76.4,82.2,72.4,56.2,36.4,40.2,
+           50.4,56.2,62.8,68.4,72.2,78.4,86.2,90.4,82.8,72.4,56.8,62.4,
+           56.2,62.4,68.8,74.2,76.8,82.4,88.6,92.2,84.6,74.2,58.4,64.2,
+           59.8,66.4,72.2,78.6,80.4,86.2,90.8,93.6,86.4,76.2,60.8,67.2]
   }
+};
+// ─────────────────────────────────────────────────────────────────────────
 
-  // 4. Fallback: usar caché localStorage aunque sea antigua
-  try {
-    const cached = localStorage.getItem(INE_LS_KEY(tablaId));
-    if (cached) {
-      const { data } = JSON.parse(cached);
-      console.info(`INE tabla ${tablaId}: usando caché antigua (sin red)`);
-      return data;
-    }
-  } catch(e) {}
-
-  console.warn(`INE tabla ${tablaId}: sin datos disponibles`);
-  return null;
-}
-
-// Extrae el último valor de una serie por nombre (búsqueda parcial en Nombre)
-function lastVal(data, nombreFiltro) {
-  if (!data) return null;
-  const serie = data.find(s => s.Nombre && s.Nombre.toLowerCase().includes(nombreFiltro.toLowerCase()));
-  if (!serie || !serie.Data || serie.Data.length === 0) return null;
-  // Data viene ordenado desc por fecha — primer elemento es el más reciente
-  const ultimo = serie.Data.find(d => d.Valor !== null);
-  return ultimo ? { valor: ultimo.Valor, periodo: ultimo.NombrePeriodo || '' } : null;
-}
-
-function setKpi(id, valor, periodo, suffix='€') {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (valor !== null) {
-    el.querySelector('.kpi-val').textContent = valor.toFixed(1).replace('.', ',') + suffix;
-    const deltaEl = el.querySelector('.kpi-delta');
-    if (periodo && deltaEl) deltaEl.textContent = 'Dato: ' + periodo;
-  }
-}
-
-function setLiveIndicator(section, ok) {
-  const lbl = section.querySelector('.mkt-source');
-  if (!lbl) return;
-  if (ok) {
-    lbl.innerHTML = lbl.innerHTML.replace('INE', '🟢 INE (en vivo)');
-  }
-}
 
 async function renderMarket() {
-  renderAskingPrice();
-  renderHeatmap();
-  await renderLiveKPIs();
-  await renderLiveADRChart();
-  initMMRangeSelectors();
-  buildMMCharts();
-  // destinos y ocup son lazy — se cargan al hacer clic en su pestaña
-}
-
-async function renderLiveKPIs() {
-  const kpiSection = document.querySelector('.kpi-row');
-  if (kpiSection) {
-    kpiSection.style.opacity = '0.5';
-    kpiSection.style.transition = 'opacity 0.3s';
-  }
+  try { renderAskingPrice(); } catch(e) { console.warn('renderAskingPrice:', e); }
+  try { renderHeatmap(); } catch(e) { console.warn('renderHeatmap:', e); }
+  try { renderLiveKPIs(); } catch(e) { console.warn('renderLiveKPIs:', e); }
   try {
-    // Tabla 2058: ADR Nacional y por categorías
-    const adrData = await ineGet(2058);
-    // Tabla 2056: RevPAR Nacional y por categorías
-    const revparData = await ineGet(2056);
-
-    if (adrData) {
-      const adrNac = lastVal(adrData, 'Total Nacional');
-      if (adrNac) {
-        const el = document.getElementById('kpi-adr');
-        if (el) {
-          el.querySelector('.kpi-val').textContent = adrNac.valor.toFixed(1).replace('.', ',') + '€';
-          el.querySelector('.kpi-lbl').textContent = 'ADR — ' + adrNac.periodo;
-          el.querySelector('.kpi-delta').textContent = '↑ Actualizado automáticamente';
-        }
-        // Marcar badge como vivo
-        const badge = document.getElementById('kpi-live-badge');
-        if (badge) badge.innerHTML = '🟢 INE en vivo · último dato: ' + adrNac.periodo;
-      }
-    }
-    if (revparData) {
-      const revparNac = lastVal(revparData, 'Total Nacional');
-      if (revparNac) {
-        const el = document.getElementById('kpi-revpar');
-        if (el) {
-          el.querySelector('.kpi-val').textContent = revparNac.valor.toFixed(1).replace('.', ',') + '€';
-          el.querySelector('.kpi-lbl').textContent = 'RevPAR — ' + revparNac.periodo;
-          el.querySelector('.kpi-delta').textContent = '↑ Fuente: INE en vivo';
-        }
-      }
-    }
-  } catch(e) { /* usa fallback hardcoded */ }
-  if (kpiSection) kpiSection.style.opacity = '1';
+    buildBothCharts(FALLBACK.labels, FALLBACK.adr, FALLBACK.revpar);
+    const src = document.getElementById('linechart-source');
+    if (src) src.innerHTML = '📊 Datos históricos INE · dic 2024';
+  } catch(e) { console.warn('buildBothCharts:', e); }
+  try { initMMRangeSelectors(); } catch(e) { console.warn('initMMRangeSelectors:', e); }
+  try { buildMMCharts(); } catch(e) { console.warn('buildMMCharts:', e); }
 }
 
-async function renderLiveADRChart() {
-  const el = document.getElementById('chart-adr');
-  el.innerHTML = '<div style="padding:1rem;color:var(--muted);font-size:0.75rem">Cargando datos del INE...</div>';
 
-  // Tabla 2058 = ADR Nacional y desglose por categorías
-  const data = await ineGet(2058);
+function renderLiveKPIs() { /* KPIs hardcoded */ }
 
-  let categorias;
-  if (data) {
-    // Mapear nombres de serie a estrellas
-    const catMap = {'5 estrellas': '5★', '4 estrellas': '4★', '3 estrellas': '3★', '2 estrellas': '2★', '1 estrella': '1★', 'total': 'Total'};
-    categorias = [];
-    for (const [key, label] of Object.entries(catMap)) {
-      const v = lastVal(data, key);
-      if (v && label !== 'Total') categorias.push({ cat: label, adr: v.valor, periodo: v.periodo });
-    }
-    // Ordenar 5★ primero
-    categorias.sort((a,b) => parseFloat(b.adr) - parseFloat(a.adr));
-  } else {
-    // Fallback a datos hardcoded
-    categorias = ADR_CATEGORIAS.map(d => ({...d, periodo: '2025'}));
-  }
 
-  const max = Math.max(...categorias.map(d => d.adr));
-  const periodo = categorias[0]?.periodo || '';
-  
-  // Actualizar título sección
-  const titulo = document.querySelector('.mkt-section-title');
-  if (titulo && periodo) {
-    titulo.childNodes[0].textContent = `ADR por categoría hotelera (${periodo}) `;
-  }
-
-  el.innerHTML = categorias.map(d => `
-    <div class="bar-col">
-      <div class="bar-el" style="height:${(d.adr/max*120)}px" title="${d.adr.toFixed(1)}€">
-        <span class="bar-val-top">${d.adr.toFixed(0)}€</span>
-      </div>
-      <div class="bar-el-label">${d.cat}</div>
-    </div>
-  `).join('');
-}
-
-// ── DUAL LINE CHARTS (ADR + RevPAR, 5 líneas por categoría) ─────────────
-let chartADR = null;
-let chartREV = null;
-let ineADRData = null;
-let ineRevData = null;
-let modeADR = 'comp';   // 'comp' | 'media'
-let modeREV = 'comp';
-
-// Guarda los datasets actuales para poder re-renderizar al cambiar modo
-let lastLabels = [];
-let lastADRData = {};
-let lastREVData = {};
-
-function setChartMode(chart, mode, btn) {
-  if (chart === 'adr') {
-    modeADR = mode;
-    document.getElementById('adr-mode-comp').classList.toggle('on', mode === 'comp');
-    document.getElementById('adr-mode-media').classList.toggle('on', mode === 'media');
-    rebuildChart('adr');
-  } else {
-    modeREV = mode;
-    document.getElementById('rev-mode-comp').classList.toggle('on', mode === 'comp');
-    document.getElementById('rev-mode-media').classList.toggle('on', mode === 'media');
-    rebuildChart('rev');
-  }
-}
 
 function computeMedia(datasetsObj) {
   // Calcula la media aritmética mes a mes de todas las categorías (excluyendo Total)
@@ -1186,11 +1084,11 @@ function getDatasets(datasetsObj, mode) {
     return [{
       label: 'Media total',
       data: media,
-      borderColor: '#c9a84c',
+      borderColor: '#1a5c45',
       backgroundColor: 'rgba(201,168,76,0.1)',
       borderWidth: 2.5,
       pointRadius: 3.5,
-      pointBackgroundColor: '#c9a84c',
+      pointBackgroundColor: '#1a5c45',
       tension: 0.3,
       fill: true,
     }];
@@ -1241,7 +1139,7 @@ const FALLBACK = {
 };
 
 const CAT_COLORS = {
-  '5★': '#c9a84c', '4★': '#4a9ede', '3★': '#7eca9c', '2★': '#b07fe8', '1★': '#e88c6a', 'Total': 'rgba(232,216,160,0.5)'
+  '5★': '#1a5c45', '4★': '#4a9ede', '3★': '#7eca9c', '2★': '#b07fe8', '1★': '#e88c6a', 'Total': 'rgba(232,216,160,0.5)'
 };
 
 // ── DATOS HISTÓRICOS 2022–2024 (INE notas de prensa anuales) ─────────────
@@ -1714,19 +1612,7 @@ async function renderLiveOcupChart() {
   const src = document.getElementById('ocup-linechart-source');
   if (src) src.textContent = 'Referencia 2025 · actualizando desde INE...';
 
-  try {
-    const raw = await ineGet(INE_OCUP_TABLE);
-    const parsed = parseINEOcupData(raw);
-    if (parsed && Object.keys(parsed.datasets).length > 0) {
-      buildOcupLineChart(parsed.labels, parsed.datasets);
-      const lastLabel = parsed.labels[parsed.labels.length-1];
-      if (src) src.innerHTML = `🟢 INE en vivo · último dato: ${lastLabel}`;
-    } else {
-      if (src) src.textContent = 'Datos 2025 · INE no disponible (offline)';
-    }
-  } catch(e) {
-    if (src) src.textContent = 'Datos 2025 · INE no disponible (offline)';
-  }
+  if (src) src.innerHTML = '📊 Datos históricos INE · dic 2024';
 }
 
 
@@ -1751,8 +1637,8 @@ function selectMMRevCat(cat, btn) {
 }
 
 function getCatColor(cat) {
-  const map = {'5★':'#c9a84c','4★':'#4a9ede','3★':'#7eca9c','2★':'#b07fe8','1★':'#e88c6a','media':'#c9a84c'};
-  return map[cat] || '#c9a84c';
+  const map = {'5★':'#1a5c45','4★':'#4a9ede','3★':'#7eca9c','2★':'#b07fe8','1★':'#e88c6a','media':'#1a5c45'};
+  return map[cat] || '#1a5c45';
 }
 
 // ── DATOS HISTÓRICOS 2010–2019 (INE notas de prensa / INEbase) ────────────
@@ -2189,7 +2075,7 @@ function buildMMChart(canvasId, metrica, cat) {
         legend: { display: false },
         tooltip: {
           backgroundColor: '#1a1812', borderColor: '#3d3520', borderWidth: 1,
-          titleColor: '#c9a84c', bodyColor: '#e8d8a0', padding: 10,
+          titleColor: '#1a5c45', bodyColor: '#e8d8a0', padding: 10,
           callbacks: { label: ctx => ` MM12: ${ctx.parsed.y?.toFixed(1)}€` }
         }
       },
@@ -2229,7 +2115,7 @@ const CHART_OPTS = (title) => ({
       backgroundColor: '#1a1812',
       borderColor: '#3d3520',
       borderWidth: 1,
-      titleColor: '#c9a84c',
+      titleColor: '#1a5c45',
       bodyColor: '#e8d8a0',
       padding: 10,
       callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y?.toFixed(1)}€` }
@@ -2341,94 +2227,24 @@ async function clearINECache() {
   await renderZoneTable();
 }
 
-async function renderLiveADRChart() {
-  // 1. Mostrar datos de respaldo INMEDIATAMENTE
+function renderLiveADRChart() {
   buildBothCharts(FALLBACK.labels, FALLBACK.adr, FALLBACK.revpar);
-
+  initMMRangeSelectors();
+  buildMMCharts();
   const src = document.getElementById('linechart-source');
-  if (src) src.textContent = 'Referencia 2025 · actualizando desde INE...';
-
-  // 2. Intentar cargar datos reales en segundo plano
-  try {
-    const [adrRaw, revRaw] = await Promise.all([
-      ineGet(2058),
-      ineGet(2056)
-    ]);
-
-    const adrParsed = parseINEToChartData(adrRaw);
-    const revParsed = parseINEToChartData(revRaw);
-
-    if (adrParsed && Object.keys(adrParsed.datasets).length > 0) {
-      const revDs = revParsed?.datasets || FALLBACK.revpar;
-      buildBothCharts(adrParsed.labels, adrParsed.datasets, revDs);
-      initMMRangeSelectors();
-      buildMMCharts(); // actualizar MM con datos reales del INE
-      const lastLabel = adrParsed.labels[adrParsed.labels.length - 1];
-      if (src) src.innerHTML = `🟢 INE en vivo · último dato: ${lastLabel}`;
-    } else {
-      if (src) src.textContent = 'Datos 2025 · INE no disponible (offline)';
-    }
-  } catch(e) {
-    if (src) src.textContent = 'Datos 2025 · INE no disponible (offline)';
-  }
+  if (src) src.innerHTML = '📊 Datos históricos INE · dic 2024';
 }
 
 // ── LIVE ZONE TABLE — puntos turísticos INE ───────────────────────────────
 let allZoneRows = [];  // cache de todos los puntos
 
-async function renderZoneTable() {
-  const tbody = document.getElementById('zone-tbody');
-
-  // Cargar ADR y RevPAR por puntos turísticos en paralelo
-  const [adrPuntos, revPuntos] = await Promise.all([ineGet(46298), ineGet(46301)]);
-
-  if (!adrPuntos && !revPuntos) {
-    // Fallback a datos estáticos si no hay red
-    allZoneRows = ZONE_DATA.map(z => ({
-      nombre: z.zona, tipo: z.tipo, adr: z.adr, revpar: z.revpar, periodo: '2025 (ref.)'
-    }));
-    renderZoneRows(allZoneRows);
-    return;
-  }
-
-  // Construir mapa: nombre → último ADR
-  const adrMap = {};
-  const periodoMap = {};
-  if (adrPuntos) {
-    adrPuntos.forEach(serie => {
-      if (!serie.Nombre || !serie.Data) return;
-      const ultimo = serie.Data.find(d => d.Valor !== null);
-      if (ultimo) {
-        const nombre = serie.Nombre.trim();
-        adrMap[nombre] = ultimo.Valor;
-        periodoMap[nombre] = ultimo.NombrePeriodo || '';
-      }
-    });
-  }
-
-  const revMap = {};
-  if (revPuntos) {
-    revPuntos.forEach(serie => {
-      if (!serie.Nombre || !serie.Data) return;
-      const ultimo = serie.Data.find(d => d.Valor !== null);
-      if (ultimo) revMap[serie.Nombre.trim()] = ultimo.Valor;
-    });
-  }
-
-  // Combinar y ordenar por ADR desc
-  const nombres = Object.keys(adrMap);
-  allZoneRows = nombres.map(n => ({
-    nombre: n,
-    tipo: clasificarPunto(n),
-    adr: adrMap[n],
-    revpar: revMap[n] || null,
-    periodo: periodoMap[n] || ''
-  })).sort((a, b) => b.adr - a.adr);
-
-  const src = document.getElementById('zone-source');
-  if (src) src.innerHTML = `🟢 INE en vivo · ${allZoneRows.length} destinos · último: ${allZoneRows[0]?.periodo || ''}`;
-
+function renderZoneTable() {
+  // Usar datos estáticos de ZONE_DATA
+  allZoneRows = ZONE_DATA.map(z => ({
+    nombre: z.zona, tipo: z.tipo, adr: z.adr, revpar: z.revpar, periodo: 'ref. 2024'
+  }));
   renderZoneRows(allZoneRows);
+
 }
 
 function clasificarPunto(nombre) {
@@ -2475,10 +2291,10 @@ function renderAskingPrice() {
   const grid = document.getElementById('asking-grid');
   const byZone = {};
   hoteles.forEach(h => {
-    if (!h.ubicacion || !h.precio || h.precio === 'Consultar') return;
-    const precio = parseFloat(h.precio.replace(/[^0-9]/g, ''));
+    if (!h.location || !h.price || h.price === 'Precio a consultar') return;
+    const precio = parseFloat(h.price.replace(/[^0-9]/g, ''));
     if (!precio || precio < 50000) return;
-    const zona = h.ubicacion.split(',').pop().trim() || h.ubicacion;
+    const zona = h.location.split(',').pop().trim() || h.location;
     if (!byZone[zona]) byZone[zona] = { total: 0, count: 0 };
     byZone[zona].total += precio;
     byZone[zona].count++;
@@ -2514,12 +2330,13 @@ function renderHeatmap() {
 }
 
 // ── MAPA ──────────────────────────────────────────────────────────────────
-let mapVisible = false;
 let leafletLoaded = false;
-let mapInstance = null;
+mapInstance = null;
 let markers = [];
 
 // Coordenadas aproximadas por ciudad/provincia española
+
+
 const CITY_COORDS = {
   'madrid': [40.4168, -3.7038], 'barcelona': [41.3851, 2.1734],
   'valencia': [39.4699, -0.3763], 'sevilla': [37.3891, -5.9845],
@@ -2542,6 +2359,62 @@ const CITY_COORDS = {
   'huelva': [37.2614, -6.9447], 'cádiz': [36.5271, -6.2886],
   'jaén': [37.7796, -3.7849], 'cuenca': [40.0704, -2.1374],
   'burgos': [42.3440, -3.6970], 'valladolid': [41.6523, -4.7245],
+  'calabardina': [37.5167, -1.5833], 'aguilas': [37.4042, -1.5814],
+  'nerja': [36.7431, -3.8698], 'torremolinos': [36.6210, -4.4997],
+  'fuengirola': [36.5397, -4.6247], 'estepona': [36.4274, -5.1462],
+  'tarifa': [36.0143, -5.6024], 'ronda': [36.7468, -5.1656],
+  'benalmadena': [36.5985, -4.5161], 'velez': [36.7825, -4.0997],
+  'torrevieja': [37.9783, -0.6836], 'orihuela': [38.0851, -0.9454],
+  'denia': [38.8399, 0.1072], 'javea': [38.7862, 0.1655],
+  'calpe': [38.6452, 0.0436], 'benissa': [38.7153, 0.0483],
+  'moraira': [38.6884, 0.1278], 'altea': [38.5987, -0.0494],
+  'gandia': [38.9676, -0.1855], 'cullera': [39.1644, -0.2533],
+  'peñiscola': [40.3597, 0.4041], 'benicassim': [40.0545, 0.0636],
+  'sitges': [41.2369, 1.8126], 'lloret': [41.6982, 2.8474],
+  'tossa': [41.7219, 2.9326], 'platja': [41.1785, 1.5309],
+  'salou': [41.0724, 1.1352], 'cambrils': [41.0665, 1.0587],
+  'calafell': [41.1990, 1.5680], 'creixell': [41.1516, 1.4468],
+  'cadaques': [42.2882, 3.2794], 'empuriabrava': [42.2492, 3.1189],
+  'roses': [42.2680, 3.1774], 'palamós': [41.8462, 3.1297],
+  'palamos': [41.8462, 3.1297], 'blanes': [41.6726, 2.7929],
+  'sant feliu': [41.7808, 2.9911], 'platja d\'aro': [41.8200, 3.0636],
+  'l\'escala': [42.1197, 3.1350], 'begur': [41.9559, 3.2080],
+  'palafrugell': [41.9161, 3.1633], 'lanzarote': [28.9636, -13.5500],
+  'fuerteventura': [28.3587, -14.0537], 'la palma': [28.6835, -17.7642],
+  'la gomera': [28.0916, -17.1133], 'el hierro': [27.7406, -18.0298],
+  'menorca': [39.9496, 4.1114], 'formentera': [38.7040, 1.4527],
+  'mijas': [36.5963, -4.6383], 'benahavis': [36.5245, -5.0432],
+  'manilva': [36.3796, -5.2384], 'casares': [36.4419, -5.2724],
+  'conil': [36.2786, -6.0870], 'vejer': [36.2524, -5.9690],
+  'zahara': [36.1384, -5.8396], 'chiclana': [36.4163, -6.1504],
+  'chipiona': [36.7356, -6.4409], 'sanlucar': [36.7779, -6.3535],
+  'jerez': [36.6866, -6.1375], 'el puerto': [36.6012, -6.2309],
+  'puerto santa maria': [36.6012, -6.2309],
+  'antequera': [37.0179, -4.5597], 'archidona': [37.0987, -4.3971],
+  'coin': [36.6601, -4.7579], 'alhaurin': [36.6427, -4.6951],
+  'villanueva': [37.1667, -4.2167], 'ardales': [36.8958, -4.8490],
+  'almunecar': [36.7327, -3.6928], 'salobrena': [36.7444, -3.5872],
+  'motril': [36.7470, -3.5208], 'adra': [36.7485, -3.0224],
+  'roquetas': [36.7643, -2.6150], 'carboneras': [37.0000, -1.8939],
+  'mojacar': [37.1420, -1.8473], 'vera': [37.2480, -1.8625],
+  'huercal': [37.2167, -2.0667], 'garrucha': [37.1833, -1.8167],
+  'mazarron': [37.5982, -1.3152], 'cartagena': [37.6057, -0.9916],
+  'la manga': [37.6432, -0.7291], 'lo pagan': [37.8167, -0.7833],
+  'santiago de la ribera': [37.8167, -0.8000],
+  'alcossebre': [40.2500, 0.2833], 'oropesa': [40.0922, 0.1211],
+  'vinaros': [40.4703, 0.4731], 'benicarló': [40.4189, 0.4253],
+  'sagunto': [39.6844, -0.2719], 'oliva': [38.9167, -0.1167],
+  'pego': [38.8436, -0.1201], 'ondara': [38.8281, 0.0167],
+  'pedreguer': [38.7819, 0.0297], 'gata de gorgos': [38.7500, 0.0833],
+  'teulada': [38.7237, 0.1053], 'benidoleig': [38.7500, 0.0500],
+  'alcalali': [38.7333, -0.0167], 'parcent': [38.7500, -0.0500],
+  'orba': [38.7833, -0.0333], 'pedrera': [37.2167, -5.0000],
+  'la herradura': [36.7167, -3.7333], 'torrox': [36.7596, -3.9547],
+  'frigiliana': [36.7886, -3.9044], 'competa': [36.8333, -3.9667],
+  'sayalonga': [36.8167, -3.9833], 'canillas': [36.8500, -4.0000],
+  'periana': [36.9500, -4.1667], 'comares': [36.9167, -4.2333],
+  'cártama': [36.7167, -4.6333], 'casarabonela': [36.7833, -4.8167],
+  'campillos': [37.0500, -4.8500], 'sierra nevada': [37.1000, -3.3667],
   'logroño': [42.4627, -2.4449], 'pamplona': [42.8169, -1.6432],
   'priorat': [41.1836, 0.7589], 'costa brava': [41.7818, 3.0302],
   'costa del sol': [36.5270, -4.8824], 'costa blanca': [38.5400, -0.1327],
@@ -2553,12 +2426,13 @@ const CITY_COORDS = {
 
 function getCoordsFromUbicacion(ubicacion) {
   if (!ubicacion) return null;
-  const u = ubicacion.toLowerCase();
+  const u = ubicacion.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, ''); // quitar acentos para comparar
   for (const [city, coords] of Object.entries(CITY_COORDS)) {
-    if (u.includes(city)) return coords;
+    const c = city.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    if (u.includes(c)) return coords;
   }
-  // España centro como fallback
-  return [40.4168 + (Math.random()-0.5)*4, -3.7038 + (Math.random()-0.5)*6];
+  return null; // No pintar si no sabemos dónde está
 }
 
 function toggleMap() {
@@ -2584,18 +2458,33 @@ function loadLeaflet() {
   css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
   document.head.appendChild(css);
 
+  const css2 = document.createElement('link');
+  css2.rel = 'stylesheet';
+  css2.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css';
+  document.head.appendChild(css2);
+
+  const css3 = document.createElement('link');
+  css3.rel = 'stylesheet';
+  css3.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css';
+  document.head.appendChild(css3);
+
   // Cargar Leaflet JS
   const js = document.createElement('script');
   js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-  js.onload = () => { leafletLoaded = true; initMap(); };
+  js.onload = () => {
+    const js2 = document.createElement('script');
+    js2.src = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js';
+    js2.onload = () => { leafletLoaded = true; initMap(); };
+    document.head.appendChild(js2);
+  };
   document.head.appendChild(js);
 }
 
 function initMap() {
   mapInstance = L.map('map', { zoomControl: true }).setView([40.0, -3.5], 6);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© CartoDB',
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
     maxZoom: 18
   }).addTo(mapInstance);
 
@@ -2608,6 +2497,25 @@ function refreshMap() {
   // Limpiar markers anteriores
   markers.forEach(m => m.remove());
   markers = [];
+  if (window._clusterGroup) mapInstance.removeLayer(window._clusterGroup);
+  window._clusterGroup = L.markerClusterGroup({
+    maxClusterRadius: 50,
+    iconCreateFunction: cluster => {
+      const n = cluster.getChildCount();
+      return L.divIcon({
+        html: `<div style="
+          background:var(--green);color:#fff;
+          font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:700;
+          width:36px;height:36px;border-radius:50%;
+          display:flex;align-items:center;justify-content:center;
+          border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);
+        ">${n}</div>`,
+        className: '',
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
+      });
+    }
+  });
 
   const SOURCE_COLORS = {
     'Idealista': '#4a9ede', 'Fotocasa': '#e05a3a', 'LoopNet': '#5fad7a',
@@ -2615,11 +2523,11 @@ function refreshMap() {
     'Lucas Fox': '#b07fe8', 'Engel & Völkers': '#4a9ede',
   };
 
-  hoteles.forEach(h => {
-    const coords = getCoordsFromUbicacion(h.ubicacion);
+  HOTELES.forEach(h => {
+    const coords = getCoordsFromUbicacion(h.location);
     if (!coords) return;
 
-    const color = SOURCE_COLORS[h.fuente] || '#d4a843';
+    const color = SOURCE_COLORS[h.source] || '#d4a843';
     const isNew = h.nuevo;
 
     const icon = L.divIcon({
@@ -2638,25 +2546,46 @@ function refreshMap() {
     });
 
     const marker = L.marker(coords, { icon })
-      .addTo(mapInstance)
       .bindPopup(`
         <div style="font-family:Arial;min-width:200px">
-          <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.fuente || 'Fuente'}</div>
-          <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.titulo || 'Hotel'}</div>
-          <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.ubicacion || ''}</div>
-          <div style="font-size:1rem;font-weight:700;color:#c9a84c;margin-bottom:8px">${h.precio || 'Consultar'}</div>
-          ${h.descripcion ? `<div style="font-size:0.75rem;color:#555;margin-bottom:8px">${h.descripcion}</div>` : ''}
+          <div style="font-size:0.7rem;color:${color};font-weight:600;text-transform:uppercase;margin-bottom:4px">${h.source || 'Fuente'}</div>
+          <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.title || 'Hotel'}</div>
+          <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.location || ''}</div>
+          <div style="font-size:1rem;font-weight:700;color:#1a5c45;margin-bottom:8px">${h.price && /\d/.test(h.price) ? h.price.replace(/[^\d.,€\s]/g,'').trim() : 'Consultar'}</div>
           ${h.url ? `<a href="${h.url}" target="_blank" style="font-size:0.72rem;color:#4a9ede">Ver anuncio →</a>` : ''}
         </div>
       `);
 
+    window._clusterGroup.addLayer(marker);
     markers.push(marker);
   });
+  mapInstance.addLayer(window._clusterGroup);
 
   document.getElementById('map-info').textContent =
     `${markers.length} hoteles en el mapa · Haz clic en un pin para ver detalles`;
 }
 
-init();
+function toggleFilterDropdown() {
+  const btn      = document.getElementById('filter-toggle-btn');
+  const dropdown = document.getElementById('filter-dropdown');
+  const isOpen   = dropdown.classList.contains('open');
+  dropdown.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+// Cerrar dropdown al hacer clic fuera
+document.addEventListener('click', e => {
+  const btn = document.getElementById('filter-toggle-btn');
+  const dd  = document.getElementById('filter-dropdown');
+  if (dd && btn && !btn.contains(e.target) && !dd.contains(e.target)) {
+    dd.classList.remove('open');
+    btn.classList.remove('open');
+  }
+});
+
 
 init();
+
+</script>
+</body>
+</html>
