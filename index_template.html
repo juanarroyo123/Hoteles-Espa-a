@@ -901,6 +901,11 @@ function isRecente(str, days) {
 
 function switchTab(tab) {
   const isH = tab === 'hoteles';
+  if (!isH && mapVisible) {
+    mapVisible = false;
+    document.getElementById('map-section').style.display = 'none';
+    document.getElementById('map-toggle').classList.remove('on');
+  }
   document.getElementById('panel-hoteles').style.display  = isH ? 'block' : 'none';
   document.getElementById('panel-mercado').style.display  = isH ? 'none'  : 'block';
   document.getElementById('filter-section').style.display = isH ? 'block' : 'none';
