@@ -132,22 +132,16 @@ def normalizar_titulo(s):
         s = re.sub(rf'\b{w}\b', '', s)
     return re.sub(r'\s+', ' ', s).strip()
 
-def es_duplicado(item):
-    """Detecta duplicados por precio + ubicación + título similar"""
+def es_duplicado(item, lista=None):
+    """Detecta duplicados por precio + título similar"""
+    from difflib import SequenceMatcher
+    if lista is None: lista = found_listings
     precio = re.sub(r'[^\d]', '', item.get('price',''))
-    loc = item.get('location','').lower().strip()
     titulo = normalizar_titulo(item.get('title',''))
     if not precio or not titulo: return False
-    for existing in found_listings:
-        # Mismo precio y misma ubicación
-        precio_ex = re.sub(r'[^\d]', '', existing.get('price',''))
-        loc_ex = existing.get('location','').lower().strip()
-        if precio and precio == precio_ex and loc and loc_ex and (loc in loc_ex or loc_ex in loc):
-            # Título similar
-            titulo_ex = normalizar_titulo(existing.get('title',''))
-            from difflib import SequenceMatcher
-            sim = SequenceMatcher(None, titulo, titulo_ex).ratio()
-            if sim > 0.6:
+    for ex in lista:
+        if re.sub(r'[^\d]', '', ex.get('price','')) == precio:
+            if SequenceMatcher(None, titulo, normalizar_titulo(ex.get('title',''))).ratio() >= 0.72:
                 return True
     return False
 
@@ -155,7 +149,7 @@ def add_listing(item):
     url = item.get('url','').strip().split('?')[0].rstrip('/')
     if not url or url in seen_urls: return False
     if not item.get('title') or len(item['title']) < 8: return False
-    if es_duplicado(item): return False
+    if es_duplicado(item, found_listings): return False
     seen_urls.add(url)
     item['url']         = url
     item['title']       = item['title'][:120]
@@ -517,6 +511,195 @@ def scrape_oirealestate(driver):
 # ══════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════
+# 5. NEGOCIOSENVENTA — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_negociosenventa(driver):
+    print('\n→ NegociosEnVenta...')
+    BASE = 'https://www.negociosenventa.es'
+    pages = [f'{BASE}/venta/hosteleria/hoteles', f'{BASE}/venta/hosteleria/hoteles?page=2']
+    total_nv = 0
+    seen_nv = set()
+    for page_url in pages:
+        try:
+            html = get_page(driver, page_url, wait=4)
+            if not html: continue
+            soup = BeautifulSoup(html, 'lxml')
+            # Cada anuncio tiene h2.listviewtitle con link dentro
+            h2s = soup.find_all('h2', class_='listviewtitle')
+            for h in h2s:
+                a = h.find('a', href=True)
+                if not a: continue
+                href = a.get('href','')
+                if not href.startswith('http'): href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_nv or href in seen_urls: continue
+                seen_nv.add(href)
+                title = clean(h.get_text())
+                if not title or len(title) < 5: continue
+                # Contenedor padre para precio y ciudad
+                container = h.parent  # div.newslisttext
+                loc_el = container.find('span', class_='textintro') if container else None
+                loc = clean(loc_el.get_text()) if loc_el else 'España'
+                desc_el = container.find('p') if container else None
+                description = clean(desc_el.get_text()) if desc_el else ''
+                # Precio — subir niveles hasta encontrar numPrice
+                price = 'Precio a consultar'
+                el = h
+                for _ in range(8):
+                    el = el.parent
+                    if not el: break
+                    p = el.find('span', class_='numPrice')
+                    if p:
+                        precio_txt = clean(p.get_text())
+                        if precio_txt and precio_txt != '1€' and precio_txt != '1 €':
+                            price = precio_txt
+                        break
+                added = add_listing({'title':title,'price':price,'location':loc,
+                    'description':description,'url':href,'source':'NegociosEnVenta','date':TODAY})
+                if added: total_nv += 1
+        except Exception as e:
+            print(f'  Error {page_url}: {e}')
+    print(f'  NegociosEnVenta TOTAL: {total_nv}')
+
+
+# ══════════════════════════════════════════════════════
+# 6. ENGEL & VÖLKERS — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_engelvoelkers(driver):
+    print('\n→ Engel & Völkers...')
+    import requests as req_mod
+    HEADERS_EV = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+    }
+    BASE = 'https://www.engelvoelkers.com'
+    url = f'{BASE}/es/es/inmuebles/com/compra/hotel'
+    total_ev = 0
+    try:
+        r = req_mod.get(url, headers=HEADERS_EV, timeout=15)
+        if r.status_code != 200:
+            print(f'  Status {r.status_code}, saltando')
+            return
+        soup = BeautifulSoup(r.text, 'lxml')
+        cards = soup.find_all('article')
+        for card in cards:
+            # Link
+            a = card.find('a', href=re.compile(r'/es/es/exposes/'))
+            if not a: continue
+            href = BASE + a.get('href','')
+            href = href.split('?')[0].rstrip('/')
+            if href in seen_urls: continue
+            # Título desde img alt
+            img = card.find('img')
+            title = clean(img.get('alt','')) if img else ''
+            if not title or len(title) < 8: continue
+            # Texto completo para extraer ubicación y precio
+            txt = card.get_text()
+            # Precio
+            pm = re.search(r'([\d.,]+(?:\.\d{3})*\s*€)', txt)
+            price = clean(pm.group(1)) if pm else 'Precio a consultar'
+            # Ubicación — primera línea antes del título
+            loc = 'España'
+            lines = [l.strip() for l in txt.split('\n') if l.strip()]
+            for line in lines[:3]:
+                if 'España' in line or 'Baleares' in line or ',' in line:
+                    loc = line.split('España')[0].strip().rstrip(',').strip()
+                    if loc: break
+            added = add_listing({
+                'title': title,
+                'price': price,
+                'location': loc or 'España',
+                'description': '',
+                'url': href,
+                'source': 'Engel & Völkers',
+                'date': TODAY
+            })
+            if added: total_ev += 1
+    except Exception as e:
+        print(f'  Error: {e}')
+    print(f'  Engel & Völkers TOTAL: {total_ev}')
+
+
+# ══════════════════════════════════════════════════════
+# 7. HOTELSEVENDE — hoteles y B&B en venta España
+# ══════════════════════════════════════════════════════
+def scrape_hotelsevende(driver):
+    print('\n→ HotelSeVende...')
+    BASE = 'https://www.hotelsevende.es'
+    EXCLUDE = ['en-venta','tipo','pais','page','estado','norteamerica',
+               'inversion','contacto','about','alquiler','africa','asia',
+               'sudamerica','europa','blog','vender']
+    total_hs = 0
+    seen_hs = set()
+
+    # Recopilar links de las 11 páginas
+    urls_fichas = []
+    for pagina in range(1, 12):
+        page_url = f'{BASE}/en-venta/pais/espana/' if pagina == 1 else f'{BASE}/en-venta/pais/espana/page/{pagina}/'
+        try:
+            html = get_page(driver, page_url, wait=3)
+            if not html: continue
+            soup = BeautifulSoup(html, 'lxml')
+            for a in soup.find_all('a', href=re.compile(r'hotelsevende\.es')):
+                href = a.get('href','').rstrip('/') + '/'
+                if any(x in href for x in EXCLUDE): continue
+                if href.count('/') < 4: continue
+                if href not in seen_hs and href not in seen_urls:
+                    seen_hs.add(href)
+                    urls_fichas.append(href)
+        except Exception as e:
+            print(f'  Error pag {pagina}: {e}')
+
+    print(f'  Links recopilados: {len(urls_fichas)}')
+
+    # Entrar en cada ficha
+    for href in urls_fichas:
+        try:
+            html = get_page(driver, href, wait=2)
+            if not html: continue
+            soup = BeautifulSoup(html, 'lxml')
+
+            # Título
+            h1 = soup.find('h1')
+            title = clean(h1.get_text()) if h1 else ''
+            if not title or len(title) < 8: continue
+
+            # Precio
+            pm = re.search(r'€([\d.,]+(?:\.\d{3})*)', soup.get_text())
+            price = f'€{pm.group(1)}' if pm else 'Precio a consultar'
+            if price == '€1': price = 'Precio a consultar'
+
+            # Ciudad — <strong>Ciudad</strong> precedida por el valor
+            loc = 'España'
+            ciudad_label = soup.find('li', string=re.compile(r'^Ciudad$', re.I))
+            if ciudad_label:
+                prev = ciudad_label.find_previous_sibling('li')
+                if prev:
+                    strong = prev.find('strong')
+                    if strong: loc = clean(strong.get_text())
+
+            # Descripción — párrafos
+            paras = soup.find_all('p')
+            description = ' '.join(clean(p.get_text()) for p in paras if len(p.get_text().strip()) > 40)[:300]
+
+            added = add_listing({
+                'title': title,
+                'price': price,
+                'location': loc,
+                'description': description,
+                'url': href,
+                'source': 'HotelSeVende',
+                'date': TODAY
+            })
+            if added: total_hs += 1
+            time.sleep(1)
+        except Exception as e:
+            print(f'  Error ficha {href[:60]}: {e}')
+
+    print(f'  HotelSeVende TOTAL: {total_hs}')
+
 if __name__ == '__main__':
     print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
@@ -541,6 +724,15 @@ if __name__ == '__main__':
 
         try: scrape_oirealestate(driver)
         except Exception as e: print(f'Error Oi Real Estate: {e}')
+
+        try: scrape_negociosenventa(driver)
+        except Exception as e: print(f'Error NegociosEnVenta: {e}')
+
+        try: scrape_engelvoelkers(driver)
+        except Exception as e: print(f'Error Engel Volkers: {e}')
+
+        try: scrape_hotelsevende(driver)
+        except Exception as e: print(f'Error HotelSeVende: {e}')
     finally:
         try: driver.quit()
         except: pass
