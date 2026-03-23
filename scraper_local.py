@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Hotel Monitor — Scraper máximo con cache acumulativo y sistema de baja
+Hotel Monitor — Scraper local con cache acumulativo
+Portales activos: ThinkSpain, Lucas Fox
 """
-import json, re, time, os, subprocess
+import json, re, time, os, subprocess, random
 from datetime import date, datetime, timedelta
 from html import unescape
 
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import requests as req_mod
 from bs4 import BeautifulSoup
 
 TODAY      = date.today().strftime('%d/%m/%Y')
@@ -21,11 +21,9 @@ HOTEL_KW = ['hotel','hostal','hostel','pensión','pension','aparthotel',
             'hotel boutique','boutique hotel','complejo hotelero','negocio hotelero',
             'guesthouse','b&b','inn ','lodge','rural house']
 
-# Títulos/páginas a descartar aunque tengan keyword de hotel
-SPAM_KW = ['404', 'página no encontrada', 'page not found', 'property for sale',
-           'property for rent', 'i want to advertise', 'advertise on think',
-           'sign up', 'register', 'login', 'cookie', 'privacy policy',
-           'terms of use', 'contact us', 'about us']
+SPAM_KW = ['404','página no encontrada','page not found','i want to advertise',
+           'advertise on think','sign up','register','login','cookie',
+           'privacy policy','terms of use','contact us','about us']
 
 def es_hotel(texto):
     t = (texto or '').lower()
@@ -46,8 +44,7 @@ def parsear_fecha(texto):
         'jul':7,'ago':8,'sep':9,'oct':10,'nov':11,'dic':12,
         'enero':1,'febrero':2,'marzo':3,'abril':4,'mayo':5,'junio':6,
         'julio':7,'agosto':8,'septiembre':9,'octubre':10,'noviembre':11,'diciembre':12,
-        'jan':1,'feb':2,'mar':3,'apr':4,'may':5,'jun':6,
-        'jul':7,'aug':8,'sep':9,'oct':10,'nov':11,'dec':12,
+        'jan':1,'apr':4,'aug':8,'dec':12,
     }
     hoy = date.today()
     if 'hoy' in t or 'today' in t: return TODAY
@@ -105,10 +102,10 @@ def init_driver():
 
 def accept_cookies(driver):
     for bid in ['didomi-notice-agree-button','onetrust-accept-btn-handler',
-                'acceptAllButton','accept-cookies','CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll']:
+                'acceptAllButton','accept-cookies']:
         try: driver.find_element(By.ID, bid).click(); time.sleep(0.3); return
         except: pass
-    for txt in ['Aceptar todo','Aceptar todas','Aceptar','Accept all','Acceptar','Entendido']:
+    for txt in ['Aceptar todo','Aceptar todas','Aceptar','Accept all']:
         try:
             driver.find_element(By.XPATH, f'//button[contains(.,"{txt}")]').click()
             time.sleep(0.3); return
@@ -123,54 +120,42 @@ def get_page(driver, url, wait=3):
         print(f'  ERROR {url[:70]}: {e}')
         return None
 
-# ─── obtener fecha real ───────────────────────────────
-def get_fecha_real(driver, url, source):
-    try:
-        html = get_page(driver, url, wait=2)
-        if not html: return TODAY
-        soup = BeautifulSoup(html, 'lxml')
-        if 'idealista' in url:
-            for el in soup.find_all(['p','span','div','time']):
-                txt = clean(el.get_text())
-                if re.search(r'publicad[oa]\s+(el\s+)?\d', txt, re.I):
-                    return parsear_fecha(txt)
-            for el in soup.find_all(attrs={'data-date': True}):
-                return parsear_fecha(el['data-date'])
-        if 'thinkspain' in url:
-            for el in soup.find_all(['span','p','div','time']):
-                txt = clean(el.get_text())
-                if re.search(r'(listed|added|posted|publicad|fecha)[\s:]+', txt, re.I):
-                    return parsear_fecha(txt)
-        if 'kyero' in url:
-            el = soup.find(class_=re.compile('listing-date|date-added|property-date'))
-            if el: return parsear_fecha(clean(el.get_text()))
-        if 'fotocasa' in url:
-            el = soup.find(class_=re.compile('re-Card-date|publicationDate|date'))
-            if el: return parsear_fecha(clean(el.get_text()))
-        time_el = soup.find('time')
-        if time_el:
-            dt = time_el.get('datetime') or clean(time_el.get_text())
-            return parsear_fecha(dt)
-        body = soup.get_text(' ')
-        for patron in [
-            r'publicad[oa]\s+(?:el\s+)?(\d{1,2}\s+de\s+[a-záéíóúñ]+(?:\s+de\s+\d{4})?)',
-            r'(hace\s+\d+\s+(?:día|dia|semana|mes|año)[s]?)',
-            r'(\d{1,2}\s+de\s+[a-záéíóúñ]+\s+(?:de\s+)?\d{4})',
-            r'(\d{4}-\d{2}-\d{2})',
-        ]:
-            m = re.search(patron, body, re.I)
-            if m: return parsear_fecha(m.group(1))
-    except: pass
-    return TODAY
-
 # ─── listings ─────────────────────────────────────────
 found_listings = []
 seen_urls = set()
+
+def normalizar_titulo(s):
+    s = (s or '').lower().strip()
+    s = re.sub(r'[^\w\s]', '', s)
+    for w in ['hotel','hostal','en','venta','de','la','el','las','los','un','una',
+              'lujo','boutique','para','sale','for','luxury','the']:
+        s = re.sub(rf'\b{w}\b', '', s)
+    return re.sub(r'\s+', ' ', s).strip()
+
+def es_duplicado(item):
+    """Detecta duplicados por precio + ubicación + título similar"""
+    precio = re.sub(r'[^\d]', '', item.get('price',''))
+    loc = item.get('location','').lower().strip()
+    titulo = normalizar_titulo(item.get('title',''))
+    if not precio or not titulo: return False
+    for existing in found_listings:
+        # Mismo precio y misma ubicación
+        precio_ex = re.sub(r'[^\d]', '', existing.get('price',''))
+        loc_ex = existing.get('location','').lower().strip()
+        if precio and precio == precio_ex and loc and loc_ex and (loc in loc_ex or loc_ex in loc):
+            # Título similar
+            titulo_ex = normalizar_titulo(existing.get('title',''))
+            from difflib import SequenceMatcher
+            sim = SequenceMatcher(None, titulo, titulo_ex).ratio()
+            if sim > 0.6:
+                return True
+    return False
 
 def add_listing(item):
     url = item.get('url','').strip().split('?')[0].rstrip('/')
     if not url or url in seen_urls: return False
     if not item.get('title') or len(item['title']) < 8: return False
+    if es_duplicado(item): return False
     seen_urls.add(url)
     item['url']         = url
     item['title']       = item['title'][:120]
@@ -179,20 +164,16 @@ def add_listing(item):
     return True
 
 # ══════════════════════════════════════════════════════
-# 1. THINKSPAIN — requests + JSON-LD, sin Selenium, rápido y completo
+# 1. THINKSPAIN — requests + JSON-LD
 # ══════════════════════════════════════════════════════
 def scrape_thinkspain(driver):
-    """ThinkSpain via requests + JSON-LD — no necesita Selenium"""
-    import requests as req_mod
     print('→ ThinkSpain...')
-
     HEADERS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
         'Referer': 'https://www.thinkspain.com/',
     }
-
     BASE_URLS = [
         'https://www.thinkspain.com/property-for-sale/hotels',
         'https://www.thinkspain.com/property-for-sale/guest-houses-bed-breakfasts',
@@ -215,49 +196,33 @@ def scrape_thinkspain(driver):
     ]
 
     def parsear_titulo_ts(name):
-        # 1. Quitar precio del inicio (ej: "6.900.000 € Hotel en venta...")
         t = re.sub(r'^[\d][\d.,]*\s*€\s*', '', name).strip()
         t = re.sub(r'^€\s*[\d][\d.,]*\s*', '', t).strip()
-        # 2. Quitar ref y sufijos de precio
         t = re.sub(r'\s*\(Ref:.*?\)', '', t)
         t = re.sub(r'\s*-\s*€.*', '', t).strip()
-        # 3. Quitar título duplicado (ThinkSpain repite "Hotel en X Hotel en X")
         words = t.split()
         if len(words) >= 8:
             mid = len(words) // 2
-            p1 = ' '.join(words[:mid])
-            p2 = ' '.join(words[mid:])
-            if p1.lower()[:20] == p2.lower()[:20]:
-                t = p1
-        # 4. Traducir campos en inglés
+            p1 = ' '.join(words[:mid]); p2 = ' '.join(words[mid:])
+            if p1.lower()[:20] == p2.lower()[:20]: t = p1
         t = re.sub(r'\bfor sale\b', 'en venta', t, flags=re.IGNORECASE)
         t = re.sub(r'(\d+)\s+bedroom\s+', r'\1 habitaciones ', t, flags=re.IGNORECASE)
         t = t.strip()
-        # 5. Extraer localización
         m = re.search(r'(?:en venta en|in)\s+(.+?)(?:\s+Hotel|\s+Guesthouse|$)', t, re.IGNORECASE)
-        if m:
-            loc = m.group(1).strip().rstrip(',').strip()
-        else:
-            m2 = re.search(r'in\s+(.+)$', t, re.IGNORECASE)
-            loc = m2.group(1).strip() if m2 else 'España'
+        loc = m.group(1).strip().rstrip(',').strip() if m else 'España'
         return t, loc
 
     def extraer_precio_ts(name):
-        # Precio suele estar al inicio: "6.900.000 € Hotel..."
         m = re.search(r'^([\d][\d.,]+)\s*€', name.strip())
-        if m:
-            return m.group(1) + ' €'
+        if m: return m.group(1) + ' €'
         m = re.search(r'€\s*([\d][\d.,]+)', name)
-        if m:
-            return m.group(1) + ' €'
+        if m: return m.group(1) + ' €'
         m = re.search(r'([\d][\d.,]+)\s*€', name)
-        if m:
-            return m.group(1) + ' €'
+        if m: return m.group(1) + ' €'
         return 'Precio a consultar'
 
-    seen_urls = set()
+    seen_ts = set()
     total_ts = 0
-
     for base_url in BASE_URLS:
         region = base_url.split('/')[-1]
         paginas_vacias = 0
@@ -265,8 +230,7 @@ def scrape_thinkspain(driver):
             url = base_url if numpag == 1 else f'{base_url}?numpag={numpag}'
             try:
                 r = req_mod.get(url, headers=HEADERS, timeout=15)
-                if r.status_code != 200:
-                    break
+                if r.status_code != 200: break
                 soup = BeautifulSoup(r.text, 'lxml')
                 enc = 0
                 for s in soup.find_all('script', type='application/ld+json'):
@@ -275,25 +239,18 @@ def scrape_thinkspain(driver):
                         if data.get('@type') != 'ItemList': continue
                         for item in data.get('itemListElement', []):
                             prod = item.get('item', {})
-                            url_anuncio = prod.get('url','').split('?')[0].rstrip('/')
-                            if not url_anuncio or url_anuncio in seen_urls: continue
+                            url_a = prod.get('url','').split('?')[0].rstrip('/')
+                            if not url_a or url_a in seen_ts: continue
                             name = prod.get('name','')
                             if not name: continue
                             titulo, loc = parsear_titulo_ts(name)
                             precio = extraer_precio_ts(name)
-                            desc = clean(prod.get('description',''))
-                            seen_urls.add(url_anuncio)
-                            added = add_listing({
-                                'title': titulo,
-                                'price': precio,
-                                'location': loc,
-                                'description': desc,
-                                'url': url_anuncio,
-                                'source': 'ThinkSpain'
-                            })
+                            seen_ts.add(url_a)
+                            added = add_listing({'title': titulo, 'price': precio, 'location': loc,
+                                                 'description': clean(prod.get('description','')),
+                                                 'url': url_a, 'source': 'ThinkSpain'})
                             if added: enc += 1
-                    except Exception:
-                        continue
+                    except: continue
                 total_ts += enc
                 if enc > 0:
                     print(f'  {region} p{numpag}: {enc} nuevos | Total TS: {total_ts}')
@@ -303,359 +260,75 @@ def scrape_thinkspain(driver):
                 if paginas_vacias >= 2: break
                 time.sleep(0.3)
             except Exception as e:
-                print(f'  Error {region} p{numpag}: {e}')
-                break
-
-
-# ══════════════════════════════════════════════════════
-# 2. IDEALISTA — URLs nacionales directas (rápido)
-# ══════════════════════════════════════════════════════
-def scrape_idealista(driver):
-    print('\n→ Idealista...')
-    # URLs nacionales: evita iterar provincias, va directo a toda España
-    bases_nacionales = [
-        'https://www.idealista.com/venta-locales/con-hotel/',
-        'https://www.idealista.com/venta-locales/con-hotel-rural/',
-        'https://www.idealista.com/venta-locales/con-hostal/',
-        'https://www.idealista.com/venta-locales/con-pension/',
-        'https://www.idealista.com/venta-locales/con-aparthotel/',
-        'https://www.idealista.com/venta-locales/con-alojamiento-turistico/',
-    ]
-    for base in bases_nacionales:
-        tipo = base.rstrip('/').split('con-')[-1]
-        for pagina in range(1, 15):
-            url = base if pagina == 1 else f'{base}pagina-{pagina}.htm'
-            html = get_page(driver, url, wait=2)
-            if not html: break
-            soup = BeautifulSoup(html, 'lxml')
-            if soup.find(string=re.compile('no hemos encontrado|sin resultados|0 locales', re.I)):
-                break
-            arts = soup.find_all('article', class_=re.compile('item'))
-            if not arts: break
-            enc = 0
-            for art in arts:
-                title_a  = art.find('a', class_='item-link')
-                price_el = art.find(class_=re.compile('price'))
-                desc_el  = art.find(class_=re.compile('item-description|description'))
-                loc_el   = art.find(class_=re.compile('item-detail-location|location'))
-                if not title_a: continue
-                title = clean(title_a.get('title') or title_a.get_text())
-                if len(title) < 8: continue
-                href = title_a.get('href','')
-                if href.startswith('/'): href = 'https://www.idealista.com' + href
-                # Extraer ubicación del título o elemento
-                loc = ''
-                if loc_el: loc = clean(loc_el.get_text())
-                elif ',' in title:
-                    parts = title.split(',')
-                    loc = parts[-1].strip() if len(parts) > 1 else 'España'
-                added = add_listing({
-                    'title':       title,
-                    'price':       clean(price_el.get_text()) if price_el else 'Precio a consultar',
-                    'location':    loc or 'España',
-                    'description': clean(desc_el.get_text()) if desc_el else '',
-                    'url':         href or url,
-                    'source':      'Idealista'
-                })
-                if added: enc += 1
-            total = len([x for x in found_listings if x['source']=='Idealista'])
-            print(f'  {tipo} p{pagina}: {enc} nuevos | Total Idealista: {total}')
-            if enc == 0: break
-            time.sleep(0.8)
+                print(f'  Error {region} p{numpag}: {e}'); break
+    print(f'  ThinkSpain TOTAL: {total_ts}')
 
 # ══════════════════════════════════════════════════════
-# 3. KYERO — arreglado con scroll y múltiples URLs
-# ══════════════════════════════════════════════════════
-def scrape_kyero(driver):
-    print('\n→ Kyero...')
-    bases = [
-        'https://www.kyero.com/es/hoteles-en-venta-en-espana',
-        'https://www.kyero.com/es/hoteles-en-venta',
-        'https://www.kyero.com/es/negocios-en-venta/espana',
-    ]
-    seen_this = set()
-    for base in bases:
-        for pagina in range(1, 20):
-            url = base if pagina == 1 else f'{base}?p={pagina}'
-            html = get_page(driver, url, wait=4)
-            if not html: break
-            # Scroll para cargar lazy-load
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2)")
-            time.sleep(0.3)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-            time.sleep(0.3)
-            soup = BeautifulSoup(driver.page_source, 'lxml')
-            # Kyero: buscar JSON-LD primero
-            for script in soup.find_all('script', type='application/ld+json'):
-                try:
-                    data = json.loads(script.string or '')
-                    items = data if isinstance(data, list) else data.get('itemListElement', [data])
-                    for it in items:
-                        if not isinstance(it, dict): continue
-                        item = it.get('item', it)
-                        name = item.get('name','')
-                        if not name or not es_hotel(name): continue
-                        price_info = item.get('offers',{})
-                        price = f"{price_info.get('price','')} {price_info.get('priceCurrency','€')}".strip() if price_info else 'Precio a consultar'
-                        addr = item.get('address',{})
-                        loc = addr.get('addressLocality') or addr.get('addressRegion') or 'España'
-                        link = item.get('url','').split('?')[0]
-                        if link and link not in seen_this:
-                            seen_this.add(link)
-                            add_listing({'title':clean(name),'price':price,'location':clean(loc),'description':clean(item.get('description','')),'url':link,'source':'Kyero'})
-                except: pass
-            # HTML cards
-            cards = (soup.find_all('article') or
-                     soup.find_all('li', class_=re.compile(r'property|listing|result', re.I)) or
-                     soup.find_all('div', class_=re.compile(r'property-card|listing-card|PropertyCard', re.I)))
-            enc = 0
-            for card in cards:
-                title_el = card.find(['h2','h3','h4','h1'])
-                price_el = card.find(class_=re.compile(r'price', re.I))
-                loc_el   = card.find(class_=re.compile(r'location|town|area|city|municipality', re.I))
-                a_el     = card.find('a', href=True)
-                if not title_el: continue
-                title = clean(title_el.get_text())
-                if len(title) < 8 or not es_hotel(title): continue
-                href = a_el['href'] if a_el else ''
-                if href.startswith('/'): href = 'https://www.kyero.com' + href
-                href_clean = href.split('?')[0]
-                if href_clean in seen_this: continue
-                if href_clean: seen_this.add(href_clean)
-                added = add_listing({'title':title,'price':clean(price_el.get_text()) if price_el else 'Precio a consultar','location':clean(loc_el.get_text()) if loc_el else 'España','description':'','url':href or url,'source':'Kyero'})
-                if added: enc += 1
-            total = len([x for x in found_listings if x['source']=='Kyero'])
-            if enc > 0: print(f'  Kyero p{pagina}: {enc} | Total: {total}')
-            if enc == 0 and pagina > 1: break
-            time.sleep(0.8)
-
-# ══════════════════════════════════════════════════════
-# 4. FOTOCASA — mejorado
-# ══════════════════════════════════════════════════════
-def scrape_fotocasa(driver):
-    print('\n→ Fotocasa...')
-    bases = [
-        'https://www.fotocasa.es/es/comprar/hoteles/toda-espana/l',
-        'https://www.fotocasa.es/es/comprar/hoteles/toda-espana/l?order=publication-desc',
-    ]
-    seen_this = set()
-    for base in bases:
-        for pagina in range(1, 15):
-            url = f'{base}&page={pagina}' if pagina > 1 else base
-            html = get_page(driver, url, wait=4)
-            if not html: break
-            # Scroll
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2)"); time.sleep(0.3)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)"); time.sleep(0.3)
-            soup = BeautifulSoup(driver.page_source, 'lxml')
-            # Buscar en JSON embebido de Next.js
-            for script in soup.find_all('script'):
-                txt = script.string or ''
-                if '__NEXT_DATA__' in txt or 'initialState' in txt or 'listings' in txt.lower():
-                    try:
-                        # Extraer JSON de window.__NEXT_DATA__
-                        m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', str(script.parent), re.DOTALL)
-                        if m:
-                            data = json.loads(m.group(1))
-                            props = data.get('props',{}).get('pageProps',{})
-                            items = (props.get('initialProps',{}).get('listings',[]) or
-                                     props.get('listings',[]) or
-                                     props.get('result',{}).get('items',[]))
-                            for item in items:
-                                title = item.get('title') or item.get('name','')
-                                if not title or not es_hotel(title): continue
-                                price = str(item.get('price',{}).get('value','') or item.get('price','') or 'Precio a consultar')
-                                if price and price != 'Precio a consultar': price += ' €'
-                                addr = item.get('address',{}) or {}
-                                loc = addr.get('municipality') or addr.get('province') or 'España'
-                                link = 'https://www.fotocasa.es' + (item.get('url') or item.get('link',''))
-                                href_clean = link.split('?')[0]
-                                if href_clean in seen_this: continue
-                                seen_this.add(href_clean)
-                                add_listing({'title':clean(title),'price':clean(price),'location':clean(loc),'description':clean(item.get('description','')),'url':href_clean,'source':'Fotocasa'})
-                    except: pass
-            # HTML cards
-            cards = (soup.find_all(class_=re.compile(r're-Card\b', re.I)) or
-                     soup.find_all('article') or
-                     soup.find_all('li', class_=re.compile(r'listing|result|property', re.I)))
-            enc = 0
-            for card in cards:
-                title_el = (card.find(class_=re.compile(r're-Card-title|CardTitle', re.I)) or
-                            card.find(['h2','h3','h4']))
-                price_el = card.find(class_=re.compile(r're-Card-price|CardPrice|price', re.I))
-                loc_el   = card.find(class_=re.compile(r're-Card-location|CardLocation|location', re.I))
-                a_el     = card.find('a', href=True)
-                if not title_el: continue
-                title = clean(title_el.get_text())
-                if len(title) < 8 or not es_hotel(title): continue
-                href = a_el['href'] if a_el else ''
-                if href.startswith('/'): href = 'https://www.fotocasa.es' + href
-                href_clean = href.split('?')[0]
-                if href_clean in seen_this: continue
-                seen_this.add(href_clean)
-                added = add_listing({'title':title,'price':clean(price_el.get_text()) if price_el else 'Precio a consultar','location':clean(loc_el.get_text()) if loc_el else 'España','description':'','url':href_clean or url,'source':'Fotocasa'})
-                if added: enc += 1
-            total = len([x for x in found_listings if x['source']=='Fotocasa'])
-            if enc > 0: print(f'  Fotocasa p{pagina}: {enc} | Total: {total}')
-            if enc == 0 and pagina > 1: break
-            time.sleep(0.3)
-
-# ══════════════════════════════════════════════════════
-# 5. HABITACLIA — hoteles Catalunya y España
-# ══════════════════════════════════════════════════════
-def scrape_habitaclia(driver):
-    print('\n→ Habitaclia...')
-    bases = [
-        'https://www.habitaclia.com/venta-hotel-en-espana.htm',
-        'https://www.habitaclia.com/venta-hostal-en-espana.htm',
-        'https://www.habitaclia.com/venta-pension-en-espana.htm',
-    ]
-    seen_this = set()
-    for base in bases:
-        for pagina in range(1, 15):
-            url = base if pagina == 1 else re.sub(r'\.htm$', f'-{pagina}.htm', base)
-            html = get_page(driver, url, wait=3)
-            if not html: break
-            soup = BeautifulSoup(html, 'lxml')
-            cards = (soup.find_all('article') or
-                     soup.find_all(class_=re.compile(r'list-item|property|result', re.I)))
-            if not cards: break
-            enc = 0
-            for card in cards:
-                title_el = card.find(['h2','h3','h4']) or card.find(class_=re.compile(r'title|name', re.I))
-                price_el = card.find(class_=re.compile(r'price|precio', re.I))
-                loc_el   = card.find(class_=re.compile(r'location|zona|area|town', re.I))
-                a_el     = card.find('a', href=True)
-                if not title_el: continue
-                title = clean(title_el.get_text())
-                if len(title) < 8: continue
-                href = a_el['href'] if a_el else ''
-                if href.startswith('/'): href = 'https://www.habitaclia.com' + href
-                if not href.startswith('http'): href = 'https://www.habitaclia.com/' + href
-                href_clean = href.split('?')[0]
-                if href_clean in seen_this: continue
-                seen_this.add(href_clean)
-                added = add_listing({'title':title,'price':clean(price_el.get_text()) if price_el else 'Precio a consultar','location':clean(loc_el.get_text()) if loc_el else 'España','description':'','url':href_clean or url,'source':'Habitaclia'})
-                if added: enc += 1
-            total = len([x for x in found_listings if x['source']=='Habitaclia'])
-            if enc > 0: print(f'  Habitaclia {base.split("-")[1]} p{pagina}: {enc} | Total: {total}')
-            if enc == 0 and pagina > 1: break
-            time.sleep(0.8)
-
-# ══════════════════════════════════════════════════════
-# 6. ENGEL & VÖLKERS — hoteles España
-# ══════════════════════════════════════════════════════
-def scrape_engelvoelkers(driver):
-    print('\n→ Engel & Völkers...')
-    urls = [
-        'https://www.engelvoelkers.com/es-es/search/?q=hotel&geoCodeId=&sortOrder=DESC&sortField=sortPrice&pageIndex=0&businessArea=residential&wohnflaeche_von=&wohnflaeche_bis=&zimmer_von=&zimmer_bis=&kaufpreis_von=&kaufpreis_bis=&country=ESP&propertytype=Hotel',
-        'https://www.engelvoelkers.com/es-es/search/?q=hotel+en+venta&country=ESP&businessArea=commercial',
-    ]
-    seen_this = set()
-    for url in urls:
-        for pagina in range(0, 10):
-            paged = url.replace('pageIndex=0', f'pageIndex={pagina}')
-            html = get_page(driver, paged, wait=4)
-            if not html: break
-            soup = BeautifulSoup(html, 'lxml')
-            cards = (soup.find_all(class_=re.compile(r'property-card|result-card|ev-property', re.I)) or
-                     soup.find_all('article'))
-            if not cards: break
-            enc = 0
-            for card in cards:
-                title_el = card.find(['h2','h3','h4']) or card.find(class_=re.compile(r'title|name', re.I))
-                price_el = card.find(class_=re.compile(r'price|precio', re.I))
-                loc_el   = card.find(class_=re.compile(r'location|place|city', re.I))
-                a_el     = card.find('a', href=True)
-                if not title_el: continue
-                title = clean(title_el.get_text())
-                if len(title) < 8 or not es_hotel(title): continue
-                href = a_el['href'] if a_el else ''
-                if href.startswith('/'): href = 'https://www.engelvoelkers.com' + href
-                href_clean = href.split('?')[0]
-                if href_clean in seen_this: continue
-                seen_this.add(href_clean)
-                added = add_listing({'title':title,'price':clean(price_el.get_text()) if price_el else 'Precio a consultar','location':clean(loc_el.get_text()) if loc_el else 'España','description':'','url':href_clean or paged,'source':'Engel & Völkers'})
-                if added: enc += 1
-            total = len([x for x in found_listings if x['source']=='Engel & Völkers'])
-            if enc > 0: print(f'  E&V p{pagina}: {enc} | Total: {total}')
-            if enc == 0 and pagina > 0: break
-            time.sleep(0.3)
-
-# ══════════════════════════════════════════════════════
-# 7. LUCAS FOX — hoteles lujo
+# 2. LUCAS FOX — requests
 # ══════════════════════════════════════════════════════
 def scrape_lucasfox(driver):
     print('\n→ Lucas Fox...')
-    urls = [
-        'https://www.lucasfox.es/es/comprar/hoteles-en-venta/',
-        'https://www.lucasfox.es/es/propiedades/?tipo=hotel&pais=espana',
-    ]
-    seen_this = set()
-    for url in urls:
-        html = get_page(driver, url, wait=3)
-        if not html: continue
-        soup = BeautifulSoup(html, 'lxml')
-        links = [a['href'] for a in soup.find_all('a', href=True)
-                 if '/es/propiedades/' in a['href'] or '/es/comprar/' in a['href']]
-        for href in list(set(links))[:40]:
-            if not href.startswith('http'): href = 'https://www.lucasfox.es' + href
-            href_clean = href.split('?')[0]
-            if href_clean in seen_this: continue
-            seen_this.add(href_clean)
-            detail_html = get_page(driver, href, wait=2)
-            if not detail_html: continue
-            if not es_hotel(detail_html[:3000]): continue
-            dsoup = BeautifulSoup(detail_html, 'lxml')
-            title_el = dsoup.find('h1')
-            price_el = dsoup.find(class_=re.compile(r'price|precio', re.I))
-            loc_el   = dsoup.find(class_=re.compile(r'location|ubicacion|city', re.I))
-            if not title_el: continue
-            title = clean(title_el.get_text())
-            if len(title) < 8: continue
-            add_listing({'title':title,'price':clean(price_el.get_text()) if price_el else 'Precio a consultar','location':clean(loc_el.get_text()) if loc_el else 'España','description':'','url':href_clean,'source':'Lucas Fox'})
-            time.sleep(0.3)
-    total = len([x for x in found_listings if x['source']=='Lucas Fox'])
-    print(f'  Lucas Fox total: {total}')
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.lucasfox.es/',
+    }
+    BASE = 'https://www.lucasfox.es/comprar-vivienda/hoteles.html'
+    session = req_mod.Session()
+    seen_lf = set()
+    total_lf = 0
+    for page in range(1, 10):
+        url = BASE if page == 1 else f'{BASE}?page={page}'
+        try:
+            time.sleep(random.uniform(2, 4))
+            r = session.get(url, headers=HEADERS, timeout=15)
+            if r.status_code != 200:
+                print(f'  LucasFox p{page}: status {r.status_code}, parando'); break
+            soup = BeautifulSoup(r.text, 'lxml')
+            items = soup.find_all('a', href=re.compile(r'/comprar-vivienda/espana/.*\.html$'))
+            if not items:
+                print(f'  LucasFox p{page}: sin anuncios, fin'); break
+            enc = 0
+            for a in items:
+                href = a.get('href','')
+                if not href: continue
+                if not href.startswith('http'): href = 'https://www.lucasfox.es' + href
+                href_clean = href.split('?')[0]
+                if href_clean in seen_lf: continue
+                seen_lf.add(href_clean)
+                li = a.find_parent('li') or a
+                price_el = li.find(class_=re.compile(r'price|precio', re.I))
+                title_el = li.find(class_=re.compile(r'title|heading|name', re.I)) or li.find('h2') or li.find('h3')
+                title_txt = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if len(title_txt) < 5: continue
+                loc_el = li.find(class_=re.compile(r'location|localidad|zone|area', re.I))
+                add_listing({'title': title_txt,
+                             'price': clean(price_el.get_text()) if price_el else 'Precio a consultar',
+                             'location': clean(loc_el.get_text()) if loc_el else 'España',
+                             'description': '', 'url': href_clean, 'source': 'Lucas Fox'})
+                enc += 1; total_lf += 1
+            print(f'  LucasFox p{page}: {enc} | Total LF: {total_lf}')
+            if enc == 0: break
+        except Exception as e:
+            print(f'  LucasFox error p{page}: {e}'); break
+    print(f'  Lucas Fox TOTAL: {total_lf}')
 
 # ══════════════════════════════════════════════════════
-# enriquecer fechas solo para anuncios nuevos
-# ══════════════════════════════════════════════════════
-def enriquecer_fechas(driver, cache):
-    nuevos = [x for x in found_listings if x['url'] not in cache]
-    en_cache = [x for x in found_listings if x['url'] in cache]
-    print(f'\nAnuncios nuevos: {len(nuevos)} | En cache (conservan fecha): {len(en_cache)}')
-    for i, item in enumerate(nuevos, 1):
-        print(f'  Fecha {i}/{len(nuevos)}: {item["title"][:50]}...')
-        item['date'] = get_fecha_real(driver, item['url'], item['source'])
-        time.sleep(0.3)
-    for item in en_cache:
-        item['date'] = cache[item['url']].get('date', TODAY)
-
-# ══════════════════════════════════════════════════════
-# sistema de baja — eliminar anuncios que ya no existen
+# sistema de baja
 # ══════════════════════════════════════════════════════
 def limpiar_bajas(cache, urls_encontradas):
-    """
-    Si un anuncio del cache no se ha encontrado en esta ejecución,
-    incrementa su contador de ausencias. Si lleva 3 ejecuciones sin
-    aparecer, se elimina del cache.
-    """
-    bajas = 0
     para_eliminar = []
     for url, item in cache.items():
         if url not in urls_encontradas:
             ausencias = item.get('ausencias', 0) + 1
             item['ausencias'] = ausencias
-            if ausencias >= 3:
-                para_eliminar.append(url)
-                bajas += 1
+            if ausencias >= 3: para_eliminar.append(url)
         else:
-            item['ausencias'] = 0  # resetear si vuelve a aparecer
-    for url in para_eliminar:
-        del cache[url]
-    if bajas > 0:
-        print(f'  Eliminados {bajas} anuncios que llevan 3+ ejecuciones sin aparecer.')
+            item['ausencias'] = 0
+    for url in para_eliminar: del cache[url]
+    if para_eliminar:
+        print(f'  Eliminados {len(para_eliminar)} anuncios sin actividad (3+ ejecuciones).')
     return cache
 
 # ══════════════════════════════════════════════════════
@@ -678,53 +351,220 @@ def subir_github(total):
             print('Sin cambios nuevos que subir.')
     except Exception as e:
         print(f'Error git: {e}')
-        print('Sube manualmente: git add index.html && git commit -m "manual" && git push origin main')
+
+# ══════════════════════════════════════════════════════
+# 3. LUXURYESTATE — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_luxuryestate(driver):
+    print('\n→ LuxuryEstate...')
+    BASE = 'https://www.luxuryestate.com/es/hotels-spain'
+    total_le = 0
+    paginas_vacias = 0
+
+    for pagina in range(1, 40):
+        url = BASE if pagina == 1 else f'{BASE}?pag={pagina}'
+        try:
+            driver.get(url)
+            time.sleep(3)
+            soup = BeautifulSoup(driver.page_source, 'lxml')
+
+            cards = soup.find_all('li', class_=re.compile(r'search-list__item'))
+            if not cards:
+                paginas_vacias += 1
+                if paginas_vacias >= 2: break
+                continue
+
+            paginas_vacias = 0
+            enc = 0
+
+            for card in cards:
+                # URL
+                a = card.find('a', href=re.compile(r'/es/p\d+'))
+                if not a: continue
+                href = a.get('href', '')
+                if not href.startswith('http'): href = 'https://www.luxuryestate.com' + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls: continue
+
+                # Precio
+                price_el = card.find('div', class_=re.compile(r'price'))
+                price = clean(price_el.get_text()).replace(' ', '') if price_el else 'Precio a consultar'
+                # Normalizar "€480.000" → "480.000 €"
+                price = re.sub(r'€\s*([\d.,]+)', r'\1 €', price).strip()
+
+                # Ubicación — buscar texto con "Hotel en X" o "en X, Provincia"
+                loc = ''
+                loc_el = card.find(string=re.compile(r'\bHotel\b.{2,40}(,|en)\s+[A-ZÁÉÍÓÚÑ]', re.I))
+                if loc_el:
+                    m = re.search(r'Hotel\s+en\s+(.+?)(?:,\s*Provincia|\s*$)', str(loc_el), re.I)
+                    if m: loc = m.group(1).strip()
+                if not loc:
+                    # Extraer de la URL: p131627604-hotel-for-sale-sietamo → Sietamo
+                    m = re.search(r'hotel-for-sale-(.+)$', href)
+                    if m: loc = m.group(1).replace('-', ' ').title()
+
+                # Título
+                title_el = card.find(['h2','h3','h4'])
+                if title_el:
+                    title = clean(title_el.get_text())
+                else:
+                    # Construir desde descripción o nombre URL
+                    title = f'Hotel en venta en {loc}' if loc else 'Hotel en venta en España'
+
+                # Descripción
+                desc_el = card.find('p')
+                description = clean(desc_el.get_text()).replace('~', ' ')[:300] if desc_el else ''
+
+                added = add_listing({
+                    'title': title,
+                    'price': price,
+                    'location': loc or 'España',
+                    'description': description,
+                    'url': href,
+                    'source': 'LuxuryEstate',
+                    'date': TODAY
+                })
+                if added: enc += 1; total_le += 1
+
+            total = len([x for x in found_listings if x['source'] == 'LuxuryEstate'])
+            if enc > 0:
+                print(f'  p{pagina}: {enc} nuevos | Total LE: {total}')
+            time.sleep(1)
+
+        except Exception as e:
+            print(f'  Error p{pagina}: {e}')
+            break
+
+    print(f'  LuxuryEstate TOTAL: {total_le}')
+
+# ══════════════════════════════════════════════════════
+# 4. OI REAL ESTATE — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_oirealestate(driver):
+    print('\n→ Oi Real Estate...')
+    import requests as req_mod
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+    }
+    BASE = 'https://www.oirealestate.net'
+    pages = [
+        f'{BASE}/venta/hoteles',
+        f'{BASE}/venta/hoteles/page-2',
+        f'{BASE}/venta/hoteles/page-3',
+    ]
+    seen_oi = set()
+    total_oi = 0
+
+    for page_url in pages:
+        try:
+            r = req_mod.get(page_url, headers=HEADERS, timeout=15)
+            if r.status_code != 200: continue
+            soup = BeautifulSoup(r.text, 'lxml')
+            links = list(set([
+                a.get('href') for a in soup.find_all('a', href=re.compile(r'/propiedad/\d+'))
+                if a.get('href')
+            ]))
+            for link in links:
+                full = BASE + link if link.startswith('/') else link
+                full = full.split('?')[0].rstrip('/')
+                if full in seen_oi or full in seen_urls: continue
+                seen_oi.add(full)
+                try:
+                    r2 = req_mod.get(full, headers=HEADERS, timeout=15)
+                    if r2.status_code != 200: continue
+                    soup2 = BeautifulSoup(r2.text, 'lxml')
+
+                    # Título
+                    h1 = soup2.find('h1')
+                    title = clean(h1.get_text()) if h1 else ''
+                    if not title or len(title) < 8: continue
+
+                    # Precio
+                    price_el = soup2.find(string=re.compile(r'[\d.,]+\s*€'))
+                    price = clean(str(price_el)) if price_el else 'Precio a consultar'
+
+                    # Ubicación — extraer de la URL
+                    m = re.search(r'/propiedad/\d+/[^/]+-en-venta-en-(.+)$', link)
+                    loc = m.group(1).replace('-', ' ').title() if m else 'España'
+
+                    # Descripción
+                    desc_el = soup2.find('div', class_=re.compile(r'desc|content|text|body', re.I))
+                    description = clean(desc_el.get_text())[:300] if desc_el else ''
+
+                    added = add_listing({
+                        'title': title,
+                        'price': price,
+                        'location': loc,
+                        'description': description,
+                        'url': full,
+                        'source': 'Oi Real Estate',
+                        'date': TODAY
+                    })
+                    if added: total_oi += 1
+                    time.sleep(0.5)
+                except Exception as e:
+                    print(f'  Error ficha {full[:60]}: {e}')
+        except Exception as e:
+            print(f'  Error página {page_url}: {e}')
+
+    print(f'  Oi Real Estate TOTAL: {total_oi}')
+
+# ══════════════════════════════════════════════════════
+# MAIN
+# ══════════════════════════════════════════════════════
 
 # ══════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════
 if __name__ == '__main__':
-    print(f'=== Hotel Monitor — {TODAY} ===\n')
+    print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
     cache = load_cache()
     driver = init_driver()
 
     try:
-        scrape_thinkspain(driver)
-        scrape_idealista(driver)
-        scrape_kyero(driver)
-        scrape_fotocasa(driver)
-        scrape_habitaclia(driver)
-        scrape_engelvoelkers(driver)
-        scrape_lucasfox(driver)
-        enriquecer_fechas(driver, cache)
+        try: scrape_thinkspain(driver)
+        except Exception as e: print(f'Error ThinkSpain: {e}')
+
+        try: scrape_lucasfox(driver)
+        except Exception as e: print(f'Error LucasFox: {e}')
+
+        # Reiniciar Chrome para LuxuryEstate
+        try: driver.quit()
+        except: pass
+        print('\nReiniciando Chrome para LuxuryEstate...')
+        driver = init_driver()
+
+        try: scrape_luxuryestate(driver)
+        except Exception as e: print(f'Error LuxuryEstate: {e}')
+
+        try: scrape_oirealestate(driver)
+        except Exception as e: print(f'Error Oi Real Estate: {e}')
     finally:
-        driver.quit()
+        try: driver.quit()
+        except: pass
         print('\nNavegador cerrado.')
 
     # Merge con cache
     urls_encontradas = {item['url'] for item in found_listings}
     cache_nuevo = dict(cache)
-    nuevos_añadidos = 0
+    nuevos = 0
     for item in found_listings:
         url_key = item['url']
         if url_key not in cache_nuevo:
             cache_nuevo[url_key] = item
-            nuevos_añadidos += 1
+            nuevos += 1
         else:
-            # Actualizar precio y descripción, conservar fecha original
             cache_nuevo[url_key]['price']       = item.get('price', cache_nuevo[url_key].get('price',''))
             cache_nuevo[url_key]['description'] = item.get('description', cache_nuevo[url_key].get('description',''))
             cache_nuevo[url_key]['ausencias']   = 0
 
-    # Sistema de baja
     print('\nRevisando bajas...')
     cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas)
-
     save_cache(cache_nuevo)
-    print(f'Cache guardado: {len(cache_nuevo)} totales ({nuevos_añadidos} nuevos añadidos).')
+    print(f'Cache guardado: {len(cache_nuevo)} totales ({nuevos} nuevos).')
 
-    # Ordenar por fecha más reciente
     todos = list(cache_nuevo.values())
     def fsort(x):
         try: return datetime.strptime(x.get('date','01/01/2000'), '%d/%m/%Y')
