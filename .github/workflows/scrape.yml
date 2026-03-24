@@ -5,29 +5,37 @@ on:
     - cron: '0 7 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  scrape:
+  scrape-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
-      - name: Descargar repositorio
-        uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Instalar dependencias
-        run: pip install requests beautifulsoup4 lxml
+      - name: Instalar Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update -q
+          sudo apt-get install -y google-chrome-stable
+
+      - name: Instalar dependencias Python
+        run: pip install requests beautifulsoup4 lxml selenium undetected-chromedriver
 
       - name: Ejecutar scraper
         run: python scraper.py
+        env:
+          DISPLAY: ''
 
-      - name: Subir index.html actualizado
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Actualizacion automatica de hoteles en venta"
-          file_pattern: index.html
+      - name: Commit y push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add index.html
+          git diff --staged --quiet || git commit -m "🏨 Actualización diaria: $(date +'%d/%m/%Y %H:%M')"
+          git push
