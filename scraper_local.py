@@ -700,43 +700,165 @@ def scrape_hotelsevende(driver):
 
     print(f'  HotelSeVende TOTAL: {total_hs}')
 
+
+# ══════════════════════════════════════════════════════
+# 8. IDEALISTA — hoteles en venta por provincia
+# ══════════════════════════════════════════════════════
+def scrape_idealista(driver):
+    print('\n→ Idealista...')
+    BASE = 'https://www.idealista.com'
+    PROVINCIAS = [
+        'madrid-provincia','barcelona-provincia','valencia-provincia',
+        'sevilla-provincia','malaga-provincia','alicante',
+        'murcia-provincia','zaragoza-provincia','valladolid-provincia',
+        'balears-illes','las-palmas','santa-cruz-de-tenerife-provincia',
+        'granada-provincia','cordoba-provincia','toledo-provincia',
+        'girona-provincia','tarragona-provincia','lleida-provincia',
+        'cadiz-provincia','huelva-provincia','almeria-provincia',
+        'jaen-provincia','badajoz-provincia','caceres-provincia',
+        'salamanca-provincia','burgos-provincia','leon-provincia',
+        'asturias','cantabria','la-rioja',
+        'navarra','guipuzcoa','vizcaya',
+        'pontevedra-provincia','a-coruna-provincia','lugo-provincia',
+        'ourense-provincia','ciudad-real-provincia','cuenca-provincia',
+        'albacete-provincia','castellon','huesca-provincia',
+        'segovia-provincia','soria-provincia','teruel-provincia',
+        'ibiza-y-formentera','menorca'
+    ]
+    total_id = 0
+    seen_id = set()
+
+    # Ir primero al home como humano
+    try:
+        get_page(driver, BASE, wait=2)
+    except: pass
+
+    for provincia in PROVINCIAS:
+        for pagina in range(1, 5):  # max 4 páginas por provincia
+            if pagina == 1:
+                url = f'{BASE}/venta-locales/{provincia}/con-hotel/'
+            else:
+                url = f'{BASE}/venta-locales/{provincia}/con-hotel/pagina-{pagina}.htm'
+            try:
+                html = get_page(driver, url, wait=3)
+                if not html: break
+                
+                soup = BeautifulSoup(html, 'lxml')
+                articles = soup.find_all('article', attrs={'data-element-id': True})
+                if not articles: break
+                
+                enc = 0
+                for art in articles:
+                    item_id = art.get('data-element-id','')
+                    if not item_id: continue
+                    
+                    # Link
+                    href = f'{BASE}/inmueble/{item_id}/'
+                    if href in seen_id or href in seen_urls: continue
+                    seen_id.add(href)
+                    
+                    # Info container
+                    info = art.find(class_='item-info-container')
+                    if not info: continue
+                    
+                    # Título desde atributo title del link
+                    a = info.find('a', class_='item-link')
+                    title = clean(a.get('title','')) if a else ''
+                    if not title or len(title) < 8: continue
+                    
+                    # Precio
+                    price_el = info.find(class_='item-price')
+                    price = clean(price_el.get_text()) if price_el else 'Precio a consultar'
+                    
+                    # Ubicación — del título: "Local en X, Y, Provincia"
+                    loc = provincia.replace('-provincia','').replace('-',' ').title()
+                    m = re.search(r',\s*([^,]+),\s*([^,]+)$', title)
+                    if m: loc = m.group(2).strip()
+                    
+                    # Descripción
+                    desc_el = info.find('p', class_='ellipsis')
+                    description = clean(desc_el.get_text()) if desc_el else ''
+                    
+                    added = add_listing({
+                        'title': title,
+                        'price': price,
+                        'location': loc,
+                        'description': description,
+                        'url': href,
+                        'source': 'Idealista',
+                        'date': TODAY
+                    })
+                    if added: enc += 1; total_id += 1
+
+                if enc > 0:
+                    print(f'  {provincia} p{pagina}: {enc} nuevos')
+                if len(articles) < 5: break  # última página
+                time.sleep(2)
+
+            except Exception as e:
+                print(f'  Error {provincia} p{pagina}: {e}')
+                break
+
+    print(f'  Idealista TOTAL: {total_id}')
+
 if __name__ == '__main__':
     print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
     cache = load_cache()
     driver = init_driver()
 
+    # ── GRUPO 1: ThinkSpain + LucasFox (Chrome 1) ──────
     try:
         try: scrape_thinkspain(driver)
         except Exception as e: print(f'Error ThinkSpain: {e}')
 
         try: scrape_lucasfox(driver)
         except Exception as e: print(f'Error LucasFox: {e}')
-
-        # Reiniciar Chrome para LuxuryEstate
-        try: driver.quit()
-        except: pass
-        print('\nReiniciando Chrome para LuxuryEstate...')
-        driver = init_driver()
-
-        try: scrape_luxuryestate(driver)
-        except Exception as e: print(f'Error LuxuryEstate: {e}')
-
-        try: scrape_oirealestate(driver)
-        except Exception as e: print(f'Error Oi Real Estate: {e}')
-
-        try: scrape_negociosenventa(driver)
-        except Exception as e: print(f'Error NegociosEnVenta: {e}')
-
-        try: scrape_engelvoelkers(driver)
-        except Exception as e: print(f'Error Engel Volkers: {e}')
-
-        try: scrape_hotelsevende(driver)
-        except Exception as e: print(f'Error HotelSeVende: {e}')
     finally:
         try: driver.quit()
         except: pass
-        print('\nNavegador cerrado.')
+
+    # ── GRUPO 2: LuxuryEstate solo (Chrome 2) ──────────
+    print('\nIniciando Chrome 2 para LuxuryEstate...')
+    driver2 = init_driver()
+    try:
+        try: scrape_luxuryestate(driver2)
+        except Exception as e: print(f'Error LuxuryEstate: {e}')
+    finally:
+        try: driver2.quit()
+        except: pass
+
+    # ── GRUPO 3: NegociosEnVenta + HotelSeVende (Chrome 3) ──
+    print('\nIniciando Chrome 3...')
+    driver3 = init_driver()
+    try:
+        try: scrape_negociosenventa(driver3)
+        except Exception as e: print(f'Error NegociosEnVenta: {e}')
+
+        try: scrape_hotelsevende(driver3)
+        except Exception as e: print(f'Error HotelSeVende: {e}')
+    finally:
+        try: driver3.quit()
+        except: pass
+
+    # ── GRUPO 4: Idealista (Chrome 4) ───────────────────
+    print('\nIniciando Chrome 4 para Idealista...')
+    driver4 = init_driver()
+    try:
+        try: scrape_idealista(driver4)
+        except Exception as e: print(f'Error Idealista: {e}')
+    finally:
+        try: driver4.quit()
+        except: pass
+
+    # ── GRUPO 3: Sin Chrome (requests) ──────────────────
+    try: scrape_oirealestate(None)
+    except Exception as e: print(f'Error Oi Real Estate: {e}')
+
+    try: scrape_engelvoelkers(None)
+    except Exception as e: print(f'Error Engel Volkers: {e}')
+
+    print('\nNavegador cerrado.')
 
     # Merge con cache
     urls_encontradas = {item['url'] for item in found_listings}
