@@ -100,7 +100,7 @@ def init_driver():
     opts.add_argument('--window-size=1920,1080')
     opts.add_argument('--lang=es-ES')
 
-if os.environ.get('GITHUB_ACTIONS'):
+    if os.environ.get('GITHUB_ACTIONS'):
         from selenium import webdriver
         from selenium.webdriver.chrome.options import Options
         opts2 = Options()
