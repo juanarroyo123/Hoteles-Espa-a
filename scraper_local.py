@@ -96,7 +96,7 @@ def init_driver():
     opts = uc.ChromeOptions()
     opts.add_argument('--window-size=1920,1080')
     opts.add_argument('--lang=es-ES')
-    driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
+    driver = uc.Chrome(options=opts, version_main=146, use_subprocess=True)
     print('Chrome listo.\n')
     return driver
 

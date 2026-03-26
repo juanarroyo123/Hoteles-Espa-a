@@ -2,7 +2,7 @@ name: Actualizar Hoteles en Venta
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '0 6,12,18,0 * * *'   # 4 veces al día: 6h, 12h, 18h, 0h UTC
   workflow_dispatch:
 
 permissions:
@@ -11,35 +11,51 @@ permissions:
 jobs:
   scrape-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 45           # corta si se cuelga
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Instalar Chrome
+      # ── Chrome estable desde el canal oficial de Debian ──────────────────
+      - name: Instalar Chrome estable
         run: |
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update -q
+          sudo apt-get install -y --no-install-recommends \
+            ca-certificates curl gnupg
+          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] \
+            http://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list
           sudo apt-get update -q
           sudo apt-get install -y google-chrome-stable
+          google-chrome --version          # imprime versión para debug
 
-     - name: Instalar dependencias Python
+      # ── Dependencias Python ──────────────────────────────────────────────
+      - name: Instalar dependencias Python
         run: |
-          pip install requests beautifulsoup4 lxml selenium undetected-chromedriver
-          pip install webdriver-manager
-          python -c "from webdriver_manager.chrome import ChromeDriverManager; print('webdriver_manager OK')"
-          
-      - name: Ejecutar scraper
-        run: python scraper.py
-        env:
-          DISPLAY: ''
-          GITHUB_ACTIONS: 'true'
+          pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml \
+                      selenium webdriver-manager \
+                      undetected-chromedriver
 
+      # ── Scraper ──────────────────────────────────────────────────────────
+      - name: Ejecutar scraper
+        env:
+          GITHUB_ACTIONS: 'true'
+          PYTHONUNBUFFERED: '1'
+        run: python scraper.py
+
+      # ── Commit ───────────────────────────────────────────────────────────
       - name: Commit y push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add index.html
-          git diff --staged --quiet || git commit -m "🏨 Actualización diaria: $(date +'%d/%m/%Y %H:%M')"
+          git add index.html hoteles_cache.json
+          git diff --staged --quiet || \
+            git commit -m "🏨 Actualización $(date +'%d/%m/%Y %H:%M UTC') — $(python -c 'import json; d=json.load(open(\"hoteles_cache.json\")); print(len(d),\"anuncios\")')"
           git push
