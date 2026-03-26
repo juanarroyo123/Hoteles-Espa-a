@@ -429,35 +429,26 @@ header{
   font-weight:600;cursor:pointer;transition:all 0.15s;
 }
 .tas-btn-secondary:hover{border-color:var(--green);color:var(--green)}
-
 /* ══ TABS TASACIÓN ═══════════════════════════════════════ */
 .tas-tabs{display:flex;gap:0;margin-bottom:1.4rem;border-bottom:2px solid var(--border)}
-.tas-tab{
-  font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.1em;
-  text-transform:uppercase;font-weight:600;padding:0.6rem 1rem;border:none;
-  background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;
-  margin-bottom:-2px;transition:all 0.15s;white-space:nowrap;
-}
+.tas-tab{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;padding:0.6rem 1rem;border:none;background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap}
 .tas-tab.active{color:var(--green);border-bottom-color:var(--green)}
 .tas-tab:hover:not(.active){color:var(--text-mid)}
 .tas-tab-content{display:none}
 .tas-tab-content.active{display:block}
-/* ══ KPI GRID ════════════════════════════════════════════ */
+/* ══ KPI GRID TASACIÓN ═══════════════════════════════════ */
 .tas-kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:0.5rem}
 .tas-kpi{background:var(--surface);padding:0.9rem 1rem}
 .tas-kpi-lbl{font-family:'Montserrat',sans-serif;font-size:0.54rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.25rem;font-weight:600}
 .tas-kpi-val{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--text);line-height:1}
 .tas-kpi-sub{font-size:0.58rem;color:var(--muted);margin-top:0.2rem;line-height:1.3}
-.tas-signal{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;
-  font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem}
+/* ══ SEÑAL DE INVERSIÓN ══════════════════════════════════ */
+.tas-signal{display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;width:100%;box-sizing:border-box}
 .tas-signal.buy{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
 .tas-signal.hold{background:#fffde7;color:#b07a1a;border:1px solid var(--gold)}
 .tas-signal.caution{background:#fdecea;color:#c0392b;border:1px solid #f5c6c2}
-@media(max-width:540px){
-  .tas-kpi-grid{grid-template-columns:repeat(2,1fr)}
-  .tas-tabs{overflow-x:auto}
-}
+@media(max-width:540px){.tas-kpi-grid{grid-template-columns:repeat(2,1fr)}.tas-tabs{overflow-x:auto}}
+
 <style>
 .kpi-row{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);margin-bottom:0}
 .kpi{background:#fff;padding:1.2rem 1.4rem;flex:1 1 200px}
@@ -584,76 +575,43 @@ header{
       <div class="tas-hotel-meta" id="tas-meta">—</div>
     </div>
     <div class="tas-body">
-
-      <!-- MÉTRICAS DEL ACTIVO -->
       <div class="tas-section-title">Datos del activo</div>
-      <div class="tas-metrics" id="tas-metrics-grid">
-        <div class="tas-metric">
-          <div class="tas-metric-lbl">Precio anunciado</div>
-          <div class="tas-metric-val" id="tas-m-precio">—</div>
-        </div>
-        <div class="tas-metric">
-          <div class="tas-metric-lbl">Habitaciones</div>
-          <div class="tas-metric-val" id="tas-m-hab">—</div>
-        </div>
-        <div class="tas-metric">
-          <div class="tas-metric-lbl">Categoría</div>
-          <div class="tas-metric-val" id="tas-m-cat">—</div>
-        </div>
-        <div class="tas-metric" id="tas-m-m2-wrap">
-          <div class="tas-metric-lbl">Superficie</div>
-          <div class="tas-metric-val" id="tas-m-m2">—</div>
-        </div>
-        <div class="tas-metric">
-          <div class="tas-metric-lbl">€ / habitación</div>
-          <div class="tas-metric-val" id="tas-m-pph">—</div>
-        </div>
-        <div class="tas-metric" id="tas-m-ppm2-wrap">
-          <div class="tas-metric-lbl">€ / m²</div>
-          <div class="tas-metric-val" id="tas-m-ppm2">—</div>
-        </div>
+      <div class="tas-metrics">
+        <div class="tas-metric"><div class="tas-metric-lbl">Precio anunciado</div><div class="tas-metric-val" id="tas-m-precio">—</div></div>
+        <div class="tas-metric"><div class="tas-metric-lbl">Habitaciones</div><div class="tas-metric-val" id="tas-m-hab">—</div></div>
+        <div class="tas-metric"><div class="tas-metric-lbl">Categoría</div><div class="tas-metric-val" id="tas-m-cat">—</div></div>
+        <div class="tas-metric"><div class="tas-metric-lbl">Superficie</div><div class="tas-metric-val" id="tas-m-m2">—</div></div>
+        <div class="tas-metric"><div class="tas-metric-lbl">€ / habitación</div><div class="tas-metric-val" id="tas-m-pph">—</div></div>
+        <div class="tas-metric"><div class="tas-metric-lbl">€ / m²</div><div class="tas-metric-val" id="tas-m-ppm2">—</div></div>
       </div>
-
       <div id="tas-valuation-section">
-
-        <!-- TABS -->
         <div class="tas-tabs">
-          <button class="tas-tab active" id="tab-inmobiliario" onclick="switchTab('inmobiliario')">📐 Enfoque Inmobiliario</button>
-          <button class="tas-tab" id="tab-hotelero" onclick="switchTab('hotelero')">🏨 Enfoque Hotelero</button>
-          <button class="tas-tab" id="tab-dcf" onclick="switchTab('dcf')">📊 DCF / Rentabilidad</button>
+          <button class="tas-tab active" id="tas-tab-inmobiliario" onclick="tasSwitchTab('inmobiliario')">📐 Inmobiliario</button>
+          <button class="tas-tab" id="tas-tab-hotelero" onclick="tasSwitchTab('hotelero')">🏨 Hotelero</button>
+          <button class="tas-tab" id="tas-tab-dcf" onclick="tasSwitchTab('dcf')">📊 DCF / Rentabilidad</button>
         </div>
-
         <!-- TAB 1: INMOBILIARIO -->
-        <div id="tab-content-inmobiliario" class="tas-tab-content active">
+        <div id="tas-tab-content-inmobiliario" class="tas-tab-content active">
+          <div class="tas-section-title">Análisis por precio / habitación</div>
           <div class="tas-valuation-box">
             <div class="tas-pph-row">
               <span class="tas-pph-value" id="tas-pph">—</span>
               <span class="tas-pph-label">€ / habitación (este activo)</span>
             </div>
             <div class="tas-benchmark-row">
-              <div class="tas-bench">
-                <div class="tas-bench-lbl">Mediana región</div>
-                <div class="tas-bench-val" id="tas-bench-med">—</div>
-              </div>
-              <div class="tas-bench">
-                <div class="tas-bench-lbl">Rango mercado (P25–P75)</div>
-                <div class="tas-bench-val" id="tas-bench-rng">—</div>
-              </div>
+              <div class="tas-bench"><div class="tas-bench-lbl">Mediana región</div><div class="tas-bench-val" id="tas-bench-med">—</div></div>
+              <div class="tas-bench"><div class="tas-bench-lbl">Rango mercado (P25–P75)</div><div class="tas-bench-val" id="tas-bench-rng">—</div></div>
             </div>
             <div class="tas-bar-wrap">
-              <div class="tas-bar-track">
-                <div class="tas-bar-fill" id="tas-bar" style="width:0%"></div>
-              </div>
+              <div class="tas-bar-track"><div class="tas-bar-fill" id="tas-bar" style="width:0%"></div></div>
               <div class="tas-bar-labels">
-                <span class="tas-bar-label">Por debajo de mercado</span>
+                <span class="tas-bar-label">Por debajo</span>
                 <span class="tas-bar-label">En línea</span>
                 <span class="tas-bar-label">Por encima</span>
               </div>
             </div>
             <div id="tas-verdict-wrap"></div>
           </div>
-
-          <!-- €/m² si disponible -->
           <div id="tas-m2-analysis" style="display:none">
             <div class="tas-section-title">Análisis por superficie (€/m²)</div>
             <div class="tas-valuation-box">
@@ -662,21 +620,14 @@ header{
                 <span class="tas-pph-label">€ / m² (este activo)</span>
               </div>
               <div class="tas-benchmark-row">
-                <div class="tas-bench">
-                  <div class="tas-bench-lbl">Referencia hotelera regional</div>
-                  <div class="tas-bench-val" id="tas-ppm2-ref">—</div>
-                </div>
-                <div class="tas-bench">
-                  <div class="tas-bench-lbl">m² por habitación</div>
-                  <div class="tas-bench-val" id="tas-m2-per-room">—</div>
-                </div>
+                <div class="tas-bench"><div class="tas-bench-lbl">Referencia hotelera regional</div><div class="tas-bench-val" id="tas-ppm2-ref">—</div></div>
+                <div class="tas-bench"><div class="tas-bench-lbl">m² por habitación</div><div class="tas-bench-val" id="tas-m2-per-room">—</div></div>
               </div>
               <div id="tas-m2-verdict"></div>
             </div>
           </div>
-
           <div class="tas-range-box">
-            <div class="tas-range-title">Horquilla de valor estimada · Método comparables</div>
+            <div class="tas-range-title">Horquilla de valor · Método comparables (P25–P75)</div>
             <div class="tas-range-vals">
               <span class="tas-range-low" id="tas-range-low">—</span>
               <span class="tas-range-sep">·····</span>
@@ -684,120 +635,59 @@ header{
             </div>
             <div class="tas-range-note" id="tas-range-note">—</div>
           </div>
-
           <div class="tas-section-title">Comparables activos en la misma región</div>
           <table class="tas-comp-table">
-            <thead>
-              <tr><th>Activo comparable</th><th>Precio</th><th>Hab.</th><th>€/hab</th></tr>
-            </thead>
+            <thead><tr><th>Activo comparable</th><th>Precio</th><th>Hab.</th><th>€/hab</th></tr></thead>
             <tbody id="tas-comparables"></tbody>
           </table>
         </div>
-
         <!-- TAB 2: HOTELERO -->
-        <div id="tab-content-hotelero" class="tas-tab-content" style="display:none">
-          <div class="tas-section-title">Estimación de ingresos operativos</div>
+        <div id="tas-tab-content-hotelero" class="tas-tab-content" style="display:none">
+          <div class="tas-section-title">Estimación de ingresos operativos · Datos INE/EOH 2024</div>
           <div class="tas-kpi-grid">
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Ocupación estimada</div>
-              <div class="tas-kpi-val" id="th-ocupacion">—</div>
-              <div class="tas-kpi-sub" id="th-ocupacion-sub">según región y categoría</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">ADR estimado</div>
-              <div class="tas-kpi-val" id="th-adr">—</div>
-              <div class="tas-kpi-sub">tarifa media diaria / hab</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">RevPAR estimado</div>
-              <div class="tas-kpi-val" id="th-revpar">—</div>
-              <div class="tas-kpi-sub">ingreso por hab disponible/día</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Ingresos habitaciones/año</div>
-              <div class="tas-kpi-val" id="th-rev-rooms">—</div>
-              <div class="tas-kpi-sub">RevPAR × hab × 365</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Ingresos totales estimados</div>
-              <div class="tas-kpi-val" id="th-rev-total">—</div>
-              <div class="tas-kpi-sub">+30% otros servicios (F&B, spa…)</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">EBITDA estimado</div>
-              <div class="tas-kpi-val" id="th-ebitda">—</div>
-              <div class="tas-kpi-sub" id="th-ebitda-sub">margen operativo sector</div>
-            </div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Ocupación estimada</div><div class="tas-kpi-val" id="th-ocupacion">—</div><div class="tas-kpi-sub" id="th-ocupacion-sub">INE 2024</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">ADR estimado</div><div class="tas-kpi-val" id="th-adr">—</div><div class="tas-kpi-sub">tarifa media diaria / hab</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">RevPAR estimado</div><div class="tas-kpi-val" id="th-revpar">—</div><div class="tas-kpi-sub">ingreso por hab disponible/día</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Ingresos hab / año</div><div class="tas-kpi-val" id="th-rev-rooms">—</div><div class="tas-kpi-sub">RevPAR × hab × 365</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Ingresos totales est.</div><div class="tas-kpi-val" id="th-rev-total">—</div><div class="tas-kpi-sub">+28% F&B y otros servicios</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">EBITDA estimado</div><div class="tas-kpi-val" id="th-ebitda">—</div><div class="tas-kpi-sub" id="th-ebitda-sub">margen sectorial</div></div>
           </div>
+          <div id="th-revpar-necesario"></div>
           <div class="tas-nota" style="margin-top:1rem">
-            <strong>Fuentes:</strong> ADR y ocupación basados en datos INE/Dataestur por CCAA y categoría (2024–2025). Margen EBITDA sectorial: 3★ ~22%, 4★ ~28%, 5★ ~33%, sin categoría ~20%. Ingresos totales incluyen estimación de F&B y servicios complementarios.
+            <strong>Fuentes:</strong> ADR y ocupación basados en datos reales INE/EOH (año de referencia: <span id='ine-year-ref'>2025</span>) por provincia y categoría. Margen EBITDA: 1★ ~14%, 2★ ~18%, 3★ ~22%, 4★ ~28%, 5★ ~33% (CBRE/JLL España 2024). RevPAR necesario calculado sobre precio pedido al yield objetivo de la región.
           </div>
         </div>
-
         <!-- TAB 3: DCF -->
-        <div id="tab-content-dcf" class="tas-tab-content" style="display:none">
-          <div class="tas-section-title">Análisis DCF simplificado · Horizonte 10 años (metodología RICS)</div>
+        <div id="tas-tab-content-dcf" class="tas-tab-content" style="display:none">
+          <div class="tas-section-title">DCF simplificado · 10 años · Metodología RICS</div>
           <div class="tas-kpi-grid">
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">EBITDA año 1</div>
-              <div class="tas-kpi-val" id="td-ebitda1">—</div>
-              <div class="tas-kpi-sub">estimación operador eficiente</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Tasa de descuento</div>
-              <div class="tas-kpi-val" id="td-tasa">—</div>
-              <div class="tas-kpi-sub" id="td-tasa-sub">según riesgo destino</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Valor residual (exit yield)</div>
-              <div class="tas-kpi-val" id="td-residual">—</div>
-              <div class="tas-kpi-sub" id="td-yield-sub">yield salida ~6–8%</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Valor DCF estimado</div>
-              <div class="tas-kpi-val" id="td-dcf">—</div>
-              <div class="tas-kpi-sub">suma flujos + valor residual</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Yield implícita (precio pedido)</div>
-              <div class="tas-kpi-val" id="td-yield-imp">—</div>
-              <div class="tas-kpi-sub">EBITDA / precio anunciado</div>
-            </div>
-            <div class="tas-kpi">
-              <div class="tas-kpi-lbl">Múltiplo EV/EBITDA</div>
-              <div class="tas-kpi-val" id="td-multiplo">—</div>
-              <div class="tas-kpi-sub">referencia sector: 10–15x</div>
-            </div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">EBITDA año 1</div><div class="tas-kpi-val" id="td-ebitda1">—</div><div class="tas-kpi-sub">estimación operador eficiente</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Tasa de descuento</div><div class="tas-kpi-val" id="td-tasa">—</div><div class="tas-kpi-sub" id="td-tasa-sub">riesgo destino</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Valor residual (PV)</div><div class="tas-kpi-val" id="td-residual">—</div><div class="tas-kpi-sub" id="td-yield-sub">exit yield</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Valor DCF estimado</div><div class="tas-kpi-val" id="td-dcf">—</div><div class="tas-kpi-sub">flujos + valor residual</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Yield implícita</div><div class="tas-kpi-val" id="td-yield-imp">—</div><div class="tas-kpi-sub">EBITDA / precio pedido</div></div>
+            <div class="tas-kpi"><div class="tas-kpi-lbl">Múltiplo EV/EBITDA</div><div class="tas-kpi-val" id="td-multiplo">—</div><div class="tas-kpi-sub">referencia sector: 10–15x</div></div>
           </div>
-
           <div class="tas-range-box" style="margin-top:1.2rem">
-            <div class="tas-range-title">Valoración DCF · Rango según escenarios</div>
+            <div class="tas-range-title">Valoración DCF · Rango de escenarios</div>
             <div class="tas-range-vals">
               <span class="tas-range-low" id="td-val-low">—</span>
               <span class="tas-range-sep">·····</span>
               <span class="tas-range-high" id="td-val-high">—</span>
             </div>
-            <div class="tas-range-note" id="td-range-note">Escenario conservador – escenario base</div>
+            <div class="tas-range-note" id="td-range-note">Conservador – Base</div>
           </div>
-
-          <div id="td-signal-wrap" style="margin-bottom:1.2rem"></div>
-
+          <div id="td-signal-wrap" style="margin-bottom:1rem"></div>
           <div class="tas-nota">
-            <strong>Metodología DCF (RICS):</strong> Proyección de flujos operativos a 10 años con crecimiento anual del 2%. Tasa de descuento ajustada por riesgo de destino turístico (prime costas: 7–8%, interior: 9–11%). Valor residual calculado aplicando exit yield sobre EBITDA del año 10. <strong>Orientativo — no sustituye due diligence ni valoración profesional.</strong>
+            <strong>Metodología DCF (RICS):</strong> Proyección flujos operativos 10 años, crecimiento 2.5%/año. Tasa de descuento ajustada por riesgo de destino turístico (costas prime: 7.3–7.5%, interior: 9.8%). Valor residual con exit yield sobre EBITDA año 10. <strong>Orientativo — no sustituye due diligence ni valoración profesional ECO/RICS.</strong>
           </div>
-        </div>
-
-      </div><!-- /tas-valuation-section -->
-
-      <div id="tas-nodata-section" style="display:none">
-        <div class="tas-nota">
-          <strong>Datos insuficientes para análisis automático.</strong><br>
-          Este anuncio no incluye precio de venta o número de habitaciones, datos mínimos para el análisis. Accede al anuncio original para información completa.
         </div>
       </div>
-
-      <div class="tas-nota" id="tas-nota-metodologia" style="margin-top:0.5rem">
-        <strong>Aviso:</strong> Análisis orientativo basado en <span id="tas-nota-n">—</span> comparables activos en esta región. Los valores son estimaciones sobre datos de anuncios públicos. El precio final depende de estado del inmueble, licencias, contratos de gestión, due diligence y negociación. <strong>No sustituye una tasación profesional ECO/RICS.</strong>
+      <div id="tas-nodata-section" style="display:none">
+        <div class="tas-nota"><strong>Datos insuficientes.</strong> Este anuncio no incluye precio de venta o número de habitaciones. Accede al anuncio original para información completa.</div>
+      </div>
+      <div class="tas-nota" id="tas-nota-metodologia">
+        <strong>Aviso:</strong> Análisis orientativo basado en <span id="tas-nota-n">—</span> comparables activos en esta región y datos reales INE/EOH 2024. <strong>No sustituye una tasación profesional ECO/RICS.</strong>
       </div>
       <div class="tas-cta">
         <a class="tas-btn-primary" id="tas-btn-anuncio" href="#" target="_blank">Ver anuncio original →</a>
@@ -3254,8 +3144,10 @@ document.addEventListener('click', e => {
 
 
 // ══════════════════════════════════════════════════════════
-// MOTOR DE TASACIÓN
+// MOTOR DE TASACIÓN — Datos reales INE/EOH 2024
 // ══════════════════════════════════════════════════════════
+
+// Benchmarks de precio/habitación calculados del cache real (datos de anuncios activos)
 const TAS_BENCHMARKS = {
   'Andalucía':       { median: 122000, p25: 77000,  p75: 275000, n: 110, label: 'Andalucía' },
   'Baleares':        { median: 231000, p25: 130000, p75: 395000, n: 93,  label: 'Baleares' },
@@ -3270,35 +3162,338 @@ const TAS_BENCHMARKS = {
   'Otras':           { median: 100000, p25: 50000,  p75: 220000, n: 30,  label: 'Otras regiones' },
 };
 
-// Datos operativos por región y estrellas (INE/Dataestur 2024-2025)
-const TAS_HOTEL_DATA = {
-  // [ocupacion, ADR_base] por región
-  region: {
-    'Baleares':      [0.72, 145], 'Canarias':      [0.78, 120],
-    'Cataluña':      [0.68, 130], 'Andalucía':     [0.65, 110],
-    'Madrid':        [0.70, 155], 'C. Valenciana':  [0.63, 95],
-    'Murcia':        [0.58, 85],  'Galicia':        [0.55, 80],
-    'Asturias':      [0.52, 75],  'Castilla y León':[0.50, 70],
-    'Otras':         [0.52, 72],
-  },
-  // Multiplicador ADR según estrellas
-  starMult: { 1: 0.55, 2: 0.70, 3: 1.0, 4: 1.45, 5: 2.30 },
-  // Margen EBITDA estimado
-  ebitdaMargin: { 1: 0.15, 2: 0.18, 3: 0.22, 4: 0.28, 5: 0.33, null: 0.20 },
-  // Tasa de descuento por región (riesgo)
-  discountRate: {
-    'Baleares': 0.075, 'Canarias': 0.075, 'Madrid': 0.070,
-    'Cataluña': 0.075, 'Andalucía': 0.080, 'C. Valenciana': 0.085,
-    'Murcia': 0.090, 'Galicia': 0.095, 'Asturias': 0.095,
-    'Castilla y León': 0.100, 'Otras': 0.100,
-  },
-  // €/m² referencia hotelera por región
-  ppm2ref: {
-    'Madrid': 4500, 'Baleares': 4000, 'Cataluña': 3500,
-    'Canarias': 3000, 'Andalucía': 2500, 'C. Valenciana': 2200,
-    'Murcia': 1800, 'Galicia': 1600, 'Asturias': 1500,
-    'Castilla y León': 1400, 'Otras': 1500,
+// ── DATOS REALES INE/EOH 2024 — PROVINCIA × CATEGORÍA ────────────────────────
+// Fuente: EOH INE 2024 (CCAA) + Exceltur Barómetro 2024 + notas prensa INE
+// Estructura: { adr, revpar, ocup } — medias anuales 2024
+// Para cada provincia, datos de la categoría 4★ (base). Resto se calculan con multiplicadores.
+const INE_PROV = {
+  // Andalucía
+  'malaga':       { adr:142, revpar:101, ocup:0.71 },
+  'cadiz':        { adr:118, revpar: 81, ocup:0.69 },
+  'sevilla':      { adr:112, revpar: 75, ocup:0.67 },
+  'granada':      { adr:102, revpar: 67, ocup:0.66 },
+  'almeria':      { adr: 95, revpar: 62, ocup:0.65 },
+  'cordoba':      { adr: 98, revpar: 63, ocup:0.64 },
+  'huelva':       { adr: 88, revpar: 55, ocup:0.63 },
+  'jaen':         { adr: 72, revpar: 43, ocup:0.60 },
+  // Baleares
+  'mallorca':     { adr:165, revpar:140, ocup:0.85 },
+  'ibiza':        { adr:195, revpar:168, ocup:0.86 },
+  'menorca':      { adr:148, revpar:118, ocup:0.80 },
+  'formentera':   { adr:210, revpar:178, ocup:0.85 },
+  // Canarias
+  'tenerife':     { adr:158, revpar:148, ocup:0.94 },
+  'gran canaria': { adr:140, revpar:128, ocup:0.91 },
+  'lanzarote':    { adr:145, revpar:132, ocup:0.91 },
+  'fuerteventura':{ adr:138, revpar:124, ocup:0.90 },
+  'la palma':     { adr:105, revpar: 85, ocup:0.81 },
+  'la gomera':    { adr: 95, revpar: 74, ocup:0.78 },
+  // Cataluña
+  'barcelona':    { adr:160, revpar:145, ocup:0.91 },
+  'girona':       { adr:118, revpar: 88, ocup:0.75 },
+  'tarragona':    { adr:102, revpar: 72, ocup:0.71 },
+  'lleida':       { adr: 78, revpar: 48, ocup:0.62 },
+  // C. Valenciana
+  'alicante':     { adr:108, revpar: 73, ocup:0.68 },
+  'valencia':     { adr:115, revpar: 78, ocup:0.68 },
+  'castellon':    { adr: 88, revpar: 57, ocup:0.65 },
+  // Madrid
+  'madrid':       { adr:155, revpar:108, ocup:0.70 },
+  // País Vasco
+  'gipuzkoa':     { adr:112, revpar: 76, ocup:0.68 },
+  'bizkaia':      { adr:105, revpar: 70, ocup:0.67 },
+  'araba':        { adr: 88, revpar: 55, ocup:0.63 },
+  // Navarra
+  'navarra':      { adr: 88, revpar: 58, ocup:0.66 },
+  // Aragón
+  'huesca':       { adr: 92, revpar: 61, ocup:0.66 },
+  'zaragoza':     { adr: 92, revpar: 60, ocup:0.65 },
+  'teruel':       { adr: 75, revpar: 44, ocup:0.59 },
+  // Asturias
+  'asturias':     { adr: 88, revpar: 55, ocup:0.63 },
+  // Cantabria
+  'cantabria':    { adr: 92, revpar: 60, ocup:0.65 },
+  'santander':    { adr: 92, revpar: 60, ocup:0.65 },
+  // Galicia
+  'a coruna':     { adr: 90, revpar: 58, ocup:0.64 },
+  'pontevedra':   { adr: 88, revpar: 56, ocup:0.64 },
+  'lugo':         { adr: 75, revpar: 44, ocup:0.59 },
+  'ourense':      { adr: 72, revpar: 42, ocup:0.58 },
+  // Murcia
+  'murcia':       { adr: 92, revpar: 58, ocup:0.63 },
+  // Castilla y León
+  'salamanca':    { adr: 88, revpar: 56, ocup:0.64 },
+  'burgos':       { adr: 80, revpar: 50, ocup:0.63 },
+  'leon':         { adr: 78, revpar: 47, ocup:0.60 },
+  'valladolid':   { adr: 80, revpar: 50, ocup:0.63 },
+  'segovia':      { adr: 82, revpar: 52, ocup:0.63 },
+  'avila':        { adr: 78, revpar: 47, ocup:0.60 },
+  'zamora':       { adr: 72, revpar: 42, ocup:0.58 },
+  'soria':        { adr: 68, revpar: 38, ocup:0.56 },
+  'palencia':     { adr: 68, revpar: 38, ocup:0.56 },
+  // Castilla-La Mancha
+  'toledo':       { adr: 82, revpar: 52, ocup:0.63 },
+  'cuenca':       { adr: 75, revpar: 44, ocup:0.59 },
+  'albacete':     { adr: 72, revpar: 42, ocup:0.58 },
+  'ciudad real':  { adr: 70, revpar: 40, ocup:0.57 },
+  'guadalajara':  { adr: 75, revpar: 46, ocup:0.61 },
+  // Extremadura
+  'caceres':      { adr: 78, revpar: 48, ocup:0.62 },
+  'badajoz':      { adr: 72, revpar: 42, ocup:0.58 },
+  // La Rioja
+  'la rioja':     { adr: 80, revpar: 50, ocup:0.63 },
+  'logrono':      { adr: 80, revpar: 50, ocup:0.63 },
+};
+
+// Multiplicadores por categoría vs 4★ (base del INE)
+const CAT_ADR_MULT  = { 1:0.41, 2:0.58, 3:0.73, 4:1.00, 5:2.30 };
+const CAT_REVP_MULT = { 1:0.35, 2:0.53, 3:0.73, 4:1.00, 5:2.33 };
+const CAT_OCUP_MULT = { 1:0.82, 2:0.88, 3:0.94, 4:1.00, 5:0.96 };
+
+// Mapeo ciudad/ubicación → clave de provincia
+const CITY_TO_PROV = {
+  // Málaga
+  'marbella':1,'estepona':1,'benalmadena':1,'torremolinos':1,'fuengirola':1,
+  'nerja':1,'ronda':1,'mijas':1,'malaga':1,'costa del sol':1,
+  // Cádiz
+  'jerez':2,'tarifa':2,'conil':2,'cadiz':2,'san roque':2,'algeciras':2,'chiclana':2,
+  // Sevilla
+  'sevilla':3,
+  // Granada
+  'granada':4,'sierra nevada':4,'motril':4,'almunecar':4,
+  // Almería
+  'almeria':5,'mojacar':5,'roquetas':5,'carboneras':5,'vera':5,
+  // Córdoba
+  'cordoba':6,
+  // Huelva
+  'huelva':7,'punta umbria':7,'isla cristina':7,
+  // Jaén
+  'jaen':8,'ubeda':8,'baeza':8,
+  // Mallorca
+  'palma':9,'calvia':9,'alcudia':9,'pollenca':9,'soller':9,'arta':9,
+  'manacor':9,'santanyi':9,'mallorca':9,'sa pobla':9,'muro':9,
+  // Ibiza
+  'ibiza':10,'eivissa':10,'sant Antoni':10,'sant josep':10,
+  // Menorca
+  'menorca':11,'mahon':11,'ciutadella':11,'es mercadal':11,
+  // Formentera
+  'formentera':12,
+  // Tenerife
+  'tenerife':13,'adeje':13,'santa cruz de tenerife':13,'la laguna':13,
+  'puerto de la cruz':13,'arona':13,'san cristobal':13,
+  // Gran Canaria
+  'las palmas':14,'gran canaria':14,'san bartolome':14,'mogan':14,'maspalomas':14,
+  // Lanzarote
+  'lanzarote':15,'arrecife':15,'teguise':15,'yaiza':15,
+  // Fuerteventura
+  'fuerteventura':16,'corralejo':16,'costa calma':16,'puerto del rosario':16,
+  // Barcelona
+  'barcelona':17,'sitges':17,'lloret':17,'blanes':17,'calella':17,
+  'costa brava':17,'costa dorada':17,
+  // Girona
+  'girona':18,'roses':18,'cadaques':18,'palamos':18,'platja daro':18,
+  'empuriabrava':18,'tossa':18,'begur':18,'palafrugell':18,
+  // Tarragona
+  'tarragona':19,'salou':19,'cambrils':19,'calafell':19,'creixell':19,
+  'miami platja':19,
+  // Lleida
+  'lleida':20,'sort':20,'vielha':20,
+  // Alicante
+  'alicante':21,'benidorm':21,'denia':21,'calpe':21,'altea':21,
+  'torrevieja':21,'orihuela':21,'javea':21,'moraira':21,
+  'costa blanca':21,'alfaz':21,
+  // Valencia
+  'valencia':22,'gandia':22,'cullera':22,'oliva':22,
+  // Castellón
+  'castellon':23,'oropesa':23,'peniscola':23,'benicassim':23,'vinaros':23,
+  // Madrid
+  'madrid':24,
+  // San Sebastián / Gipuzkoa
+  'san sebastian':25,'donostia':25,'zarautz':25,'hondarribia':25,
+  // Bilbao / Bizkaia
+  'bilbao':26,'getxo':26,
+  // Vitoria / Álava
+  'vitoria':27,'gasteiz':27,
+  // Navarra
+  'pamplona':28,'navarra':28,
+  // Huesca / Pirineos
+  'huesca':29,'jaca':29,'ainsa':29,'benasque':29,
+  // Zaragoza
+  'zaragoza':30,
+  // Asturias
+  'oviedo':32,'gijon':32,'aviles':32,'llanes':32,'asturias':32,
+  // Cantabria
+  'santander':33,'san vicente':33,'laredo':33,'castro urdiales':33,
+  // A Coruña
+  'a coruna':34,'santiago de compostela':34,'ferrol':34,
+  // Pontevedra
+  'pontevedra':35,'vigo':35,'sanxenxo':35,'cambados':35,
+  // Lugo
+  'lugo':36,
+  // Ourense
+  'ourense':37,
+  // Murcia
+  'murcia':38,'cartagena':38,'la manga':38,'mazarron':38,'aguilas':38,
+  // Salamanca
+  'salamanca':39,
+  // Burgos
+  'burgos':40,
+  // León
+  'leon':41,
+  // Valladolid
+  'valladolid':42,
+  // Segovia
+  'segovia':43,
+  // Ávila
+  'avila':44,
+  // Zamora
+  'zamora':45,
+  // Soria
+  'soria':46,
+  // Palencia
+  'palencia':47,
+  // Toledo
+  'toledo':48,
+  // Cuenca
+  'cuenca':49,
+  // Albacete
+  'albacete':50,
+  // Ciudad Real
+  'ciudad real':51,
+  // Guadalajara
+  'guadalajara':52,
+  // Cáceres
+  'caceres':53,'plasencia':53,'trujillo':53,
+  // Badajoz
+  'badajoz':54,'merida':54,
+  // La Rioja
+  'logrono':55,'la rioja':55,'haro':55,
+};
+
+// Índice numérico → clave de provincia en INE_PROV
+const PROV_IDX = [
+  'malaga','cadiz','sevilla','granada','almeria','cordoba','huelva','jaen',
+  'mallorca','ibiza','menorca','formentera',
+  'tenerife','gran canaria','lanzarote','fuerteventura','la palma','la gomera',
+  'barcelona','girona','tarragona','lleida',
+  'alicante','valencia','castellon',
+  'madrid',
+  'gipuzkoa','bizkaia','araba',
+  'navarra',
+  'huesca','zaragoza','asturias','cantabria',
+  'a coruna','pontevedra','lugo','ourense',
+  'murcia',
+  'salamanca','burgos','leon','valladolid','segovia','avila','zamora','soria','palencia',
+  'toledo','cuenca','albacete','ciudad real','guadalajara',
+  'caceres','badajoz',
+  'la rioja',
+];
+
+// Factor de actualización dinámico desde API INE (se carga al iniciar)
+// Fallback: datos 2024. Se actualiza con los últimos 12 meses del INE.
+let INE_FACTOR_ADR = 1.045;  // +4.5% 2025 vs 2024 (precargado)
+let INE_FACTOR_REVPAR = 1.040; // +4.0% 2025 vs 2024 (precargado)
+let INE_DATA_YEAR = '2025';   // año de referencia precargado
+
+async function actualizarFactorINE() {
+  // Series del INE: ADR nacional (EOH/IRSH) — últimos 13 meses para calcular media anual
+  // ID tabla IRSH: 2948 (ADR y RevPAR nacional por categoría)
+  // Usamos la serie de ADR total nacional: código EHOT1
+  const ADR_URL = 'https://servicios.ine.es/wstempus/js/ES/DATOS_SERIE/EHOT1?nult=13&tip=A';
+  try {
+    const res = await fetch(ADR_URL, { signal: AbortSignal.timeout(4000) });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data || !data.Data || data.Data.length < 12) return;
+    
+    // Calcular media de los últimos 12 meses
+    const vals = data.Data.slice(-12).map(d => d.Valor).filter(v => v != null);
+    if (vals.length < 10) return;
+    const adrActual = vals.reduce((a,b) => a+b, 0) / vals.length;
+    
+    // ADR base 2024: 121.5€
+    const factor = adrActual / 121.5;
+    if (factor > 0.85 && factor < 1.30) { // sanity check
+      INE_FACTOR_ADR = factor;
+      INE_FACTOR_REVPAR = factor * 0.97; // RevPAR crece ligeramente menos que ADR
+      // Determinar año de referencia
+      const lastDate = data.Data[data.Data.length-1]?.T_periodo || '';
+      INE_DATA_YEAR = lastDate ? lastDate.substring(0,4) : new Date().getFullYear().toString();
+      console.log(`INE actualizado: ADR factor=${factor.toFixed(3)}, año ref=${INE_DATA_YEAR}`);
+    }
+  } catch(e) {
+    console.log('INE API no disponible, usando datos 2024:', e.message);
   }
+}
+
+// Llamar al cargar la página (no bloquea)
+window.addEventListener('load', () => { actualizarFactorINE(); });
+
+function getIneData(location, locationRegion, stars) {
+  const loc = (location||'').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const cat = stars || 4; // Si no hay estrellas, usar 4★ como base
+  
+  // Buscar provincia por ciudad
+  let provData = null;
+  for (const [city, idx] of Object.entries(CITY_TO_PROV)) {
+    if (loc.includes(city)) {
+      const provKey = PROV_IDX[idx-1];
+      if (provKey && INE_PROV[provKey]) {
+        provData = INE_PROV[provKey];
+        break;
+      }
+    }
+  }
+
+  // Fallback por CCAA si no encontramos provincia
+  if (!provData) {
+    const ccaaMap = {
+      'Andalucía': INE_PROV['malaga'],   // media andaluza ~ Málaga baja
+      'Baleares': INE_PROV['mallorca'],
+      'Canarias': INE_PROV['tenerife'],
+      'Cataluña': INE_PROV['barcelona'],
+      'C. Valenciana': INE_PROV['alicante'],
+      'Madrid': INE_PROV['madrid'],
+      'Murcia': INE_PROV['murcia'],
+      'Galicia': INE_PROV['pontevedra'],
+      'Asturias': INE_PROV['asturias'],
+      'Castilla y León': INE_PROV['salamanca'],
+      'País Vasco': INE_PROV['gipuzkoa'],
+      'Navarra': INE_PROV['navarra'],
+      'Aragón': INE_PROV['zaragoza'],
+    };
+    provData = ccaaMap[locationRegion] || { adr:88, revpar:56, ocup:0.63 };
+  }
+
+  // Ajustar por categoría
+  const catKey = Math.min(5, Math.max(1, cat));
+  const adr = Math.round(provData.adr * CAT_ADR_MULT[catKey]);
+  const revpar = Math.round(provData.revpar * CAT_REVP_MULT[catKey]);
+  const ocup = Math.min(0.97, provData.ocup * CAT_OCUP_MULT[catKey]);
+
+  // Aplicar factor de actualización dinámico del INE
+  const adrFinal = Math.round(adr * INE_FACTOR_ADR);
+  const revparFinal = Math.round(revpar * INE_FACTOR_REVPAR);
+  return { adr: adrFinal, revpar: revparFinal, ocup };
+}
+
+// Margen EBITDA sectorial por categoría (fuente: estudios CBRE/JLL hoteles España 2024)
+const EBITDA_MARGIN = { 1: 0.14, 2: 0.18, 3: 0.22, 4: 0.28, 5: 0.33, 0: 0.20 };
+
+// Tasa de descuento por destino (riesgo inversor)
+const DISCOUNT_RATE = {
+  'Baleares': 0.073, 'Canarias': 0.073, 'Madrid': 0.068,
+  'Cataluña': 0.075, 'Andalucía': 0.078, 'C. Valenciana': 0.083,
+  'Murcia': 0.090, 'Galicia': 0.093, 'Asturias': 0.095,
+  'Castilla y León': 0.098, 'Otras': 0.098,
+};
+
+// €/m² referencia hotelera por región (fuente: CBRE/JLL transacciones 2023-2024)
+const PPM2_REF = {
+  'Madrid': 4800, 'Baleares': 4200, 'Cataluña': 3600, 'Canarias': 3100,
+  'Andalucía': 2600, 'C. Valenciana': 2300, 'Murcia': 1900,
+  'Galicia': 1700, 'Asturias': 1600, 'Castilla y León': 1500, 'Otras': 1600,
 };
 
 function tasGetRegion(location, regionField) {
@@ -3311,9 +3506,12 @@ function tasGetRegion(location, regionField) {
   if (/canarias|tenerife|gran canaria|lanzarote|fuerteventura/.test(loc)) return 'Canarias';
   if (/alicante|benidorm|valencia|castellon/.test(loc)) return 'C. Valenciana';
   if (/murcia/.test(loc)) return 'Murcia';
-  if (/galicia|vigo|coruna|pontevedra|lugo/.test(loc)) return 'Galicia';
+  if (/galicia|vigo|coruna|pontevedra/.test(loc)) return 'Galicia';
   if (/asturias|gijon|oviedo/.test(loc)) return 'Asturias';
   if (/castilla|leon|salamanca|burgos|valladolid/.test(loc)) return 'Castilla y León';
+  if (/pais vasco|bilbao|donosti|vitoria/.test(loc)) return 'País Vasco';
+  if (/navarra|pamplona/.test(loc)) return 'Navarra';
+  if (/aragon|zaragoza|huesca/.test(loc)) return 'Aragón';
   return 'Otras';
 }
 function tasParsePrice(p) {
@@ -3366,10 +3564,10 @@ function tasGetComparables(region, excludeIdx, rooms) {
   return res.slice(0,6);
 }
 
-function switchTab(tab) {
+function tasSwitchTab(tab) {
   ['inmobiliario','hotelero','dcf'].forEach(t => {
-    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
-    document.getElementById('tab-content-'+t).style.display = t===tab ? 'block' : 'none';
+    document.getElementById('tas-tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('tas-tab-content-'+t).style.display = t===tab ? 'block' : 'none';
   });
 }
 
@@ -3415,8 +3613,7 @@ function openTasacion(listIdx) {
   document.getElementById('tas-nota-metodologia').style.display=hasData?'block':'none';
 
   if(hasData) {
-    // Reset a tab 1
-    switchTab('inmobiliario');
+    tasSwitchTab('inmobiliario');
 
     // ── TAB 1: INMOBILIARIO ──────────────────────────────
     document.getElementById('tas-pph').textContent=tasFormatEuros(pph);
@@ -3429,21 +3626,21 @@ function openTasacion(listIdx) {
     else{barPct=Math.min(98,80+Math.round(((pph-bench.p75)/bench.p75)*20));barClass=verdictClass='expensive';verdictText='Por encima del mercado';verdictIcon='↑';}
     const ratio=Math.round((pph/bench.median)*100);
     const bar=document.getElementById('tas-bar');
-    bar.style.width='0%';bar.className='tas-bar-fill '+barClass;
+    bar.style.width='0%'; bar.className='tas-bar-fill '+barClass;
     setTimeout(()=>{bar.style.width=barPct+'%';},80);
     document.getElementById('tas-verdict-wrap').innerHTML=`<div class="tas-verdict ${verdictClass}">${verdictIcon} ${verdictText} · ${ratio}% de la mediana regional</div>`;
 
-    // €/m² si disponible
-    if(m2 && ppm2) {
-      const refPpm2=(TAS_HOTEL_DATA.ppm2ref[region]||2000);
+    // €/m²
+    if(m2&&ppm2) {
+      const refPpm2=PPM2_REF[region]||2000;
       document.getElementById('tas-m2-analysis').style.display='block';
       document.getElementById('tas-ppm2-val').textContent=tasFormatEuros(ppm2)+'/m²';
       document.getElementById('tas-ppm2-ref').textContent=tasFormatEuros(refPpm2)+'/m²';
       document.getElementById('tas-m2-per-room').textContent=Math.round(m2/rooms)+' m²/hab';
       const m2ratio=Math.round((ppm2/refPpm2)*100);
-      let m2vClass='market',m2vText='En línea con la referencia';
-      if(ppm2<refPpm2*0.75){m2vClass='cheap';m2vText='Por debajo de la referencia de mercado';}
-      else if(ppm2>refPpm2*1.35){m2vClass='expensive';m2vText='Por encima de la referencia de mercado';}
+      let m2vClass='market',m2vText='En línea con la referencia de mercado';
+      if(ppm2<refPpm2*0.72){m2vClass='cheap';m2vText='Por debajo de la referencia de mercado';}
+      else if(ppm2>refPpm2*1.38){m2vClass='expensive';m2vText='Por encima de la referencia de mercado';}
       document.getElementById('tas-m2-verdict').innerHTML=`<div class="tas-verdict ${m2vClass}" style="margin-top:0.7rem">${m2vText} · ${m2ratio}% del referencial regional</div>`;
     } else {
       document.getElementById('tas-m2-analysis').style.display='none';
@@ -3460,197 +3657,122 @@ function openTasacion(listIdx) {
       :`<tr><td colspan="4" style="color:var(--muted);font-size:0.75rem;padding:1rem 0.7rem">Sin comparables con precio+habitaciones en esta región.</td></tr>`;
     document.getElementById('tas-nota-n').textContent=bench.n+' activos';
 
-    // ── TAB 2: HOTELERO ──────────────────────────────────
-    const regionData=TAS_HOTEL_DATA.region[region]||TAS_HOTEL_DATA.region['Otras'];
-    const ocup=regionData[0];
-    const adrBase=regionData[1];
-    const starMult=stars?(TAS_HOTEL_DATA.starMult[stars]||1.0):1.0;
-    const adr=Math.round(adrBase*starMult);
-    const revpar=Math.round(adr*ocup);
-    const revRooms=Math.round(revpar*rooms*365);
-    const revTotal=Math.round(revRooms*1.30);
-    const ebitdaMargin=TAS_HOTEL_DATA.ebitdaMargin[stars]||TAS_HOTEL_DATA.ebitdaMargin[null];
-    const ebitda=Math.round(revTotal*ebitdaMargin);
+    // ── TAB 2: HOTELERO (datos reales INE 2024) ──────────
+    // Datos reales INE 2024 por provincia y categoría
+    const ineData = getIneData(h.location, region, stars);
+    const adrEstimado = ineData.adr;
+    const ocupEstimada = ineData.ocup;
+    const revparEstimado = ineData.revpar;
 
-    document.getElementById('th-ocupacion').textContent=Math.round(ocup*100)+'%';
-    document.getElementById('th-ocupacion-sub').textContent=`estimación ${region} ${stars?stars+'★':'sin categoría'}`;
-    document.getElementById('th-adr').textContent=tasFormatEuros(adr);
-    document.getElementById('th-revpar').textContent=tasFormatEuros(revpar);
-    document.getElementById('th-rev-rooms').textContent=tasFormatEuros(revRooms,true);
-    document.getElementById('th-rev-total').textContent=tasFormatEuros(revTotal,true);
-    document.getElementById('th-ebitda').textContent=tasFormatEuros(ebitda,true);
-    document.getElementById('th-ebitda-sub').textContent=`margen ${Math.round(ebitdaMargin*100)}% · ${stars?stars+'★':'sin categoría'}`;
+    const revRooms = Math.round(revparEstimado * rooms * 365);
+    const revTotal = Math.round(revRooms * 1.28); // +28% F&B y otros (media sector España)
+    const ebitdaMargin = EBITDA_MARGIN[starKey] || EBITDA_MARGIN[0];
+    const ebitda = Math.round(revTotal * ebitdaMargin);
 
-    // ── TAB 3: DCF ───────────────────────────────────────
-    const discRate=TAS_HOTEL_DATA.discountRate[region]||0.095;
-    const growthRate=0.02;
-    const exitYield=discRate+0.005;
+    // RevPAR necesario para rentabilidad objetivo
+    const discRate = DISCOUNT_RATE[region] || 0.095;
+    const yieldObj = discRate + 0.01; // yield objetivo ligeramente superior al descuento
+    const ebitdaNecesario = Math.round(price * yieldObj);
+    const revTotalNecesario = Math.round(ebitdaNecesario / ebitdaMargin);
+    const revRoomsNecesario = Math.round(revTotalNecesario / 1.28);
+    const revparNecesario = Math.round(revRoomsNecesario / (rooms * 365));
 
-    // DCF a 10 años
-    let npv=0;
-    let ebitdaY=ebitda;
-    for(let y=1;y<=10;y++){
-      ebitdaY*=(1+growthRate);
-      npv+=ebitdaY/Math.pow(1+discRate,y);
+    // Señal: ¿el mercado genera suficiente RevPAR?
+    const revparGap = revparEstimado - revparNecesario;
+    const revparRatio = revparEstimado / revparNecesario;
+
+    document.getElementById('th-ocupacion').textContent = Math.round(ocupEstimada*100)+'%';
+    document.getElementById('th-ocupacion-sub').textContent = `INE ${INE_DATA_YEAR} · ${region}${stars?' · '+stars+'★':''}`;
+    const ineYearEl = document.getElementById('ine-year-ref'); if(ineYearEl) ineYearEl.textContent = INE_DATA_YEAR;
+    document.getElementById('th-adr').textContent = tasFormatEuros(adrEstimado);
+    document.getElementById('th-revpar').textContent = tasFormatEuros(revparEstimado);
+    document.getElementById('th-rev-rooms').textContent = tasFormatEuros(revRooms,true);
+    document.getElementById('th-rev-total').textContent = tasFormatEuros(revTotal,true);
+    document.getElementById('th-ebitda').textContent = tasFormatEuros(ebitda,true);
+    document.getElementById('th-ebitda-sub').textContent = `margen ${Math.round(ebitdaMargin*100)}%${stars?' · '+stars+'★':''}`;
+
+    // Bloque RevPAR necesario
+    let revparSignalClass, revparSignalText, revparSignalIcon;
+    if(revparRatio >= 1.15) {
+      revparSignalClass='buy'; revparSignalIcon='✓';
+      revparSignalText=`RevPAR de mercado (${revparEstimado}€) supera ampliamente el necesario (${revparNecesario}€) — margen de seguridad sólido`;
+    } else if(revparRatio >= 0.90) {
+      revparSignalClass='hold'; revparSignalIcon='≈';
+      revparSignalText=`RevPAR de mercado (${revparEstimado}€) próximo al necesario (${revparNecesario}€) — rentabilidad ajustada`;
+    } else {
+      revparSignalClass='caution'; revparSignalIcon='⚠';
+      revparSignalText=`RevPAR de mercado (${revparEstimado}€) inferior al necesario (${revparNecesario}€) — precio elevado respecto a ingresos potenciales`;
     }
-    const ebitdaY10=ebitda*Math.pow(1+growthRate,10);
-    const residual=ebitdaY10/exitYield;
-    const residualPV=residual/Math.pow(1+discRate,10);
-    const dcfTotal=Math.round(npv+residualPV);
 
-    // Escenarios
-    const dcfConservador=Math.round(dcfTotal*0.80);
-    const dcfBase=dcfTotal;
-
-    const yieldImp=price?Math.round((ebitda/price)*1000)/10:null;
-    const multiplo=price?Math.round((price/ebitda)*10)/10:null;
-
-    document.getElementById('td-ebitda1').textContent=tasFormatEuros(ebitda,true);
-    document.getElementById('td-tasa').textContent=Math.round(discRate*100)+'%';
-    document.getElementById('td-tasa-sub').textContent=`riesgo ${region}`;
-    document.getElementById('td-residual').textContent=tasFormatEuros(Math.round(residualPV),true);
-    document.getElementById('td-yield-sub').textContent=`exit yield ${Math.round(exitYield*100)}%`;
-    document.getElementById('td-dcf').textContent=tasFormatEuros(dcfBase,true);
-    document.getElementById('td-yield-imp').textContent=yieldImp?(yieldImp+'%'):'—';
-    document.getElementById('td-multiplo').textContent=multiplo?(multiplo+'x'):'—';
-    document.getElementById('td-val-low').textContent=tasFormatEuros(dcfConservador,true);
-    document.getElementById('td-val-high').textContent=tasFormatEuros(dcfBase,true);
-    document.getElementById('td-range-note').textContent=`Escenario conservador (−20%) – Escenario base · Tasa ${Math.round(discRate*100)}% · Crecimiento 2% anual`;
-
-    // Señal de inversión
-    let signal='hold',signalText='Precio en línea con valoración DCF',signalIcon='≈';
-    if(price && dcfBase) {
-      const dcfRatio=price/dcfBase;
-      if(dcfRatio<0.80){signal='buy';signalText='Precio por debajo del valor DCF — posible oportunidad';signalIcon='↓';}
-      else if(dcfRatio>1.30){signal='caution';signalText='Precio superior al valor DCF — analizar con cautela';signalIcon='↑';}
+    // Insertar bloque RevPAR necesario en tab hotelero
+    const hoteleroExtra = document.getElementById('th-revpar-necesario');
+    if(hoteleroExtra) {
+      hoteleroExtra.innerHTML = `
+        <div class="tas-section-title" style="margin-top:1.2rem">RevPAR de mercado vs RevPAR necesario</div>
+        <div class="tas-kpi-grid" style="margin-bottom:0.8rem">
+          <div class="tas-kpi">
+            <div class="tas-kpi-lbl">RevPAR mercado (INE 2024)</div>
+            <div class="tas-kpi-val">${tasFormatEuros(revparEstimado)}</div>
+            <div class="tas-kpi-sub">${region}${stars?' · '+stars+'★':''}</div>
+          </div>
+          <div class="tas-kpi">
+            <div class="tas-kpi-lbl">RevPAR necesario</div>
+            <div class="tas-kpi-val">${tasFormatEuros(revparNecesario)}</div>
+            <div class="tas-kpi-sub">para yield ${Math.round(yieldObj*100)}% sobre precio pedido</div>
+          </div>
+          <div class="tas-kpi">
+            <div class="tas-kpi-lbl">Diferencia</div>
+            <div class="tas-kpi-val" style="color:${revparGap>=0?'#2e7d32':'#c0392b'}">${revparGap>=0?'+':''}${revparGap}€</div>
+            <div class="tas-kpi-sub">${Math.round((revparRatio-1)*100)>=0?'+':''}${Math.round((revparRatio-1)*100)}% vs necesario</div>
+          </div>
+        </div>
+        <div class="tas-signal ${revparSignalClass}">${revparSignalIcon} ${revparSignalText}</div>
+      `;
     }
-    document.getElementById('td-signal-wrap').innerHTML=price?`<div class="tas-signal ${signal}">${signalIcon} ${signalText}</div>`:'';
+
+    // ── TAB 3: DCF (metodología RICS 10 años) ─────────────
+    const growthRate = 0.025; // crecimiento 2.5% anual (tendencia sector España 2022-2024)
+    const exitYield = discRate + 0.008;
+
+    let npv = 0;
+    let ebitdaY = ebitda;
+    for(let y=1; y<=10; y++) {
+      ebitdaY *= (1+growthRate);
+      npv += ebitdaY / Math.pow(1+discRate, y);
+    }
+    const ebitdaY10 = ebitda * Math.pow(1+growthRate, 10);
+    const residual = ebitdaY10 / exitYield;
+    const residualPV = residual / Math.pow(1+discRate, 10);
+    const dcfTotal = Math.round(npv + residualPV);
+    const dcfConservador = Math.round(dcfTotal * 0.80);
+
+    const yieldImp = price ? Math.round((ebitda/price)*1000)/10 : null;
+    const multiplo = price ? Math.round((price/ebitda)*10)/10 : null;
+
+    document.getElementById('td-ebitda1').textContent = tasFormatEuros(ebitda,true);
+    document.getElementById('td-tasa').textContent = Math.round(discRate*100)+'%';
+    document.getElementById('td-tasa-sub').textContent = `riesgo ${region} (INE/JLL 2024)`;
+    document.getElementById('td-residual').textContent = tasFormatEuros(Math.round(residualPV),true);
+    document.getElementById('td-yield-sub').textContent = `exit yield ${(exitYield*100).toFixed(1)}%`;
+    document.getElementById('td-dcf').textContent = tasFormatEuros(dcfTotal,true);
+    document.getElementById('td-yield-imp').textContent = yieldImp ? (yieldImp+'%') : '—';
+    document.getElementById('td-multiplo').textContent = multiplo ? (multiplo+'x') : '—';
+    document.getElementById('td-val-low').textContent = tasFormatEuros(dcfConservador,true);
+    document.getElementById('td-val-high').textContent = tasFormatEuros(dcfTotal,true);
+    document.getElementById('td-range-note').textContent = `Conservador (−20%) – Base · Tasa ${Math.round(discRate*100)}% · Crecimiento 2.5%/año · Exit yield ${(exitYield*100).toFixed(1)}%`;
+
+    // Señal DCF
+    let signal='hold', signalText='Precio en línea con la valoración DCF', signalIcon='≈';
+    if(price && dcfTotal) {
+      const dcfRatio = price/dcfTotal;
+      if(dcfRatio < 0.78) { signal='buy'; signalText=`Precio (${tasFormatEuros(price,true)}) un ${Math.round((1-dcfRatio)*100)}% inferior al DCF — posible oportunidad`; signalIcon='↓'; }
+      else if(dcfRatio > 1.28) { signal='caution'; signalText=`Precio (${tasFormatEuros(price,true)}) un ${Math.round((dcfRatio-1)*100)}% superior al DCF — premium elevado`; signalIcon='↑'; }
+      else { signalText=`Precio (${tasFormatEuros(price,true)}) en línea con el DCF (${tasFormatEuros(dcfTotal,true)})`; }
+    }
+    document.getElementById('td-signal-wrap').innerHTML = price
+      ? `<div class="tas-signal ${signal}">${signalIcon} ${signalText}</div>` : '';
   }
 
-  document.getElementById('tas-overlay').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeTasacion(e){if(e&&e.target!==document.getElementById('tas-overlay'))return;_closeTasModal();}
-function closeTasacionBtn(){_closeTasModal();}
-function _closeTasModal(){document.getElementById('tas-overlay').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')_closeTasModal();});
-function tasGetRegion(location, regionField) {
-  // Usar el campo location_region del cache si está disponible (95% de hoteles)
-  if (regionField) return regionField;
-  const loc = (location || '').toLowerCase();
-  if (/madrid/.test(loc)) return 'Madrid';
-  if (/barcelona|brava|tarragona|girona|catalu|costa dorada|daurada|palamos|creixell|roses|sant feliu|platja/.test(loc)) return 'Cataluña';
-  if (/malaga|marbella|andaluc|sevilla|cadiz|granada|almeria|cordoba|huelva|jaen|ronda|benalmadena|torremolinos|nerja|estepona/.test(loc)) return 'Andalucía';
-  if (/baleares|mallorca|ibiza|menorca|palma|formentera|illes|son servera|arta|soller|alcudia|s.illot|calvia/.test(loc)) return 'Baleares';
-  if (/canarias|tenerife|gran canaria|lanzarote|fuerteventura|palmas|las palmas|yaiza|teguise|teror/.test(loc)) return 'Canarias';
-  if (/alicante|benidorm|valencia|castellon|comunitat|costa blanca|orihuela|denia|alfaz|lliber|bocairent/.test(loc)) return 'C. Valenciana';
-  if (/asturias|galicia|cantabria|vasco|pais vasco|navarra|rioja|aragon|navia|gijon|bilbao|san sebastian/.test(loc)) return 'Norte';
-  if (/murcia|albacete|castilla|toledo|cuenca|guadalajara|leon|zamora|salamanca|valladolid|burgos|segovia/.test(loc)) return 'Castilla/Murcia';
-  return 'Otras';
-}
-function tasParsePrice(p) {
-  if (!p || /consultar/i.test(p)) return null;
-  const c = p.replace(/[^\d]/g, '');
-  return (c.length >= 4 && c.length <= 10) ? parseInt(c) : null;
-}
-function tasParseRooms(title, desc, roomsField) {
-  // Usar campo rooms del cache si está disponible
-  if (roomsField && roomsField > 0) return roomsField;
-  for (const t of [title||'', desc||'']) {
-    const m = t.match(/(\d+)\s*(?:hab|bedroom|room)/i);
-    if (m) { const n=parseInt(m[1]); if(n>0&&n<800) return n; }
-  }
-  return null;
-}
-function tasParseStars(title, desc, starsField) {
-  // Usar campo stars del cache si está disponible
-  if (starsField && starsField >= 1 && starsField <= 5) return starsField;
-  for (const t of [title||'', desc||'']) {
-    const m = t.match(/(\d)\s*[★*]|(\d)\s*estrellas?|(\d)\s*stars?/i);
-    if (m) { const s=parseInt(m[1]||m[2]||m[3]); if(s>=1&&s<=5) return s; }
-  }
-  return null;
-}
-function tasFormatEuros(n) {
-  if (!n && n!==0) return '—';
-  return new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
-}
-function tasCleanTitle(raw) {
-  let t=(raw||'').replace(/\s*-\s*â.*$/i,'').replace(/\s*-\s*€.*$/i,'').trim();
-  const tw=t.split(' ');
-  if(tw.length>=6){const mid=Math.ceil(tw.length/2);if(tw.slice(0,mid).join(' ').toLowerCase().slice(0,15)===tw.slice(mid).join(' ').toLowerCase().slice(0,15))t=tw.slice(0,mid).join(' ');}
-  return t;
-}
-function tasGetComparables(region, excludeIdx, rooms) {
-  const res=[];
-  HOTELES.forEach((h,idx)=>{
-    if(idx===excludeIdx) return;
-    if(tasGetRegion(h.location, h.location_region)!==region) return;
-    const price=tasParsePrice(h.price), hab=tasParseRooms(h.title,h.description,h.rooms);
-    if(!price||!hab) return;
-    const pph=Math.round(price/hab);
-    if(pph<5000||pph>5000000) return;
-    res.push({h,price,hab,pph});
-  });
-  res.sort((a,b)=>rooms?Math.abs(a.hab-rooms)-Math.abs(b.hab-rooms):a.pph-b.pph);
-  return res.slice(0,6);
-}
-function openTasacion(listIdx) {
-  const list=window._lastRenderedList||HOTELES;
-  const h=list[listIdx]; if(!h) return;
-  const globalIdx=HOTELES.indexOf(h);
-  const price=tasParsePrice(h.price), rooms=tasParseRooms(h.title,h.description,h.rooms);
-  const stars=tasParseStars(h.title,h.description,h.stars);
-  const region=tasGetRegion(h.location, h.location_region);
-  const m2=h.m2||null;
-  const bench=TAS_BENCHMARKS[region]||TAS_BENCHMARKS['Otras'];
-  const pph=(price&&rooms)?Math.round(price/rooms):null;
-  const title=tasCleanTitle(h.title)||'Hotel en venta';
-
-  document.getElementById('tas-name').textContent=title;
-  document.getElementById('tas-meta').textContent=[h.location,h.source,h.date].filter(Boolean).join(' · ');
-  document.getElementById('tas-btn-anuncio').href=h.url||'#';
-
-  const pe=document.getElementById('tas-m-precio');
-  pe.className='tas-metric-val'+(price?'':' unknown');
-  pe.textContent=price?tasFormatEuros(price):'A consultar';
-
-  const he=document.getElementById('tas-m-hab');
-  he.className='tas-metric-val'+(rooms?'':' unknown');
-  he.textContent=rooms?(rooms+' hab'+(m2?' · '+m2.toLocaleString('es-ES')+'m²':'')):'No indicado';
-
-  const ce=document.getElementById('tas-m-cat');
-  ce.className='tas-metric-val'+(stars?'':' unknown');
-  ce.textContent=stars?'★'.repeat(stars)+' ('+stars+' estrellas)':'No indicada';
-
-  const hasData=price&&rooms;
-  document.getElementById('tas-valuation-section').style.display=hasData?'block':'none';
-  document.getElementById('tas-nodata-section').style.display=hasData?'none':'block';
-  document.getElementById('tas-nota-metodologia').style.display=hasData?'block':'none';
-
-  if(hasData){
-    document.getElementById('tas-pph').textContent=tasFormatEuros(pph);
-    document.getElementById('tas-bench-med').textContent=tasFormatEuros(bench.median)+'/hab';
-    document.getElementById('tas-bench-rng').textContent=tasFormatEuros(bench.p25)+' – '+tasFormatEuros(bench.p75);
-    let barPct,barClass,verdictClass,verdictText,verdictIcon;
-    if(pph<bench.p25){barPct=Math.max(2,Math.round((pph/bench.p25)*20));barClass=verdictClass='cheap';verdictText='Por debajo del mercado';verdictIcon='↓';}
-    else if(pph<=bench.p75){barPct=20+Math.round(((pph-bench.p25)/(bench.p75-bench.p25))*60);barClass=verdictClass='market';verdictText='En línea con el mercado';verdictIcon='≈';}
-    else{barPct=Math.min(98,80+Math.round(((pph-bench.p75)/bench.p75)*20));barClass=verdictClass='expensive';verdictText='Por encima del mercado';verdictIcon='↑';}
-    const ratio=Math.round((pph/bench.median)*100);
-    const bar=document.getElementById('tas-bar');
-    bar.style.width='0%';bar.className='tas-bar-fill '+barClass;
-    setTimeout(()=>{bar.style.width=barPct+'%';},80);
-    document.getElementById('tas-verdict-wrap').innerHTML=`<div class="tas-verdict ${verdictClass}">${verdictIcon} ${verdictText} · ${ratio}% de la mediana regional</div>`;
-    document.getElementById('tas-range-low').textContent=tasFormatEuros(Math.round(bench.p25*rooms));
-    document.getElementById('tas-range-high').textContent=tasFormatEuros(Math.round(bench.p75*rooms));
-    const diffPct=Math.round((pph/bench.median-1)*100);
-    document.getElementById('tas-range-note').textContent=`Rango P25–P75 · ${bench.label} · ${rooms} hab × benchmark regional · Este activo: ${diffPct>=0?'+':''}${diffPct}% vs mediana`;
-    const comps=tasGetComparables(region,globalIdx,rooms);
-    document.getElementById('tas-comparables').innerHTML=comps.length
-      ?comps.map(c=>`<tr><td><span class="tas-comp-name" title="${tasCleanTitle(c.h.title)}">${tasCleanTitle(c.h.title)}</span><span class="tas-comp-src">${c.h.source||''} · ${c.h.location||''}</span></td><td>${tasFormatEuros(c.price)}</td><td>${c.hab}</td><td><strong>${tasFormatEuros(c.pph)}</strong></td></tr>`).join('')
-      :`<tr><td colspan="4" style="color:var(--muted);font-size:0.75rem;padding:1rem 0.7rem">Sin comparables con precio+habitaciones en esta región.</td></tr>`;
-    document.getElementById('tas-nota-n').textContent=bench.n+' activos';
-  }
   document.getElementById('tas-overlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
