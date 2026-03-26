@@ -3,7 +3,7 @@
 Hotel Monitor — Scraper local con cache acumulativo
 Portales activos: ThinkSpain, Lucas Fox
 """
-import json, re, time, os, subprocess, random
+import json, re, time, os, subprocess, random, unicodedata
 from datetime import date, datetime, timedelta
 from html import unescape
 
@@ -142,6 +142,161 @@ def es_duplicado(item, lista=None):
                 return True
     return False
 
+
+# ─── región y limpieza de ubicación ──────────────────
+def _norm(s):
+    if not s: return ''
+    s = unicodedata.normalize('NFD', s)
+    s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
+    s = s.lower()
+    s = re.sub(r'[^\w\s]', ' ', s)
+    return re.sub(r'\s+', ' ', s).strip()
+
+_REGION_MAP = {
+    'madrid':'Madrid','alcala de henares':'Madrid','getafe':'Madrid','mostoles':'Madrid',
+    'alcobendas':'Madrid','pozuelo':'Madrid','majadahonda':'Madrid','cercedilla':'Madrid',
+    'aranjuez':'Madrid','soto del real':'Madrid','rascafria':'Madrid','valdemoro':'Madrid',
+    'guadarrama':'Madrid','villacastin':'Madrid',
+    'barcelona':'Cataluña','girona':'Cataluña','tarragona':'Cataluña','lleida':'Cataluña',
+    'sitges':'Cataluña','lloret':'Cataluña','roses':'Cataluña','calella':'Cataluña',
+    'palamos':'Cataluña','creixell':'Cataluña','salou':'Cataluña','cambrils':'Cataluña',
+    'reus':'Cataluña','tortosa':'Cataluña','platja daro':'Cataluña','vidreres':'Cataluña',
+    'sant feliu de guixols':'Cataluña','badalona':'Cataluña','sabadell':'Cataluña',
+    'terrassa':'Cataluña','manresa':'Cataluña','mataro':'Cataluña','vic':'Cataluña',
+    'figueres':'Cataluña','tordera':'Cataluña','mora la nova':'Cataluña',
+    'calafell':'Cataluña','empuriabrava':'Cataluña','blanes':'Cataluña',
+    'malgrat de mar':'Cataluña','castelldefels':'Cataluña','montblanc':'Cataluña',
+    'granollers':'Cataluña','costa brava':'Cataluña','costa dorada':'Cataluña',
+    'cataluña':'Cataluña','catalonia':'Cataluña','vielha':'Cataluña',
+    'sevilla':'Andalucía','malaga':'Andalucía','granada':'Andalucía',
+    'cadiz':'Andalucía','huelva':'Andalucía','almeria':'Andalucía',
+    'cordoba':'Andalucía','jaen':'Andalucía','marbella':'Andalucía',
+    'torremolinos':'Andalucía','benalmadena':'Andalucía','nerja':'Andalucía',
+    'fuengirola':'Andalucía','ronda':'Andalucía','tarifa':'Andalucía',
+    'velez malaga':'Andalucía','aguadulce':'Andalucía','estepona':'Andalucía',
+    'mijas':'Andalucía','motril':'Andalucía','almunecar':'Andalucía',
+    'salobrena':'Andalucía','gaucin':'Andalucía','mojacar':'Andalucía',
+    'antequera':'Andalucía','competa':'Andalucía','torrox':'Andalucía',
+    'frigiliana':'Andalucía','sotogrande':'Andalucía','carmona':'Andalucía',
+    'aracena':'Andalucía','linares':'Andalucía','ubeda':'Andalucía',
+    'costa del sol':'Andalucía','andalucia':'Andalucía','andalusia':'Andalucía',
+    'pizarra':'Andalucía','tolox':'Andalucía','alhaurin':'Andalucía',
+    'orgiva':'Andalucía','zahara':'Andalucía','sedella':'Andalucía',
+    'baza':'Andalucía','coin':'Andalucía','rute':'Andalucía','chiclana':'Andalucía',
+    'jerez':'Andalucía','algeciras':'Andalucía','san roque':'Andalucía',
+    'arcos de la frontera':'Andalucía','medina sidonia':'Andalucía',
+    'alhama de granada':'Andalucía','alcala la real':'Andalucía',
+    'galaroza':'Andalucía','busquistar':'Andalucía','guejar sierra':'Andalucía',
+    'alora':'Andalucía','diezma':'Andalucía','iznate':'Andalucía',
+    'la zubia':'Andalucía','lecrin':'Andalucía','mondujar':'Andalucía',
+    'pinos genil':'Andalucía','vejer':'Andalucía','seville':'Andalucía',
+    'villanueva de la concepcion':'Andalucía','macharaviaya':'Andalucía',
+    'casariche':'Andalucía','montejaque':'Andalucía','moclin':'Andalucía',
+    'calahonda':'Andalucía','tabernas':'Andalucía','carboneras':'Andalucía',
+    'turre':'Andalucía','laroles':'Andalucía','gualchos':'Andalucía',
+    'iznajar':'Andalucía','baena':'Andalucía','constantina':'Andalucía',
+    'la iruela':'Andalucía','lanjaron':'Andalucía','albolote':'Andalucía',
+    'casarabonela':'Andalucía','benajarafe':'Andalucía','vinuela':'Andalucía',
+    'almayate':'Andalucía','villanueva de tapia':'Andalucía','arriate':'Andalucía',
+    'mijas costa':'Andalucía','playa granada':'Andalucía',
+    'valencia':'C. Valenciana','alicante':'C. Valenciana','castellon':'C. Valenciana',
+    'benidorm':'C. Valenciana','denia':'C. Valenciana','javea':'C. Valenciana',
+    'calpe':'C. Valenciana','altea':'C. Valenciana','benissa':'C. Valenciana',
+    'orihuela':'C. Valenciana','torrevieja':'C. Valenciana','santa pola':'C. Valenciana',
+    'elche':'C. Valenciana','gandia':'C. Valenciana','peniscola':'C. Valenciana',
+    'costa blanca':'C. Valenciana','beniali':'C. Valenciana','palomar':'C. Valenciana',
+    'bocairente':'C. Valenciana','finestrat':'C. Valenciana','alfaz del pi':'C. Valenciana',
+    'el campello':'C. Valenciana','villajoyosa':'C. Valenciana',
+    'playas de orihuela':'C. Valenciana','vall de gallinera':'C. Valenciana',
+    'calig':'C. Valenciana','oliva':'C. Valenciana','vinaros':'C. Valenciana',
+    'parcent':'C. Valenciana','jalon':'C. Valenciana','rojales':'C. Valenciana',
+    'moraira':'C. Valenciana','orba':'C. Valenciana','alcoy':'C. Valenciana',
+    'xativa':'C. Valenciana','alzira':'C. Valenciana','burriana':'C. Valenciana',
+    'enguera':'C. Valenciana','chulilla':'C. Valenciana','tarbena':'C. Valenciana',
+    'ondara':'C. Valenciana','guardamar del segura':'C. Valenciana',
+    'guadalest':'C. Valenciana','la nucia':'C. Valenciana','lliber':'C. Valenciana',
+    'san vicente del raspeig':'C. Valenciana','orihuela costa':'C. Valenciana',
+    'albir':'C. Valenciana','villanueva de san carlos':'C. Valenciana',
+    'mallorca':'Baleares','menorca':'Baleares','ibiza':'Baleares',
+    'formentera':'Baleares','palma':'Baleares','baleares':'Baleares',
+    'balears':'Baleares','islas baleares':'Baleares','illes balears':'Baleares',
+    'balearic islands':'Baleares','eivissa':'Baleares','manacor':'Baleares',
+    'pollensa':'Baleares','alcudia':'Baleares','soller':'Baleares',
+    'estellenchs':'Baleares','ses salines':'Baleares','capdepera':'Baleares',
+    'magaluf':'Baleares','porto cristo':'Baleares','cala millor':'Baleares',
+    'sineu':'Baleares','arta':'Baleares','peguera':'Baleares','portocolom':'Baleares',
+    'inca':'Baleares','arenal':'Baleares','llucmajor':'Baleares','campos':'Baleares',
+    'felanitx':'Baleares','santanyi':'Baleares','ciutadella':'Baleares',
+    'mahon':'Baleares','mao':'Baleares','son servera':'Baleares',
+    'can picafort':'Baleares','cala ratjada':'Baleares','valldemosa':'Baleares',
+    'sencelles':'Baleares','alaro':'Baleares','bunyola':'Baleares','muro':'Baleares',
+    'calvia':'Baleares','santa ponsa':'Baleares','colonia de sant jordi':'Baleares',
+    'portals nous':'Baleares','ferreries':'Baleares','es mercadal':'Baleares',
+    'tenerife':'Canarias','las palmas':'Canarias','gran canaria':'Canarias',
+    'lanzarote':'Canarias','fuerteventura':'Canarias','la palma':'Canarias',
+    'el hierro':'Canarias','la gomera':'Canarias',
+    'santa cruz de tenerife':'Canarias','adeje':'Canarias','arona':'Canarias',
+    'mogan':'Canarias','macher':'Canarias','costa adeje':'Canarias',
+    'islas canarias':'Canarias','canarias':'Canarias','maspalomas':'Canarias',
+    'los realejos':'Canarias','la orotava':'Canarias','teguise':'Canarias',
+    'yaiza':'Canarias','santa brigida':'Canarias','puerto de la cruz':'Canarias',
+    'bilbao':'País Vasco','donostia':'País Vasco','vitoria':'País Vasco',
+    'san sebastian':'País Vasco','bizkaia':'País Vasco','oiartzun':'País Vasco',
+    'pamplona':'Navarra','navarra':'Navarra',
+    'santander':'Cantabria','cantabria':'Cantabria','reinosa':'Cantabria',
+    'oviedo':'Asturias','gijon':'Asturias','asturias':'Asturias',
+    'cangas de onis':'Asturias','llanes':'Asturias','cudillero':'Asturias',
+    'a coruna':'Galicia','coruna':'Galicia','vigo':'Galicia','pontevedra':'Galicia',
+    'santiago':'Galicia','lugo':'Galicia','ourense':'Galicia','galicia':'Galicia',
+    'a guarda':'Galicia','cuntis':'Galicia','moana':'Galicia','ribadeo':'Galicia',
+    'ames':'Galicia','ordes':'Galicia','catoira':'Galicia','lalin':'Galicia',
+    'o porrino':'Galicia','arzua':'Galicia','bueu':'Galicia','marin':'Galicia',
+    'salamanca':'Castilla y León','burgos':'Castilla y León',
+    'valladolid':'Castilla y León','segovia':'Castilla y León',
+    'avila':'Castilla y León','soria':'Castilla y León','zamora':'Castilla y León',
+    'palencia':'Castilla y León','leon':'Castilla y León','ponferrada':'Castilla y León',
+    'ciudad rodrigo':'Castilla y León','bejar':'Castilla y León',
+    'puebla de sanabria':'Castilla y León',
+    'toledo':'Castilla-La Mancha','ciudad real':'Castilla-La Mancha',
+    'albacete':'Castilla-La Mancha','cuenca':'Castilla-La Mancha',
+    'guadalajara':'Castilla-La Mancha','castilla la mancha':'Castilla-La Mancha',
+    'consuegra':'Castilla-La Mancha','almagro':'Castilla-La Mancha',
+    'villarrobledo':'Castilla-La Mancha','yeste':'Castilla-La Mancha',
+    'caceres':'Extremadura','badajoz':'Extremadura','merida':'Extremadura',
+    'trujillo':'Extremadura','zafra':'Extremadura','extremadura':'Extremadura',
+    'zaragoza':'Aragón','huesca':'Aragón','teruel':'Aragón','jaca':'Aragón',
+    'benasque':'Aragón','aragon':'Aragón','graus':'Aragón',
+    'murcia':'Murcia','cartagena':'Murcia','lorca':'Murcia','san javier':'Murcia',
+    'mazarron':'Murcia','caravaca':'Murcia','calabardina':'Murcia',
+    'san pedro del pinatar':'Murcia','alhama de murcia':'Murcia',
+    'aguilas':'Murcia','jumilla':'Murcia','los alcazares':'Murcia',
+    'la manga':'Murcia','vera':'Murcia',
+    'logrono':'La Rioja','la rioja':'La Rioja','rioja':'La Rioja',
+}
+
+def infer_region(texto):
+    """Infiere la comunidad autónoma a partir de cualquier texto de ubicación."""
+    t = _norm(texto or '')
+    for key in sorted(_REGION_MAP.keys(), key=len, reverse=True):
+        if key in t:
+            return _REGION_MAP[key]
+    return None
+
+def limpiar_location(loc):
+    """Limpia ubicaciones con basura pegada (ThinkSpain principalmente)."""
+    if not loc: return loc
+    loc = re.sub(r'â[\x00-\xff]{0,2}', '', loc)
+    loc = re.sub(r'€.*', '', loc)
+    loc = re.sub(r'\s+with\b.*', '', loc, flags=re.I)
+    loc = re.sub(r'\bgarage\b.*', '', loc, flags=re.I)
+    loc = re.sub(r'\bpool\b.*', '', loc, flags=re.I)
+    loc = re.sub(r'\s*-\s*\d.*', '', loc)
+    loc = re.sub(r'\s*/\s*.+', '', loc)
+    loc = re.sub(r'\s+city\b.*', '', loc, flags=re.I)
+    m = re.match(r'([^,]{3,40}),\s*.{4,}', loc)
+    if m: loc = m.group(1)
+    return loc.strip()
+
 def add_listing(item):
     url = item.get('url','').strip().split('?')[0].rstrip('/')
     if not url or url in seen_urls: return False
@@ -150,7 +305,17 @@ def add_listing(item):
     seen_urls.add(url)
     item['url']         = url
     item['title']       = item['title'][:120]
-    item['description'] = item.get('description','')[:300]
+    item['description'] = item.get('description','')[:1500]
+    # Limpiar ubicación y asignar región automáticamente
+    if item.get('location'):
+        item['location'] = limpiar_location(item['location'])
+    if not item.get('location_region'):
+        fuentes = [item.get('location',''), item.get('title',''), item.get('description','')[:300]]
+        for t in fuentes:
+            r = infer_region(t)
+            if r:
+                item['location_region'] = r
+                break
     found_listings.append(item)
     return True
 
@@ -404,7 +569,7 @@ def scrape_luxuryestate(driver):
 
                 # Descripción
                 desc_el = card.find('p')
-                description = clean(desc_el.get_text()).replace('~', ' ')[:300] if desc_el else ''
+                description = clean(desc_el.get_text()).replace('~', ' ')[:1500] if desc_el else ''
 
                 added = add_listing({
                     'title': title,
@@ -481,7 +646,7 @@ def scrape_oirealestate(driver):
 
                     # Descripción
                     desc_el = soup2.find('div', class_=re.compile(r'desc|content|text|body', re.I))
-                    description = clean(desc_el.get_text())[:300] if desc_el else ''
+                    description = clean(desc_el.get_text())[:1500] if desc_el else ''
 
                     added = add_listing({
                         'title': title,
@@ -679,7 +844,7 @@ def scrape_hotelsevende(driver):
 
             # Descripción — párrafos
             paras = soup.find_all('p')
-            description = ' '.join(clean(p.get_text()) for p in paras if len(p.get_text().strip()) > 40)[:300]
+            description = ' '.join(clean(p.get_text()) for p in paras if len(p.get_text().strip()) > 40)[:1500]
 
             added = add_listing({
                 'title': title,
