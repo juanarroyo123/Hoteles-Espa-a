@@ -117,6 +117,35 @@ def init_driver():
     print('Chrome listo.\n')
     return driver
 
+def init_driver_stealth():
+    """Driver anti-detección para Idealista — usa undetected_chromedriver siempre."""
+    print('Iniciando Chrome stealth para Idealista...')
+    opts = uc.ChromeOptions()
+    opts.add_argument('--window-size=1920,1080')
+    opts.add_argument('--lang=es-ES')
+    opts.add_argument('--no-first-run')
+    opts.add_argument('--no-default-browser-check')
+
+    if os.environ.get('GITHUB_ACTIONS'):
+        opts.add_argument('--headless=new')
+        opts.add_argument('--no-sandbox')
+        opts.add_argument('--disable-dev-shm-usage')
+        opts.add_argument('--disable-gpu')
+        opts.add_argument('--disable-blink-features=AutomationControlled')
+        # User agent realista
+        opts.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36')
+
+    try:
+        driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
+        # Eliminar rastros de webdriver
+        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    except Exception as e:
+        print(f'  Stealth driver falló ({e}), usando driver estándar')
+        driver = init_driver()
+
+    print('Chrome stealth listo.\n')
+    return driver
+
 def accept_cookies(driver):
     for bid in ['didomi-notice-agree-button','onetrust-accept-btn-handler',
                 'acceptAllButton','accept-cookies']:
@@ -1023,9 +1052,9 @@ if __name__ == '__main__':
         try: driver3.quit()
         except: pass
 
-    # ── GRUPO 4: Idealista (Chrome 4) ───────────────────
+    # ── GRUPO 4: Idealista (Chrome 4 stealth) ───────────
     print('\nIniciando Chrome 4 para Idealista...')
-    driver4 = init_driver()
+    driver4 = init_driver_stealth()
     try:
         try: scrape_idealista(driver4)
         except Exception as e: print(f'Error Idealista: {e}')
