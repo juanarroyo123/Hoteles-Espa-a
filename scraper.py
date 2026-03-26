@@ -100,21 +100,16 @@ def init_driver():
     opts.add_argument('--window-size=1920,1080')
     opts.add_argument('--lang=es-ES')
 
-    if os.environ.get('GITHUB_ACTIONS'):
-        # En CI usamos selenium + webdriver-manager para evitar
-        # el bug de version mismatch de undetected-chromedriver
+if os.environ.get('GITHUB_ACTIONS'):
         from selenium import webdriver
-        from selenium.webdriver.chrome.service import Service
-        from webdriver_manager.chrome import ChromeDriverManager
-
-        opts.add_argument('--headless=new')
-        opts.add_argument('--no-sandbox')
-        opts.add_argument('--disable-dev-shm-usage')
-        opts.add_argument('--disable-gpu')
-        opts.add_argument('--remote-debugging-port=0')
-
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=opts)
+        from selenium.webdriver.chrome.options import Options
+        opts2 = Options()
+        opts2.add_argument('--headless=new')
+        opts2.add_argument('--no-sandbox')
+        opts2.add_argument('--disable-dev-shm-usage')
+        opts2.add_argument('--disable-gpu')
+        opts2.add_argument('--window-size=1920,1080')
+        driver = webdriver.Chrome(options=opts2)
     else:
         # En local seguimos usando undetected-chromedriver
         driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
