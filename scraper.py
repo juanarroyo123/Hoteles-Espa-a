@@ -117,6 +117,26 @@ def init_driver():
     print('Chrome listo.\n')
     return driver
 
+def accept_cookies(driver):
+    for bid in ['didomi-notice-agree-button','onetrust-accept-btn-handler',
+                'acceptAllButton','accept-cookies']:
+        try: driver.find_element(By.ID, bid).click(); time.sleep(0.3); return
+        except: pass
+    for txt in ['Aceptar todo','Aceptar todas','Aceptar','Accept all']:
+        try:
+            driver.find_element(By.XPATH, f'//button[contains(.,"{txt}")]').click()
+            time.sleep(0.3); return
+        except: pass
+
+def get_page(driver, url, wait=3):
+    try:
+        driver.get(url); time.sleep(wait)
+        accept_cookies(driver)
+        return driver.page_source
+    except Exception as e:
+        print(f'  ERROR {url[:70]}: {e}')
+        return None
+
 # ─── listings ─────────────────────────────────────────
 found_listings = []
 seen_urls = set()
