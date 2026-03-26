@@ -316,6 +316,119 @@ header{
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border-dark)}
+
+/* ══ BOTÓN TASACIÓN EN CARD ══════════════════════════════ */
+.card-footer{flex-wrap:wrap;gap:0.5rem}
+.btn-tasacion{
+  font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.1em;
+  text-transform:uppercase;color:#fff;background:var(--green);
+  border:none;padding:0.35rem 0.8rem;cursor:pointer;font-weight:600;
+  transition:background 0.15s;white-space:nowrap;
+}
+.btn-tasacion:hover{background:var(--green-light)}
+
+/* ══ MODAL TASACIÓN ═══════════════════════════════════════ */
+.tas-overlay{
+  display:none;position:fixed;inset:0;background:rgba(10,8,6,0.72);
+  z-index:9000;align-items:center;justify-content:center;
+  padding:1.5rem;backdrop-filter:blur(3px);
+}
+.tas-overlay.open{display:flex;animation:fadeInOverlay 0.2s ease}
+@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
+.tas-modal{
+  background:#fff;width:100%;max-width:680px;max-height:90vh;
+  overflow-y:auto;position:relative;animation:slideUpModal 0.25s ease;
+  box-shadow:0 20px 60px rgba(0,0,0,0.35);
+}
+@keyframes slideUpModal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.tas-close{
+  position:absolute;top:1.2rem;right:1.4rem;background:none;border:none;
+  font-size:1.4rem;cursor:pointer;color:rgba(255,255,255,0.7);line-height:1;z-index:2;
+  transition:color 0.1s;
+}
+.tas-close:hover{color:#fff}
+.tas-header{
+  background:var(--green);padding:2rem 2.4rem 1.6rem;
+  border-bottom:3px solid var(--gold);
+}
+.tas-eyebrow{
+  font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:0.5rem;font-weight:600;
+}
+.tas-hotel-name{
+  font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;
+  color:#fff;line-height:1.25;margin-bottom:0.3rem;padding-right:2rem;
+}
+.tas-hotel-meta{font-size:0.75rem;color:rgba(255,255,255,0.65);font-family:'Open Sans',sans-serif}
+.tas-body{padding:1.8rem 2.4rem}
+.tas-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:1.8rem}
+.tas-metric{background:var(--surface);padding:1rem 1.2rem}
+.tas-metric-lbl{font-family:'Montserrat',sans-serif;font-size:0.56rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:0.3rem;font-weight:600}
+.tas-metric-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--text);line-height:1}
+.tas-metric-val.unknown{font-size:0.9rem;color:var(--muted);font-family:'Open Sans',sans-serif;padding-top:0.25rem}
+.tas-section-title{
+  font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;
+  letter-spacing:0.18em;color:var(--green);font-weight:600;margin-bottom:0.9rem;
+}
+.tas-valuation-box{border:1px solid var(--border);padding:1.4rem 1.6rem;margin-bottom:1.5rem}
+.tas-pph-row{display:flex;align-items:baseline;gap:0.7rem;margin-bottom:0.8rem;flex-wrap:wrap}
+.tas-pph-value{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;color:var(--green);line-height:1}
+.tas-pph-label{font-family:'Open Sans',sans-serif;font-size:0.75rem;color:var(--muted)}
+.tas-benchmark-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.tas-bench{background:var(--surface);padding:0.8rem 1rem}
+.tas-bench-lbl{font-size:0.6rem;font-family:'Montserrat',sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.3rem;font-weight:600}
+.tas-bench-val{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;color:var(--text)}
+.tas-bar-wrap{margin:1rem 0 0.4rem}
+.tas-bar-track{height:8px;background:var(--border);position:relative;border-radius:4px;overflow:hidden}
+.tas-bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease}
+.tas-bar-fill.cheap{background:#2e7d32}
+.tas-bar-fill.market{background:var(--gold)}
+.tas-bar-fill.expensive{background:#c0392b}
+.tas-bar-labels{display:flex;justify-content:space-between;margin-top:0.4rem}
+.tas-bar-label{font-size:0.58rem;font-family:'Montserrat',sans-serif;color:var(--muted);letter-spacing:0.06em}
+.tas-verdict{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.4rem 1rem;font-family:'Montserrat',sans-serif;
+  font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-top:0.8rem;
+}
+.tas-verdict.cheap{background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7}
+.tas-verdict.market{background:#fffde7;color:#b07a1a;border:1px solid var(--gold)}
+.tas-verdict.expensive{background:#fdecea;color:#c0392b;border:1px solid #f5c6c2}
+.tas-range-box{background:var(--green);color:#fff;padding:1.2rem 1.6rem;margin-bottom:1.5rem}
+.tas-range-title{font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;opacity:0.7;margin-bottom:0.5rem;font-weight:600}
+.tas-range-vals{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.tas-range-low,.tas-range-high{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;line-height:1}
+.tas-range-sep{font-size:1.1rem;opacity:0.4}
+.tas-range-note{font-size:0.68rem;opacity:0.65;margin-top:0.4rem;font-family:'Open Sans',sans-serif}
+.tas-comp-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-bottom:1.5rem}
+.tas-comp-table th{font-family:'Montserrat',sans-serif;font-size:0.55rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding:0.5rem 0.7rem;border-bottom:2px solid var(--border);text-align:left;font-weight:600}
+.tas-comp-table th:not(:first-child){text-align:right}
+.tas-comp-table td{padding:0.55rem 0.7rem;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+.tas-comp-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.tas-comp-table tr:hover td{background:var(--surface)}
+.tas-comp-name{font-size:0.72rem;color:var(--text);display:block;max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tas-comp-src{font-size:0.58rem;color:var(--muted);font-family:'Montserrat',sans-serif}
+.tas-nota{
+  background:var(--surface);border-left:3px solid var(--gold);
+  padding:0.9rem 1.2rem;font-size:0.72rem;color:var(--muted);line-height:1.6;margin-bottom:1.5rem;
+}
+.tas-nota strong{color:var(--text-mid);font-weight:600}
+.tas-cta{display:flex;gap:0.8rem;flex-wrap:wrap}
+.tas-btn-primary{
+  flex:1;min-width:180px;background:var(--green);color:#fff;border:none;
+  padding:0.9rem 1.4rem;font-family:'Montserrat',sans-serif;font-size:0.65rem;
+  letter-spacing:0.12em;text-transform:uppercase;font-weight:700;cursor:pointer;
+  text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
+  gap:0.5rem;transition:background 0.15s;
+}
+.tas-btn-primary:hover{background:var(--green-light)}
+.tas-btn-secondary{
+  padding:0.9rem 1.2rem;background:transparent;color:var(--text-mid);
+  border:1px solid var(--border-dark);font-family:'Montserrat',sans-serif;
+  font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;
+  font-weight:600;cursor:pointer;transition:all 0.15s;
+}
+.tas-btn-secondary:hover{border-color:var(--green);color:var(--green)}
 <style>
 .kpi-row{display:flex;flex-wrap:wrap;gap:1px;background:var(--border);margin-bottom:0}
 .kpi{background:#fff;padding:1.2rem 1.4rem;flex:1 1 200px}
@@ -430,6 +543,105 @@ header{
 <div id="map-section">
   <div id="map"></div>
   <div class="map-info" id="map-info">Cargando mapa...</div>
+</div>
+
+<!-- ══ MODAL TASACIÓN ═════════════════════════════════════ -->
+<div class="tas-overlay" id="tas-overlay" onclick="closeTasacion(event)">
+  <div class="tas-modal" id="tas-modal">
+    <button class="tas-close" onclick="closeTasacionBtn()">×</button>
+    <div class="tas-header">
+      <div class="tas-eyebrow">Tasación estimada · Hotel Monitor España</div>
+      <div class="tas-hotel-name" id="tas-name">—</div>
+      <div class="tas-hotel-meta" id="tas-meta">—</div>
+    </div>
+    <div class="tas-body">
+      <div class="tas-section-title">Datos del activo</div>
+      <div class="tas-metrics">
+        <div class="tas-metric">
+          <div class="tas-metric-lbl">Precio anunciado</div>
+          <div class="tas-metric-val" id="tas-m-precio">—</div>
+        </div>
+        <div class="tas-metric">
+          <div class="tas-metric-lbl">Habitaciones</div>
+          <div class="tas-metric-val" id="tas-m-hab">—</div>
+        </div>
+        <div class="tas-metric">
+          <div class="tas-metric-lbl">Categoría</div>
+          <div class="tas-metric-val" id="tas-m-cat">—</div>
+        </div>
+      </div>
+
+      <div id="tas-valuation-section">
+        <div class="tas-section-title">Análisis de valor por habitación</div>
+        <div class="tas-valuation-box">
+          <div class="tas-pph-row">
+            <span class="tas-pph-value" id="tas-pph">—</span>
+            <span class="tas-pph-label">€ / habitación (este activo)</span>
+          </div>
+          <div class="tas-benchmark-row">
+            <div class="tas-bench">
+              <div class="tas-bench-lbl">Mediana región</div>
+              <div class="tas-bench-val" id="tas-bench-med">—</div>
+            </div>
+            <div class="tas-bench">
+              <div class="tas-bench-lbl">Rango región (P25–P75)</div>
+              <div class="tas-bench-val" id="tas-bench-rng">—</div>
+            </div>
+          </div>
+          <div class="tas-bar-wrap">
+            <div class="tas-bar-track">
+              <div class="tas-bar-fill" id="tas-bar" style="width:0%"></div>
+            </div>
+            <div class="tas-bar-labels">
+              <span class="tas-bar-label">Por debajo de mercado</span>
+              <span class="tas-bar-label">En línea</span>
+              <span class="tas-bar-label">Por encima</span>
+            </div>
+          </div>
+          <div id="tas-verdict-wrap"></div>
+        </div>
+
+        <div class="tas-range-box">
+          <div class="tas-range-title">Valoración estimada por comparables de región</div>
+          <div class="tas-range-vals">
+            <span class="tas-range-low" id="tas-range-low">—</span>
+            <span class="tas-range-sep">—</span>
+            <span class="tas-range-high" id="tas-range-high">—</span>
+          </div>
+          <div class="tas-range-note" id="tas-range-note">—</div>
+        </div>
+
+        <div class="tas-section-title">Comparables en la misma región</div>
+        <table class="tas-comp-table">
+          <thead>
+            <tr>
+              <th>Activo comparable</th>
+              <th>Precio</th>
+              <th>Hab.</th>
+              <th>€/hab</th>
+            </tr>
+          </thead>
+          <tbody id="tas-comparables"></tbody>
+        </table>
+      </div>
+
+      <div id="tas-nodata-section" style="display:none">
+        <div class="tas-nota">
+          <strong>Datos insuficientes para tasación automática.</strong><br>
+          Este anuncio no incluye precio de venta o número de habitaciones, datos mínimos para calcular un precio por habitación y compararlo con el mercado. Accede al anuncio original para información completa.
+        </div>
+      </div>
+
+      <div class="tas-nota" id="tas-nota-metodologia">
+        <strong>Metodología:</strong> Tasación por comparables de precio/habitación (P/HAB) usando <span id="tas-nota-n">—</span> transacciones activas de la misma región en esta base de datos. El rango estimado corresponde al percentil 25–75 de los comparables. <strong>Esta herramienta es orientativa y no sustituye una valoración profesional.</strong> Los datos proceden de anuncios públicos; el precio final depende de estado, licencias, gestión y due diligence.
+      </div>
+
+      <div class="tas-cta">
+        <a class="tas-btn-primary" id="tas-btn-anuncio" href="#" target="_blank">Ver anuncio original →</a>
+        <button class="tas-btn-secondary" onclick="closeTasacionBtn()">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ PANEL HOTELES ══════════════════════════════════════ -->
@@ -882,6 +1094,7 @@ function getFiltered() {
 
 function render() {
   const list = getFiltered();
+  window._lastRenderedList = list; // necesario para openTasacion(i)
   const grid = document.getElementById('grid');
   const countEl = document.getElementById('date-count');
   if (countEl) countEl.textContent = dateFilter !== 'all' ? `${list.length} resultado${list.length!==1?'s':''}` : '';
@@ -948,7 +1161,10 @@ function render() {
       ${desc?`<div class="card-desc">${desc}</div>`:''}
       <div class="card-footer">
         <div class="card-price">${h.price||'Precio a consultar'}</div>
-        ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Ver ficha →</a>`:''}
+        <div style="display:flex;align-items:center;gap:0.6rem">
+          ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Ver ficha →</a>`:''}
+          <button class="btn-tasacion" onclick="event.stopPropagation();openTasacion(${i})">≈ Tasación</button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -2874,6 +3090,196 @@ document.addEventListener('click', e => {
   }
 });
 
+
+// ══════════════════════════════════════════════════════════
+// MOTOR DE TASACIÓN
+// ══════════════════════════════════════════════════════════
+
+const TAS_BENCHMARKS = {
+  'Baleares':        { median: 225000, p25: 100000, p75: 500000, n: 20, label: 'Baleares (Mallorca, Ibiza, Menorca)' },
+  'Madrid':          { median: 285714, p25: 150000, p75: 625000, n: 7,  label: 'Madrid y área metropolitana' },
+  'Cataluña':        { median: 337748, p25: 100000, p75: 550000, n: 17, label: 'Cataluña (Barcelona, Costa Brava, Tarragona)' },
+  'Com. Valenciana': { median: 262500, p25: 95000,  p75: 600000, n: 5,  label: 'Comunitat Valenciana (Alicante, Benidorm, Valencia)' },
+  'Andalucía':       { median: 130769, p25: 75000,  p75: 280000, n: 15, label: 'Andalucía (Málaga, Sevilla, Cádiz, Granada)' },
+  'Canarias':        { median: 187375, p25: 110000, p75: 320000, n: 4,  label: 'Canarias (Tenerife, Gran Canaria, Lanzarote)' },
+  'Norte':           { median: 60000,  p25: 30000,  p75: 130000, n: 5,  label: 'Norte (Asturias, Galicia, Cantabria, País Vasco)' },
+  'Castilla/Murcia': { median: 87500,  p25: 50000,  p75: 180000, n: 4,  label: 'Castilla, Murcia y interior' },
+  'Otras':           { median: 86250,  p25: 35000,  p75: 200000, n: 48, label: 'Otras regiones' },
+};
+
+function tasGetRegion(location) {
+  const loc = (location || '').toLowerCase();
+  if (/madrid/.test(loc)) return 'Madrid';
+  if (/barcelona|brava|tarragona|girona|catalu|costa dorada|daurada|palamos|creixell|roses|sant feliu|platja/.test(loc)) return 'Cataluña';
+  if (/malaga|marbella|andaluc|sevilla|cadiz|granada|almeria|cordoba|huelva|jaen|ronda|benalmadena|torremolinos|nerja|estepona/.test(loc)) return 'Andalucía';
+  if (/baleares|mallorca|ibiza|menorca|palma|formentera|illes|son servera|arta|soller|alcudia|s.illot|calvia/.test(loc)) return 'Baleares';
+  if (/canarias|tenerife|gran canaria|lanzarote|fuerteventura|palmas|las palmas|yaiza|teguise|teror/.test(loc)) return 'Canarias';
+  if (/alicante|benidorm|valencia|castellon|comunitat|costa blanca|orihuela|denia|alfaz|lliber|bocairent/.test(loc)) return 'Com. Valenciana';
+  if (/asturias|galicia|cantabria|vasco|pais vasco|navarra|rioja|aragon|navia|gijon|bilbao|san sebastian/.test(loc)) return 'Norte';
+  if (/murcia|albacete|castilla|toledo|cuenca|guadalajara|leon|zamora|salamanca|valladolid|burgos|segovia/.test(loc)) return 'Castilla/Murcia';
+  return 'Otras';
+}
+
+function tasParsePrice(priceStr) {
+  if (!priceStr || /consultar/i.test(priceStr)) return null;
+  const clean = priceStr.replace(/[^\d]/g, '');
+  if (clean.length >= 4 && clean.length <= 10) return parseInt(clean);
+  return null;
+}
+
+function tasParseRooms(title, desc) {
+  for (const text of [title || '', desc || '']) {
+    const m = text.match(/(\d+)\s*hab/i);
+    if (m) { const n = parseInt(m[1]); if (n > 1 && n < 800) return n; }
+  }
+  return null;
+}
+
+function tasParseStars(title, desc) {
+  for (const text of [title || '', desc || '']) {
+    const m = text.match(/(\d)\s*[★*]|(\d)\s*estrellas?|(\d)\s*stars?/i);
+    if (m) { const s = parseInt(m[1] || m[2] || m[3]); if (s >= 1 && s <= 5) return s; }
+  }
+  return null;
+}
+
+function tasFormatEuros(n) {
+  if (!n && n !== 0) return '—';
+  return new Intl.NumberFormat('es-ES', { style:'currency', currency:'EUR', maximumFractionDigits:0 }).format(n);
+}
+
+function tasCleanTitle(raw) {
+  let t = (raw || '').replace(/\s*-\s*â.*$/i,'').replace(/\s*-\s*€.*$/i,'').trim();
+  const tw = t.split(' ');
+  if (tw.length >= 6) {
+    const mid = Math.ceil(tw.length / 2);
+    if (tw.slice(0,mid).join(' ').toLowerCase().slice(0,15) === tw.slice(mid).join(' ').toLowerCase().slice(0,15))
+      t = tw.slice(0,mid).join(' ');
+  }
+  return t;
+}
+
+function tasGetComparables(region, excludeGlobalIdx, rooms) {
+  const results = [];
+  HOTELES.forEach((h, idx) => {
+    if (idx === excludeGlobalIdx) return;
+    if (tasGetRegion(h.location) !== region) return;
+    const price = tasParsePrice(h.price);
+    const hab   = tasParseRooms(h.title, h.description);
+    if (!price || !hab) return;
+    const pph = Math.round(price / hab);
+    if (pph < 5000 || pph > 5000000) return;
+    results.push({ h, price, hab, pph, idx });
+  });
+  results.sort((a, b) => rooms
+    ? Math.abs(a.hab - rooms) - Math.abs(b.hab - rooms)
+    : a.pph - b.pph
+  );
+  return results.slice(0, 6);
+}
+
+function openTasacion(listIdx) {
+  const list = window._lastRenderedList || HOTELES;
+  const h = list[listIdx];
+  if (!h) return;
+  const globalIdx = HOTELES.indexOf(h);
+
+  const price  = tasParsePrice(h.price);
+  const rooms  = tasParseRooms(h.title, h.description);
+  const stars  = tasParseStars(h.title, h.description);
+  const region = tasGetRegion(h.location);
+  const bench  = TAS_BENCHMARKS[region] || TAS_BENCHMARKS['Otras'];
+  const pph    = (price && rooms) ? Math.round(price / rooms) : null;
+  const title  = tasCleanTitle(h.title);
+
+  // Header
+  document.getElementById('tas-name').textContent = title || 'Hotel en venta';
+  document.getElementById('tas-meta').textContent = [h.location, h.source, h.date].filter(Boolean).join(' · ');
+  document.getElementById('tas-btn-anuncio').href = h.url || '#';
+
+  // Métricas del activo
+  const pe = document.getElementById('tas-m-precio');
+  pe.className = 'tas-metric-val' + (price ? '' : ' unknown');
+  pe.textContent = price ? tasFormatEuros(price) : 'A consultar';
+
+  const he = document.getElementById('tas-m-hab');
+  he.className = 'tas-metric-val' + (rooms ? '' : ' unknown');
+  he.textContent = rooms ? rooms + ' habitaciones' : 'No indicado';
+
+  const ce = document.getElementById('tas-m-cat');
+  ce.className = 'tas-metric-val' + (stars ? '' : ' unknown');
+  ce.textContent = stars ? '★'.repeat(stars) + ' (' + stars + ' estrellas)' : 'No indicada';
+
+  const hasData = price && rooms;
+  document.getElementById('tas-valuation-section').style.display  = hasData ? 'block' : 'none';
+  document.getElementById('tas-nodata-section').style.display     = hasData ? 'none'  : 'block';
+  document.getElementById('tas-nota-metodologia').style.display   = hasData ? 'block' : 'none';
+
+  if (hasData) {
+    document.getElementById('tas-pph').textContent       = tasFormatEuros(pph);
+    document.getElementById('tas-bench-med').textContent = tasFormatEuros(bench.median) + '/hab';
+    document.getElementById('tas-bench-rng').textContent = tasFormatEuros(bench.p25) + ' – ' + tasFormatEuros(bench.p75);
+
+    // Barra de posicionamiento
+    let barPct, barClass, verdictClass, verdictText, verdictIcon;
+    if (pph < bench.p25) {
+      barPct = Math.max(2, Math.round((pph / bench.p25) * 20));
+      barClass = verdictClass = 'cheap'; verdictText = 'Por debajo del mercado'; verdictIcon = '↓';
+    } else if (pph <= bench.p75) {
+      barPct = 20 + Math.round(((pph - bench.p25) / (bench.p75 - bench.p25)) * 60);
+      barClass = verdictClass = 'market'; verdictText = 'En línea con el mercado'; verdictIcon = '≈';
+    } else {
+      barPct = Math.min(98, 80 + Math.round(((pph - bench.p75) / bench.p75) * 20));
+      barClass = verdictClass = 'expensive'; verdictText = 'Por encima del mercado'; verdictIcon = '↑';
+    }
+    const ratio = Math.round((pph / bench.median) * 100);
+    const bar = document.getElementById('tas-bar');
+    bar.style.width = '0%'; bar.className = 'tas-bar-fill ' + barClass;
+    setTimeout(() => { bar.style.width = barPct + '%'; }, 80);
+    document.getElementById('tas-verdict-wrap').innerHTML =
+      `<div class="tas-verdict ${verdictClass}">${verdictIcon} ${verdictText} · ${ratio}% de la mediana regional</div>`;
+
+    // Rango de valoración
+    document.getElementById('tas-range-low').textContent  = tasFormatEuros(Math.round(bench.p25 * rooms));
+    document.getElementById('tas-range-high').textContent = tasFormatEuros(Math.round(bench.p75 * rooms));
+    const diffPct = Math.round((pph / bench.median - 1) * 100);
+    document.getElementById('tas-range-note').textContent =
+      `Rango P25–P75 · ${bench.label} · ${rooms} hab × benchmark regional · ` +
+      `Este activo: ${diffPct >= 0 ? '+' : ''}${diffPct}% vs mediana`;
+
+    // Comparables
+    const comps = tasGetComparables(region, globalIdx, rooms);
+    document.getElementById('tas-comparables').innerHTML = comps.length
+      ? comps.map(c => `<tr>
+          <td>
+            <span class="tas-comp-name" title="${tasCleanTitle(c.h.title)}">${tasCleanTitle(c.h.title)}</span>
+            <span class="tas-comp-src">${c.h.source||''} · ${c.h.location||''}</span>
+          </td>
+          <td>${tasFormatEuros(c.price)}</td>
+          <td>${c.hab}</td>
+          <td><strong>${tasFormatEuros(c.pph)}</strong></td>
+        </tr>`).join('')
+      : `<tr><td colspan="4" style="color:var(--muted);font-size:0.75rem;padding:1rem 0.7rem">
+           Sin comparables con precio+habitaciones en esta región.
+         </td></tr>`;
+
+    document.getElementById('tas-nota-n').textContent = bench.n + ' activos';
+  }
+
+  document.getElementById('tas-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTasacion(e) {
+  if (e && e.target !== document.getElementById('tas-overlay')) return;
+  _closeTasModal();
+}
+function closeTasacionBtn() { _closeTasModal(); }
+function _closeTasModal() {
+  document.getElementById('tas-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') _closeTasModal(); });
 
 init();
 
