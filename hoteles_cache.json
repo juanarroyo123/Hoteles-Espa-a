@@ -1477,7 +1477,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8895309",
     "source": "ThinkSpain",
     "date": "13/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "rooms": 7,
     "location_region": "Cataluña"
   },
@@ -3674,18 +3674,6 @@
     "location_region": "Andalucía"
   },
   {
-    "title": "11 habitaciones Hotel en venta in Almodovar del Rio - â¬ 370,000",
-    "price": "Precio a consultar",
-    "location": "Almodovar Del Rio",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9478772",
-    "source": "ThinkSpain",
-    "date": "13/03/2026",
-    "ausencias": 2,
-    "rooms": 11,
-    "location_region": "Andalucía"
-  },
-  {
     "title": "19 habitaciones Hotel en venta in Santiago de la Ribera - â¬ 1,250,000",
     "price": "Precio a consultar",
     "location": "Santiago De La Ribera",
@@ -4077,18 +4065,6 @@
     "rooms": 26
   },
   {
-    "title": "6 habitaciones Hotel en venta in La Herradura with garage - â¬ 750,000",
-    "price": "Precio a consultar",
-    "location": "La Herradura",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9604606",
-    "source": "ThinkSpain",
-    "date": "13/03/2026",
-    "ausencias": 2,
-    "rooms": 6,
-    "location_region": "Andalucía"
-  },
-  {
     "title": "8 habitaciones Hotel en venta in Mojacar - â¬ 549,000",
     "price": "Precio a consultar",
     "location": "Mojacar",
@@ -4475,18 +4451,6 @@
     "ausencias": 0,
     "rooms": 9,
     "location_region": "C. Valenciana"
-  },
-  {
-    "title": "8 habitaciones Hotel en venta in Ezcaray - â¬ 985,000",
-    "price": "Precio a consultar",
-    "location": "Ezcaray",
-    "description": "Charming boutique hotel in a historical building with contemporary design in the Rioja area. A unique charming boutique hotel located in the Rioja region. The building was renovated by its owners in 2014, interior designers and the architects of...",
-    "url": "https://www.thinkspain.com/property-for-sale/8793883",
-    "source": "ThinkSpain",
-    "date": "13/03/2026",
-    "ausencias": 2,
-    "rooms": 8,
-    "location_region": "La Rioja"
   },
   {
     "title": "Hotel en venta in Llanca with pool garage - â¬ 6,800,000",
@@ -6447,17 +6411,6 @@
     "location_region": "Madrid",
     "rooms": 126,
     "beds": 126
-  },
-  {
-    "title": "Hotel en venta in Tarifa - â¬ 2,300,000",
-    "price": "Precio a consultar",
-    "location": "Tarifa",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/8610613",
-    "source": "ThinkSpain",
-    "date": "13/03/2026",
-    "ausencias": 2,
-    "location_region": "Andalucía"
   },
   {
     "title": "15 habitaciones Hotel en venta in Torremolinos - â¬ 4,300,000",
@@ -8968,18 +8921,6 @@
     "date": "13/03/2026",
     "ausencias": 0,
     "rooms": 12,
-    "location_region": "C. Valenciana"
-  },
-  {
-    "title": "5 habitaciones Guesthouse/B & B en venta in Vall de Laguart with garage - â¬ 459,000",
-    "price": "Precio a consultar",
-    "location": "Vall De Laguart",
-    "description": "A charming rural tourist guesthouse, currently in operation, is for sale in La Vall de Laguar in the north of Alicante province. This property is located in the heart of a picturesque holiday resort and offers the ideal retreat for anyone looking to...",
-    "url": "https://www.thinkspain.com/property-for-sale/9208006",
-    "source": "ThinkSpain",
-    "date": "13/03/2026",
-    "ausencias": 2,
-    "rooms": 5,
     "location_region": "C. Valenciana"
   },
   {
@@ -16570,7 +16511,7 @@
     "url": "https://www.oirealestate.net/propiedad/78269/hotel-3-estrellas-en-venta-en-mallorca-sureste",
     "source": "Oi Real Estate",
     "date": "20/03/2026",
-    "ausencias": 2,
+    "ausencias": 0,
     "location_region": "Baleares",
     "rooms": 117,
     "stars": 3
@@ -16735,7 +16676,7 @@
     "url": "https://www.negociosenventa.es/venta-de-hotel-en-funcionamiento-en-burgos-en-burgos-1941",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 6,
     "m2": 8000
@@ -16748,7 +16689,7 @@
     "url": "https://www.negociosenventa.es/venta-de-complejo-de-turismo-rural-en-parque-nacional-del-alto-tajo-en-guadalajara-5624",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha",
     "m2": 1850
   },
@@ -16760,7 +16701,7 @@
     "url": "https://www.oirealestate.net/propiedad/78202/apartahotel-3-estrellas-en-venta-en-mallorca-sureste",
     "source": "Oi Real Estate",
     "date": "23/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "location_region": "Baleares",
     "rooms": 117,
     "m2": 80000,
@@ -16774,7 +16715,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotel-en-bermeo-en-bizkaia-3677",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 3,
     "location_region": "País Vasco"
   },
@@ -16786,7 +16727,7 @@
     "url": "https://www.negociosenventa.es/hotel-apartamentos-con-bar-restaurante-y-terraza-en-segovia",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -16797,7 +16738,7 @@
     "url": "https://www.negociosenventa.es/venta-complejo-rural-en-zaragoza-5238",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Aragón"
   },
   {
@@ -16808,7 +16749,7 @@
     "url": "https://www.negociosenventa.es/vendo-hotel-funcionando-en-lleida-4364",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 5,
     "m2": 1540
@@ -16821,7 +16762,7 @@
     "url": "https://www.negociosenventa.es/hotel-en-la-mata-a-20-metros-de-la-playa-en-alicantealacant-5686",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana",
     "rooms": 49
   },
@@ -16833,7 +16774,7 @@
     "url": "https://www.negociosenventa.es/hotelrestaurante-casa-palaciega-en-almeria-8142",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 13,
     "m2": 1425
@@ -16846,7 +16787,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotel-en-valenciavalencia-5902",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -16857,7 +16798,7 @@
     "url": "https://www.negociosenventa.es/vendo-hotel-boutique-en-malaga-10820",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 7
   },
@@ -16869,7 +16810,7 @@
     "url": "https://www.negociosenventa.es/posada-real-en-leon-11321",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -16880,7 +16821,7 @@
     "url": "https://www.negociosenventa.es/casa-rural-la-posada-en-toledo-3342",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha"
   },
   {
@@ -16891,7 +16832,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotel-en-lloret-de-mar-a-pie-de-la-playa-en-girona-11778",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 25,
     "m2": 800,
@@ -16905,7 +16846,7 @@
     "url": "https://www.negociosenventa.es/hotel-boutique-operativo-en-marbella-con-12-suites-licencias-completas-y-gran-rentabilidad-en-malaga-11293",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 12,
     "m2": 780
@@ -16918,7 +16859,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotel-en-el-camino-de-santiago-cerca-de-logrono-zona-media-de-la-rioja-en-rioja-la-4855",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 12,
     "m2": 1000,
     "location_region": "Galicia"
@@ -16931,7 +16872,7 @@
     "url": "https://www.negociosenventa.es/hotel-rural-con-encanto-en-el-priorato-en-tarragona-8698",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 7
   },
@@ -16943,7 +16884,7 @@
     "url": "https://www.negociosenventa.es/venta-hotel-tres-estrellas-bungalows-en-santa-cruz-de-tenerife-8382",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias",
     "m2": 10500
   },
@@ -16955,7 +16896,7 @@
     "url": "https://www.negociosenventa.es/hotel-asador-2-12-habitaciones-enclave-natural-entre-burgos-y-soria-en-burgos-5436",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León",
     "rooms": 12
   },
@@ -16967,7 +16908,7 @@
     "url": "https://www.negociosenventa.es/hotel-en-venta-totalmente-reformado-en-girona-5789",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 34,
     "m2": 1118,
@@ -16981,7 +16922,7 @@
     "url": "https://www.negociosenventa.es/se-vende-residencia-juvenil-en-primera-linea-de-playa-del-mar-menor-en-murcia-3702",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Murcia",
     "rooms": 23,
     "m2": 1500
@@ -16994,7 +16935,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotelrestaurante-en-zona-de-montana-y-a-escasos-km-de-la-playa-en-valenciavalencia-3518",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -17005,7 +16946,7 @@
     "url": "https://www.negociosenventa.es/hotel-en-venta-en-rias-baixas-a-lanzada-en-pontevedra-1242",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia",
     "rooms": 53,
     "m2": 2800
@@ -17018,7 +16959,7 @@
     "url": "https://www.negociosenventa.es/2-hoteles-en-venta-en-rias-baixassanxenxo-en-pontevedra-1242",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia",
     "rooms": 20
   },
@@ -17030,7 +16971,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotel-en-el-arenal-en-balears-illes",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 200,
     "stars": 4,
     "location_region": "Baleares"
@@ -17043,7 +16984,7 @@
     "url": "https://www.negociosenventa.es/se-vende-hotel-3-estrellas-en-huelva",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 60,
     "stars": 3
@@ -17056,7 +16997,7 @@
     "url": "https://www.negociosenventa.es/hotel-en-venta-en-madrid-en-madrid",
     "source": "NegociosEnVenta",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid",
     "rooms": 20,
     "m2": 933
@@ -17444,7 +17385,7 @@
     "url": "https://www.hotelsevende.es/se-vende-australia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "beds": 1
   },
   {
@@ -17455,7 +17396,7 @@
     "url": "https://www.hotelsevende.es/hotel-boutique-de-lujo-en-andalucia-helipuerto-pista-de-tenis-y-piscina-climatizada",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 50000,
     "stars": 3,
     "location_region": "Andalucía"
@@ -17468,7 +17409,7 @@
     "url": "https://www.hotelsevende.es/encantador-bb-en-un-retiro-rural-en-ayora-valencia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 9,
     "location_region": "C. Valenciana"
   },
@@ -17480,7 +17421,7 @@
     "url": "https://www.hotelsevende.es/alojamiento-y-desayuno/se-vende/espana/42840-2",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -17491,7 +17432,7 @@
     "url": "https://www.hotelsevende.es/lujosa-y-espaciosa-villa-urbana-completamente-renovada-huescar",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Aragón",
     "rooms": 7,
     "m2": 507
@@ -17504,7 +17445,7 @@
     "url": "https://www.hotelsevende.es/malaga-high-end-boutique-hotel-bb",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "m2": 250
   },
@@ -17516,7 +17457,7 @@
     "url": "https://www.hotelsevende.es/exitoso-negocio-de-turismo-a-pequena-escala-con-jardin-botanico-en-las-montanas-de-granada-las-alpujarras-2",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "m2": 10000
   },
@@ -17528,7 +17469,7 @@
     "url": "https://www.hotelsevende.es/alojamiento-y-desayuno/se-vende/espana/amplia-casa-de-campo-con-licencia-de-hotel-en-parcela-de-18-hectareas-ideal-para-un-retiro",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Murcia",
     "rooms": 5
   },
@@ -17540,7 +17481,7 @@
     "url": "https://www.hotelsevende.es/alojamiento-y-desayuno/se-vende/espana/encantador-bb-en-un-pequeno-pueblo-en-medio-de-huertos-de-citricos-a-15-minutos-de-las-playas",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 4,
     "location_region": "C. Valenciana"
   },
@@ -17552,7 +17493,7 @@
     "url": "https://www.hotelsevende.es/casa-de-vacaciones/se-vende/espana/pequeno-complejo-vacacional-con-excelentes-ingresos-en-la-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 1675,
     "location_region": "C. Valenciana"
   },
@@ -17564,7 +17505,7 @@
     "url": "https://www.hotelsevende.es/parcela-de-tierra/se-vende/espana/restaurante-zona-caminito-del-rey",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "m2": 2449
   },
@@ -17576,7 +17517,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotelito-4-con-encanto-costa-brava",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -17587,7 +17528,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-3-primera-linea-en-mallorca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares",
     "stars": 3
   },
@@ -17599,7 +17540,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-3-en-ibiza-a-100m-de-la-playa",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares",
     "stars": 3
   },
@@ -17611,7 +17552,7 @@
     "url": "https://www.hotelsevende.es/alojamiento-y-desayuno/se-vende/espana/bb-siglo-xvii-restaurada-en-murcia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Murcia",
     "rooms": 7,
     "m2": 900
@@ -17624,7 +17565,7 @@
     "url": "https://www.hotelsevende.es/alojamiento-y-desayuno/se-vende/espana/preciosa-bodega-antigua-convertida-en-finca-unica-con-posibilidad-de-bb-o-casa-rural",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 5,
     "m2": 478,
     "location_region": "Cataluña"
@@ -17637,7 +17578,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/aparthotel-mallorca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -17648,7 +17589,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-rural-con-encanto-en-region-de-murcia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Murcia"
   },
   {
@@ -17659,7 +17600,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/proyecto-de-boutique-hotel-30km-de-barcelona-2",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 12
   },
@@ -17671,7 +17612,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/hotel-4-localizado-en-la-provincia-de-leon",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León",
     "rooms": 98,
     "stars": 4
@@ -17684,7 +17625,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/encantadora-casa-de-pueblo-espanola-bb",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 6
   },
   {
@@ -17695,7 +17636,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/finca-para-bb-o-wellness-retreat",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 12000,
     "location_region": "C. Valenciana"
   },
@@ -17707,7 +17648,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/charming-country-hotel-in-the-axarquia-region",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 4,
     "beds": 2,
     "location_region": "Andalucía"
@@ -17720,7 +17661,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/idilico-hotel-boutique-rural-ubicado-en-el-valle-de-lecrin-cercano-a-granada-y-la-costa-tropical",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 14,
     "m2": 16000,
     "location_region": "Andalucía"
@@ -17733,7 +17674,7 @@
     "url": "https://www.hotelsevende.es/casa-de-vacaciones/se-vende/espana/fantastic-opportunity-of-3-holiday-houses-with-high-income-on-the-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 5,
     "beds": 5,
     "m2": 270,
@@ -17747,7 +17688,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/boutique-bed-and-breakfast-in-inland-andalucia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -17758,7 +17699,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-en-palacio-siglo-xviii-totalmente-reformado",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha"
   },
   {
@@ -17769,7 +17710,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3-hotel-with-restaurant-in-the-province-of-girona-35km-from-the-sea",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 180,
     "stars": 3,
     "location_region": "Cataluña"
@@ -17782,7 +17723,7 @@
     "url": "https://www.hotelsevende.es/aparthotel/se-vende/espana/great-rural-complex-of-12-apartments-restaurant-in-sierra-of-granada",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "location_region": "Andalucía"
@@ -17795,7 +17736,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/fabulous-country-house-rural-hotel-retreatinland-of-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 6,
     "beds": 6,
     "m2": 1586,
@@ -17809,7 +17750,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/pleasant-22-room-hotel-with-restaurant-in-a-natural-setting-in-galicia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 16,
     "m2": 22,
     "location_region": "Galicia"
@@ -17822,7 +17763,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/great-casa-rural-with-pool-for-groups-40km-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana",
     "rooms": 3,
     "beds": 3,
@@ -17836,7 +17777,7 @@
     "url": "https://www.hotelsevende.es/aparthotel/se-vende/espana/good-aparthotel-a-few-meters-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "m2": 13000,
@@ -17850,7 +17791,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-boutique-alma",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 4,
     "m2": 558,
     "location_region": "Andalucía"
@@ -17863,7 +17804,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/bed-breakfast-boutique-hotel-high-profitability-in-utrera-sevilla",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 18,
     "m2": 275
@@ -17876,7 +17817,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/great-casa-rural-restaurant-with-charm",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Aragón",
     "rooms": 1,
     "beds": 1,
@@ -17890,7 +17831,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/bb-a-un-autentico-pueblo-en-la-provincia-de-alicante",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana",
     "beds": 2,
     "m2": 900
@@ -17903,7 +17844,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/2-business-hotel-restaurant-and-aparthotel-in-the-province-of-toledo",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha",
     "rooms": 10,
     "beds": 2,
@@ -17918,7 +17859,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/small-beach-hotel-in-cabo-de-gata-natur-park",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 1000,
     "location_region": "Andalucía"
   },
@@ -17930,7 +17871,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/4-estrellas-en-10-km-del-centro-de-alicante-con-vista-al-mar",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 101,
     "stars": 4,
     "location_region": "C. Valenciana"
@@ -17943,7 +17884,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/boutique-hotel-in-riad-style-with-private-residence-costa-del-sol",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 11,
     "m2": 750
@@ -17956,7 +17897,7 @@
     "url": "https://www.hotelsevende.es/proyecto-hotelero/se-vende/espana/unique-980-ha-estate-with-permission-to-develop-into-a-tourist-complex",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -17967,7 +17908,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-for-business-and-leisure-at-the-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -17978,7 +17919,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/successful-rural-andalucia-hotel-with-guaranteed-bookings-for-sale",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "m2": 600,
@@ -17992,7 +17933,7 @@
     "url": "https://www.hotelsevende.es/proyecto-hotelero/se-vende/espana/hotel-project-at-the-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 8620,
     "location_region": "C. Valenciana"
   },
@@ -18004,7 +17945,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/hostal-in-a-beautiful-natural-surroundings",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 14,
     "m2": 600,
     "location_region": "Castilla-La Mancha"
@@ -18017,7 +17958,7 @@
     "url": "https://www.hotelsevende.es/hotel-sala-de-banquetes/se-vende/espana/luxurious-andalusian-country-house-with-apartments",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 12,
     "m2": 2500,
     "location_region": "Andalucía"
@@ -18030,7 +17971,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/restaurant-in-tourist-area-600-m-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 250,
     "location_region": "C. Valenciana"
   },
@@ -18042,7 +17983,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/very-nice-17-room-hostal-400m-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 17,
     "m2": 500,
     "location_region": "C. Valenciana"
@@ -18055,7 +17996,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3-hotel-200-m-from-the-beach-near-to-alicante",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 50,
     "m2": 3233,
     "stars": 3,
@@ -18069,7 +18010,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/promo-pequeno-hotel-con-encanto-rusticae-en-el-prepirineo-aragones",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 8,
     "m2": 100,
     "location_region": "Aragón"
@@ -18082,7 +18023,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-with-charm-in-mountains-15minutes-from-the-beach-at-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 11,
     "m2": 70,
     "location_region": "C. Valenciana"
@@ -18095,7 +18036,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/great-bb-restaurant-located-in-a-valley-50-min-from-alicantebeach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 5,
     "m2": 13000,
     "location_region": "C. Valenciana"
@@ -18108,7 +18049,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-restaurant-in-a-natural-environment-and-10-minutes-from-the-ski",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Aragón",
     "rooms": 14
   },
@@ -18120,7 +18061,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/romantic-small-hotel-restaurant-between-marbella-and-ronda",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "m2": 130,
@@ -18134,7 +18075,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/wonderful-house-to-be-operated-as-a-bb",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 7,
     "beds": 7,
     "m2": 10400,
@@ -18148,7 +18089,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-3-below-market-value",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 54,
     "stars": 3,
     "location_region": "Madrid"
@@ -18161,7 +18102,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/unique-small-rural-hotel-located-in-the-heart-of-andalusia",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 60,
     "location_region": "Andalucía"
   },
@@ -18173,7 +18114,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/successful-rustic-health-retreat-in-andalusia-on-a-very-large-plot",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 7,
     "beds": 7,
@@ -18187,7 +18128,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/stunning-rural-hotel-with-8-bedrooms-and-living-in-facilities",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 8,
     "beds": 8,
@@ -18201,7 +18142,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/historic-bb-in-a-charming-village-of-the-alicante-province",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana",
     "rooms": 2,
     "beds": 2
@@ -18214,7 +18155,7 @@
     "url": "https://www.hotelsevende.es/resort-hotel/se-vende/espana/company-with-a-beach-front-commercial-premises-and-activity-license",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 528,
     "location_region": "C. Valenciana"
   },
@@ -18226,7 +18167,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/2-small-hotel-in-a-touristic-town-costa-blanca-8-minutes-to-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 11,
     "beds": 11,
     "m2": 700,
@@ -18241,7 +18182,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/charming-rural-hotel-restaurant-of-3-stars-with-private-area",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "stars": 3,
@@ -18255,7 +18196,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/casa-de-huespedes-exclusiva-con-vistas-a-los-palacios-de-la-alhambra",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "m2": 220
   },
@@ -18267,7 +18208,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/a-small-boutique-hotel-in-a-16th-century-restored-palace-malaga-area",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 9,
     "m2": 740
@@ -18280,7 +18221,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-de-carretera-en-a-1",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León",
     "rooms": 21
   },
@@ -18292,7 +18233,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/rural-bb-finca-with-olive-oil-production-ideal-for-a-yoga-retreat",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 4,
     "beds": 4,
     "m2": 70,
@@ -18307,7 +18248,7 @@
     "url": "https://www.hotelsevende.es/lodge/se-vende/espana/an-18th-century-castle-on-the-seafront-and-surrounded-by-nature",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 50000,
     "location_region": "Galicia"
   },
@@ -18319,7 +18260,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/a-unique-palace-in-a-historical-village-ideal-for-bb-or-small-hotel",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "m2": 800,
@@ -18333,7 +18274,7 @@
     "url": "https://www.hotelsevende.es/proyecto-hotelero/se-vende/espana/a-19th-century-manor-house-for-a-boutique-hotel-35min-from-alicante",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 3500,
     "location_region": "C. Valenciana"
   },
@@ -18345,7 +18286,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/hostal-bb-in-a-coastal-village-on-the-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 14,
     "location_region": "C. Valenciana"
   },
@@ -18357,7 +18298,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/charming-guesthouse-in-vejer-de-la-frontera",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 403,
     "location_region": "Andalucía"
   },
@@ -18369,7 +18310,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/casa-rural-with-charmpossibility-to-build-more-rooms-35-from-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 5,
     "m2": 1090,
     "location_region": "C. Valenciana"
@@ -18382,7 +18323,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/boutique-hotel-en-el-parque-natural-sierra-de-aracena-huelva",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 10,
     "m2": 100,
     "location_region": "Andalucía"
@@ -18395,7 +18336,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/charming-rural-hotel-with-restaurant-5-apartments-9-rooms",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 9,
     "m2": 25000,
     "location_region": "C. Valenciana"
@@ -18408,7 +18349,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/great-spa-hotel-with-10-rooms-in-a-village-between-castlesmountains",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha",
     "rooms": 10,
     "m2": 1450
@@ -18421,7 +18362,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/casa-a-montblanc-prov-de-tarragona",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 3700,
     "location_region": "Cataluña"
   },
@@ -18433,7 +18374,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/ruralhouse-agrotourismcomplex-restaurant-spa-equestrian-facilities",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 8,
     "beds": 4,
     "m2": 300,
@@ -18447,7 +18388,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/andalusian-finca-with-482-hectares-for-rural-tourism",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 600,
     "location_region": "Andalucía"
   },
@@ -18459,7 +18400,7 @@
     "url": "https://www.hotelsevende.es/aparthotel/se-vende/espana/successful-rentals-business-in-unique-natural-s",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 2,
     "beds": 2,
@@ -18473,7 +18414,7 @@
     "url": "https://www.hotelsevende.es/alojamiento-y-desayuno/se-vende/espana/luxury-villa-bb-with-9-bedrooms-in-andalousie",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 9,
     "beds": 9,
     "m2": 300,
@@ -18487,7 +18428,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotels-in-mallorca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -18498,7 +18439,7 @@
     "url": "https://www.hotelsevende.es/proyecto-hotelero/se-vende/espana/costa-blanca-investment-for-a-30room-hotel-with-celebration-halls",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 30,
     "beds": 2,
     "m2": 263,
@@ -18512,7 +18453,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/excepcional-hermoso-hotel-rural",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia",
     "rooms": 10,
     "m2": 7000
@@ -18525,7 +18466,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/unique-rural-house-complex-in-a-natural-park",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha",
     "rooms": 6,
     "beds": 6
@@ -18538,7 +18479,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/en-2-parques-naturales-cerca-barcelona-en-la-naturaleza-muy-rentable",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 20,
     "m2": 10000
@@ -18551,7 +18492,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3hotel-within-nature-ideal-for-all-kinds-of-celebrations",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 101,
     "stars": 3,
     "location_region": "Galicia"
@@ -18564,7 +18505,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/boutique-hotelspa-large-plot-to-expand-hotel-and-build-luxury-homes",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 6,
     "m2": 30,
     "location_region": "C. Valenciana"
@@ -18577,7 +18518,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3-star-hotel-in-the-province-of-badajoz",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 1205,
     "stars": 3,
     "location_region": "Extremadura"
@@ -18590,7 +18531,7 @@
     "url": "https://www.hotelsevende.es/aparthotel/se-vende/espana/very-profitable-aparthotel-700m-from-the-beach-on-the-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 55,
     "location_region": "C. Valenciana"
   },
@@ -18602,7 +18543,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/charming-casa-rural-in-a-touristic-village-with-22-rooms",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 22,
     "beds": 2,
     "m2": 1000,
@@ -18616,7 +18557,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/rural-hotel-between-mountains-and-25-minutes-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana",
     "m2": 6000
   },
@@ -18628,7 +18569,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/frontline-hotel-in-benidorm-possibility-of-312-rooms",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 312,
     "m2": 26000,
     "stars": 4,
@@ -18642,7 +18583,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotels-investment-assets-in-tenerife",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias",
     "rooms": 400
   },
@@ -18654,7 +18595,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/large-commercial-space-near-the-sea",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 3,
     "m2": 628,
     "location_region": "C. Valenciana"
@@ -18667,7 +18608,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/2-hotel-with-restaurant-in-a-picturesque-village-35-min-to-tarragona",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña",
     "rooms": 9,
     "stars": 2
@@ -18680,7 +18621,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/great-4-hotel-with-spa-and-restaurant-wedding-business",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 5,
     "m2": 6500,
     "stars": 4,
@@ -18694,7 +18635,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/new-7-bedroom-hostel-located-650m-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 7,
     "beds": 7,
     "m2": 200,
@@ -18708,7 +18649,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/very-nice-hostal-with-8-bedrooms-and-only-300-to-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 8,
     "beds": 8,
     "m2": 200,
@@ -18722,7 +18663,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3-hotel-in-a-natural-park-with-162ha",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 23,
     "m2": 557,
     "stars": 3,
@@ -18736,7 +18677,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/xixcentury-mansion-converted-into-3-hotel-with-restaurant-12km-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 971,
     "stars": 3,
     "location_region": "C. Valenciana"
@@ -18749,7 +18690,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/newly-built-villa-ideal-for-luxury-bb-8-min-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 2500,
     "location_region": "C. Valenciana"
   },
@@ -18761,7 +18702,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/1st-line-project-hotel-resort-5-with-254-suites-completed-at-23",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares",
     "m2": 18160,
     "stars": 5
@@ -18774,7 +18715,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/functional-11-room-hostel-near-seville",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 11,
     "beds": 3,
     "m2": 25,
@@ -18788,7 +18729,7 @@
     "url": "https://www.hotelsevende.es/lodge/se-vende/espana/luxury-retreat-for-yoga-wellness-or-seminars-south-costa-blanca",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana",
     "m2": 29000
   },
@@ -18800,7 +18741,7 @@
     "url": "https://www.hotelsevende.es/parcela-de-tierra/se-vende/espana/1st-line-project-in-costa-blanca-north",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 20,
     "location_region": "C. Valenciana"
   },
@@ -18812,7 +18753,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/luxurious-9-bedroom-andalusian-style-rural-house-with-oil-production",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 9,
     "m2": 17000,
     "location_region": "Andalucía"
@@ -18825,7 +18766,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/stylish-renovated-hotel-near-ski-slopes-with-restaurant",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 20,
     "m2": 1550,
     "location_region": "Cataluña"
@@ -18838,7 +18779,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/mediterranean-retreat-with-25-hectares-of-land-30-min-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 5,
     "beds": 5,
     "location_region": "Cataluña"
@@ -18851,7 +18792,7 @@
     "url": "https://www.hotelsevende.es/aparthotel/se-vende/espana/investmenttourist-apartments-in-hotel-complex-with-guaranteed-profits",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 1,
     "beds": 1,
     "m2": 42,
@@ -18865,7 +18806,7 @@
     "url": "https://www.hotelsevende.es/aparthotel/se-vende/espana/investmenttourist-apartments-in-hotel-complex-with-guaranteed-profit",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 1,
     "beds": 1,
     "m2": 416,
@@ -18879,7 +18820,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/investment-tourist-stay-unit-on-the-beachfront-with-guaranteed-profit",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 4320,
     "location_region": "Andalucía"
   },
@@ -18891,7 +18832,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/nice-bb-pension-with-9-bedrooms-en-suite-30-minutes-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía",
     "rooms": 9,
     "beds": 9,
@@ -18905,7 +18846,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/wooden-cabin-resort-with-spa-facilities-20-min-from-the-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "m2": 30,
     "location_region": "C. Valenciana"
   },
@@ -18917,7 +18858,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/romantic-and-exclusive-mountain-hotel-with-30-ha-30-min-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 2,
     "beds": 2,
     "m2": 25,
@@ -18931,7 +18872,7 @@
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/nice-3rural-hotel-restaurant-large-private-house-30-min-to-beach",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 14,
     "beds": 2,
     "location_region": "C. Valenciana"
@@ -18944,7 +18885,7 @@
     "url": "https://www.hotelsevende.es/proyecto-hotelero/se-vende/espana/rural-tourism-complex-with-hostelrestaurantproject-4-hotel-granada",
     "source": "HotelSeVende",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "rooms": 40,
     "beds": 9,
     "m2": 190,
@@ -18959,7 +18900,7 @@
     "url": "https://www.idealista.com/inmueble/110899975",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid"
   },
   {
@@ -18970,7 +18911,7 @@
     "url": "https://www.idealista.com/inmueble/101137424",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "País Vasco"
   },
   {
@@ -18981,7 +18922,7 @@
     "url": "https://www.idealista.com/inmueble/107780063",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid"
   },
   {
@@ -18992,7 +18933,7 @@
     "url": "https://www.idealista.com/inmueble/110662731",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid"
   },
   {
@@ -19003,7 +18944,7 @@
     "url": "https://www.idealista.com/inmueble/99164865",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid"
   },
   {
@@ -19014,7 +18955,7 @@
     "url": "https://www.idealista.com/inmueble/110821022",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19025,7 +18966,7 @@
     "url": "https://www.idealista.com/inmueble/102861860",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19036,7 +18977,7 @@
     "url": "https://www.idealista.com/inmueble/38360337",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19047,7 +18988,7 @@
     "url": "https://www.idealista.com/inmueble/110662758",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19058,7 +18999,7 @@
     "url": "https://www.idealista.com/inmueble/104696160",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19069,7 +19010,7 @@
     "url": "https://www.idealista.com/inmueble/110560686",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19080,7 +19021,7 @@
     "url": "https://www.idealista.com/inmueble/110604531",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19091,7 +19032,7 @@
     "url": "https://www.idealista.com/inmueble/110548082",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19102,7 +19043,7 @@
     "url": "https://www.idealista.com/inmueble/91641373",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19113,7 +19054,7 @@
     "url": "https://www.idealista.com/inmueble/109520024",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19124,7 +19065,7 @@
     "url": "https://www.idealista.com/inmueble/110396243",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19135,7 +19076,7 @@
     "url": "https://www.idealista.com/inmueble/97810509",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19146,7 +19087,7 @@
     "url": "https://www.idealista.com/inmueble/105898430",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19157,7 +19098,7 @@
     "url": "https://www.idealista.com/inmueble/108450000",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19168,7 +19109,7 @@
     "url": "https://www.idealista.com/inmueble/107123742",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19179,7 +19120,7 @@
     "url": "https://www.idealista.com/inmueble/106150871",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19190,7 +19131,7 @@
     "url": "https://www.idealista.com/inmueble/107675649",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19201,7 +19142,7 @@
     "url": "https://www.idealista.com/inmueble/105488950",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19212,7 +19153,7 @@
     "url": "https://www.idealista.com/inmueble/110687203",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19223,7 +19164,7 @@
     "url": "https://www.idealista.com/inmueble/110548322",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19234,7 +19175,7 @@
     "url": "https://www.idealista.com/inmueble/32724104",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Murcia"
   },
   {
@@ -19245,7 +19186,7 @@
     "url": "https://www.idealista.com/inmueble/30320370",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -19256,7 +19197,7 @@
     "url": "https://www.idealista.com/inmueble/108190972",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19267,7 +19208,7 @@
     "url": "https://www.idealista.com/inmueble/108339134",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19278,7 +19219,7 @@
     "url": "https://www.idealista.com/inmueble/108190735",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19289,7 +19230,7 @@
     "url": "https://www.idealista.com/inmueble/108413699",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19300,7 +19241,7 @@
     "url": "https://www.idealista.com/inmueble/108361270",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19311,7 +19252,7 @@
     "url": "https://www.idealista.com/inmueble/108190425",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19322,7 +19263,7 @@
     "url": "https://www.idealista.com/inmueble/108707508",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19333,7 +19274,7 @@
     "url": "https://www.idealista.com/inmueble/28093811",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19344,7 +19285,7 @@
     "url": "https://www.idealista.com/inmueble/108482640",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19355,7 +19296,7 @@
     "url": "https://www.idealista.com/inmueble/108160437",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha"
   },
   {
@@ -19366,7 +19307,7 @@
     "url": "https://www.idealista.com/inmueble/106674426",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19377,7 +19318,7 @@
     "url": "https://www.idealista.com/inmueble/110840136",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19388,7 +19329,7 @@
     "url": "https://www.idealista.com/inmueble/109438368",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19399,7 +19340,7 @@
     "url": "https://www.idealista.com/inmueble/106538150",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19410,7 +19351,7 @@
     "url": "https://www.idealista.com/inmueble/110146972",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19421,7 +19362,7 @@
     "url": "https://www.idealista.com/inmueble/110132307",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19432,7 +19373,7 @@
     "url": "https://www.idealista.com/inmueble/104191218",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19443,7 +19384,7 @@
     "url": "https://www.idealista.com/inmueble/103725956",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19454,7 +19395,7 @@
     "url": "https://www.idealista.com/inmueble/103276875",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -19465,7 +19406,7 @@
     "url": "https://www.idealista.com/inmueble/109460261",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Extremadura"
   },
   {
@@ -19476,7 +19417,7 @@
     "url": "https://www.idealista.com/inmueble/109459733",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Extremadura"
   },
   {
@@ -19487,7 +19428,7 @@
     "url": "https://www.idealista.com/inmueble/110258691",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Extremadura"
   },
   {
@@ -19498,7 +19439,7 @@
     "url": "https://www.idealista.com/inmueble/105191419",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Extremadura"
   },
   {
@@ -19509,7 +19450,7 @@
     "url": "https://www.idealista.com/inmueble/110930138",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Extremadura"
   },
   {
@@ -19520,7 +19461,7 @@
     "url": "https://www.idealista.com/inmueble/104592531",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid"
   },
   {
@@ -19531,7 +19472,7 @@
     "url": "https://www.idealista.com/inmueble/108881833",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Extremadura"
   },
   {
@@ -19542,7 +19483,7 @@
     "url": "https://www.idealista.com/inmueble/103829182",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -19553,7 +19494,7 @@
     "url": "https://www.idealista.com/inmueble/108918123",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Canarias"
   },
   {
@@ -19564,7 +19505,7 @@
     "url": "https://www.idealista.com/inmueble/106313069",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -19575,7 +19516,7 @@
     "url": "https://www.idealista.com/inmueble/109971823",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -19586,7 +19527,7 @@
     "url": "https://www.idealista.com/inmueble/106905339",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -19597,7 +19538,7 @@
     "url": "https://www.idealista.com/inmueble/109372812",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19608,7 +19549,7 @@
     "url": "https://www.idealista.com/inmueble/109225237",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19619,7 +19560,7 @@
     "url": "https://www.idealista.com/inmueble/29369987",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19630,7 +19571,7 @@
     "url": "https://www.idealista.com/inmueble/108081290",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19641,7 +19582,7 @@
     "url": "https://www.idealista.com/inmueble/110885749",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19652,7 +19593,7 @@
     "url": "https://www.idealista.com/inmueble/108970412",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19663,7 +19604,7 @@
     "url": "https://www.idealista.com/inmueble/108888120",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19674,7 +19615,7 @@
     "url": "https://www.idealista.com/inmueble/110675941",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19685,7 +19626,7 @@
     "url": "https://www.idealista.com/inmueble/2242896",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Madrid"
   },
   {
@@ -19696,7 +19637,7 @@
     "url": "https://www.idealista.com/inmueble/108429263",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -19707,7 +19648,7 @@
     "url": "https://www.idealista.com/inmueble/91609207",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha"
   },
   {
@@ -19718,7 +19659,7 @@
     "url": "https://www.idealista.com/inmueble/109811129",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha"
   },
   {
@@ -19729,7 +19670,7 @@
     "url": "https://www.idealista.com/inmueble/107690389",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla-La Mancha"
   },
   {
@@ -19740,7 +19681,7 @@
     "url": "https://www.idealista.com/inmueble/109178521",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -19751,7 +19692,7 @@
     "url": "https://www.idealista.com/inmueble/110731060",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19762,7 +19703,7 @@
     "url": "https://www.idealista.com/inmueble/110771707",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19773,7 +19714,7 @@
     "url": "https://www.idealista.com/inmueble/110881201",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19784,7 +19725,7 @@
     "url": "https://www.idealista.com/inmueble/110372431",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19795,7 +19736,7 @@
     "url": "https://www.idealista.com/inmueble/110933400",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19806,7 +19747,7 @@
     "url": "https://www.idealista.com/inmueble/110100202",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19817,7 +19758,7 @@
     "url": "https://www.idealista.com/inmueble/110502612",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19828,7 +19769,7 @@
     "url": "https://www.idealista.com/inmueble/103982715",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19839,7 +19780,7 @@
     "url": "https://www.idealista.com/inmueble/107823612",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19850,7 +19791,7 @@
     "url": "https://www.idealista.com/inmueble/107430394",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -19861,7 +19802,7 @@
     "url": "https://www.idealista.com/inmueble/107044797",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19872,7 +19813,7 @@
     "url": "https://www.idealista.com/inmueble/107688532",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19883,7 +19824,7 @@
     "url": "https://www.idealista.com/inmueble/106877493",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19894,7 +19835,7 @@
     "url": "https://www.idealista.com/inmueble/106876320",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19905,7 +19846,7 @@
     "url": "https://www.idealista.com/inmueble/102511591",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19916,7 +19857,7 @@
     "url": "https://www.idealista.com/inmueble/108760311",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19927,7 +19868,7 @@
     "url": "https://www.idealista.com/inmueble/108761649",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19938,7 +19879,7 @@
     "url": "https://www.idealista.com/inmueble/106739808",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19949,7 +19890,7 @@
     "url": "https://www.idealista.com/inmueble/106739830",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19960,7 +19901,7 @@
     "url": "https://www.idealista.com/inmueble/106739788",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19971,7 +19912,7 @@
     "url": "https://www.idealista.com/inmueble/110988984",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19982,7 +19923,7 @@
     "url": "https://www.idealista.com/inmueble/109859153",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -19993,7 +19934,7 @@
     "url": "https://www.idealista.com/inmueble/108012080",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20004,7 +19945,7 @@
     "url": "https://www.idealista.com/inmueble/105289128",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20015,7 +19956,7 @@
     "url": "https://www.idealista.com/inmueble/110601857",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20026,7 +19967,7 @@
     "url": "https://www.idealista.com/inmueble/108141558",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20037,7 +19978,7 @@
     "url": "https://www.idealista.com/inmueble/110871363",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20048,7 +19989,7 @@
     "url": "https://www.idealista.com/inmueble/110903176",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20059,7 +20000,7 @@
     "url": "https://www.idealista.com/inmueble/110883843",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20070,7 +20011,7 @@
     "url": "https://www.idealista.com/inmueble/110550215",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -20092,7 +20033,7 @@
     "url": "https://www.idealista.com/inmueble/110709694",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Baleares"
   },
   {
@@ -20103,7 +20044,7 @@
     "url": "https://www.idealista.com/inmueble/108890502",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -20114,7 +20055,7 @@
     "url": "https://www.idealista.com/inmueble/105650617",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Asturias"
   },
   {
@@ -20125,7 +20066,7 @@
     "url": "https://www.idealista.com/inmueble/25902227",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Asturias"
   },
   {
@@ -20136,7 +20077,7 @@
     "url": "https://www.idealista.com/inmueble/110257912",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cantabria"
   },
   {
@@ -20147,7 +20088,7 @@
     "url": "https://www.idealista.com/inmueble/109222468",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cantabria"
   },
   {
@@ -20158,7 +20099,7 @@
     "url": "https://www.idealista.com/inmueble/109042195",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "La Rioja"
   },
   {
@@ -20169,7 +20110,7 @@
     "url": "https://www.idealista.com/inmueble/110628428",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Navarra"
   },
   {
@@ -20180,7 +20121,7 @@
     "url": "https://www.idealista.com/inmueble/110410163",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Navarra"
   },
   {
@@ -20191,7 +20132,7 @@
     "url": "https://www.idealista.com/inmueble/108658124",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "País Vasco"
   },
   {
@@ -20202,7 +20143,7 @@
     "url": "https://www.idealista.com/inmueble/103153968",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "País Vasco"
   },
   {
@@ -20213,7 +20154,7 @@
     "url": "https://www.idealista.com/inmueble/110245808",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "País Vasco"
   },
   {
@@ -20224,7 +20165,7 @@
     "url": "https://www.idealista.com/inmueble/108225049",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Aragón"
   },
   {
@@ -20235,7 +20176,7 @@
     "url": "https://www.idealista.com/inmueble/106863248",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Galicia"
   },
   {
@@ -20246,7 +20187,7 @@
     "url": "https://www.idealista.com/inmueble/110427796",
     "source": "Idealista",
     "date": "23/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Castilla y León"
   },
   {
@@ -20269,16 +20210,6 @@
     "source": "ThinkSpain",
     "ausencias": 0,
     "rooms": 5
-  },
-  {
-    "title": "Hotel en venta in Gandia - â¬ 8,700,000",
-    "price": "Precio a consultar",
-    "location": "Gandia",
-    "description": "Builded surface 4000, hotel util surface 4000, conservation status: in good condition, nÂº floor: 1.",
-    "url": "https://www.thinkspain.com/property-for-sale/5774389",
-    "source": "ThinkSpain",
-    "ausencias": 2,
-    "location_region": "C. Valenciana"
   },
   {
     "title": "Hotel en venta en San Antonio, Islas Baleares",
@@ -20439,7 +20370,7 @@
     "url": "https://www.luxuryestate.com/es/p78396905-hotel-for-sale-alicante",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "location_region": "C. Valenciana",
     "rooms": 31,
     "beds": 2,
@@ -20649,7 +20580,7 @@
     "url": "https://www.luxuryestate.com/es/p132064079-hotel-for-sale-ciutat-vella",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "rooms": 1,
     "m2": 50,
     "location_city": "Ciutat Vella",
@@ -20663,7 +20594,7 @@
     "url": "https://www.idealista.com/inmueble/109707367",
     "source": "Idealista",
     "date": "26/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
   },
   {
@@ -20674,7 +20605,7 @@
     "url": "https://www.idealista.com/inmueble/110998169",
     "source": "Idealista",
     "date": "26/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "C. Valenciana"
   },
   {
@@ -20685,7 +20616,7 @@
     "url": "https://www.idealista.com/inmueble/111008965",
     "source": "Idealista",
     "date": "26/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Cataluña"
   },
   {
@@ -20696,7 +20627,65 @@
     "url": "https://www.idealista.com/inmueble/111019182",
     "source": "Idealista",
     "date": "26/03/2026",
-    "ausencias": 1,
+    "ausencias": 2,
     "location_region": "Andalucía"
+  },
+  {
+    "title": "5 habitaciones Hotel en venta in Gaucin - â¬ 1,200,000",
+    "price": "Precio a consultar",
+    "location": "Gaucin - â¬ 1,200,000",
+    "description": "Exceptional rural tourism complex, ideal for wedding venue, retreat venue, rural tourism and adventure holidays! Open ended possibilities for expansion El Colmenar (GaucÃ­n) â MÃ¡laga Province 11 hectares â¢ 5 tourist casitas â¢ 2 hectares...",
+    "url": "https://www.thinkspain.com/property-for-sale/9720549",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "12 habitaciones Hotel en venta in Sotogrande with pool garage - â¬ 5,500,000",
+    "price": "Precio a consultar",
+    "location": "Sotogrande with pool garage - â¬ 5,500,000",
+    "description": "Templo Sotogrande is a rare frontline estate on the Costa del Sol, located just 250 metres from Torreguadiaro Beach and 300 metres from the marina at Sotogrande Marina. The property was fully restored and renovated in 2024 and 2025 and currently...",
+    "url": "https://www.thinkspain.com/property-for-sale/9720454",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Torrevieja",
+    "price": "2.800.000 €",
+    "location": "Torrevieja",
+    "description": "El Hotel Restaurante esta edificado sobre un solar cuya superficie es de 223,85m2, y cuenta con un total de 6 plantas, distribuidas de la siguiente manera sotano, planta baja, 4...",
+    "url": "https://www.luxuryestate.com/es/p78396905-hotel-for-sale-torrevieja",
+    "source": "LuxuryEstate",
+    "date": "26/03/2026",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
+    "price": "12.000.000 €",
+    "location": "Palma de Mallorca, Islas Baleares",
+    "description": "Se vende Hotel de 3* en El Arenal, Mallorca. Se encuentra a continuacion de la playa de Palma, a escasos minutos de la Ciudad de Palma y del Aeropuerto. La zona es ampliamente...",
+    "url": "https://www.luxuryestate.com/es/p126979285-hotel-for-sale-palma-de-mallorca",
+    "source": "LuxuryEstate",
+    "date": "26/03/2026",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Albacete, Castilla-La Mancha",
+    "price": "2.750.000 €",
+    "location": "Albacete, Castilla-La Mancha",
+    "description": "Myz02981 - Hotel al norte de la provincia de Albacete con encanto medieval: inversión con alta rentabilidad y proyección  Se vende hotel céntrico de 4 plantas con categoría actual...",
+    "url": "https://www.luxuryestate.com/es/p132301303-hotel-for-sale-albacete",
+    "source": "LuxuryEstate",
+    "date": "26/03/2026",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Valencia",
+    "price": "975.000 €",
+    "location": "Valencia",
+    "description": "Una oportunidad unica en pleno corazon de Valencia. 3 viviendas exclusivas situadas en la Plaza del Ayuntamiento, con vistas a la plaza principal de la ciudad y un acceso...",
+    "url": "https://www.luxuryestate.com/es/p132064079-hotel-for-sale-valencia",
+    "source": "LuxuryEstate",
+    "date": "26/03/2026",
+    "ausencias": 0
   }
 ]
