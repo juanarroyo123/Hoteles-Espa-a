@@ -24,9 +24,12 @@ jobs:
           sudo apt-get update -q
           sudo apt-get install -y google-chrome-stable
 
-      - name: Instalar dependencias Python
-        run: pip install --no-cache-dir requests beautifulsoup4 lxml selenium webdriver-manager undetected-chromedriver && python -c "from webdriver_manager.chrome import ChromeDriverManager; print('OK')"
-
+     - name: Instalar dependencias Python
+        run: |
+          pip install requests beautifulsoup4 lxml selenium undetected-chromedriver
+          pip install webdriver-manager
+          python -c "from webdriver_manager.chrome import ChromeDriverManager; print('webdriver_manager OK')"
+          
       - name: Ejecutar scraper
         run: python scraper.py
         env:
