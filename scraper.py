@@ -50,7 +50,7 @@ def parsear_fecha(texto):
     if 'hoy' in t or 'today' in t: return TODAY
     if 'ayer' in t or 'yesterday' in t:
         return (hoy - timedelta(days=1)).strftime('%d/%m/%Y')
-    m = re.search(r'hace\s+(\d+)\s+(día|dia|semana|mes|año|ano)', t)
+    m = re.search(r'hace\s+(\d+)\s+(día|isemana|mes|año|ano)', t)
     if not m: m = re.search(r'(\d+)\s+(day|week|month|year)', t)
     if m:
         num = int(m.group(1)); u = m.group(2)
@@ -99,35 +99,28 @@ def init_driver():
     opts = uc.ChromeOptions()
     opts.add_argument('--window-size=1920,1080')
     opts.add_argument('--lang=es-ES')
-    import os
+
     if os.environ.get('GITHUB_ACTIONS'):
+        # En CI usamos selenium + webdriver-manager para evitar
+        # el bug de version mismatch de undetected-chromedriver
+        from selenium import webdriver
+        from selenium.webdriver.chrome.service import Service
+        from webdriver_manager.chrome import ChromeDriverManager
+
         opts.add_argument('--headless=new')
         opts.add_argument('--no-sandbox')
         opts.add_argument('--disable-dev-shm-usage')
         opts.add_argument('--disable-gpu')
-    driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
+        opts.add_argument('--remote-debugging-port=0')
+
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=opts)
+    else:
+        # En local seguimos usando undetected-chromedriver
+        driver = uc.Chrome(options=opts, version_main=None, use_subprocess=True)
+
     print('Chrome listo.\n')
     return driver
-
-def accept_cookies(driver):
-    for bid in ['didomi-notice-agree-button','onetrust-accept-btn-handler',
-                'acceptAllButton','accept-cookies']:
-        try: driver.find_element(By.ID, bid).click(); time.sleep(0.3); return
-        except: pass
-    for txt in ['Aceptar todo','Aceptar todas','Aceptar','Accept all']:
-        try:
-            driver.find_element(By.XPATH, f'//button[contains(.,"{txt}")]').click()
-            time.sleep(0.3); return
-        except: pass
-
-def get_page(driver, url, wait=3):
-    try:
-        driver.get(url); time.sleep(wait)
-        accept_cookies(driver)
-        return driver.page_source
-    except Exception as e:
-        print(f'  ERROR {url[:70]}: {e}')
-        return None
 
 # ─── listings ─────────────────────────────────────────
 found_listings = []
