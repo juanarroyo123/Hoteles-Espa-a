@@ -13435,11 +13435,7 @@
     "url": "https://www.oirealestate.net/propiedad/78269/hotel-3-estrellas-en-venta-en-mallorca-sureste",
     "source": "Oi Real Estate",
     "date": "20/03/2026",
-<<<<<<< Updated upstream
     "ausencias": 0
-=======
-    "ausencias": 2
->>>>>>> Stashed changes
   },
   {
     "title": "26 habitaciones Hotel en venta in Zuheros with pool garage - â¬ 950,000",
@@ -16513,27 +16509,6 @@
     "ausencias": 1
   },
   {
-<<<<<<< Updated upstream
-=======
-    "title": "8 habitaciones Hotel en venta in Palma de Mallorca - â¬ 8,500,000",
-    "price": "Precio a consultar",
-    "location": "Palma de Mallorca - â¬ 8,500,000",
-    "description": "Located in the heart of Palma de Mallorcaâs historic centre, this majestic mansion represents an exceptional opportunity to purchase a unique property in one of the cityâs most exclusive and iconic areas. The property stands on a plot of...",
-    "url": "https://www.thinkspain.com/property-for-sale/9714509",
-    "source": "ThinkSpain",
-    "ausencias": 0
-  },
-  {
-    "title": "12 habitaciones Hotel en venta in Granada city - â¬ 4,250,000",
-    "price": "Precio a consultar",
-    "location": "Granada city - â¬ 4,250,000",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9714203",
-    "source": "ThinkSpain",
-    "ausencias": 0
-  },
-  {
->>>>>>> Stashed changes
     "title": "58 habitaciones Hotel en venta in Vielha e Mijaran - â¬ 6,000,000",
     "price": "Precio a consultar",
     "location": "Vielha e Mijaran - â¬ 6,000,000",
@@ -16543,27 +16518,6 @@
     "ausencias": 0
   },
   {
-<<<<<<< Updated upstream
-=======
-    "title": "9 habitaciones Hotel en venta in Val de San Vicente - â¬ 695,000",
-    "price": "Precio a consultar",
-    "location": "Val de San Vicente - â¬ 695,000",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9715295",
-    "source": "ThinkSpain",
-    "ausencias": 0
-  },
-  {
-    "title": "100 habitaciones Hotel en venta in S'Illot with pool - â¬ 17,000,000",
-    "price": "Precio a consultar",
-    "location": "S'Illot with pool - â¬ 17,000,000",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9715411",
-    "source": "ThinkSpain",
-    "ausencias": 0
-  },
-  {
->>>>>>> Stashed changes
     "title": "5 habitaciones Hotel en venta in Cullar - â¬ 350,000",
     "price": "Precio a consultar",
     "location": "Cullar - â¬ 350,000",
@@ -16573,7 +16527,6 @@
     "ausencias": 0
   },
   {
-<<<<<<< Updated upstream
     "title": "Hotel en venta in Gandia - â¬ 8,700,000",
     "price": "Precio a consultar",
     "location": "Gandia - â¬ 8,700,000",
@@ -16590,25 +16543,6 @@
     "url": "https://www.luxuryestate.com/es/p132380561-hotel-for-sale-san-antonio",
     "source": "LuxuryEstate",
     "date": "24/03/2026",
-=======
-    "title": "Hotel Venta en Palma de Mallorca Islas Baleares",
-    "price": "6.500.000 €",
-    "location": "España",
-    "description": "Hotel en venta en Primera Línea de Playa en Mallorca Este Presentamos una excepcional oportunidad de inversión en el corazón de la hermosa isla de Mallorca, en la codiciada zona este, donde la belleza natural se encuentra con el lujo. Este hotel, ubicado en primera línea de playa, está disponible po",
-    "url": "https://www.oirealestate.net/propiedad/78147/hotel-venta-en-palma-de-mallorca-islas-baleares",
-    "source": "Oi Real Estate",
-    "date": "25/03/2026",
-    "ausencias": 0
-  },
-  {
-    "title": "Hotel en venta a 100 Metros de la Playa en Mallorca Islas Baleares",
-    "price": "3.500.000 €",
-    "location": "España",
-    "description": "Hotel en venta a 100 Metros de la Playa en Mallorca Sur Este Presentamos una atractiva oportunidad de inversión en el sector hotelero en la hermosa isla de Mallorca. Este hotel, que cuenta con 41 habitaciones, se encuentra a solo 100 metros de la playa, ofreciendo un entorno ideal tanto para el turi",
-    "url": "https://www.oirealestate.net/propiedad/78214/hotel-en-venta-a-100-metros-de-la-playa-en-mallorca-islas-baleares",
-    "source": "Oi Real Estate",
-    "date": "25/03/2026",
->>>>>>> Stashed changes
     "ausencias": 0
   }
 ]
