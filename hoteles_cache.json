@@ -13908,7 +13908,7 @@
     "url": "https://www.luxuryestate.com/es/p132366027-hotel-for-sale-benidorm",
     "source": "LuxuryEstate",
     "date": "20/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "rooms": 141,
     "m2": 4500,
     "stars": 4,
@@ -13923,7 +13923,7 @@
     "url": "https://www.luxuryestate.com/es/p132242220-hotel-for-sale-mora-la-nueva",
     "source": "LuxuryEstate",
     "date": "20/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "rooms": 18,
     "m2": 1997,
     "stars": 2,
@@ -13938,7 +13938,7 @@
     "url": "https://www.luxuryestate.com/es/p132235498-hotel-for-sale-santafe",
     "source": "LuxuryEstate",
     "date": "20/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "rooms": 18,
     "m2": 403,
     "location_city": "Santafe",
@@ -13952,7 +13952,7 @@
     "url": "https://www.luxuryestate.com/es/p131569270-hotel-for-sale-lucena-del-cid",
     "source": "LuxuryEstate",
     "date": "20/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "rooms": 3,
     "m2": 1505,
     "location_city": "Lucena Del Cid",
@@ -13966,7 +13966,7 @@
     "url": "https://www.luxuryestate.com/es/p131531171-hotel-for-sale-alicante",
     "source": "LuxuryEstate",
     "date": "20/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "location_region": "C. Valenciana",
     "rooms": 2,
     "m2": 450,
@@ -16648,7 +16648,7 @@
     "url": "https://www.oirealestate.net/propiedad/78269/hotel-3-estrellas-en-venta-en-mallorca-sureste",
     "source": "Oi Real Estate",
     "date": "20/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "location_region": "Baleares",
     "rooms": 117,
     "stars": 3
@@ -17224,7 +17224,7 @@
     "url": "https://www.luxuryestate.com/es/p132380561-hotel-for-sale-san-antonio",
     "source": "LuxuryEstate",
     "date": "24/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "location_region": "Baleares",
     "rooms": 17,
     "m2": 1406,
@@ -17377,7 +17377,7 @@
     "url": "https://www.luxuryestate.com/es/p78396905-hotel-for-sale-alicante",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 1,
+    "ausencias": 0,
     "location_region": "C. Valenciana",
     "rooms": 31,
     "beds": 2,
@@ -17449,7 +17449,7 @@
     "url": "https://www.luxuryestate.com/es/p132391234-hotel-for-sale-cazorla",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0,
+    "ausencias": 1,
     "location_region": "Andalucía",
     "rooms": 62,
     "m2": 2656,
@@ -17587,7 +17587,7 @@
     "url": "https://www.luxuryestate.com/es/p132064079-hotel-for-sale-ciutat-vella",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 1,
+    "ausencias": 0,
     "rooms": 1,
     "m2": 50,
     "location_city": "Ciutat Vella",
@@ -17619,8 +17619,12 @@
     "url": "https://www.luxuryestate.com/es/p78396905-hotel-for-sale-torrevieja",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
+<<<<<<< Updated upstream
     "ausencias": 0,
     "m2": 22385
+=======
+    "ausencias": 1
+>>>>>>> Stashed changes
   },
   {
     "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
@@ -17630,7 +17634,7 @@
     "url": "https://www.luxuryestate.com/es/p126979285-hotel-for-sale-palma-de-mallorca",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Albacete, Castilla-La Mancha",
@@ -17640,7 +17644,7 @@
     "url": "https://www.luxuryestate.com/es/p132301303-hotel-for-sale-albacete",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Valencia",
@@ -17650,7 +17654,7 @@
     "url": "https://www.luxuryestate.com/es/p132064079-hotel-for-sale-valencia",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Son Servera, Islas Baleares",
@@ -17661,7 +17665,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel en venta en Santafé",
@@ -17671,7 +17675,7 @@
     "url": "https://www.luxuryestate.com/es/p131128664-hotel-for-sale-santafe",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Se vende Hotel en Lloret de mar a pie de...",
@@ -19328,8 +19332,23 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
+<<<<<<< Updated upstream
     "ausencias": 0,
     "stars": 4,
     "m2": 1605
+=======
+    "ausencias": 0
+  },
+  {
+    "title": "Apartahotel 3 estrellas en Venta en Mallorca Sureste",
+    "price": "16.500.000 €",
+    "location": "Mallorca Sureste",
+    "description": "Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Fortalezas del Negocio o Inversión: Ubicación estratégica: La proximidad a la playa es un gran atractivo para los turistas, especialmente en un destino como Mallorca. Amplias instalaciones: Dispone de 117 apartamentos. La gran zona ajardinada y la piscina son elementos que pueden mejorar la experiencia de los huéspedes. Potencial de desarrollo: La necesidad de CAPEX indica que existe la posibilidad de mejorar las instalaciones y aumentar la rentabilidad del negocio. Gran extensión de terreno: Los 80.000 m2 de terreno ofrecen un amplio margen para futuras expansiones o desarrollos adicionales. Comprar o vender un hotel de lujo con OIREALESTATE garantiza una transacción eficiente y segura, gracias a su amplia experiencia y conocimiento del mercado de alto standing. La inmobiliaria ofrece acceso a oportunidades exclusivas, asesoramiento personalizado y un proceso integral, desde la negociación hasta la gestión post-venta, asegurando una experiencia de inversión fluida y confiable. NOTA: Las fotos no corresponden con el inmueble, son a modo ilustrativo.",
+    "url": "https://www.oirealestate.net/propiedad/78202/apartahotel-3-estrellas-en-venta-en-mallorca-sureste",
+    "source": "Oi Real Estate",
+    "date": "26/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+>>>>>>> Stashed changes
   }
 ]
