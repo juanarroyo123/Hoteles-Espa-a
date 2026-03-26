@@ -79,10 +79,13 @@ def parsear_fecha(texto):
 # ─── cache ────────────────────────────────────────────
 def load_cache():
     if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        print(f'Cache cargado: {len(data)} anuncios previos.')
-        return {item['url']: item for item in data}
+        try:
+            with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            print(f'Cache cargado: {len(data)} anuncios previos.')
+            return {item['url']: item for item in data}
+        except Exception as e:
+            print(f'Cache corrupto ({e}), empezando desde cero.')
     print('Cache vacío — primera ejecución.')
     return {}
 
