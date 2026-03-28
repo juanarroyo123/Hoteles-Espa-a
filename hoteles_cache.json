@@ -741,16 +741,6 @@
     "ausencias": 0
   },
   {
-    "title": "250 habitaciones Hotel en venta in Alicante / Alacant city with pool - â¬ 70,000,000",
-    "price": "Precio a consultar",
-    "location": "Alicante",
-    "description": "4-star superior hotel resort complex for sale located in the province of Alicante, 5 km from the beaches and about 20 minutes from the centre of Alicante city. The total hotel area is 22.000 m2. There are 250 rooms (200 double rooms and 50 suites),...",
-    "url": "https://www.thinkspain.com/property-for-sale/8661369",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
-  },
-  {
     "title": "260 habitaciones Hotel en venta in Santa Eulalia / Santa Eularia with pool - â¬ 45,000,000",
     "price": "Precio a consultar",
     "location": "Santa Eulalia",
@@ -2221,16 +2211,6 @@
     "ausencias": 0
   },
   {
-    "title": "8 habitaciones Hotel en venta in Zafra with pool - â¬ 1,140,000",
-    "price": "Precio a consultar",
-    "location": "Zafra",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9029659",
-    "source": "ThinkSpain",
-    "location_region": "Extremadura",
-    "ausencias": 2
-  },
-  {
     "title": "5 habitaciones Hotel en venta in Cala Millor with pool garage - â¬ 950,000",
     "price": "Precio a consultar",
     "location": "Cala Millor",
@@ -2433,7 +2413,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8870034",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "7 habitaciones Hotel en venta in Alora - â¬ 1,195,000",
@@ -2752,7 +2732,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9297461",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Moclin - â¬ 450,000",
@@ -2860,7 +2840,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8738670",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "10 habitaciones Hotel en venta in Calabardina with garage - â¬ 690,000",
@@ -3320,7 +3300,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8288489",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "6 habitaciones Hotel en venta in Tolox - â¬ 260,000",
@@ -3509,7 +3489,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8239651",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Estellenchs - â¬ 2,600,000",
@@ -4480,7 +4460,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8816231",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "5 habitaciones Hotel en venta in Alhaurin el Grande with pool garage - â¬ 485,000",
@@ -8610,7 +8590,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Os de Civís, Lérida",
@@ -9319,7 +9299,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Lliber",
@@ -9613,7 +9593,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Mijas, Málaga",
@@ -9624,7 +9604,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Córdoba, Andalucía",
@@ -9866,7 +9846,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Sant Lluís, Islas Baleares",
@@ -10286,7 +10266,7 @@
   },
   {
     "title": "Hotel en venta en Valencia",
-    "price": "2.500.000 €",
+    "price": "3.000.000 €",
     "location": "Valencia",
     "description": "Mini Hotel en Valencia Presentamos este espectacular mini hotel en venta, ubicado en una de las zonas más atractivas de Valencia. Diseñado con un exquisito gusto y equipado con...",
     "url": "https://www.luxuryestate.com/es/p130549634-hotel-for-sale-valencia",
@@ -10588,7 +10568,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Extremadura",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Valencia",
@@ -10787,7 +10767,7 @@
   },
   {
     "title": "Hotel en venta en Altea",
-    "price": "895.000 €",
+    "price": "1.060.000 €",
     "location": "Altea",
     "description": " Gran oportunidad de adquirir una propiedad comercial exclusiva en la pintoresca ciudad turística de Altea, en la provincia de Alicante (Costa Blanca). Situada en la carretera...",
     "url": "https://www.luxuryestate.com/es/p131546230-hotel-for-sale-altea",
@@ -10809,7 +10789,7 @@
   },
   {
     "title": "Hotel en venta en Calella",
-    "price": "5.300.000 €",
+    "price": "5.200.000 €",
     "location": "Calella",
     "description": "Presentamos una pieza hotelera estrategica en un destino turistico consolidado. Un activo con una dimension optima para maximizar el cash flow y una ubicacion privilegiada en la...",
     "url": "https://www.luxuryestate.com/es/p132384528-hotel-for-sale-calella",
@@ -11402,7 +11382,7 @@
     "url": "https://www.luxuryestate.com/es/p131128664-hotel-for-sale-santafe",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Sonnenland, Las Palmas",
@@ -11413,7 +11393,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Canarias",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Santanyí, Islas Baleares",
@@ -11468,7 +11448,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Jérez del Marquesado",
@@ -11677,7 +11657,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Arriate, Málaga",
@@ -11820,7 +11800,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Castelló d'Empúries",
@@ -11943,7 +11923,7 @@
     "title": "Hotel en venta en San Antonio, Islas Baleares",
     "price": "6.370.000 €",
     "location": "San Antonio",
-    "description": "Datos clave Numero de apartamentos 10 apartamentos de un dormitorio (c. 54 m²) 10 apartamentos de dos dormitorios (c. 74 m²) Numero de camas 60 Comodidades Cada apartamento esta...",
+    "description": "Datos clave Numero de apartamentos 10 apartamentos de un dormitorio (c. 57 m²) 10 apartamentos de dos dormitorios (c. 74 m²) Numero de camas 60 Comodidades Cada apartamento esta...",
     "url": "https://www.luxuryestate.com/es/p131960994-hotel-for-sale-san-antonio",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
@@ -12172,9 +12152,9 @@
   },
   {
     "title": "Hotel en venta en Alcalá de Guadaíra",
-    "price": "850.000 €",
+    "price": "799.000 €",
     "location": "Alcalá de Guadaíra",
-    "description": "Te gustaria ser dueño de tu propio negocio. ¡te lo cuento! .................. Tengo un acogedor café bar hospedería unico en Alcalá de Guadaíra. El establecimiento necesita...",
+    "description": "? ¡Oportunidad de Inversión! Edificio con Potencial Turístico y Restauración en Alcalá de Guadaíra Ubicación Premium: Calle Murillo 1, a un paso de las salidas a Sevilla, Malaga...",
     "url": "https://www.luxuryestate.com/es/p131717977-hotel-for-sale-alcala-de-guadaira",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
@@ -12189,7 +12169,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Manacor, Islas Baleares",
@@ -12222,7 +12202,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Canarias",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Castillo de Aro",
@@ -12264,7 +12244,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Coaña, Asturias",
@@ -12330,7 +12310,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Málaga, Andalucía",
@@ -12352,7 +12332,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Mondújar",
@@ -12363,7 +12343,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Granada",
@@ -12374,7 +12354,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Puerto de la Cruz, Santa Cruz de Tenerife",
@@ -12537,7 +12517,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Murcia",
@@ -12559,7 +12539,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Cala Millor, Islas Baleares",
@@ -12603,7 +12583,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Canarias",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Cortegana, Huelva",
@@ -12636,7 +12616,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en El Vendrell",
@@ -12810,7 +12790,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Lucena, Córdoba",
@@ -12821,7 +12801,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
@@ -12919,7 +12899,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Cáñar",
@@ -12930,7 +12910,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Vélez-Málaga, Málaga",
@@ -12952,7 +12932,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Granada",
@@ -12963,7 +12943,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Granada",
@@ -12974,7 +12954,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en El Castillo de las Guardas",
@@ -12985,7 +12965,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Laroles, Almería",
@@ -12996,7 +12976,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Pitres",
@@ -13006,7 +12986,7 @@
     "url": "https://www.luxuryestate.com/es/p131081648-hotel-for-sale-pitres",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Barcelona",
@@ -13028,7 +13008,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Cartaya, Huelva",
@@ -13039,7 +13019,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Pórtugos",
@@ -13049,7 +13029,7 @@
     "url": "https://www.luxuryestate.com/es/p131081669-hotel-for-sale-portugos",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Algarinejo",
@@ -13059,7 +13039,7 @@
     "url": "https://www.luxuryestate.com/es/p132050410-hotel-for-sale-algarinejo",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Ciutat Vella",
@@ -13070,7 +13050,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Se vende Hotel en Lloret de mar a pie de...",
@@ -14849,7 +14829,7 @@
     "source": "Oi Real Estate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel 5 estrellas en venta en Mallorca Este Islas Baleares",
@@ -15655,7 +15635,7 @@
     "m2": 1838,
     "bathrooms": 23,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 1122 m2 en venta Ibiza, España",
@@ -15668,7 +15648,7 @@
     "rooms": 16,
     "m2": 1122,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 7949 m2 en venta Maó, Baleares",
@@ -15683,7 +15663,7 @@
     "bathrooms": 151,
     "stars": 3,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 1018 m2 en venta Ses Salines, Baleares",
@@ -15697,7 +15677,7 @@
     "m2": 1018,
     "bathrooms": 15,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 2134 m2 en venta Sencelles, España",
@@ -15711,7 +15691,7 @@
     "m2": 2134,
     "bathrooms": 20,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 3000 m2 en venta Motril, Andalucía",
@@ -15724,7 +15704,7 @@
     "rooms": 30,
     "m2": 3000,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 1413 m2 en venta Setcases, España",
@@ -15736,7 +15716,7 @@
     "date": "27/03/2026",
     "rooms": 11,
     "m2": 1413,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 585 m2 en venta Alp, España",
@@ -15749,7 +15729,7 @@
     "rooms": 15,
     "m2": 585,
     "bathrooms": 6,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 251 m2 en venta Alcalá la Real, España",
@@ -15763,7 +15743,7 @@
     "m2": 251,
     "bathrooms": 7,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 480 m2 en venta Calpe, Comunidad Valenciana",
@@ -15775,7 +15755,7 @@
     "date": "27/03/2026",
     "m2": 480,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 251 m2 en venta Alcalá la Real, España",
@@ -15789,7 +15769,7 @@
     "m2": 251,
     "bathrooms": 7,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 2200 m2 en venta Campos, Baleares",
@@ -15803,7 +15783,7 @@
     "m2": 2200,
     "bathrooms": 17,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 509 m2 en venta Alhama de Granada, España",
@@ -15817,7 +15797,7 @@
     "m2": 509,
     "bathrooms": 15,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 4600 m2 en venta Son Servera, España",
@@ -15830,13 +15810,13 @@
     "m2": 4600,
     "bathrooms": 205,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 2656 m2 en venta Cazorla, España",
     "price": "3.500.000 €",
     "location": "Cazorla",
-    "description": "DESCRIPCION MYZ03195 -Inmobiliaria MOYZA presenta una atractiva oportunidad de inversión: un hotel de 3 estrellas, completamente operativo, con 67 habitaciones y servicios orientados al bienestar y al turismo de naturaleza. Se trata de un establecimiento con excelente reputación y alto potencial comercial, ideal para inversores, cadenas hoteleras y proyectos de turismo experiencial.  Este acogedor hotel combina confort, calidez y funcionalidad. Su propuesta se centra en ofrecer una estancia relajante para parejas, familias y grupos, con instalaciones cuidadas y un servicio personalizado que garantiza una experiencia memorable.  INSTALACIONES Y SERVICIOS -67 habitaciones distribuidas en distintas tipologías: dobles, dobles con balcón, abuhardilladas con encanto y cuádruples (dos dormitorios). -Zona SPA totalmente equipada, diseñada para el descanso y el bienestar de los huéspedes. -Piscina exterior y agradables zonas comunes para el reposo y la socialización. -Restaurante y comedor con capacidad para ofrecer desayunos y cenas. -Amplias terrazas y jardines que permiten disfrutar del aire libre. -Habitaciones equipadas con: climatización, conexión Wi‑Fi gratuita, televisor, caja de seguridad, baño privado y secador de pelo.  ENTORNO  El hotel se ubica en un entorno natural de gran atractivo paisajístico, ideal para quienes buscan desconexión y contacto con la naturaleza. El entorno favorece actividades al aire libre como senderismo, paseos a caballo, rutas 4x4, observación de fa",
+    "description": "Myz03195 -Inmobiliaria moyza presenta una atractiva oportunidad de inversión: un hotel de 3 estrellas, completamente operativo, con 67 habitaciones y servicios orientados al...",
     "url": "https://www.luxuryestate.com/es/p132391234-hotel-for-sale-cazorla",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
@@ -15844,13 +15824,13 @@
     "m2": 2656,
     "stars": 3,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel de lujo de 4500 m2 en venta Benidorm, Comunidad Valenciana",
     "price": "40.000.000 €",
     "location": "Benidorm",
-    "description": "DESCRIPCION MYZ03143 - Se presenta una oportunidad excepcional para la adquisición de un activo hotelero de alto rendimiento en Benidorm, uno de los destinos turísticos con mayor ocupación media anual de la Península Ibérica. Este establecimiento de 4 estrellas, orientado al segmento de lujo urbano, combina de forma equilibrada la demanda del turismo vacacional de costa con el dinamismo del viajero corporativo. Gracias a su reforma integral finalizada en 2018 y a un diseño orientado a la eficiencia operativa, el activo se encuentra plenamente operativo y listo para continuar su explotación sin necesidad de inversión adicional en CAPEX, ofreciendo rentabilidad inmediata dentro de uno de los mercados turísticos más consolidados de Europa.  Datos principales del activo: - Tipo de inversión: Activo hotelero 4 (lujo urbano) - Localización: Benidorm - Precio de venta: 40.000.000 € - Retorno estimado (ROI): 8,7 %  Características del hotel: - Categoría: Hotel 4 estrellas - 156 Habitaciones: 141 habitaciones estándar y 15 suites - Superficie construida: 4.500 m2 - Superficie de parcela: 3.200 m2 - Año de construcción: 2005 - Última reforma integral: 2018 - Activo optimizado para eficiencia operativa y continuidad de explotación  Servicios e instalaciones: - 2 Restaurantes - 3 Bares - Capacidad total en restauración aproximada: 250 huéspedes - Piscina con zona de solárium  Entorno y posicionamiento: El hotel se encuentra ubicado en una de las zonas más dinámicas de Benidorm, dentro de",
+    "description": "Myz03143 - Se presenta una oportunidad excepcional para la adquisición de un activo hotelero de alto rendimiento en Benidorm, uno de los destinos turísticos con mayor ocupación...",
     "url": "https://www.luxuryestate.com/es/p132366027-hotel-for-sale-benidorm",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
@@ -15858,39 +15838,39 @@
     "m2": 4500,
     "stars": 4,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel de lujo de 1406 m2 en venta San Antonio, Baleares",
     "price": "4.200.000 €",
     "location": "San Antonio",
-    "description": "DESCRIPCION ROXIRE INMOBILIARIA EN SAN ANTONIO DE PORTMANY PRESENTA ESTA EXCLUSIVA OPORTUNIDAD DE INVERSION HOTELERA EN IBIZA, UN ESTABLECIMIENTO EN PLENO FUNCIONAMIENTO CON GRAN POTENCIAL DE RENTABILIDAD. PERFECTO PARA INVERSORES. En el corazon de San Antonio de Portmany, se encuentra este encantador hostal recientemente renovado que representa una excelente oportunidad de inversion en una de las zonas con mayor proyeccion turistica de Ibiza. El establecimiento, actualmente en funcionamiento y con una rentabilidad solida y demostrable, cuenta con 17 habitaciones amplias y luminosas, recepcion y restaurante-cafeteria en la planta baja con gran visibilidad, lo que permite generar ingresos tanto por hospedaje como por restauracion. Recientemente se han reformado una gran parte del hostal, el cual combina la autenticidad del estilo mediterraneo con las comodidades actuales. Su distribucion y estructura ofrecen un gran potencial. Gracias a su gestion familiar consolidada y su cartera de clientes recurrentes, este activo garantiza un rendimiento inmediato y una interesante proyeccion de crecimiento. Su ubicacion refuerza aun mas su atractivo y rentabilidad. Una inversion segura, rentable y con alto potencial de revalorizacion, ideal para operadores hoteleros o inversores que deseen posicionarse en uno de los destinos mas demandados del Mediterraneo. ¿Quieres visitarlo? ¡Contacta con nosotros! Las fotografias de este inmueble son propiedad exclusiva de Roxire Ibiza. Se prohibe su r",
+    "description": "Roxire inmobiliaria en san antonio de portmany presenta esta exclusiva oportunidad de inversion hotelera en ibiza, un establecimiento en pleno funcionamiento con gran potencial de...",
     "url": "https://www.luxuryestate.com/es/p132380561-hotel-for-sale-san-antonio",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
     "rooms": 17,
     "m2": 1406,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Exclusivo hotel de 1997 m2 en venta Mora la Nueva, Cataluña",
     "price": "850.000 €",
     "location": "Mora la Nueva",
-    "description": "DESCRIPCION Oportunidad única de inversión y actividad inmediata. Se vende hotel de 2 estrellas en pleno funcionamiento en Terres de l'Ebre. Cuenta con un total de 1.997 m2 construidos en una parcela de 14.200m2 aprox., ideal para continuar con la actividad o desarrollar un proyecto de crecimiento y reposicionamiento.  El hotel dispone de 18 habitaciones dobles con baño completo, con capacidad para grupos y estancias prolongadas, además de cuarto de servicio. Cuenta con amplio bar–restaurante, recepción, administración, amplias zonas comunes y gran aparcamiento, facilitando la llegada y estancia de clientes.  Además, dispone de sala de banquetes, perfecta para eventos, celebraciones y convenciones, lo que multiplica las posibilidades de ingresos. Incluye también office, almacén, cámaras frigoríficas y completas áreas técnicas y de servicio.  El edificio está adaptado para personas con movilidad reducida, con ascensor, montacargas, escalera principal y escalera de emergencia, listo para su continuidad inmediata.  ? Oportunidad única. Llame hoy mismo y asegure su visita. Lee todo Si quieres saber más, habla con Exp EspañaHaz una pregunta",
+    "description": "Oportunidad única de inversión y actividad inmediata. Se vende hotel de 2 estrellas en pleno funcionamiento en Terres de l'Ebre. Cuenta con un total de 1.997 m2 construidos en una...",
     "url": "https://www.luxuryestate.com/es/p132242220-hotel-for-sale-mora-la-nueva",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
     "rooms": 18,
     "m2": 1997,
     "stars": 2,
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Exclusivo hotel de 403 m2 en venta Santafé, Andalucía",
     "price": "400.000 €",
     "location": "Santafé",
-    "description": "DESCRIPCION Sale a la venta este magnifico Hostal a pie de la Autovia A-92 de Santa Fe.  Esta distribuido en dos plantas:  Planta Primera:  - Piso adecuado para los propietarios distribuido en Salón, salita, Cocina, 3 Dormitorios, Baño completo con plato ducha de resina, Despensa, Terraza cubierta lavadero con acceso a escalera que baja a habitación de sala de maquinas. Con 3 depósitos de gasoil de 500 litros para la calefacción central y la caldera   Destinado a negocio en primera planta:  - Habitación de matrimonio con baño interior completo con bañera, se le puede dar uso de habitación triple  - Habitación triple con baño interior con split  - Recepción  - Baño común  Planta Segunda:  13 Habitaciones de distintas tipologías cuádruple, individuales, dobles, Triples. Algunas con baños interiores y 2 baños comunes.   Las habitaciones que no tienen baño interior, tienen lavabo interiormente.  Todas las habitaciones tienen TV y Calefacción central  * De conformidad con lo dispuesto en el art 20.1 del TRLDCU, el precio del inmueble, se incrementará en los siguientes importes: IMPUESTOS A CARGO DEL COMPRADOR. En el caso de IVA al tipo vigente (Ley 37/1992, de 28 de diciembre, del Impuesto sobre el Valor Añadido). En el caso de ITP sobre el mayor de los valores entre el precio de vente o el de referencia catastral oscilando entre el 3´5% y el 7% en función de las condiciones del comprador, todo ello de acuerdo con (Real Decreto Legislativo 1/1993, de 24 de septiembre, por el que s",
+    "description": "Sale a la venta este magnifico Hostal a pie de la Autovia A-92 de Santa Fe.  Esta distribuido en dos plantas:  Planta Primera:  - Piso adecuado para los propietarios distribuido...",
     "url": "https://www.luxuryestate.com/es/p132235498-hotel-for-sale-santafe",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
@@ -15898,13 +15878,13 @@
     "m2": 403,
     "bathrooms": 9,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Exclusivo hotel de 1505 m2 en venta Lucena del Cid, Comunidad Valenciana",
     "price": "400.000 €",
     "location": "Lucena del Cid",
-    "description": "DESCRIPCION ELITE HOME INMOBILIARIA presenta en exclusiva este hotel rural con encanto, situado en la localidad de Lucena, bien conocida como ¨La Perla de la Montaña¨ , una localidad de ensueño bañada por las aguas del río Lucena, que alberga a muchos turistas que desean disfrutar de su clima de montaña y de la belleza de sus paisajes, y que nos propone disfrutar de grandes experiencias como escalada, vía ferrata, rutas a caballo, senderismo, etc... al igual que de una increíble gastronomía.  Este negocio ha contado con la impecable vocación y dedicación hostelera y de restauración de sus propietarios, así como a la celebración de eventos privados que se centra en ofrecer un refugio de desconexión y con una oferta gastronómica de proximidad. El hotel, situado en un entorno natural incomparable, está diseñado para ofrecer a sus huéspedes privacidad, desconexión y relax.  Se trata de un hotel con capacidad total de 17 habitaciones dobles en suite, además de un apartamento independiente compuesto de 3 habitaciones dobles con 3 baños completos, todos ellos con balcón privado con vistas increíbles a la montaña.  Actualmente, el establecimiento se encuentra cerrado al público por razones de jubilación de los propietarios, pero está preparado y en perfectas condiciones de mantenimiento y funcionalidad para seguir desarrollando la actividad al día siguiente de escriturar.  Rodeado de un entorno natural inigualable, el hotel cuenta con una superficie total de 1.505 m² construidos, dis",
+    "description": "Elite home inmobiliaria presenta en exclusiva este hotel rural con encanto, situado en la localidad de Lucena, bien conocida como ¨La Perla de la Montaña¨ , una localidad de...",
     "url": "https://www.luxuryestate.com/es/p131569270-hotel-for-sale-lucena-del-cid",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
@@ -15912,20 +15892,20 @@
     "m2": 1505,
     "bathrooms": 20,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel de lujo de 450 m2 en venta Alicante, Comunidad Valenciana",
     "price": "1.250.000 €",
     "location": "Alicante",
-    "description": "DESCRIPCION Pensión en venta en Alicante – Zona Plaza de los Toros – Alta rentabilidad  Se vende pensión en pleno funcionamiento y con excelente rentabilidad, situada en la zona de Plaza de los Toros, una de las áreas más transitadas y bien comunicadas de Alicante.  La propiedad está compuesta por dos edificios conectados con 3 plantas, lo que proporciona una distribución versátil y un amplio espacio para alojamiento.   Características principales:  14 habitaciones en total, 2 de ellas tipo ático con mayor privacidad y encanto.  2 cocinas totalmente equipadas, ambas con acceso a terraza.  2 locales adicionales que ofrecen la posibilidad de ser convertidos fácilmente en 2 habitaciones extra, ampliando aún más la capacidad de la pensión.  Una oportunidad ideal para inversores o profesionales del sector turístico que buscan una propiedad lista para generar ingresos desde el primer día.  ? ¿Te interesa? Solicita más información y nos pondremos en contacto contigo lo antes posible. Lee todo Si quieres saber más, habla con VBS InmobiliariaHaz una pregunta",
+    "description": "Pensión en venta en Alicante – Zona Plaza de los Toros – Alta rentabilidad  Se vende pensión en pleno funcionamiento y con excelente rentabilidad, situada en la zona de Plaza de...",
     "url": "https://www.luxuryestate.com/es/p131531171-hotel-for-sale-alicante",
     "source": "LuxuryEstate",
     "date": "27/03/2026",
     "rooms": 14,
     "m2": 450,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel de lujo de 2100 m2 en venta Capdepera, Baleares",
@@ -15938,7 +15918,7 @@
     "m2": 2100,
     "bathrooms": 86,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 2600 m2 en venta Manacor, Baleares",
@@ -15951,7 +15931,7 @@
     "m2": 2600,
     "bathrooms": 105,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 3800 m2 en venta Benidorm, Comunidad Valenciana",
@@ -15965,7 +15945,7 @@
     "m2": 3800,
     "stars": 3,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 200 m2 en venta Alicante, Comunidad Valenciana",
@@ -15978,7 +15958,7 @@
     "rooms": 9,
     "m2": 200,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 451 m2 en venta Salobreña, España",
@@ -15992,7 +15972,7 @@
     "m2": 451,
     "bathrooms": 14,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 2000 m2 en venta Valldemossa, España",
@@ -16005,7 +15985,7 @@
     "rooms": 20,
     "m2": 2000,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 2235 m2 en venta Tordera, Cataluña",
@@ -16018,7 +15998,7 @@
     "rooms": 10,
     "m2": 2235,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 550 m2 en venta Felanitx, Baleares",
@@ -16032,7 +16012,7 @@
     "m2": 550,
     "bathrooms": 8,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 1213 m2 en venta El Vendrell, Cataluña",
@@ -16045,7 +16025,7 @@
     "rooms": 44,
     "m2": 1213,
     "stars": 4,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto en venta Campos, España",
@@ -16059,7 +16039,7 @@
     "m2": 2134,
     "bathrooms": 6,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida del General Perón, 32, Cuatro Caminos, Madrid",
@@ -16070,7 +16050,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Pirineos, 27, Pol. Industrial sur, San Sebastián de los Reyes",
@@ -16081,7 +16061,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "País Vasco",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Plaza de Antonio Blanco, Lozoya",
@@ -16092,7 +16072,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle del Barco, 12, Malasaña-Universidad, Madrid",
@@ -16103,7 +16083,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle de Andrés Mellado, Gaztambide, Madrid",
@@ -16114,7 +16094,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel, restaurante en Calle Sant Joan Bosco, 6, Parets del Vallès",
@@ -16125,7 +16105,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle de Pau Casals, 50, Santa Perpètua de Mogoda",
@@ -16136,7 +16116,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Carretera de Cardona, 54, Valldaura - Ctra. de Cardona, Manresa",
@@ -16147,7 +16127,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida de l'Institut Obrer de València, 23, Ciutat de les Arts i de les Ciencies, València",
@@ -16158,7 +16138,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Palomar",
@@ -16169,7 +16149,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle del Pare Urbano, 6, Sant Antoni, València",
@@ -16180,7 +16160,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en El Carme, València",
@@ -16191,7 +16171,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Llosa de Ranes",
@@ -16202,7 +16182,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Major, 1, País Valenciá, Mislata",
@@ -16213,7 +16193,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Carlota Alessandri, La Carihuela - Los Nidos, Torremolinos",
@@ -16224,7 +16204,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Santa Amalia, 2, Zona Puerto Deportivo, Fuengirola",
@@ -16235,7 +16215,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Bailén, Los Castillejos - La Trinidad, Málaga",
@@ -16246,7 +16226,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle San Antonio, Competa",
@@ -16257,7 +16237,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Poligono Santa Barbara, Finca el Pato - Torre del Río, Málaga",
@@ -16268,7 +16248,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en Luis de Armiñan, 67, Gaucin",
@@ -16279,7 +16259,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Axarquía, s/n, Los Olivos, Vélez-Malaga",
@@ -16290,7 +16270,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Santa Cristina - San Rafael, Málaga",
@@ -16301,7 +16281,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Partida Fuente de la Higuera, 7, Partidas norte, Ronda",
@@ -16312,7 +16292,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel, spa en del Comendador, Alquería-Torrealquería, Alhaurín de la Torre",
@@ -16323,7 +16303,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Manilva",
@@ -16334,7 +16314,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en El Palo, Málaga",
@@ -16345,7 +16325,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Camino los Ramos, 8, Villamontes-Boqueres, San Vicente del Raspeig",
@@ -16356,7 +16336,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Playa de los Náufragos, Torrevieja",
@@ -16367,7 +16347,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Arquitecto Morell, 10, Ensanche-Diputación, Alicante / Alacant",
@@ -16378,7 +16358,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Camino Deposito, 3, Llíber",
@@ -16389,7 +16369,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Paseo de l'Escala-Empúries, Cala Blanca, Jávea/Xàbia",
@@ -16400,7 +16380,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en rentabilidad en Calle Apolo, 85, El Molino, Torrevieja",
@@ -16411,7 +16391,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en rentabilidad en Plaza Músico Óscar Tordera Iñesta, Mercado, Alicante / Alacant",
@@ -16422,7 +16402,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Doctor Buades, Carolinas Altas, Alicante / Alacant",
@@ -16433,7 +16413,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en CAbo de la Nao, s/n, El Tosalet - Cap Marti, Jávea/Xàbia",
@@ -16444,7 +16424,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Partida Barranquets, Carrer 2, 2 a, Els Poblets",
@@ -16455,7 +16435,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle trinquet, 7, Vall de Gallinera",
@@ -16466,7 +16446,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Vinalopó, 1, Zona los Frutales, Torrevieja",
@@ -16477,7 +16457,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Carretera del balneario, s/n, Archena",
@@ -16487,7 +16467,7 @@
     "url": "https://www.idealista.com/inmueble/32724104",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en Calle Fausto Herrero, 25, Iscar",
@@ -16497,7 +16477,7 @@
     "url": "https://www.idealista.com/inmueble/30320370",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Alaró",
@@ -16508,7 +16488,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Sencelles",
@@ -16519,7 +16499,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Campanet",
@@ -16530,7 +16510,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en S'Arenal, Llucmajor",
@@ -16541,7 +16521,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Can Picafort, Santa Margalida",
@@ -16552,7 +16532,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Ses Salines (Mallorca)",
@@ -16563,7 +16543,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Campos",
@@ -16574,7 +16554,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Valldemossa",
@@ -16585,7 +16565,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Cala Ratjada, Capdepera",
@@ -16596,7 +16576,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Porto Cristo, Manacor",
@@ -16607,7 +16587,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Porto Cristo, Manacor",
@@ -16618,7 +16598,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle d'Antoni Riquer, 1, Sant Antoni de Portmany",
@@ -16629,7 +16609,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Llucmajor Interior, Llucmajor",
@@ -16640,7 +16620,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Artà, Arta",
@@ -16651,7 +16631,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Cala Ratjada, Capdepera",
@@ -16662,7 +16642,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida de la Mola, 101, Formentera",
@@ -16673,7 +16653,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en El Terreno, Palma de Mallorca",
@@ -16684,7 +16664,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Artà, Arta",
@@ -16695,7 +16675,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Son Servera",
@@ -16706,7 +16686,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Cabildo Insular, Teror",
@@ -16717,7 +16697,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida del Mar, 20, Costa Teguise, Teguise",
@@ -16728,7 +16708,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Paris, El Médano, Granadilla de Abona",
@@ -16739,7 +16719,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Austria, San Eugenio Alto, Adeje",
@@ -16750,7 +16730,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Ramón y Cajal, Los Hoteles-Rambla-Duggi, Santa Cruz de Tenerife",
@@ -16761,7 +16741,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Odisea, Costa del Silencio-Las Galletas, Arona",
@@ -16772,7 +16752,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Cruz Verde, Los Realejos centro, Los Realejos",
@@ -16783,7 +16763,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle las Rosas, Armeñime, Adeje",
@@ -16794,7 +16774,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Diseminado Playa Paraiso, Playa Paraíso, Adeje",
@@ -16805,7 +16785,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Resbaladero, 3, Otivar",
@@ -16816,7 +16796,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Paseo de Velilla, 20, Velilla - Velilla Taramay, Almuñécar",
@@ -16827,7 +16807,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Negocio de turismo rural, hotel en Loja",
@@ -16838,7 +16818,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en rentabilidad en Plaza de los Consules, 3, Consuegra",
@@ -16849,7 +16829,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Bernat Metge, 2, El Colomer - La Batería - La Coma, Llançà",
@@ -16860,7 +16840,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en rentabilidad en Calle Aeroclub, Puigmal - Mas Nou, Empuriabrava",
@@ -16871,7 +16851,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Carretera de la Gola, s/n, El Mas Pinell, Torroella de Montgrí",
@@ -16882,7 +16862,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Generalitat, Castelló d'Empúries",
@@ -16893,7 +16873,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Fossos - Ctra. Rose, Figueres",
@@ -16904,7 +16884,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Zn Diseminats, 301, El Perello",
@@ -16915,7 +16895,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel, restaurante en Calle Ribera d'Ebre, Mora la Nova",
@@ -16926,7 +16906,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Tarifa",
@@ -16937,7 +16917,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Mesilla del Diente, San Roque Club, Sotogrande",
@@ -16948,7 +16928,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Descalzos, 10, Casco Histórico - Ribera del Marisco, El Puerto de Santa María",
@@ -16958,7 +16938,7 @@
     "url": "https://www.idealista.com/inmueble/103276875",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Embajadores, Mojácar Pueblo, Mojácar",
@@ -16969,7 +16949,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Eduardo Martín Herrero, 35, Navalvillar de Pela",
@@ -16979,7 +16959,7 @@
     "url": "https://www.idealista.com/inmueble/109460261",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Antonio Machado, Navalvillar de Pela",
@@ -16990,7 +16970,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Extremadura",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en rentabilidad en La Roca de la Sierra",
@@ -17001,7 +16981,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Extremadura",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Sanguino Michel, Centro, Cáceres",
@@ -17012,7 +16992,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Extremadura",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Castañar de Ibor",
@@ -17023,7 +17003,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Extremadura",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida de Guadalupe, 10, Castañar de Ibor",
@@ -17034,7 +17014,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Alia",
@@ -17045,7 +17025,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Extremadura",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Plaza San Antonio, La Alberca",
@@ -17056,7 +17036,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Lugar Playa Salero, 10, Frías",
@@ -17067,7 +17047,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Eloy Reigada, 59, Bembibre",
@@ -17078,7 +17058,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Bañeza, 41, Riego de la Vega",
@@ -17088,7 +17068,7 @@
     "url": "https://www.idealista.com/inmueble/109971823",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Cirilo Santos, 39, Santa Maria del Paramo",
@@ -17098,7 +17078,7 @@
     "url": "https://www.idealista.com/inmueble/106905339",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Llamargon, 15, Nava",
@@ -17109,7 +17089,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Asturias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Decano Prendes Pando, 2, Laviada, Gijón",
@@ -17120,7 +17100,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Asturias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Negocio de turismo rural, hotel en Barrio Vega, Herrerias",
@@ -17131,7 +17111,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cantabria",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Alta, Cuatro Caminos, Santander",
@@ -17142,7 +17122,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Cantabria",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle las Cuevas, 19, San Asensio",
@@ -17152,7 +17132,7 @@
     "url": "https://www.idealista.com/inmueble/109042195",
     "source": "Idealista",
     "date": "27/03/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel, restaurante en Carretera Pamplona, Obanos",
@@ -17163,7 +17143,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Navarra",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Olite",
@@ -17174,7 +17154,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Navarra",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Machín, 2, Ametzola, Bilbao",
@@ -17185,7 +17165,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "País Vasco",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Agirre Lehendakariaren Etorbidea, 8 -10, San Pedro de Deusto, Bilbao",
@@ -17196,7 +17176,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "País Vasco",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Blas de Otero, 32, San Pedro de Deusto, Bilbao",
@@ -17207,7 +17187,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "País Vasco",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Avenida Muiños de Vento, 20, Catoira",
@@ -17218,7 +17198,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en o Porriño",
@@ -17229,7 +17209,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Bergazos, 21, Lalin",
@@ -17240,7 +17220,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Camino Xeral de Doso, Neda",
@@ -17251,7 +17231,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel, restaurante en Lugar de costoia, 30, o Milladoiro, Ames",
@@ -17262,7 +17242,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Travesía Pinzón, 2, Camariñas",
@@ -17273,7 +17253,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Nave en Coruña, Arteixo",
@@ -17284,7 +17264,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en mundin, Chantada",
@@ -17295,7 +17275,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Carretera de Madrid, 25, Taboadela",
@@ -17306,7 +17286,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Emilia Pardo Bazán, 3, Allariz",
@@ -17317,7 +17297,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle Bolaños, 55, Almagro",
@@ -17328,7 +17308,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Restaurante, hotel en El Provencio",
@@ -17339,7 +17319,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Puerta de Cuenca, La Roda",
@@ -17350,7 +17330,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Soneja",
@@ -17361,7 +17341,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Calle la Fuente, 21 -13, Ayerbe",
@@ -17372,7 +17352,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Aragón",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en Carretera Coruña, 8, Villacastin",
@@ -17383,7 +17363,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Local en del Puerto, 56, Arcones",
@@ -17394,7 +17374,7 @@
     "source": "Idealista",
     "date": "27/03/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta a 100 Metros de la Playa en Mallorca Islas Baleares",
@@ -17405,7 +17385,7 @@
     "source": "Oi Real Estate",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel Venta en Palma de Mallorca Islas Baleares",
@@ -17416,6 +17396,374 @@
     "source": "Oi Real Estate",
     "date": "27/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
+  },
+  {
+    "title": "8 habitaciones Hotel en venta in Castell de Castells with garage - â¬ 975,000",
+    "price": "Precio a consultar",
+    "location": "Castell de Castells",
+    "description": "For sale: charming rural hotel in Castell de Castells (Alicante), fully operational and beautifully located amidst the mountains of the Marina Alta. The property offers 16 accommodations (rooms and studios with terraces), a restaurant with a...",
+    "url": "https://www.thinkspain.com/property-for-sale/9724992",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "7 habitaciones Hotel en venta in Sitges - â¬ 3,150,000",
+    "price": "Precio a consultar",
+    "location": "Sitges",
+    "description": "Exclusively presents the sale of a building on one of the busiest streets in Sitges. The property consists of four independent units: three residential apartments and one commercial space. This configuration offers diversified use and a high...",
+    "url": "https://www.thinkspain.com/property-for-sale/9726754",
+    "source": "ThinkSpain",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "16 habitaciones Hotel en venta in Lliber - â¬ 4,000,000",
+    "price": "Precio a consultar",
+    "location": "Lliber",
+    "description": "In the heart of LlÃ­ber's peaceful wine valley, surrounded by almond groves and vineyards, lies a rare and inspiring investment opportunity: a fully operational boutique hotel paired with a charming private holiday villa. Sold together as one...",
+    "url": "https://www.thinkspain.com/property-for-sale/9518080",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "27 habitaciones Hotel en venta in Cortes y Graena with garage - â¬ 550,000",
+    "price": "Precio a consultar",
+    "location": "Cortes y Graena",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/8574370",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en San Vicente",
+    "price": "1.850.000 €",
+    "location": "San Vicente",
+    "description": "Resort Boutique Exclusivo en Alicante: 5 Villas Privadas y Residencia - 100% Privacidad y Licencia Turistica Completa Un exclusivo 'Santuario de Privacidad' que ofrece total...",
+    "url": "https://www.luxuryestate.com/es/p131784408-hotel-for-sale-san-vicente",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Torrevieja",
+    "price": "2.800.000 €",
+    "location": "Torrevieja",
+    "description": "El Hotel Restaurante esta edificado sobre un solar cuya superficie es de 223,85m2, y cuenta con un total de 6 plantas, distribuidas de la siguiente manera sotano, planta baja, 4...",
+    "url": "https://www.luxuryestate.com/es/p78396905-hotel-for-sale-torrevieja",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Mijas, Málaga",
+    "price": "6.500.000 €",
+    "location": "Mijas",
+    "description": "Ubicado en el pintoresco barrio de Calahonda, en Mijas, este encantador aparthotel de 2 estrellas se encuentra a muy poca distancia de la playa, ofreciendo una experiencia de...",
+    "url": "https://www.luxuryestate.com/es/p131896134-hotel-for-sale-mijas",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
+    "price": "3.700.000 €",
+    "location": "Palma de Mallorca",
+    "description": "¡Gran Oportunidad! Hotel reformado en zona centrica de El Terreno. Aproximadamente 719m2 distribuidos en 5 grandes suites. La planta baja dispone de una gran suite con 2...",
+    "url": "https://www.luxuryestate.com/es/p129824983-hotel-for-sale-palma-de-mallorca",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Mojacar, Almería",
+    "price": "549.000 €",
+    "location": "Mojacar",
+    "description": "Exclusive Homes Almeria real estate tiene el placer de presentarles exclusivo hotel boutique ubicado en el corazon del emblematico pueblo blanco de Mojacar. El hotel boutique en...",
+    "url": "https://www.luxuryestate.com/es/p132392950-hotel-for-sale-mojacar",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Benahavís, Málaga",
+    "price": "1.995.000 €",
+    "location": "Benahavís",
+    "description": "Propiedad en regimen de propiedad libre (Freehold) - Ubicada en el pintoresco pueblo de montana de Benahavis, se encuentra este hotel. Un pequeno mundo rustico, pero elegante,...",
+    "url": "https://www.luxuryestate.com/es/p132114731-hotel-for-sale-benahavis",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Denia",
+    "price": "935.000 €",
+    "location": "Denia",
+    "description": "Sybaris homes tiene a la venta en exclusiva un negocio turistico rentable, moderno y totalmente autonomo: un complejo de 5 apartamentos independientes, cada uno equipado con...",
+    "url": "https://www.luxuryestate.com/es/p129751703-hotel-for-sale-denia",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Son Servera, Islas Baleares",
+    "price": "27.000.000 €",
+    "location": "Son Servera",
+    "description": "Nota: ** las imagenes no son reales, solo son ilustrativas ejemplo***  Oportunidad de Inversión:   Activo turístico apart-hotel en destino Prime del Mediterráneo  + de 200...",
+    "url": "https://www.luxuryestate.com/es/p132400652-hotel-for-sale-son-servera",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Ronda, Málaga",
+    "price": "2.500.000 €",
+    "location": "Ronda",
+    "description": "Cortijo Ecuestre/Hotel rural, 1000m2 construidos, Piscina y 250.000m2 de terreno, 13 dormitorios, 7 banos con muebles incluidos. Boxes para caballos, dependencias y 2 picaderos...",
+    "url": "https://www.luxuryestate.com/es/p128615850-hotel-for-sale-ronda",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Ronda, Málaga",
+    "price": "3.000.000 €",
+    "location": "Ronda",
+    "description": "Ubicada en el impresionante entorno de Ronda, esta amplia propiedad hotelera ofrece una excelente oportunidad de inversion en uno de los destinos mas codiciados de Andalucia. La...",
+    "url": "https://www.luxuryestate.com/es/p132208321-hotel-for-sale-ronda",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
+    "price": "12.000.000 €",
+    "location": "Palma de Mallorca",
+    "description": "Se vende Hotel de 3* en El Arenal, Mallorca. Se encuentra a continuacion de la playa de Palma, a escasos minutos de la Ciudad de Palma y del Aeropuerto. La zona es ampliamente...",
+    "url": "https://www.luxuryestate.com/es/p126979285-hotel-for-sale-palma-de-mallorca",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Gormaz",
+    "price": "880.000 €",
+    "location": "Gormaz",
+    "description": "Descubre esta impresionante casa-palacio de estilo colonial construida a principios del siglo xx, que ha sido cuidadosamente preservada y convertida en una posada en pleno...",
+    "url": "https://www.luxuryestate.com/es/p62982485-hotel-for-sale-gormaz",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Torrox, Málaga",
+    "price": "800.000 €",
+    "location": "Torrox",
+    "description": "Hotel Encantador en Torrox Pueblo : Una Oportunidad Única de Inversión  En la zona más pintoresca de Torrox, se encuentra este magnífico hotel que combina rentabilidad con un...",
+    "url": "https://www.luxuryestate.com/es/p130385397-hotel-for-sale-torrox",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Almansa, Albacete",
+    "price": "4.500.000 €",
+    "location": "Almansa",
+    "description": "En un enclave estratégico entre la Comunidad Valenciana, Castilla‑La Mancha y Murcia se encuentra un establecimiento hotelero que combina calidez, diseño contemporáneo y una...",
+    "url": "https://www.luxuryestate.com/es/p132400619-hotel-for-sale-almansa",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Castilla-La Mancha",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Ronda, Málaga",
+    "price": "895.000 €",
+    "location": "Ronda",
+    "description": "Finca para Turismo Rural con Licencia. 2 Casas de piedra con piscinas. Calefaccion. Capacidad para 14 personas, 58.000m2 de Terreno en zona tranquila, vistas panoramicas, Establos...",
+    "url": "https://www.luxuryestate.com/es/p128615758-hotel-for-sale-ronda",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en San Bartolomé de Tirajana, Las Palmas",
+    "price": "1.500.000 €",
+    "location": "San Bartolomé de Tirajana",
+    "description": "Complejo de 8 Fincas individuales que se alquilan para turistas. Desde cada finca se puede disfrutar de unas vistas al mar preciosas. Sitio tranquilo y natural. Negocio con buenas...",
+    "url": "https://www.luxuryestate.com/es/p113571645-hotel-for-sale-san-bartolome-de-tirajana",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Canarias",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Capdepera, Islas Baleares",
+    "price": "10.000.000 €",
+    "location": "Capdepera",
+    "description": "Entre 80 y 85 habitaciones | Disponible Se presenta en venta un hotel turistico operativo situado en una de las zonas mas apreciadas de la isla de Mallorca, reconocido por su...",
+    "url": "https://www.luxuryestate.com/es/p130894227-hotel-for-sale-capdepera",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Sitges",
+    "price": "10.000.000 €",
+    "location": "Sitges",
+    "description": "Una gran oportunidad para comprar un Hotel de exito frente al Mar Mediterraneo. En pleno funcionamiento, el actual propietario lo vende por jubilacion. Hotel de 4 estrellas en...",
+    "url": "https://www.luxuryestate.com/es/p129835627-hotel-for-sale-sitges",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Pollença, Islas Baleares",
+    "price": "18.000.000 €",
+    "location": "Pollença",
+    "description": "Oportunidad unica de adquirir un establecimiento hotelero consolidado en uno de los destinos mas codiciados de la isla de Mallorca, ideal tanto para explotacion directa como para...",
+    "url": "https://www.luxuryestate.com/es/p130894209-hotel-for-sale-pollenca",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Figueres",
+    "price": "2.900.000 €",
+    "location": "Figueres",
+    "description": "Descripcion general Oportunidad de inversion en un activo hotelero totalmente operativo, abierto durante todo el ano, ubicado en una localidad consolidada de la provincia de...",
+    "url": "https://www.luxuryestate.com/es/p132399355-hotel-for-sale-figueres",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Ronda, Málaga",
+    "price": "764.000 €",
+    "location": "Ronda",
+    "description": "Un hotel boutique de 4 estrellas con licencia completa con restaurante ubicado en el corazon de Ronda en el casco historico, un oasis de paz y tranquilidad a solo minutos a pie...",
+    "url": "https://www.luxuryestate.com/es/p129558964-hotel-for-sale-ronda",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
+    "price": "20.000.000 €",
+    "location": "Palma de Mallorca",
+    "description": "Por razones de confidencialidad si desea recibir mas informacion pongase en contacto con nosotros y les daremos toda la informacion que soliciten.",
+    "url": "https://www.luxuryestate.com/es/p129924250-hotel-for-sale-palma-de-mallorca",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Manacor, Islas Baleares",
+    "price": "4.500.000 €",
+    "location": "Manacor",
+    "description": "En venta este estupendo hotel de 4 estrellas en Porto Cristo. Cuenta con entre 18 y 20 habitaciones. Con sus zonas de restaurante, piscina y mas, garantiza una estancia comoda y...",
+    "url": "https://www.luxuryestate.com/es/p130894218-hotel-for-sale-manacor",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Albacete, Castilla-La Mancha",
+    "price": "2.750.000 €",
+    "location": "Albacete",
+    "description": "Myz02981 - Hotel al norte de la provincia de Albacete con encanto medieval: inversión con alta rentabilidad y proyección  Se vende hotel céntrico de 4 plantas con categoría actual...",
+    "url": "https://www.luxuryestate.com/es/p132301303-hotel-for-sale-albacete",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Castilla-La Mancha",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en San Bartolomé de Tirajana, Las Palmas",
+    "price": "1.900.000 €",
+    "location": "San Bartolomé de Tirajana",
+    "description": "Lovely Characteristic Rural Hotel in Maspalomas",
+    "url": "https://www.luxuryestate.com/es/p131281095-hotel-for-sale-san-bartolome-de-tirajana",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Canarias",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Torrenueva",
+    "price": "850.000 €",
+    "location": "Torrenueva",
+    "description": " inversores ¡Oportunidad única en la costa! Presentamos este impresionante edificio destinado para hostal o apartamentos, ubicado en la hermosa Torrenueva Costa. Con una...",
+    "url": "https://www.luxuryestate.com/es/p132404731-hotel-for-sale-torrenueva",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Valencia",
+    "price": "975.000 €",
+    "location": "Valencia",
+    "description": "Una oportunidad unica en pleno corazon de Valencia. 3 viviendas exclusivas situadas en la Plaza del Ayuntamiento, con vistas a la plaza principal de la ciudad y un acceso...",
+    "url": "https://www.luxuryestate.com/es/p132064079-hotel-for-sale-valencia",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en San Bartolomé de Tirajana, Las Palmas",
+    "price": "1.960.000 €",
+    "location": "San Bartolomé de Tirajana",
+    "description": "Fabulous Hotel or Hostel in the peaceful countyside of Maspalomas .10 minutes drive from the center . more Info to follow",
+    "url": "https://www.luxuryestate.com/es/p131688955-hotel-for-sale-san-bartolome-de-tirajana",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Canarias",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Palma de Mallorca, Islas Baleares",
+    "price": "4.200.000 €",
+    "location": "Palma de Mallorca",
+    "description": "Precio: 4.200.000 € 17 unidades | Disponible Se ofrece en venta un aparthotel operativo y con excelente ubicacion en primera linea de playa, dentro de una de las zonas mas...",
+    "url": "https://www.luxuryestate.com/es/p129924257-hotel-for-sale-palma-de-mallorca",
+    "source": "LuxuryEstate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Apartahotel 3 estrellas en Venta en Mallorca Sureste",
+    "price": "16.500.000 €",
+    "location": "Mallorca Sureste",
+    "description": "Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Fortalezas del Negocio o Inversión: Ubicación estratégica: La proximidad a la playa es un gran atractivo para los turistas, especialmente en un destino como Mallorca. Amplias instalaciones: Dispone de 117 apartamentos. La gran zona ajardinada y la piscina son elementos que pueden mejorar la experiencia de los huéspedes. Potencial de desarrollo: La necesidad de CAPEX indica que existe la posibilidad de mejorar las instalaciones y aumentar la rentabilidad del negocio. Gran extensión de terreno: Los 80.000 m2 de terreno ofrecen un amplio margen para futuras expansiones o desarrollos adicionales. Comprar o vender un hotel de lujo con OIREALESTATE garantiza una transacción eficiente y segura, gracias a su amplia experiencia y conocimiento del mercado de alto standing. La inmobiliaria ofrece acceso a oportunidades exclusivas, asesoramiento personalizado y un proceso integral, desde la negociación hasta la gestión post-venta, asegurando una experiencia de inversión fluida y confiable. NOTA: Las fotos no corresponden con el inmueble, son a modo ilustrativo.",
+    "url": "https://www.oirealestate.net/propiedad/78202/apartahotel-3-estrellas-en-venta-en-mallorca-sureste",
+    "source": "Oi Real Estate",
+    "date": "28/03/2026",
+    "location_region": "Baleares",
+    "ausencias": 0
   }
 ]
