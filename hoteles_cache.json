@@ -1733,7 +1733,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/8897779",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel en venta in Las Palmas de Gran Canaria - â¬ 1,850,000",
@@ -1802,7 +1802,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8897987",
     "source": "ThinkSpain",
     "location_region": "Galicia",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "10 habitaciones Hotel en venta in Cambrils with pool garage - â¬ 1,600,000",
@@ -2198,7 +2198,7 @@
     "description": "Imagine a boutique hotel with a soul of its own, where every corner breathes calm, authenticity and natural beauty. A carefully designed boho-chic haven for those looking to disconnect, reconnect, and live transformative experiences. Located very...",
     "url": "https://www.thinkspain.com/property-for-sale/9629985",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "9 habitaciones Hotel en venta in Calabardina with garage - â¬ 730,000",
@@ -2820,7 +2820,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8897981",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "151 habitaciones Hotel en venta in Mahon / Mao with pool - â¬ 9,000,000",
@@ -3343,16 +3343,6 @@
     "source": "ThinkSpain",
     "location_region": "Andalucía",
     "ausencias": 0
-  },
-  {
-    "title": "24 habitaciones Hotel en venta in Benidorm with pool - â¬ 7,000,000",
-    "price": "Precio a consultar",
-    "location": "Benidorm",
-    "description": "With an entire building that houses 11 modern apartments and one suite, we have created a luxurious environment so that clients can enjoy their vacation to the fullest. Recently renovated to offer you the ultimate in comfort! Relax in our exclusive...",
-    "url": "https://www.thinkspain.com/property-for-sale/8108734",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
   },
   {
     "title": "21 habitaciones Hotel en venta in Alicante / Alacant city - â¬ 3,500,000",
@@ -4238,16 +4228,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel en venta in Valencia city - â¬ 5,500,000",
-    "price": "Precio a consultar",
-    "location": "Valencia",
-    "description": "Aparthotel for sale in premium location: 50 m from Arena Roig, launch January 2026 This is a unique opportunity to purchase a ready-made business with a long-term contract with the operator and guaranteed profitability. Main characteristics: Apart...",
-    "url": "https://www.thinkspain.com/property-for-sale/9228550",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
-  },
-  {
     "title": "7 habitaciones Hotel en venta in Anievas - â¬ 649,000",
     "price": "Precio a consultar",
     "location": "Anievas",
@@ -4478,7 +4458,7 @@
     "title": "Hotel en venta in Oliva - â¬ 525,000",
     "price": "Precio a consultar",
     "location": "Oliva",
-    "description": "Total surface area 405 mÂ², hotel plot area 120 mÂ², usable floor area 400 mÂ², state of repair: in good condition, floor no.: 1.",
+    "description": "Total surface area 405 mÂ², hotel plot area 120 mÂ², usable floor area 400 mÂ².",
     "url": "https://www.thinkspain.com/property-for-sale/9002465",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
@@ -4541,7 +4521,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9608224",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "8 habitaciones Hotel en venta in Arta - â¬ 3,400,000",
@@ -6454,16 +6434,6 @@
     "ausencias": 0
   },
   {
-    "title": "8 habitaciones Guesthouse/B & B en venta in Vic - â¬ 2,350,000",
-    "price": "Precio a consultar",
-    "location": "Vic",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/8897985",
-    "source": "ThinkSpain",
-    "location_region": "Cataluña",
-    "ausencias": 2
-  },
-  {
     "title": "6 habitaciones Guesthouse/B & B en venta in Benamargosa with garage - â¬ 478,000",
     "price": "Precio a consultar",
     "location": "Benamargosa",
@@ -8185,17 +8155,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel en venta en Siétamo",
-    "price": "480.000 €",
-    "location": "Siétamo",
-    "description": "Inversión con ingresos desde el primer día. Se vende casa rural en pleno funcionamiento, ubicada en Calle Alta, 10 – Siétamo, a solo 15 minutos de Huesca capital y a los pies de...",
-    "url": "https://www.luxuryestate.com/es/p131627604-hotel-for-sale-sietamo",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Aragón",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta en Mácher, Las Palmas",
     "price": "2.500.000 €",
     "location": "Mácher",
@@ -9281,7 +9240,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "Hotel en venta en Altea",
@@ -11118,17 +11077,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel en venta en Zaragoza",
-    "price": "53.000.000 €",
-    "location": "Zaragoza",
-    "description": "Myz03138 - Se ofrece a la venta un hotel urbano de gran capacidad en Zaragoza, inaugurado en 1993 y que se encuentra en perfecto estado de conservación, siendo propiedad privada y...",
-    "url": "https://www.luxuryestate.com/es/p132366030-hotel-for-sale-zaragoza",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Aragón",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta en Priego de Córdoba, Córdoba",
     "price": "3.400.000 €",
     "location": "Priego de Córdoba",
@@ -11181,7 +11129,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Alfaz del Pi",
@@ -11204,28 +11152,6 @@
     "date": "26/03/2026",
     "location_region": "Andalucía",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel en venta en Sevilla",
-    "price": "1.544.000 €",
-    "location": "Sevilla",
-    "description": "Edificio turístico en venta en Barrio Santa Cruz – Sevilla.  Se vende, edificio turístico situado en una calle tranquila del barrio de Santa Cruz, pleno casco histórico de...",
-    "url": "https://www.luxuryestate.com/es/p132226884-hotel-for-sale-sevilla",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
-    "title": "Hotel en venta en Santa Cruz de Tenerife, Islas Canarias",
-    "price": "2.600.000 €",
-    "location": "Santa Cruz de Tenerife",
-    "description": "Myz02840 - Oportunidad de inversión en Tenerife: hotel boutique completamente renovado, con gimnasio anexo en funcionamiento y licencias vigentes. Activo sólido, operativo y listo...",
-    "url": "https://www.luxuryestate.com/es/p132260008-hotel-for-sale-santa-cruz-de-tenerife",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Canarias",
-    "ausencias": 2
   },
   {
     "title": "Hotel en venta en Navia, Asturias",
@@ -11752,17 +11678,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel en venta en Caravaca de la Cruz",
-    "price": "405.000 €",
-    "location": "Caravaca de la Cruz",
-    "description": "Se vende hotel rural para reformar en el paraje Tarragoya, carretera C-18, desde la Almudena a El Royo, Caravaca de la Cruz.  El hotel esta compuesto por varias edificaciones y en...",
-    "url": "https://www.luxuryestate.com/es/p130882131-hotel-for-sale-caravaca-de-la-cruz",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Murcia",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta en Coaña, Asturias",
     "price": "700.000 €",
     "location": "Coaña",
@@ -11900,7 +11815,7 @@
     "source": "LuxuryEstate",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Málaga, Andalucía",
@@ -12401,7 +12316,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "posada Real",
@@ -12412,7 +12327,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel boutique operativo en Marbella con...",
@@ -12423,7 +12338,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel Boutique",
@@ -12434,7 +12349,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "SE VENDE HOTEL EN EL CAMINO DE SANTIAGO...",
@@ -12445,7 +12360,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "La Rioja",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "HOTEL RURAL CON ENCANTO EN EL PRIORATO",
@@ -12456,7 +12371,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "VENTA HOTEL TRES ESTRELLAS + BUNGALOWS",
@@ -12467,7 +12382,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Canarias",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "VENTA HOTEL/RESTAURANTE CASA PALACIEGA",
@@ -12478,7 +12393,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel, Asador 2**, 12 habitaciones, encl...",
@@ -12489,7 +12404,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "SE VENDE HOTEL",
@@ -12500,7 +12415,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta totalmente reformado",
@@ -12511,7 +12426,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en La Mata a 20 metros de la playa",
@@ -12522,7 +12437,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Venta de complejo de turismo Rural , en...",
@@ -12533,7 +12448,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Venta complejo rural o alquiler con opci...",
@@ -12544,7 +12459,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Aragón",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Vendo Hotel Funcionando en Lérida",
@@ -12555,7 +12470,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Se vende residencia juvenil en primera l...",
@@ -12566,7 +12481,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Murcia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Se vende hotel en Bermeo",
@@ -12577,7 +12492,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "País Vasco",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Se vende Hotel-Restaurante en zona de mo...",
@@ -12588,7 +12503,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Vendo Casa Rural La posada",
@@ -12599,7 +12514,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Venta de Hotel en funcionamiento en Burg...",
@@ -12610,7 +12525,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "HOTEL EN VENTA EN RIAS BAIXAS- A LANZADA",
@@ -12621,7 +12536,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "2 Hoteles en venta en Rias Baixas-Sanxen...",
@@ -12632,7 +12547,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel Apartamentos con Bar Restaurante y...",
@@ -12643,7 +12558,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Se vende hotel en el Arenal",
@@ -12654,7 +12569,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Se vende hotel 3 estrellas",
@@ -12665,7 +12580,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en Venta en Madrid",
@@ -12676,7 +12591,7 @@
     "source": "NegociosEnVenta",
     "date": "26/03/2026",
     "location_region": "Madrid",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Bed and Breakfast y Hoteles en venta en Australia",
@@ -12697,7 +12612,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Encantador B&B en un retiro rural en Ayora, Valencia",
@@ -12708,7 +12623,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Bed and Breakfast en venta en el Parque Natural de Cabo de Gata, Andalucía",
@@ -12719,7 +12634,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Lujosa y espaciosa villa urbana completamente renovada, Huescar",
@@ -12730,7 +12645,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Aragón",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Malaga.☀️ High-end Boutique Hotel/B&B",
@@ -12741,7 +12656,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exitoso negocio de turismo a pequeña escala con jardín botánico en las montañas de Granada – Las Alpujarras",
@@ -12752,7 +12667,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Amplia casa de campo con licencia de hotel en parcela de 18 hectáreas ideal para un retiro",
@@ -12763,7 +12678,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Murcia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Encantador BB en un pequeño pueblo en medio de huertos de cítricos, a 15 minutos de las playas.",
@@ -12774,7 +12689,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Pequeño complejo vacacional con excelentes ingresos en la Costa Blanca",
@@ -12785,7 +12700,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Restaurante zona Caminito del Rey",
@@ -12796,7 +12711,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "HOTELITO 4* CON ENCANTO COSTA BRAVA",
@@ -12807,7 +12722,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel 3* primera línea en Mallorca",
@@ -12818,7 +12733,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel 3* en Ibiza a 100m de la playa",
@@ -12829,7 +12744,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "B&B siglo XVII restaurada en Murcia",
@@ -12840,7 +12755,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Murcia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Preciosa bodega antigua convertida en finca única con posibilidad de B&B o casa rural.",
@@ -12851,7 +12766,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Aparthotel Mallorca",
@@ -12862,7 +12777,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel rural con encanto en región de Murcia",
@@ -12873,7 +12788,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Murcia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Proyecto de Boutique Hotel 30km de Barcelona",
@@ -12884,7 +12799,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel 4* localizado en la provincia de Leon",
@@ -12895,7 +12810,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Castilla y León",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Encantadora casa de pueblo española B&B",
@@ -12905,7 +12820,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/encantadora-casa-de-pueblo-espanola-bb",
     "source": "HotelSeVende",
     "date": "26/03/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Finca para B&B o Wellness Retreat",
@@ -12916,7 +12831,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Charming country hotel in the Axarquia region",
@@ -12927,7 +12842,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Idílico hotel boutique rural ubicado en el Valle de Lecrín, cercano a Granada y la Costa Tropical.",
@@ -12938,7 +12853,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Fantastic opportunity of 3 Holiday houses with high income on the Costa Blanca",
@@ -12949,7 +12864,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Boutique Bed and Breakfast in Inland Andalucia",
@@ -12960,7 +12875,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en Palacio siglo XVIII totalmente reformado",
@@ -12971,7 +12886,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "3 * Hotel With Restaurant In The Province Of Girona/3,5km From The Sea",
@@ -12982,7 +12897,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Great Rural Complex Of 12 Apartments + Restaurant In Sierra Of Granada",
@@ -12993,7 +12908,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Fabulous Country House – Rural Hotel – Retreat,inland Of Costa Blanca",
@@ -13004,7 +12919,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Pleasant 22-room Hotel With Restaurant In A Natural Setting In Galicia",
@@ -13015,7 +12930,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Great Casa Rural With Pool For Groups / 40km From The Beach",
@@ -13026,7 +12941,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Good Aparthotel A Few Meters From The Beach",
@@ -13037,7 +12952,7 @@
     "source": "HotelSeVende",
     "date": "26/03/2026",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel-boutique “ALMA”",
@@ -14933,7 +14848,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9402188",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "15 habitaciones Hotel en venta in El Medano - â¬ 1,750,000",
@@ -14943,16 +14858,6 @@
     "url": "https://www.thinkspain.com/property-for-sale/9015500",
     "source": "ThinkSpain",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel en venta in Gandia - â¬ 8,700,000",
-    "price": "Precio a consultar",
-    "location": "Gandia",
-    "description": "Builded surface 4000, hotel util surface 4000, conservation status: in good condition, nÂº floor: 1.",
-    "url": "https://www.thinkspain.com/property-for-sale/5774389",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
   },
   {
     "title": "14 habitaciones Hotel en venta in Romanya de la Selva - â¬ 1,699,000",
@@ -15029,7 +14934,7 @@
     "m2": 403,
     "bathrooms": 9,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 1505 m2 en venta Lucena del Cid, Comunidad Valenciana",
@@ -15141,17 +15046,6 @@
     "date": "28/03/2026",
     "location_region": "Andalucía",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel en venta en Benahavís, Málaga",
-    "price": "1.995.000 €",
-    "location": "Benahavís",
-    "description": "Propiedad en regimen de propiedad libre (Freehold) - Ubicada en el pintoresco pueblo de montana de Benahavis, se encuentra este hotel. Un pequeno mundo rustico, pero elegante,...",
-    "url": "https://www.luxuryestate.com/es/p132114731-hotel-for-sale-benahavis",
-    "source": "LuxuryEstate",
-    "date": "28/03/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "Hotel en venta en Denia",
@@ -15381,7 +15275,7 @@
     "source": "LuxuryEstate",
     "date": "28/03/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en San Bartolomé de Tirajana, Las Palmas",
@@ -15414,7 +15308,7 @@
     "source": "Oi Real Estate",
     "date": "28/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "7 habitaciones Hotel en venta in Orihuela - â¬ 600,000",
@@ -15647,7 +15541,7 @@
     "source": "LuxuryEstate",
     "date": "01/04/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Santafé",
@@ -15796,6 +15690,81 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/barcelona/maresme/sant-pol-de-mar/casa-villa/mat33389.html",
     "source": "Lucas Fox",
+    "ausencias": 0
+  },
+  {
+    "title": "6 habitaciones Hotel en venta in Benidorm - â¬ 746,000",
+    "price": "Precio a consultar",
+    "location": "Benidorm",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9741711",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "53 habitaciones Hotel en venta in Cadiz city with pool - â¬ 6,850,000",
+    "price": "Precio a consultar",
+    "location": "Cadiz",
+    "description": "Overview A compelling investment opportunity to acquire a fully operational beachfront aparthotel on the Atlantic coast of the Costa de la Luz. The property comprises 53 tourist apartments, a restaurant unit, and 21 private parking spaces, totalling...",
+    "url": "https://www.thinkspain.com/property-for-sale/9741632",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Espinavessa",
+    "price": "1.590.000 €",
+    "location": "Espinavessa",
+    "description": "Bienvenidos a este hotel histórico y autosuficiente, situado entre las comarcas del Pla de l'Estany y el Alt Empordà (Girona). Este establecimiento combina el encanto de una...",
+    "url": "https://www.luxuryestate.com/es/p132277202-hotel-for-sale-espinavessa",
+    "source": "LuxuryEstate",
+    "date": "03/04/2026",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Güéjar-Sierra",
+    "price": "2.300.000 €",
+    "location": "Güéjar-Sierra",
+    "description": "Hotel Juan Francisco – Investment Opportunity in Güéjar Sierra, Granada El Hotel Juan Francisco representa una oportunidad de adquisición de un activo hotelero con identidad...",
+    "url": "https://www.luxuryestate.com/es/p132418570-hotel-for-sale-guejar-sierra",
+    "source": "LuxuryEstate",
+    "date": "03/04/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Tolox, Málaga",
+    "price": "890.000 €",
+    "location": "Tolox",
+    "description": "? oportunidad de inversión – hotel en tolox (málaga) Se presenta una excelente oportunidad de inversión en el encantador municipio de Tolox, en pleno Parque Natural Sierra de las...",
+    "url": "https://www.luxuryestate.com/es/p132425830-hotel-for-sale-tolox",
+    "source": "LuxuryEstate",
+    "date": "03/04/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Ourol, Lugo",
+    "price": "1.700.000 €",
+    "location": "Ourol",
+    "description": "Myz03263 - Este acogedor hotel de 3 estrellas, ubicado al norte de la provincia de Lugo, ofrece una excelente oportunidad de inversión en un establecimiento moderno, funcional y...",
+    "url": "https://www.luxuryestate.com/es/p132425639-hotel-for-sale-ourol",
+    "source": "LuxuryEstate",
+    "date": "03/04/2026",
+    "location_region": "Galicia",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Alfaz del Pi",
+    "price": "1.500.000 €",
+    "location": "Alfaz del Pi",
+    "description": "Presentamos una extraordinaria oportunidad de inversión en el corazón del pueblo de Alfaz del Pi. Este hotel cuenta con un amplio proyecto para la construcción de 28 apartamentos...",
+    "url": "https://www.luxuryestate.com/es/p132421954-hotel-for-sale-alfaz-del-pi",
+    "source": "LuxuryEstate",
+    "date": "03/04/2026",
+    "location_region": "C. Valenciana",
     "ausencias": 0
   }
 ]
