@@ -8124,7 +8124,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-brava/lloret-de-mar/casa-villa/cbr46529.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta en Mácher, Las Palmas",
@@ -8171,7 +8171,7 @@
   },
   {
     "title": "Hotel en venta en Sencelles, Islas Baleares",
-    "price": "6.800.000 €",
+    "price": "5.800.000 €",
     "location": "Sencelles",
     "description": "Esta impresionante vivienda mallorquina, que data del siglo xv, está situada cerca de un encantador pueblo en Pla de Mallorca. La vivienda , que antiguamente era un convento, se...",
     "url": "https://www.luxuryestate.com/es/p130752402-hotel-for-sale-sencelles",
@@ -9577,17 +9577,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel en venta en Torremolinos, Málaga",
-    "price": "3.195.000 €",
-    "location": "Torremolinos",
-    "description": "? ¡Oportunidad única de inversión en la Costa del Sol!  Se ofrece a la venta un acogedor y totalmente operativo hostal, situado a solo unos metros de la playa, en una de las...",
-    "url": "https://www.luxuryestate.com/es/p131946802-hotel-for-sale-torremolinos",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta en La Condomina",
     "price": "2.100.000 €",
     "location": "La Condomina",
@@ -10297,17 +10286,6 @@
     "date": "26/03/2026",
     "location_region": "Murcia",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel en venta en Ronda, Málaga",
-    "price": "1.468.000 €",
-    "location": "Ronda",
-    "description": "? ️ Hotel con Encanto y Rentabilidad Garantizada en el Corazón de Ronda ¡Invierta en historia, rentabilidad y una ubicación inmejorable!  Ubicado en la emblemática calle Espinel,...",
-    "url": "https://www.luxuryestate.com/es/p132284676-hotel-for-sale-ronda",
-    "source": "LuxuryEstate",
-    "date": "26/03/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "Hotel en venta en Mula",
@@ -14034,7 +14012,7 @@
     "source": "Oi Real Estate",
     "date": "26/03/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel 5 estrellas en venta en Mallorca Este Islas Baleares",
@@ -15223,7 +15201,7 @@
     "source": "Oi Real Estate",
     "date": "28/03/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "7 habitaciones Hotel en venta in Orihuela - â¬ 600,000",
@@ -16217,6 +16195,27 @@
     "source": "LuxuryEstate",
     "date": "05/04/2026",
     "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "9 habitaciones Guesthouse/B & B en venta in Dolores with pool garage - â¬ 880,000",
+    "price": "Precio a consultar",
+    "location": "Dolores",
+    "description": "This modern stylish villa, with camping, is situated on the Costa Blanca, in the beautiful village of Dolores, surrounded by nature and with panoramic views of the mountains. It is currently successfully operated as a campsite rural. The campsite is...",
+    "url": "https://www.thinkspain.com/property-for-sale/9626428",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta en Sencelles, Islas Baleares",
+    "price": "6.800.000 €",
+    "location": "Sencelles",
+    "description": "Hotel Rural 4★ con Restaurante Mediterráneo – Oportunidad Exclusiva en Mallorca  Hotel boutique totalmente operativo, ubicado en el corazón de Mallorca , en un entorno de absoluta...",
+    "url": "https://www.luxuryestate.com/es/p132044111-hotel-for-sale-sencelles",
+    "source": "LuxuryEstate",
+    "date": "06/04/2026",
+    "location_region": "Baleares",
     "ausencias": 0
   }
 ]
