@@ -11957,7 +11957,7 @@
     "title": "Hotel en venta en El Vendrell",
     "price": "871.000 €",
     "location": "El Vendrell",
-    "description": "DESCRIPCION Oportunidad de Inversión: Edificio a Rehabilitar en Coma-ruga  A pocos pasos del mar, donde la brisa marina acaricia la piel y el sonido de las olas invita al sosiego, se alza este edificio cargado de historia y encanto. Construido en los años 60, con 1.868 m² construidos y 44 habitaciones dobles, este lugar espera ser transformado, rehabilitado y devuelto a su esplendor.  Con una ubicación privilegiada junto a la playa y rodeado de lugares emblemáticos, este inmueble es una joya dormida, lista para renacer en manos de quienes sepan imaginar su futuro. Un proyecto único para crear algo extraordinario en el corazón de Coma-ruga.  Atrévete a devolverle la vida. Lee todo Si quieres saber más, habla con Finques GirÓHaz una pregunta",
+    "description": "En el atlas de la vida excepcional, algunos destinos son pasajeros. Esta residencia ha encontrado su puerto final. Tu exploración continúa. ¿Cuál será nuestro próximo destino?",
     "url": "https://www.luxuryestate.com/es/p130886161-hotel-for-sale-el-vendrell",
     "source": "LuxuryEstate",
     "date": "26/03/2026",
@@ -15191,7 +15191,11 @@
     "source": "Oi Real Estate",
     "date": "28/03/2026",
     "location_region": "Baleares",
+<<<<<<< Updated upstream
     "ausencias": 0
+=======
+    "ausencias": 2
+>>>>>>> Stashed changes
   },
   {
     "title": "7 habitaciones Hotel en venta in Orihuela - â¬ 600,000",
