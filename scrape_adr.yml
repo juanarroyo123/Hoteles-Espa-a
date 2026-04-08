@@ -1,0 +1,40 @@
+name: Benchmark ADR por Municipio
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'   # 1 vez al mes — día 1 a las 3h UTC
+  workflow_dispatch:       # También se puede lanzar manualmente
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-adr:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120   # Hasta 2h para cubrir todos los municipios
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias Python
+        run: |
+          pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml
+
+      - name: Ejecutar scraper ADR
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scraper_adr.py
+
+      - name: Commit y push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add adr_benchmark.json
+          git diff --staged --quiet || \
+            git commit -m "📊 ADR benchmark actualizado $(date +'%d/%m/%Y') — $(python -c 'import json; d=json.load(open(\"adr_benchmark.json\")); munis=d.get(\"municipios\",{}); ok=sum(1 for v in munis.values() if isinstance(v,dict) and v.get(\"precios\")); print(f\"{ok} municipios con datos\")')"
+          git push
