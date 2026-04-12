@@ -67,7 +67,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9602753",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "26 habitaciones Hotel en venta in Palamos with pool garage - â¬ 1,295,000",
@@ -1053,7 +1053,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9669519",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "63 habitaciones Hotel en venta in Antequera with garage - â¬ 3,500,000",
@@ -2225,7 +2225,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9494761",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "50 habitaciones Hotel en venta in Girona city with pool garage - â¬ 12,000,000",
@@ -3450,7 +3450,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8359682",
     "source": "ThinkSpain",
     "location_region": "Castilla y León",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "8 habitaciones Hotel en venta in Calpe / Calp - â¬ 995,000",
@@ -4990,7 +4990,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9482364",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "10 habitaciones Hotel en venta in Suera - â¬ 750,000",
@@ -5254,7 +5254,7 @@
     "description": "Casa Grande now only 180,000 euros A beautifully restored bed and breakfast and restaurant for sale in the pretty hamlet of El Margen. The bed and breakfast part of this restored farmhouse consists of four double bedrooms and one twin bedroom all...",
     "url": "https://www.thinkspain.com/property-for-sale/9221593",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel en venta in Oliva - â¬ 525,000",
@@ -12112,7 +12112,7 @@
     "m2": 6975,
     "bathrooms": 90,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 509 m2 en venta Alhama de Granada, España",
@@ -13750,7 +13750,7 @@
     "date": "08/04/2026",
     "m2": 380,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel en venta Burela de Cabo, España",
@@ -13908,7 +13908,7 @@
     "rooms": 15,
     "m2": 17400,
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 1456 m2 en venta Torreblanca, España",
@@ -15633,7 +15633,7 @@
     "source": "Oi Real Estate",
     "date": "08/04/2026",
     "location_region": "Baleares",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "Hotel 4 estrellas en venta en Barcelona",
@@ -16596,7 +16596,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8612307",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Ronda with pool garage - â¬ 2,200,000",
@@ -16959,7 +16959,7 @@
     "source": "Oi Real Estate",
     "date": "10/04/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "9 habitaciones Hotel en venta in Javea / Xabia - â¬ 1,290,000",
@@ -17165,6 +17165,65 @@
     "url": "https://www.luxuryestate.com/es/p132458045-hotel-for-sale-manacor",
     "source": "LuxuryEstate",
     "date": "11/04/2026",
+    "m2": 2134,
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "27 habitaciones Hotel en venta in Cortes y Graena - â¬ 760,000",
+    "price": "Precio a consultar",
+    "location": "Cortes y Graena",
+    "description": "With 1100 mÂ² built, 27 bedrooms, 28 bathrooms, rural hostel next to the Arab spa of Cortes de Graena located 7km from Guadix. This hostel has a constructed area of approximately 1,100 meters and has 27 rooms. Ground floor has reception, dining room...",
+    "url": "https://www.thinkspain.com/property-for-sale/6889897",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "15 habitaciones Hotel en venta in Alhama de Granada - â¬ 425,000",
+    "price": "Precio a consultar",
+    "location": "Alhama de Granada",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9763444",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel de lujo en venta Alcúdia, España",
+    "price": "10.000.000 €",
+    "location": "Alcúdia",
+    "description": "DESCRIPCION Este atractivo complejo hotelero de 4 estrellas se situa en primera linea de mar, a escasos metros de una pequena cala de aguas cristalinas y muy proximo a amplias playas de arena fina, ofreciendo un entorno privilegiado para disfrutar de la tranquilidad y el estilo de vida mediterraneo. El establecimiento dispone de 50 habitaciones, complementadas con 6 unidades tipo chalet, lo que aporta versatilidad y un valor anadido diferencial para distintos perfiles de cliente. Las estancias son amplias y luminosas, pensadas para garantizar confort y una experiencia relajada. Entre sus instalaciones destacan dos piscinas exteriores una para adultos y otra infantil con zona de solarium, asi como restaurante con terraza, creando espacios ideales para el descanso y el disfrute al aire libre. Ubicado en una de las bahias mas importantes del litoral mediterraneo, el activo se beneficia de una completa oferta de servicios en su entorno, incluyendo restauracion, comercios, ocio y actividades recreativas. La zona combina playas de gran calidad con espacios naturales protegidos, ofreciendo tanto opciones de entretenimiento como experiencias mas tranquilas en plena naturaleza. El activo se comercializa libre de operador, lo que permite al inversor implementar su propia estrategia de gestion o reposicionamiento. En conjunto, se trata de una oportunidad de inversion en un activo con ubicacion privilegiada frente al mar, en un destino altamente demandado y con una oferta turistica conso",
+    "url": "https://www.luxuryestate.com/es/p132461867-hotel-for-sale-alcudia",
+    "source": "LuxuryEstate",
+    "date": "12/04/2026",
+    "rooms": 50,
+    "m2": 2134,
+    "stars": 4,
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto en venta Llucmajor, Baleares",
+    "price": "33.000.000 €",
+    "location": "Llucmajor",
+    "description": "DESCRIPCION Este completo hotel de 4 estrellas se ubica en una consolidada zona turistica del sureste de una isla mediterranea, en un entorno tranquilo rodeado de jardines y proximo a reconocidas areas costeras. El establecimiento dispone de 288 habitaciones, ofreciendo una alta capacidad alojativa y adaptandose tanto al turismo vacacional familiar como a estancias en pareja o grupos. Entre sus instalaciones destacan amplias zonas exteriores con dos grandes piscinas al aire libre, una de ellas tematizada con elementos recreativos y toboganes, asi como una piscina interior climatizada con jacuzzi, lo que permite su uso durante todo el ano. Todo ello en un entorno cuidado, pensado para el descanso y el entretenimiento. En las inmediaciones, el entorno ofrece espacios exclusivos frente al mar con zonas de relax, terrazas panoramicas, instalaciones deportivas y una variada oferta de ocio, reforzando el atractivo del destino. En conjunto, se trata de una oportunidad de inversion en un activo de gran capacidad, con completas instalaciones y ubicado en una zona turistica consolidada con alta demanda. Precio: 33.000.000 € Lee todo Si quieres saber más, habla con K&N Elite Real Estate Agency - Sucursal ValenciaHaz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p132461868-hotel-for-sale-llucmajor",
+    "source": "LuxuryEstate",
+    "date": "12/04/2026",
+    "m2": 2134,
+    "stars": 4,
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Exclusivo hotel en venta Ibiza, Baleares",
+    "price": "20.000.000 €",
+    "location": "Ibiza",
+    "description": "DESCRIPCION Este exclusivo hotel boutique se ubica en un enclave privilegiado, en lo alto de un casco historico con vistas panoramicas al puerto y al entorno urbano, ofreciendo una experiencia unica marcada por la privacidad, el encanto y la autenticidad. El establecimiento cuenta con 16 habitaciones, de las cuales 12 estan destinadas a uso turistico y 4 adicionales se encuentran en un edificio anexo con uso complementario. El conjunto se distribuye en varios edificios, incluyendo el principal donde se ubican las habitaciones, el restaurante y una atractiva terraza en la azotea, asi como espacios auxiliares destinados a servicios internos. El hotel combina un estilo elegante y clasico con un servicio personalizado, orientado a un cliente internacional que valora la exclusividad y el entorno singular. Entre sus principales atractivos destacan un restaurante consolidado, una terraza rooftop con vistas panoramicas y diversas areas de servicio. Actualmente, el activo presenta un solido rendimiento operativo, con una facturacion anual destacada, y ofrece un interesante potencial de expansion, ya sea mediante la optimizacion de espacios existentes o el desarrollo de nuevas unidades en edificaciones anexas, sujeto a normativa. El conjunto se comercializa con distintas opciones de adquisicion, incluyendo el hotel y propiedades adicionales, lo que permite al inversor disenar una estrategia de crecimiento o reposicionamiento hacia un producto de mayor categoria, como suites o residenci",
+    "url": "https://www.luxuryestate.com/es/p132461866-hotel-for-sale-ibiza",
+    "source": "LuxuryEstate",
+    "date": "12/04/2026",
+    "rooms": 16,
     "m2": 2134,
     "location_region": "Baleares",
     "ausencias": 0
