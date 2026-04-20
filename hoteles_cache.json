@@ -3454,16 +3454,6 @@
     "ausencias": 0
   },
   {
-    "title": "9 habitaciones Hotel en venta in Leon city - â¬ 1,200,000",
-    "price": "Precio a consultar",
-    "location": "Leon",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9309026",
-    "source": "ThinkSpain",
-    "location_region": "Castilla y León",
-    "ausencias": 2
-  },
-  {
     "title": "5 habitaciones Hotel en venta in Huetor Tajar with pool - â¬ 450,000",
     "price": "Precio a consultar",
     "location": "Huetor Tajar",
@@ -3580,7 +3570,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9410946",
     "source": "ThinkSpain",
     "location_region": "Canarias",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "104 habitaciones Hotel en venta in Mojacar with pool garage - â¬ 12,500,000",
@@ -4133,7 +4123,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8730313",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "50 habitaciones Hotel en venta in Torrevieja with pool - â¬ 6,000,000",
@@ -4284,16 +4274,6 @@
     "source": "ThinkSpain",
     "location_region": "Galicia",
     "ausencias": 0
-  },
-  {
-    "title": "250 habitaciones Hotel en venta in Puerto del Rosario with pool - â¬ 30,000,000",
-    "price": "Precio a consultar",
-    "location": "Puerto del Rosario",
-    "description": "4-star hotel complex for sale situated in Fuerteventura, the second largest island of the Canary Islands in the Atlantic Ocean, 100 km off the north coast of Africa. It is a well known holiday destination for its beaches and warm climate all year...",
-    "url": "https://www.thinkspain.com/property-for-sale/8614012",
-    "source": "ThinkSpain",
-    "location_region": "Canarias",
-    "ausencias": 2
   },
   {
     "title": "24 habitaciones Hotel en venta in Graus with pool - â¬ 2,250,000",
@@ -5150,16 +5130,6 @@
     "source": "ThinkSpain",
     "location_region": "Madrid",
     "ausencias": 0
-  },
-  {
-    "title": "87 habitaciones Hotel en venta in Malaga city - â¬ 13,000,000",
-    "price": "Precio a consultar",
-    "location": "Malaga",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9372214",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "11 habitaciones Hotel en venta in Marin - â¬ 850,000",
@@ -8977,7 +8947,7 @@
   },
   {
     "title": "Hotel de lujo de 1 m2 en venta Palma de Mallorca, España",
-    "price": "36.000.000 €",
+    "price": "40.000.000 €",
     "location": "Palma de Mallorca",
     "description": "DESCRIPCION Descripción original Con la tecnología de La traducción automática utiliza el Traductor de Google y puede no ser completamente exacta. Lo sentimos, se ha verificado un problema durante la traducción automática con Google Translate. Inténtalo de nuevo más tarde. Traducir esta descripción en Español ¡Oportunidad única! Ponemos en venta el Hotel, situado en la tranquila y verde zona de Can Picafort, en la isla de Mallorca. Un complejo hotelero ideal tanto para inversión turística como para explotarlo como experiencia vacacional completa. Ubicación Enclavado en un entorno natural extraordinario: más de 44.000 m² de jardines en medio de un pinar. Accesibilidad total: instalaciones adaptadas sin barreras arquitectónicas para un disfrute pleno. Características del hotel Diseñado especialmente para familias y para quienes buscan relax junto al mar, sin renunciar al confort y a los servicios de calidad. Amplia oferta de alojamiento: habitaciones + apartamentos, lo que permite flexibilidad para distintos públicos (familias, grupos, parejas). Espacios exteriores destacados: piscinas + jardines ideales para disfrutar del clima balear. Bienestar & servicios premium: spa, gastronomía basada en productos locales y de temporada, salones para eventos, traslados. Puntos fuertes de inversión / venta Ubicación costera en uno de los destinos más demandados del Mediterráneo. Gran terreno ajardinado, lo que aporta valor añadido frente a lotes convencionales. Versatilidad en la explotaci",
     "url": "https://www.luxuryestate.com/es/p132052134-hotel-for-sale-palma-de-mallorca",
@@ -8986,7 +8956,7 @@
     "rooms": 285,
     "m2": 1,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel con encanto de 1 m2 en venta Madrid, España",
@@ -9190,7 +9160,7 @@
     "m2": 633,
     "bathrooms": 10,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 663 m2 en venta Formentera, Baleares",
@@ -9301,7 +9271,7 @@
     "m2": 2118,
     "bathrooms": 26,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 8000 m2 en venta Muro, España",
@@ -9509,7 +9479,7 @@
     "rooms": 13,
     "m2": 955,
     "bathrooms": 14,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 1824 m2 en venta Llagostera, España",
@@ -10285,7 +10255,7 @@
     "m2": 1886,
     "bathrooms": 31,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 876 m2 en venta Cercedilla, España",
@@ -12044,7 +12014,7 @@
     "rooms": 53,
     "m2": 6568,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 3500 m2 en venta Priego de Córdoba, Andalucía",
@@ -12131,7 +12101,7 @@
     "title": "Exclusivo hotel de 311 m2 en venta Navia, España",
     "price": "450.000 €",
     "location": "Navia",
-    "description": "DESCRIPCION Este anuncio describe una excelente oportunidad de inversión en el sector hotelero y de restauración en Navia, Asturias. El establecimiento cuenta con: 11 habitaciones con baño privado, lo que permite ofrecer alojamiento cómodo y privado para los huéspedes. Cerrado en la actualidad. Necesita Nueva Licencia de Actividad. La ubicación es otro punto fuerte, ya que está al lado de la estación de autobuses y tren, y a solo 5 minutos del centro, lo que facilita el acceso a los clientes. Navia es descrita como un lugar clave en el occidente de Asturias, con un tejido empresarial y comercial activo durante todo el año, lo que genera una demanda constante de alojamiento, tanto por el sector empresarial como por el turismo. La propuesta señala que el establecimiento está amueblado y listo para empezar a operar tras reallizar las gestiones necesarias a nivel de licencia y reformas para cumplir normativa, representa una gran ventaja para cualquier inversor interesado en el sector. Además, destaca la alta demanda de vivienda y alojamiento en la zona, reforzando el potencial del negocio. Finalmente, el anuncio invita a los interesados a consultar más información, sugiriendo que podrían haber más detalles o facilidades disponibles. Lee todo Si quieres saber más, habla con Cantábrico ConsultingHaz una pregunta",
+    "description": "DESCRIPCION Este anuncio describe una excelente oportunidad de inversión en el sector hotelero y de restauración en Navia, Asturias. El establecimiento cuenta con: 11 habitaciones con baño privado, lo que permite ofrecer alojamiento cómodo y privado para los huéspedes. Cerrado en la actualidad. Necesita Nueva Licencia de Actividad. La ubicación es otro punto fuerte, ya que está al lado de laestación de autobuses y tren, y a solo 5 minutos del centro, lo que facilita el acceso a los clientes. Navia es descrita como un lugar clave en el occidente de Asturias, con un tejido empresarial y comercial activo durante todo el año, lo que genera una demanda constante de alojamiento, tanto por el sector empresarial como por el turismo. La propuesta señala que el establecimiento está amueblado y listo para empezar a operar tras reallizar las gestiones necesarias a nivel de licencia y reformas para cumplir normativa, representa una gran ventaja para cualquier inversor interesado en el sector. Además, destaca la alta demanda de vivienda y alojamiento en la zona, reforzando el potencial del negocio. Finalmente, el anuncio invita a los interesados a consultar más información, sugiriendo que podrían haber más detalles o facilidades disponibles. - En el Precio están incluidos los honorarios de agencia y gestión. - Aparte del precio habrá que sumar el impuesto de trasmisiones (ITP), notaria y registro para la compra. Lee todo Si quieres saber más, habla con Cantábrico ConsultingHaz una pregunta",
     "url": "https://www.luxuryestate.com/es/p130090275-hotel-for-sale-navia",
     "source": "LuxuryEstate",
     "date": "08/04/2026",
@@ -12638,7 +12608,7 @@
     "m2": 1,
     "stars": 2,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto en venta Palma de Mallorca, Baleares",
@@ -12782,7 +12752,7 @@
     "rooms": 34,
     "stars": 3,
     "location_region": "Castilla-La Mancha",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 22000 m2 en venta Sevilla, Andalucía",
@@ -12801,7 +12771,7 @@
     "title": "Hotel de lujo de 1400 m2 en venta Coaña, Asturias",
     "price": "700.000 €",
     "location": "Coaña",
-    "description": "DESCRIPCION Complejo Hotel-Restaurante adosado a vivienda, consta de una superficie construida de 1.400 metros en una Finca Cerrada. La planta sótano está distribuida en almacenaje, garajes, salas de instalaciones, cocina y una parte dedicada a los aseos de la cafetería. Planta Baja con la zona más pública del Hotel, la recepción y la cafetería que ocupa una gran parte del espacio, 5 dormitorios ocupan el resto de superficie, esta planta posee grandes terrazas al frente con entradas al hotel y cafetería, también comunicado en la vivienda adosada un salón-comedor con chimenea de unos 54 metros. La primera planta destinada a 12 dormitorios, además de un hall y una zona de estar para huéspedes. En la vivienda adosada también tenemos en la planta baja aparte de él salón-comedor con chimenea la cocina y en la primera planta y bajo-cubierta 6 dormitorios y 2 baños. Frente al hotel un aparcamiento. Todo en buen estado, aunque la construcción es más antigua que el edificio del hotel pero reformada y en buen estado. En la finca actualmente existe otra vivienda que inicialmente no entra en el lote de venta. Lee todo Si quieres saber más, habla con Cantábrico ConsultingHaz una pregunta",
+    "description": "DESCRIPCION Complejo Hotel-Restaurante adosado a vivienda, consta de una superficie construida de 1.400 metros en una Finca Cerrada. La planta sótano está distribuida en almacenaje, garajes, salas de instalaciones, cocina y una parte dedicada a los aseos de la cafetería. Planta Baja con la zona más pública del Hotel, la recepción y la cafetería que ocupa una gran parte del espacio, 5 dormitorios ocupan el resto de superficie, esta planta posee grandes terrazas al frente con entradas al hotel y cafetería, también comunicado en la vivienda adosada un salón-comedor con chimenea de unos 54 metros. La primera planta destinada a 12 dormitorios, además de un hall y una zona de estar para huéspedes. En la vivienda adosada también tenemos en la planta baja aparte de él salón-comedor con chimenea la cocina y en la primera planta y bajo-cubierta 6 dormitorios y 2 baños. Frente al hotel un aparcamiento. Todo en buen estado, aunque la construcción es más antigua que el edificio del hotel pero reformada y en buen estado. - En el Precio están incluidos los honorarios de agencia y gestión. - Aparte del precio habrá que sumar el impuesto de ITP, más los gastos de notaria y registro para la compra. En la finca actualmente existe otra vivienda que inicialmente no entra en el lote de venta. Lee todo Si quieres saber más, habla con Cantábrico ConsultingHaz una pregunta",
     "url": "https://www.luxuryestate.com/es/p130090270-hotel-for-sale-coana",
     "source": "LuxuryEstate",
     "date": "08/04/2026",
@@ -12947,7 +12917,7 @@
     "date": "08/04/2026",
     "m2": 993,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel en venta Enguera, Comunidad Valenciana",
@@ -16037,7 +16007,7 @@
     "m2": 477,
     "bathrooms": 14,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "9 habitaciones Hotel en venta in Tias - â¬ 2,500,000",
@@ -16418,7 +16388,7 @@
     "source": "Oi Real Estate",
     "date": "10/04/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "9 habitaciones Hotel en venta in Javea / Xabia - â¬ 1,290,000",
@@ -16686,16 +16656,6 @@
     "m2": 2134,
     "location_region": "Baleares",
     "ausencias": 0
-  },
-  {
-    "title": "35 habitaciones Hotel en venta in Fuengirola - â¬ 5,950,000",
-    "price": "Precio a consultar",
-    "location": "Fuengirola",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9770106",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "Hotel en venta in El Campello with pool garage - â¬ 12,500,000",
@@ -17352,7 +17312,7 @@
     "m2": 3230,
     "bathrooms": 33,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 587 m2 en venta Arona, Canarias",
@@ -17745,6 +17705,26 @@
     "m2": 3,
     "stars": 3,
     "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "10 habitaciones Hotel en venta in San Martin de Trevejo with pool - â¬ 1,500,000",
+    "price": "Precio a consultar",
+    "location": "San Martin de Trevejo",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/8634581",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel 3 Estrellas en Venta en Mallorca Sureste",
+    "price": "16.500.000 €",
+    "location": "Mallorca Sureste",
+    "description": "Hotel 3 Estrellas en Venta con excelente ubicación al Sureste de Mallorca Resumen de la Propuesta de Inversión Aspectos claves a considerar: Ubicación Estratégica: Primera línea de playa: Un factor diferenciador que garantiza una alta ocupación durante la temporada alta y atrae a un amplio espectro de clientes. Mallorca Sureste: Buen nivel de competencia hotelera y las tendencias turísticas actuales. Tamaño y Capacidades: 117 habitaciones: Un tamaño considerable que permite generar mayores ingresos y diversificar la oferta de servicios. Zonas ajardinadas: Un valor añadido que mejora la experiencia del huésped y puede ser utilizado para eventos o actividades de ocio. Operador Actual: Venta con operador: Ofrece la ventaja de adquirir un negocio en funcionamiento con una clientela establecida y conocimientos del mercado local. Negociación de salida: Permite al comprador la flexibilidad de mantener al operador actual o implementar su propia gestión. Necesidad de Inversión (CAPEX): Es fundamental realizar mejoras al inmueble, en aras mejorar su rentabilidad. Precio de Venta: 16,5 millones de euros. Comprar o vender un hotel de lujo con OIREALESTATE garantiza una transacción eficiente y segura, gracias a su amplia experiencia y conocimiento del mercado de alto standing. La inmobiliaria ofrece acceso a oportunidades exclusivas, asesoramiento personalizado y un proceso integral, desde la negociación hasta la gestión post-venta, asegurando una experiencia de inversión fluida y confiab",
+    "url": "https://www.oirealestate.net/propiedad/78269/hotel-3-estrellas-en-venta-en-mallorca-sureste",
+    "source": "Oi Real Estate",
+    "date": "20/04/2026",
+    "location_region": "Baleares",
     "ausencias": 0
   }
 ]
