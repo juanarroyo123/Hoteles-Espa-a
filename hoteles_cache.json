@@ -710,7 +710,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8895306",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "5 habitaciones Hotel en venta in Velez-Malaga - â¬ 350,000",
@@ -847,7 +847,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9409306",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "5 habitaciones Hotel en venta in Charco del Palo with pool - â¬ 2,500,000",
@@ -2622,16 +2622,6 @@
     "ausencias": 0
   },
   {
-    "title": "5 habitaciones Hotel en venta in Soller - â¬ 1,590,000",
-    "price": "Precio a consultar",
-    "location": "Soller",
-    "description": "This recently completely reformed townhouse for sale in Soller has a license as a Boutique Hotel for 4 rooms. The house dates back to the beginning of the early 20th century and still holds typical features such as a grand entrance hall and high...",
-    "url": "https://www.thinkspain.com/property-for-sale/8614917",
-    "source": "ThinkSpain",
-    "location_region": "Baleares",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta in L'Arenal / S'Arenal - â¬ 15,500,000",
     "price": "Precio a consultar",
     "location": "L'Arenal",
@@ -3098,16 +3088,6 @@
     "ausencias": 0
   },
   {
-    "title": "8 habitaciones Hotel en venta in Oliva - â¬ 220,000",
-    "price": "Precio a consultar",
-    "location": "Oliva",
-    "description": "Very large house on the national road. It has a courtyard, commercial premises, 8 bedrooms, 3 bathrooms and 2 toilets. It is divided into 3 independent flats. On the ground floor there are commercial premises, living area and a 15 m2 courtyard. On...",
-    "url": "https://www.thinkspain.com/property-for-sale/8327737",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
-  },
-  {
     "title": "110 habitaciones Hotel en venta in Cambrils with pool - â¬ 9,500,000",
     "price": "Precio a consultar",
     "location": "Cambrils",
@@ -3391,7 +3371,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9524724",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "13 habitaciones Hotel en venta in Constantina - â¬ 1,650,000",
@@ -7154,7 +7134,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-del-sol/malaga/centro-historico-soho/casa-villa/mlg64741.html",
     "source": "Lucas Fox",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa / villa de 501m² en venta en Baix Empordà, Girona",
@@ -7164,7 +7144,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/baix-emporda/casa-villa/gir59589.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de 4,057m² con 5,816m² de jardín en venta en Tarragona",
@@ -7174,7 +7154,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/tarragona-inland/hoteles/tar55486.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,556m² en venta en Tarragona, Costa Dorada",
@@ -7184,7 +7164,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/tarragona-inland/casa-rural/tar42060.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de 1,028m² con 10,647m² de jardín en venta en La Selva",
@@ -7193,7 +7173,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/hoteles/gir29306.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa / villa de 696m² en venta en El Gironés, Girona",
@@ -7203,7 +7183,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/gerona-el-girones/casa-villa/gir33888.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Masia de 690m² con 379m² de jardín en venta en La Garrotxa",
@@ -7212,7 +7192,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-garrotxa/casa-villa/gir34325.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 974m² en venta en La Selva, Girona",
@@ -7222,7 +7202,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/casa-rural/gir67918.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 713m² en venta en Sant Pol de Mar",
@@ -7231,7 +7211,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/barcelona/maresme/sant-pol-de-mar/casa-villa/mat33389.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 2,600m² en venta en Granada, Granada",
@@ -7241,7 +7221,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/granada/granada-ciudad-y-alrededores/hoteles/mlg67455.html",
     "source": "Lucas Fox",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Castillo / palacio de 747m² en venta en La Selva, Girona",
@@ -7251,7 +7231,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/castillo-palacio/gir33033.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 286m² en venta en La Selva, Girona",
@@ -7261,7 +7241,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/casa-rural/gir66616.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de 416m² en venta en Maó, Islas Baleares",
@@ -7271,7 +7251,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/mao/hoteles/men64083.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 651m² en venta en La Selva, Girona",
@@ -7281,7 +7261,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/casa-rural/gir64809.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 909m² en venta en El Gironés, Girona",
@@ -7291,7 +7271,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/gerona-el-girones/casa-rural/gir64064.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 642m² con 4,000m² de jardín en venta en Esporles",
@@ -7300,7 +7280,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/mallorca/esporles/casa-rural/mal65509.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa / villa de 386m² en venta en Es Castell",
@@ -7309,7 +7289,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/escastell/casa-villa/men48526.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 410m² con 107m² terraza en venta en Santa Gertrudis",
@@ -7318,7 +7298,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/ibiza/santa-gertrudis/casa-rural/ibz64568.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa / villa de 912m² en venta en Pontevedra, Galicia",
@@ -7328,7 +7308,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/pontevedra/casa-villa/vig64421.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa / villa de 1,140m² con 409m² de jardín en venta en Barri Vell",
@@ -7337,7 +7317,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/girona-ciudad/barri-vell/casa-villa/gir63499.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Masia de 643m² con 1,348m² de jardín en venta en Esplugues",
@@ -7346,7 +7326,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/barcelona/esplugues/casa-villa/sjd62149.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de 810m² en venta en Pla de l'Estany, Girona",
@@ -7356,7 +7336,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/hoteles/gir55202.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Masia de 1,132m² en venta en Baix Empordà, Girona",
@@ -7366,7 +7346,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/baix-emporda/casa-villa/gir59975.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Masia de 827m² en venta en Gran Alacant, Costa Blanca",
@@ -7376,7 +7356,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/alicante/gran-alacant/casa-villa/ali57146.html",
     "source": "Lucas Fox",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 2,186m² en venta en Tarragona, Costa Dorada",
@@ -7386,7 +7366,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/tarragona-inland/casa-villa/tar52932.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 2,160m² en venta en Ferreries, Islas Baleares",
@@ -7396,7 +7376,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/ferreries/hoteles/men49779.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 1,315m² con 246m² de jardín en venta en Alaior",
@@ -7405,7 +7385,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/alaior/casa-villa/men46151.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 1,300m² en venta en Maó, Islas Baleares",
@@ -7415,7 +7395,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/mao/casa-villa/men36765.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 219m² en venta en Maó, Islas Baleares",
@@ -7425,7 +7405,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/mao/casa-villa/men35665.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 460m² en venta en Pontevedra, Galicia",
@@ -7435,7 +7415,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/pontevedra/casa-villa/vig34069.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 150m² en venta en Mercadal, Islas Baleares",
@@ -7445,7 +7425,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/es-mercadal/casa-rural/men34613.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 160 m² en venta en Ciudadela, Menorca",
@@ -7455,7 +7435,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/menorca/ferreries/casa-villa/men21059.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 398m² en venta en Dénia, Costa Blanca",
@@ -7465,7 +7445,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/denia/hoteles/jav66559.html",
     "source": "Lucas Fox",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Pazo de 738m² en venta en Ourense, Galicia",
@@ -7475,7 +7455,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/orense/casa-villa/vig64656.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 777m² en venta en Olivella, Barcelona",
@@ -7485,7 +7465,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/barcelona/sitges/olivella-canyelles/casa-rural/sit54851.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Masía de 720 m² en venta en Argentona, Maresme",
@@ -7494,7 +7474,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/barcelona/maresme/argentona/casa-rural/mrs7081.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 613m² en venta en Alt Empordà, Girona",
@@ -7504,7 +7484,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/alt-emporda/casa-rural/gir36804.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Palacio de 962 m² con 3.937 m² de terraza en venta en Axarquía",
@@ -7513,7 +7493,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/granada/costa-tropical/castillo-palacio/mlg29680.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 724m² en venta en Pla de l'Estany, Girona",
@@ -7523,7 +7503,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/casa-rural/gir66888.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Piso de 68m² en venta en Playa Malvarrosa/Cabanyal",
@@ -7532,7 +7512,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/valencia/valencia-ciudad/playa-malvarrosa/piso/val67304.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Castillo / palacio de 2,280m² en venta en Calonge",
@@ -7541,7 +7521,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-brava/calonge/castillo-palacio/pda52705.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 567m² en venta en Pla de l'Estany, Girona",
@@ -7551,7 +7531,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/casa-villa/gir60367.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 371m² en venta en Pinares de San Antón - El Candado",
@@ -7560,7 +7540,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-del-sol/malaga/pinares-de-san-anton-el-candado/casa-villa/mlg65990.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Cortijo de 2,500m² en venta en Fuente el Saz de Jarama",
@@ -7569,7 +7549,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/madrid/fuente-el-saz/casa-villa/mad66666.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 322m² en venta en Esplugues, Barcelona",
@@ -7579,7 +7559,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/barcelona/esplugues/hoteles/sjd66406.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Parcela de 4,383m² con 665m² terraza en venta en Pontevedra",
@@ -7589,7 +7569,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/pontevedra/parcela/vig64317.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 1,686m² en venta en La Garrotxa, Girona",
@@ -7599,7 +7579,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-garrotxa/hoteles/gir61558.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 16,767m² en venta en Tarragona, Costa Dorada",
@@ -7609,7 +7589,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/tarragona-inland/hoteles/tar52784.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 229m² en venta en Alt Empordà, Girona",
@@ -7619,7 +7599,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/alt-emporda/hoteles/gir64186.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,224m² en venta en Baix Empordà, Girona",
@@ -7629,7 +7609,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/baix-emporda/casa-rural/gir61561.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 668m² en venta en Playa Muchavista",
@@ -7638,7 +7618,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/alicante/playa-muchavista/casa-villa/ali61665.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 1,838m² en venta en Portocolom, Islas Baleares",
@@ -7648,7 +7628,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/mallorca/portocolom/hoteles/mal59962.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 303m² en venta en Pontevedra, Galicia",
@@ -7658,7 +7638,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/pontevedra/casa-rural/vig56886.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 775m² en venta en Pla de l'Estany, Girona",
@@ -7668,7 +7648,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/casa-rural/gir56099.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 907m² en venta en Alt Empordà, Girona",
@@ -7678,7 +7658,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/alt-emporda/casa-rural/gir55998.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 696m² en venta en La Garrotxa, Girona",
@@ -7688,7 +7668,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-garrotxa/casa-rural/gir55129.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 193m² en venta en malaga-oeste, Costa del Sol",
@@ -7698,7 +7678,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-del-sol/malaga/malaga-oeste/casa-rural/mlg43220.html",
     "source": "Lucas Fox",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 607m² en venta en La Garrotxa, Girona",
@@ -7708,7 +7688,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-garrotxa/casa-rural/gir53426.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,196m² en venta en Pla de l'Estany, Girona",
@@ -7718,7 +7698,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/casa-rural/gir52628.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 2,134m² en venta en Centro de Mallorca",
@@ -7728,7 +7708,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/mallorca/centro-mallorca/hoteles/mal54013.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,014m² en venta en La Garrotxa, Girona",
@@ -7738,7 +7718,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-garrotxa/casa-rural/gir52278.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Viñedos de 1,049m² en venta en Jávea, Costa Blanca",
@@ -7748,7 +7728,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/javea/vinedos/jav52872.html",
     "source": "Lucas Fox",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 2,600m² en venta en Pontevedra, Galicia",
@@ -7758,7 +7738,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/pontevedra/hoteles/vig49402.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,048m² en venta en malaga-oeste",
@@ -7768,7 +7748,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-del-sol/malaga/malaga-oeste/casa-rural/mlg49225.html",
     "source": "Lucas Fox",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Masia de 687m² en venta en Tarragona, Costa Dorada",
@@ -7778,7 +7758,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/tarragona-inland/casa-villa/tar43789.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 717m² en venta en Pontevedra, Galicia",
@@ -7788,7 +7768,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/galicia/pontevedra/casa-villa/vig36502.html",
     "source": "Lucas Fox",
     "location_region": "Galicia",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 3,377m² con 40,830m² de jardín en venta en Priorat",
@@ -7797,7 +7777,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/priorat/casa-rural/tar41383.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Parcela de 80,500m² en venta en Priorat, Costa Dorada",
@@ -7807,7 +7787,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-dorada/tarragona/priorat/parcela/tar37686.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,779m² en venta en El Gironés, Girona",
@@ -7817,7 +7797,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/gerona-el-girones/casa-rural/gir30154.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Masía de 1,152 m² con 4,600 m² de jardín en venta en El Gironés",
@@ -7826,7 +7806,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/gerona-el-girones/casa-rural/gir20810.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 396m² con 8,000m² de jardín en venta en La Garrotxa",
@@ -7835,7 +7815,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-garrotxa/casa-rural/gir36962.html",
     "source": "Lucas Fox",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa / villa de 734m² en venta en Benissa, Costa Blanca",
@@ -7845,7 +7825,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/benissa/casa-villa/jav60399.html",
     "source": "Lucas Fox",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de 1,314m² en venta en Pla de l'Estany, Girona",
@@ -7855,7 +7835,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/hoteles/gir54231.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 950 m2 en venta Siétamo, España",
@@ -9491,7 +9471,7 @@
     "title": "Exclusivo hotel de 959 m2 en venta Arzúa, Galicia",
     "price": "1.900.000 €",
     "location": "Arzúa",
-    "description": "DESCRIPCION Os presentamos una excelente oportunidad de inversión en el Camino de Santiago. Situada en Arzúa, una de las etapas más transitadas del Camino Francés, esta pensión de 3 estrellas goza de una ubicación estratégica, con un alto flujo de peregrinos y turistas durante todo el año.  El establecimiento se encuentra en pleno funcionamiento, con una sólida reputación y gran potencial de crecimiento.  Dispone de 17 habitaciones totalmente equipadas, distribuidas en: 1 habitación individual, 10 habitaciones dobles, 3 habitaciones cuádruples, 1 habitación triple y 2 habitaciones matrimoniales. Todas cuentan con baño privado, calefacción, aire acondicionado y conexión wifi, garantizando el máximo confort de los huéspedes.  La pensión ofrece, además, restaurante y cafetería con excelente valoración entre peregrinos, vestuarios y sala de lavandería, amplio aparcamiento privado para clientes y autobuses y placas solares que contribuyen a la eficiencia energética. Sus zonas comunes amplias y confortables completan un conjunto perfectamente adaptado a las necesidades del viajero moderno.  Gracias a su ubicación privilegiada, su negocio operativo con clientela estable y su potencial de expansión en oferta de alojamiento y servicios, esta propiedad representa una inversión segura y rentable.  Una oportunidad única para quienes buscan un proyecto de alta rentabilidad.  Para más información, no dudes en contactar.  *Este anuncio no es vinculante, puede contener errores, se muestra a ",
+    "description": "DESCRIPCION Os presentamos una excelente oportunidad de inversión en el Camino de Santiago. Situada en Arzúa, una de las etapas más transitadas del Camino Francés, esta pensión de 3 estrellas goza de una ubicación estratégica, con un alto flujo de peregrinos y turistas durante todo el año.  El establecimiento se encuentra en pleno funcionamiento, con una sólida reputación y gran potencial de crecimiento.  Dispone de 17 habitaciones totalmente equipadas, distribuidas en: 1 habitación individual, 10 habitaciones dobles, 3 habitaciones cuádruples, 1 habitación triple y 2 habitaciones matrimoniales. Todas cuentan con baño privado, calefacción, aire acondicionado y conexión wifi, garantizando el máximo confort de los huéspedes.  La pensión ofrece, además, restaurante y cafetería con excelente valoración entre peregrinos, vestuarios y sala de lavandería, amplio aparcamiento privado para clientes y autobuses y placas solares que contribuyen a la eficiencia energética. Sus zonas comunes amplias y confortables completan un conjunto perfectamente adaptado a las necesidades del viajero moderno.  Gracias a su ubicación privilegiada, su negocio operativo con clientela estable y su potencial de expansión en oferta de alojamiento y servicios, esta propiedad representa una inversión segura y rentable.  Una oportunidad única para quienes buscan un proyecto de alta rentabilidad.  Para más información, no dudes en contactar.  Nota legal: este anuncio no es vinculante, puede contener errores, se",
     "url": "https://www.luxuryestate.com/es/p131984880-hotel-for-sale-arzua",
     "source": "LuxuryEstate",
     "date": "08/04/2026",
@@ -11634,7 +11614,7 @@
     "m2": 309,
     "bathrooms": 14,
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 2100 m2 en venta Capdepera, Baleares",
@@ -12790,7 +12770,7 @@
     "m2": 800,
     "bathrooms": 13,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 3529 m2 en venta Villanueva de San Carlos, España",
@@ -15670,16 +15650,6 @@
     "ausencias": 0
   },
   {
-    "title": "9 habitaciones Hotel en venta in Tias - â¬ 2,500,000",
-    "price": "Precio a consultar",
-    "location": "Tias",
-    "description": "Lanzarote. Macher. A four-star boutique hotel licensed for 9 rooms, representing an exclusive investment in one of the most sought-after areas due to its tranquillity, views of the Atlantic Ocean and proximity to the islandâs main centres, airport...",
-    "url": "https://www.thinkspain.com/property-for-sale/9755652",
-    "source": "ThinkSpain",
-    "location_region": "Canarias",
-    "ausencias": 2
-  },
-  {
     "title": "20 habitaciones Hotel en venta in Guejar Sierra with garage - â¬ 1,650,000",
     "price": "Precio a consultar",
     "location": "Guejar Sierra",
@@ -15717,7 +15687,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/gerona-el-girones/casa-rural/gir66939.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Castillo / Palacio de 1256m² y 550m² terraza en venta en Málaga",
@@ -15727,7 +15697,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-del-sol/malaga/malaga-oeste/casa-villa/mlg22962.html",
     "source": "Lucas Fox",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 663 m2 en venta Arcos de la Frontera, Andalucía",
@@ -15823,7 +15793,7 @@
     "m2": 1150,
     "bathrooms": 29,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo en venta Córdoba, España",
@@ -15837,7 +15807,7 @@
     "m2": 2200,
     "bathrooms": 38,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 1253 m2 en venta Casariche, Andalucía",
@@ -15851,7 +15821,7 @@
     "m2": 1253,
     "bathrooms": 20,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 7500 m2 en venta Motril, Andalucía",
@@ -15865,7 +15835,7 @@
     "m2": 7500,
     "bathrooms": 35,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 866 m2 en venta Ronda, Andalucía",
@@ -15893,7 +15863,7 @@
     "m2": 840,
     "bathrooms": 11,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo en venta Pórtugos, Andalucía",
@@ -15907,7 +15877,7 @@
     "m2": 3600,
     "bathrooms": 38,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 1500 m2 en venta Órgiva, Andalucía",
@@ -15921,7 +15891,7 @@
     "m2": 1500,
     "bathrooms": 14,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel con encanto de 1100 m2 en venta Cortes, España",
@@ -15934,7 +15904,7 @@
     "rooms": 27,
     "m2": 1100,
     "bathrooms": 28,
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel en venta Salobreña, Andalucía",
@@ -15948,7 +15918,7 @@
     "m2": 450,
     "bathrooms": 12,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 501 m2 en venta Torremolinos, Andalucía",
@@ -16028,7 +15998,7 @@
     "source": "Oi Real Estate",
     "date": "10/04/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "9 habitaciones Hotel en venta in Javea / Xabia - â¬ 1,290,000",
@@ -16057,7 +16027,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/hoteles/gir66618.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 1262 m2 en venta Caldas de Malavella, Cataluña",
@@ -16327,25 +16297,6 @@
     "ausencias": 0
   },
   {
-    "title": "10 habitaciones Hotel en venta in Navalafuente with garage - â¬ 300,000",
-    "price": "Precio a consultar",
-    "location": "Navalafuente",
-    "description": "with 641 mÂ² built, 10 bedrooms, 10 bathrooms, 2 toilets,",
-    "url": "https://www.thinkspain.com/property-for-sale/9765384",
-    "source": "ThinkSpain",
-    "ausencias": 2
-  },
-  {
-    "title": "10 habitaciones Guesthouse/B & B en venta in Fuengirola - â¬ 1,800,000",
-    "price": "Precio a consultar",
-    "location": "Fuengirola",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/8895310",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "44 habitaciones Hotel en venta in Jalance with pool - â¬ 1,305,000",
     "price": "Precio a consultar",
     "location": "Jalance",
@@ -16419,7 +16370,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/benissa/casa-villa/jav63326.html",
     "source": "Lucas Fox",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo en venta Santa Eulalia del Río, Baleares",
@@ -17081,7 +17032,7 @@
     "m2": 2118,
     "bathrooms": 26,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 1138 m2 en venta Cortes, España",
@@ -17464,16 +17415,6 @@
     "ausencias": 0
   },
   {
-    "title": "58 habitaciones Hotel en venta in Lanjaron - â¬ 1,600,000",
-    "price": "Precio a consultar",
-    "location": "Lanjaron",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/8895307",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta in El Paraiso - â¬ 50,000,000",
     "price": "Precio a consultar",
     "location": "El Paraiso",
@@ -17509,7 +17450,7 @@
     "description": "",
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/pla-de-lestany/castillo-palacio/gir68144.html",
     "source": "Lucas Fox",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 6686 m2 en venta Calvià, Baleares",
@@ -17593,7 +17534,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9789992",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 916 m2 en venta Santa Eulalia del Río, Baleares",
@@ -17656,7 +17597,7 @@
     "m2": 1150,
     "bathrooms": 29,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 2200 m2 en venta Córdoba, España",
@@ -17670,7 +17611,7 @@
     "m2": 2200,
     "bathrooms": 38,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 7500 m2 en venta Motril, Andalucía",
@@ -17684,7 +17625,7 @@
     "m2": 7500,
     "bathrooms": 35,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 1253 m2 en venta Casariche, Andalucía",
@@ -17698,7 +17639,7 @@
     "m2": 1253,
     "bathrooms": 20,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 840 m2 en venta Torrox, Andalucía",
@@ -17712,7 +17653,7 @@
     "m2": 840,
     "bathrooms": 11,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 3600 m2 en venta Pórtugos, España",
@@ -17725,7 +17666,7 @@
     "rooms": 32,
     "m2": 3600,
     "bathrooms": 38,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo en venta Órgiva, Andalucía",
@@ -17739,7 +17680,7 @@
     "m2": 1500,
     "bathrooms": 14,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel en venta Cortes, España",
@@ -17752,7 +17693,7 @@
     "rooms": 27,
     "m2": 1100,
     "bathrooms": 28,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 450 m2 en venta Salobreña, Andalucía",
@@ -17766,7 +17707,7 @@
     "m2": 450,
     "bathrooms": 12,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "11 habitaciones Hotel en venta in Ibiza / Eivissa town - â¬ 8,000,000",
@@ -17877,6 +17818,20 @@
     "source": "LuxuryEstate",
     "date": "25/04/2026",
     "m2": 8000,
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel de lujo de 2118 m2 en venta Güéjar-Sierra, España",
+    "price": "2.300.000 €",
+    "location": "Güéjar-Sierra",
+    "description": "DESCRIPCION Hotel Juan Francisco – Investment Opportunity in Güéjar Sierra, Granada El Hotel Juan Francisco representa una oportunidad de adquisición de un activo hotelero con identidad propia, ubicado en Güéjar Sierra, una localización especialmente estratégica por su conexión directa con dos de los principales polos de atracción turística del sur de España: Sierra Nevada y Granada capital. Su proximidad a la estación de esquí de Sierra Nevada aporta un valor diferencial para la captación de turismo vinculado a nieve, montaña, deporte y escapadas de temporada, mientras que su cercanía a Granada, a su extraordinaria vida cultural y al atractivo internacional de la Alhambra, amplía notablemente el espectro de demanda potencial durante todo el año. Esta combinación convierte al activo en una propuesta especialmente interesante para inversores y operadores que busquen un establecimiento con capacidad de atraer perfiles diversos de cliente: turismo vacacional, internacional, cultural, experiencial y de naturaleza. El inmueble cuenta con una imagen arquitectónica consolidada, reconocible y coherente con el carácter del entorno, así como con una configuración funcional apta para la explotación hotelera. Dispone de recepción, zonas comunes, bar cafetería, comedor y piscina, terraza con barbacoa , elementos que refuerzan la experiencia de estancia y aportan una base operativa valiosa para distintos escenarios de negocio. Desde una perspectiva estratégica, el activo ofrece potencial p",
+    "url": "https://www.luxuryestate.com/es/p132418570-hotel-for-sale-guejar-sierra",
+    "source": "LuxuryEstate",
+    "date": "26/04/2026",
+    "rooms": 26,
+    "m2": 2118,
+    "bathrooms": 26,
+    "location_region": "Andalucía",
     "ausencias": 0
   }
 ]
