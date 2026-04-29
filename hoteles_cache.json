@@ -603,7 +603,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9679518",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "5 habitaciones Hotel en venta in Monovar / Monover - â¬ 450,000",
@@ -1421,7 +1421,7 @@
     "title": "12 habitaciones Hotel en venta in Santa Cristina d'Aro - â¬ 1,575,000",
     "price": "Precio a consultar",
     "location": "Santa Cristina d'Aro",
-    "description": "Beautiful old masia with restaurant in RomanyÃ de la Selva Situated in the historic village of Romanya de la Selva, 10 minutes from Playa de Aro and 20 minutes from Girona, this traditional masia is located overlooking the rolling hills of the...",
+    "description": "Beautiful old Masia with restaurant in RomanyÃ de la Selva Situated in the historic village of Romanya de la Selva, 10 minutes from Playa de Aro and 20 minutes from Girona, this traditional masia is located overlooking the rolling hills of the...",
     "url": "https://www.thinkspain.com/property-for-sale/6807357",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
@@ -1578,7 +1578,7 @@
     "title": "10 habitaciones Hotel en venta in Madremanya with pool - â¬ 2,475,000",
     "price": "Precio a consultar",
     "location": "Madremanya",
-    "description": "Located in the picturesque and peaceful medieval village of Madremanya, in the heart of EmpordÃ and just 20 minutes from Girona, is this exclusive boutique hotel, currently operating exclusively for adults. A haven of peace, design, and...",
+    "description": "Heart of the EmpordÃ Located in the picturesque and peaceful medieval village of Madremanya, in the heart of EmpordÃ and just 20 minutes from Girona, is this exclusive boutique hotel, currently operating exclusively for adults. A haven of peace,...",
     "url": "https://www.thinkspain.com/property-for-sale/9137301",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
@@ -1712,7 +1712,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/5942019",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "14 habitaciones Hotel en venta in Salobrena - â¬ 430,000",
@@ -1801,7 +1801,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/6755648",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Guejar Sierra - â¬ 1,500,000",
@@ -3145,7 +3145,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9660638",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "7 habitaciones Hotel en venta in Sitges - â¬ 3,150,000",
@@ -3491,7 +3491,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8069086",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "7 habitaciones Hotel en venta in Motril with pool garage - â¬ 4,300,000",
@@ -4084,7 +4084,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8146646",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "27 habitaciones Hotel en venta in Pontevedra city - â¬ 2,200,000",
@@ -6462,16 +6462,6 @@
     "ausencias": 0
   },
   {
-    "title": "7 habitaciones Guesthouse/B & B en venta in Nerja with pool garage - â¬ 645,000",
-    "price": "Precio a consultar",
-    "location": "Nerja",
-    "description": "Welcome to a spacious and tastefully renovated home in Pueblo Rocio, currently run as a guesthouse, but is also suitable as a generous family home or for rentals. The house has seven bedrooms and four bathrooms, offering plenty of space for family,...",
-    "url": "https://www.thinkspain.com/property-for-sale/9737173",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "5 habitaciones Guesthouse/B & B en venta in Competa - â¬ 369,950",
     "price": "Precio a consultar",
     "location": "Competa",
@@ -7241,7 +7231,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/gerona-el-girones/casa-rural/gir64064.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Casa rural de 642m² con 4,000m² de jardín en venta en Esporles",
@@ -7316,7 +7306,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/baix-emporda/casa-villa/gir59975.html",
     "source": "Lucas Fox",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Masia de 827m² en venta en Gran Alacant, Costa Blanca",
@@ -7847,7 +7837,7 @@
     "m2": 733,
     "bathrooms": 7,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 1686 m2 en venta Sant Aniol de Finestres, Cataluña",
@@ -9524,7 +9514,7 @@
     "title": "Hotel con encanto de 625 m2 en venta Sant Lluís, España",
     "price": "Consultarprecio",
     "location": "Sant Lluís",
-    "description": "DESCRIPCION Encantador Hotel de Turismo de Interior en Menorca  Ubicado en una tranquila parcela de 1.200 m², este hotel boutique de Turismo de Interior, con 625 m² construidos en dos plantas, ofrece una experiencia única en plena armonía con el entorno menorquín. En pleno funcionamiento y con licencia para B&B, este encantador hotel cuenta con 8 amplias y acogedoras habitaciones, cada una con salón privado, terraza, aire acondicionado y conexión a internet, proporcionando un espacio ideal para una estancia tranquila y relajante en la isla.  Cada habitación dispone de un baño en suite, además de un baño de cortesía en las zonas comunes. Los huéspedes pueden disfrutar de un comedor con capacidad para 25 personas, perfecto para ofrecer desayunos o cenas, y de una cocina totalmente equipada para servicio a la carta. El amplio jardín, con una pérgola para comidas al aire libre, y la zona de piscina y solárium completan una oferta de ocio perfecta para el relax.  La propiedad también cuenta con un aparcamiento privado con capacidad para 8 vehículos y una zona de lavandería y planchado, lo que asegura una experiencia cómoda y sin preocupaciones.  Equipado con suministro trifásico de electricidad con 9 kW contratados (ampliables hasta 20 kW), el hotel utiliza calefacción central y agua caliente a gasoil, apoyado por placas solares de 5 kW para una mayor eficiencia. La cocina incluye una instalación de gas propano y un depósito de gasoil de 2.000 litros, junto con un aljibe de 9.000 ",
+    "description": "DESCRIPCION Encantador Hotel de Turismo de Interior en Menorca  Ubicado en una tranquila parcela de 1.200 m2, este hotel boutique de Turismo de Interior, con 625 m2 construidos en dos plantas, ofrece una experiencia única en plena armonía con el entorno menorquín. En pleno funcionamiento y con licencia para B&B, este encantador hotel cuenta con 8 amplias y acogedoras habitaciones, cada una con salón privado, terraza, aire acondicionado y conexión a internet, proporcionando un espacio ideal para una estancia tranquila y relajante en la isla.  Cada habitación dispone de un baño en suite, además de un baño de cortesía en las zonas comunes. Los huéspedes pueden disfrutar de un comedor con capacidad para 25 personas, perfecto para ofrecer desayunos o cenas, y de una cocina totalmente equipada para servicio a la carta. El amplio jardín, con una pérgola para comidas al aire libre, y la zona de piscina y solárium completan una oferta de ocio perfecta para el relax.  La propiedad también cuenta con un aparcamiento privado con capacidad para 8 vehículos y una zona de lavandería y planchado, lo que asegura una experiencia cómoda y sin preocupaciones.  Equipado con suministro trifásico de electricidad con 9 kW contratados (ampliables hasta 20 kW), el hotel utiliza calefacción central y agua caliente a gasoil, apoyado por placas solares de 5 kW para una mayor eficiencia. La cocina incluye una instalación de gas propano y un depósito de gasoil de 2.000 litros, junto con un aljibe de 9.000 ",
     "url": "https://www.luxuryestate.com/es/p130650977-hotel-for-sale-sant-lluis",
     "source": "LuxuryEstate",
     "date": "08/04/2026",
@@ -9835,7 +9825,7 @@
     "m2": 4649,
     "bathrooms": 70,
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 410 m2 en venta Cala Millor, Baleares",
@@ -11719,20 +11709,6 @@
     "ausencias": 0
   },
   {
-    "title": "Exclusivo hotel de 360 m2 en venta Castellón de la Plana, España",
-    "price": "799.000 €",
-    "location": "Castellón de la Plana",
-    "description": "DESCRIPCION CUANTAS VECES EN LA VIDA TE PUEDES COMPRAR UNA ESTACION DE TREN???   Antigua estación de tren de 1904 con licencia hotelera aprobada, entre viñedos, mar y montaña Se vende antigua estación ferroviaria de principios del siglo XX, con licencia de hotel rural concedida y proyecto aprobado, situada en un entorno natural único en Castellón, entre la Sierra de Irta y el Mediterráneo. La propiedad cuenta con una parcela privada de más de 16.000 m2, colindante con un viñedo en producción activa, con posibilidad de desarrollar experiencias enoturísticas (catas, visitas, eventos), lo que la convierte en un activo turístico experiencial de alto valor. ? Proyecto aprobado: Hotel rural boutique 10 habitaciones Piscina exterior Zonas ajardinadas Servicios de bienestar ? Características destacadas: Edificación histórica legal (1904) Licencia turística concedida (sin necesidad de DIC) Proyecto y presupuestos aprobados Pozo de agua, saneamiento y electricidad ejecutados Posibilidad de glamping eco-luxury (burbujas o tiendas premium) Uso compatible para eventos privados, bodas boutique y retiros ? Ubicación estratégica: A 2 km de la playa (acceso cómodo en bici) Rutas de senderismo y BTT Próxima a Peñíscola, Benicàssim y Vinaròs Alta demanda turística nacional e internacional ? Oportunidad de inversión: Precio proyecto actual: 799.000 € Posibilidad de desarrollo llave en mano ( 1,2 M€) Activo escalable y no replicable hoy en día  ? No es una finca. Es un proyecto de negocio turísti",
-    "url": "https://www.luxuryestate.com/es/p132411116-hotel-for-sale-castellon-de-la-plana",
-    "source": "LuxuryEstate",
-    "date": "08/04/2026",
-    "rooms": 10,
-    "m2": 360,
-    "bathrooms": 11,
-    "location_region": "C. Valenciana",
-    "ausencias": 2
-  },
-  {
     "title": "Exclusivo hotel de 485 m2 en venta Medina-Sidonia, España",
     "price": "Consultarprecio",
     "location": "Medina-Sidonia",
@@ -12034,19 +12010,6 @@
     "bathrooms": 9,
     "location_region": "Baleares",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel de lujo de 2749 m2 en venta Horcajo de los Montes, España",
-    "price": "5.000.000 €",
-    "location": "Horcajo de los Montes",
-    "description": "DESCRIPCION Hotel Parque Cabañeros es un hotel ecológico de 4 estrellas, situado en un entorno natural protegido, en la entrada del parque nacional de Cabañeros, a 100 km de Toledo y 160 km de Madrid. Su ubicación privilegiada ofrece un atractivo excepcional para el turismo sostenible, retiros, eventos corporativos y experiencias en plena naturaleza.  El hotel ha sido sometido a una renovación integral entre 2024 y 2025, con renovación de la licencia turística y el 95% de inspecciones ya completadas satisfactoriamente. Actualmente se encuentra en funcionamiento y recibiendo huéspedes.  Superficies:  • 2.749 m² construidos de edificio  • 2.170 m² de parcela de terreno  Capacidad y distribución:  • Alojamiento para 116 personas  • 50 habitaciones distribuidas en 3 plantas de hotel  • Bar con capacidad para 50 personas  • Restaurante con capacidad para 120 personas  • Sala de conferencias para 120 personas  • Sala con chimenea  • Sala de juegos  • Biblioteca  • Cocina equipada y salón VIP  • Piscina exterior  • Instalación solar fotovoltaica de 30 kW  • Puntos de carga para vehículos eléctricos  • Lavandería y recepción en la planta baja  Distribución interna por plantas:  1. Planta baja: recepción, bar, sala de conferencias y lavandería  2. Primera planta: restaurante, sala con chimenea, sala de juegos, biblioteca, cocina y salón VIP  3. Segunda planta: 18 habitaciones (16,3 m² a 22,5 m²), 7 con terraza  4. Tercera planta: 18 habitaciones (16,3 m² a 22,5 m²)  5. Cuarta planta: ",
-    "url": "https://www.luxuryestate.com/es/p132058739-hotel-for-sale-horcajo-de-los-montes",
-    "source": "LuxuryEstate",
-    "date": "08/04/2026",
-    "m2": 2749,
-    "stars": 4,
-    "location_region": "Madrid",
-    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 700 m2 en venta Carucedo, España",
@@ -15558,7 +15521,7 @@
     "source": "Engel & Völkers",
     "date": "08/04/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Palacete modernista de lujo e Canet de Mar",
@@ -15940,7 +15903,7 @@
     "source": "Oi Real Estate",
     "date": "10/04/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "9 habitaciones Hotel en venta in Javea / Xabia - â¬ 1,290,000",
@@ -16248,23 +16211,13 @@
     "ausencias": 0
   },
   {
-    "title": "30 habitaciones Hotel en venta in Granada city with pool - â¬ 1,795,000",
-    "price": "Precio a consultar",
-    "location": "Granada",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/7793690",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta in Quesada - â¬ 1,990,000",
     "price": "Precio a consultar",
     "location": "Quesada",
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9374636",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "56 habitaciones Hotel en venta in Aledo - â¬ 875,000",
@@ -16273,7 +16226,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9446454",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "14 habitaciones Guesthouse/B & B en venta in Rafelcofer - â¬ 300,000",
@@ -16964,7 +16917,7 @@
   },
   {
     "title": "Exclusivo hotel de 1138 m2 en venta Cortes, España",
-    "price": "470.000 €",
+    "price": "499.000 €",
     "location": "Cortes",
     "description": "DESCRIPCION ¡Bienvenidos al Hostal Rural, un lugar encantador en la cara norte de Sierra Nevada! Con 27 habitaciones totalmente equipadas y un restaurante en pleno funcionamiento, este establecimiento es el refugio ideal para quienes buscan tranquilidad y naturaleza.   Ubicado estratégicamente junto al balneario de Graena, ofrece a los huéspedes una experiencia única de descanso y bienestar. El hostal cuenta con todas las comodidades necesarias para una operación sin interrupciones y con un gran potencial de crecimiento.  *Características destacadas:* - *27 habitaciones acogedoras*  - *Terraza para eventos* con vistas impresionantes a Sierra Nevada. - *Restaurante con encanto* que sirve deliciosos platos locales y regionales. - *Ubicación privilegiada*, junto al balneario de Graena, ideal para turismo de bienestar y aventura. - *Amplias áreas comunes* perfectas para eventos y reuniones familiares o de grupo.  Esta es una oportunidad inigualable para adquirir un negocio en una de las zonas más hermosas y visitadas de España. ¡No pierda la ocasión de hacer su sueño realidad y adquirir este fantástico hostal!  Para más información y agendar una visita, no dude en contactarnos. ¡Esperamos su llamada!  * Gastos de notaría, registro e impuestos, NO incluidos. * Documento de información abreviada (D.I.A.) y Certificado Energético a disponible para el consumidor.  * Honorarios de la agencia NO incluidos.  Welcome to the Hostal Rural, a charming place on the northern side of Sierra Ne",
     "url": "https://www.luxuryestate.com/es/p130531537-hotel-for-sale-cortes",
@@ -17186,7 +17139,7 @@
     "source": "Oi Real Estate",
     "date": "20/04/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta in Enguera - â¬ 1,200,000",
@@ -17225,7 +17178,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9611456",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Barcelona city - â¬ 122,400,000",
@@ -17653,6 +17606,63 @@
     "description": "Builded surface 4000, hotel util surface 4000, conservation status: in good condition, nÂº floor: 1.",
     "url": "https://www.thinkspain.com/property-for-sale/5774389",
     "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 1
+  },
+  {
+    "title": "9 habitaciones Hotel en venta in Torrox - â¬ 850,000",
+    "price": "Precio a consultar",
+    "location": "Torrox",
+    "description": "Hotel for sale from 2007, it is renovated and located in the center of Torrox. Torrox is a coastal town on the eastern Costa del Sol at the foot of the Mediterranean to enjoy its tropical climate. It enjoys an unbeatable location, it is about 40...",
+    "url": "https://www.thinkspain.com/property-for-sale/7998257",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta in Cala Bona - â¬ 2,000,000",
+    "price": "Precio a consultar",
+    "location": "Cala Bona",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9806410",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta in Cala Ratjada - â¬ 15,400,000",
+    "price": "Precio a consultar",
+    "location": "Cala Ratjada",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9806409",
+    "source": "ThinkSpain",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto en venta Sanlúcar la Mayor, Andalucía",
+    "price": "920.000 €",
+    "location": "Sanlúcar la Mayor",
+    "description": "DESCRIPCION ACTIVO SINGULAR CON USOS COMPATIBLES ANALIZADOS 733 m² con estancias amplias, ascensor, piscina, bodega y garaje para 8 coches. Ideal para proyectos de alojamiento turístico premium, residencia asistencial, coliving o actividad profesional. Usos compatibles analizados y contrastados conforme a la normativa municipal aplicable. Una oportunidad exclusiva de inversión a 20 minutos de Sevilla. ITHLUX Sevilla presenta una oportunidad excepcional de adquisición en el Aljarafe: una villa singular de 733 m², con un potencial de explotación muy superior al de la vivienda tradicional, situada en uno de los ámbitos urbanísticos con mayor flexibilidad de uso del municipio. IMPORTANTE: La propiedad no dispone actualmente de ninguna licencia de actividad concedida. Los usos compatibles han sido analizados y contrastados directamente con el Ayuntamiento de Sanlúcar la Mayor, conforme a la normativa urbanística municipal aplicable (Normas Subsidiarias y PGOU vigente), que permite determinados usos compatibles con el residencial en este ámbito. Esto ofrece un escenario óptimo para inversores que desean desarrollar un proyecto desde cero, con seguridad jurídica procedimental y margen de personalización, en una zona muy demandada por turismo, corporativo y servicios asistenciales. ¿Por qué es una oportunidad de negocio única? • 733 m² construidos, distribuidos de forma abierta y fácilmente adaptable. • Ubicación estratégica, a solo 20 min de Sevilla, con tren, autobuses y acceso dir",
+    "url": "https://www.luxuryestate.com/es/p132053666-hotel-for-sale-sanlucar-la-mayor",
+    "source": "LuxuryEstate",
+    "date": "29/04/2026",
+    "rooms": 7,
+    "m2": 733,
+    "bathrooms": 7,
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto de 1400 m2 en venta Penáguila, España",
+    "price": "400.000 €",
+    "location": "Penáguila",
+    "description": "DESCRIPCION Una bonita villa ubicada en Penáguila, decorado en un estílo rústico, cuenta con todo lo necesario para que nuestra estancia sea agradable y confortable y pasar unos días de descanso y disfrutar de la naturaleza.Penáguila es un municipio de la comarca alicantina de l’Alcoy, enclavado en la vertiente occidental de la Sierra de Aitana. En la planta baja tiene una cafeteria restaurante con amplio comedor con suelo hidráulico y paredes de madera con chimenea. Para reuniones mas intimas hay una bodeguilla. La villa, que es de origen musulmán, estaba totalmente amurallada, conservándose hoy día restos de los muros y algunas torres, se alza sobre un promontorio envuelto de barrancos al margen izquierdo del río Frainós. Es uno de los pueblos más antiguos y de más notable importancia histórica de la provincia de Alicante. En él se conservan muchos de los edificios de la época en la que Penáguila fue cabeza de señorío como el Palacio de Fenollar, el Palacio de Montcada, el Jardín de Santos, la puerta mediaval “El Portalet” y la fuente de los 30 caños. El Castillo de Penàguila es una fortaleza árabe del siglo VIII, de planta irregular adaptada a la topografía y construida sobre restos romanos, que fue objeto de reformas cristianas en los siglos XIV y XVI. Está situada sobre un cerro escarpado de la vertiente oeste de la sierra de Aitana. Además, en Penàguila se ubica la casa, una gran casa Valterra Turisme Rural con una configuración muy peculiar, en la que encontrarás un ri",
+    "url": "https://www.luxuryestate.com/es/p130199378-hotel-for-sale-penaguila",
+    "source": "LuxuryEstate",
+    "date": "29/04/2026",
+    "rooms": 7,
+    "m2": 1400,
+    "bathrooms": 8,
     "location_region": "C. Valenciana",
     "ausencias": 0
   }
