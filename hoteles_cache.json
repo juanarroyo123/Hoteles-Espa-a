@@ -5269,15 +5269,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel en venta in Sant Antoni de Portmany - â¬ 6,370,000",
-    "price": "Precio a consultar",
-    "location": "Sant Antoni de Portmany",
-    "description": "Key facts Number of apartments 10 one-bedroom apartments (c. 57 mÂ²) 10 two-bedroom apartments (c. 74 mÂ²) Number of beds 60 Amenities Each flat is equipped with a kitchen, the property has a swimming pool with a bar and a garden. Each flat with...",
-    "url": "https://www.thinkspain.com/property-for-sale/9344777",
-    "source": "ThinkSpain",
-    "ausencias": 2
-  },
-  {
     "title": "7 habitaciones Hotel en venta in Zahara de la Sierra - â¬ 299,000",
     "price": "Precio a consultar",
     "location": "Zahara de la Sierra",
@@ -7813,19 +7804,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel de lujo de 1406 m2 en venta San Antonio, Baleares",
-    "price": "4.200.000 €",
-    "location": "San Antonio",
-    "description": "DESCRIPCION ROXIRE INMOBILIARIA EN SAN ANTONIO DE PORTMANY PRESENTA ESTA EXCLUSIVA OPORTUNIDAD DE INVERSION HOTELERA EN IBIZA, UN ESTABLECIMIENTO EN PLENO FUNCIONAMIENTO CON GRAN POTENCIAL DE RENTABILIDAD. PERFECTO PARA INVERSORES. En el corazon de San Antonio de Portmany, se encuentra este encantador hostal recientemente renovado que representa una excelente oportunidad de inversion en una de las zonas con mayor proyeccion turistica de Ibiza. El establecimiento, actualmente en funcionamiento y con una rentabilidad solida y demostrable, cuenta con 17 habitaciones amplias y luminosas, recepcion y restaurante-cafeteria en la planta baja con gran visibilidad, lo que permite generar ingresos tanto por hospedaje como por restauracion. Recientemente se han reformado una gran parte del hostal, el cual combina la autenticidad del estilo mediterraneo con las comodidades actuales. Su distribucion y estructura ofrecen un gran potencial. Gracias a su gestion familiar consolidada y su cartera de clientes recurrentes, este activo garantiza un rendimiento inmediato y una interesante proyeccion de crecimiento. Su ubicacion refuerza aun mas su atractivo y rentabilidad. Una inversion segura, rentable y con alto potencial de revalorizacion, ideal para operadores hoteleros o inversores que deseen posicionarse en uno de los destinos mas demandados del Mediterraneo. ¿Quieres visitarlo? ¡Contacta con nosotros! Las fotografias de este inmueble son propiedad exclusiva de Roxire Ibiza. Se prohibe su r",
-    "url": "https://www.luxuryestate.com/es/p132380561-hotel-for-sale-san-antonio",
-    "source": "LuxuryEstate",
-    "date": "08/04/2026",
-    "rooms": 17,
-    "m2": 1406,
-    "location_region": "Baleares",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel con encanto de 322 m2 en venta Cornellà de Llobregat, España",
     "price": "2.700.000 €",
     "location": "Cornellà de Llobregat",
@@ -9444,7 +9422,7 @@
     "rooms": 8,
     "m2": 386,
     "bathrooms": 6,
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel con encanto de 1100 m2 en venta Altea, España",
@@ -9943,7 +9921,7 @@
     "m2": 360,
     "bathrooms": 10,
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 1552 m2 en venta Tolox, España",
@@ -10068,7 +10046,7 @@
     "m2": 430,
     "bathrooms": 15,
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 457 m2 en venta Ronda, España",
@@ -10848,7 +10826,7 @@
     "m2": 1299,
     "bathrooms": 11,
     "location_region": "Castilla y León",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "Hotel con encanto de 1000 m2 en venta La Orotava, Canarias",
@@ -11252,7 +11230,7 @@
     "date": "08/04/2026",
     "m2": 992,
     "location_region": "Castilla-La Mancha",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel con encanto de 1791 m2 en venta Pereruela, España",
@@ -16175,15 +16153,6 @@
     "ausencias": 0
   },
   {
-    "title": "17 habitaciones Hotel en venta in Sant Antoni de Portmany - â¬ 4,200,000",
-    "price": "Precio a consultar",
-    "location": "Sant Antoni de Portmany",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9774356",
-    "source": "ThinkSpain",
-    "ausencias": 2
-  },
-  {
     "title": "15 habitaciones Guesthouse/B & B en venta in Granada city - â¬ 1,400,000",
     "price": "Precio a consultar",
     "location": "Granada",
@@ -16925,7 +16894,7 @@
     "source": "Oi Real Estate",
     "date": "20/04/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta in Enguera - â¬ 1,200,000",
@@ -17596,6 +17565,55 @@
     "m2": 816,
     "bathrooms": 8,
     "location_region": "Asturias",
+    "ausencias": 0
+  },
+  {
+    "title": "16 habitaciones Hotel en venta in Lliber - â¬ 3,500,000",
+    "price": "Precio a consultar",
+    "location": "Lliber",
+    "description": "In the heart of LlÃ­ber's peaceful wine valley, surrounded by almond groves and vineyards, lies a rare and inspiring investment opportunity: a fully operational boutique hotel paired with a charming private holiday villa. Sold together as one...",
+    "url": "https://www.thinkspain.com/property-for-sale/9518080",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "Exclusivo hotel de 2255 m2 en venta Turre, Andalucía",
+    "price": "6.500.000 €",
+    "location": "Turre",
+    "description": "DESCRIPCION OPORTUNIDAD DE INVERSIÓN: Activo Turístico Diversificado \"Llave en Mano\" en Turre (Almería)  Se pone a la venta el complejo Hostal Rural Tío Tomás, un activo turístico de tres estrellas situado en una ubicación estratégica entre la montaña y la costa del Levante Almeriense (Turre/Mojácar). Este no es solo un hostal; es un centro de ocio y eventos diversificado con una operativa consolidada, valoraciones de excelencia en plataformas digitales (Booking 8.8/10) y un modelo de negocio resiliente capaz de generar ingresos durante todo el año. Capacidad de Alojamiento 21 habitaciones (aprox. 42+ plazas) Con una superficie de la Finca  30.000 m2 (Gran potencial de ampliación) Estado del Activo: En funcionamiento (\"Llave en mano\")¿Por qué este activo es una oportunidad estratégica? Modelo de Ingresos \"Anti-Estacional\": A diferencia de los hoteles de costa puros, el complejo diversifica sus fuentes de ingresos mediante:  Alojamiento: Clientela recurrente y familiar.  Eventos: Salón multiusos (capacidad 150 pax) para bodas, eventos corporativos y retiros.  Restauración: Servicio de restaurante y cafetería abierto al público local.  Ocio y Aventura: Parque de actividades, zona de piscina y acuerdos con Extreme Adventure Mojácar.  Flexibilidad de Gestión: Actualmente, la propiedad se encuentra arrendada con estabilidad contractual, ofreciendo al inversor la posibilidad de continuar como rentista (sin gestión directa) o asumir la explotación completa para maximizar los márgene",
+    "url": "https://www.luxuryestate.com/es/p132528436-hotel-for-sale-turre",
+    "source": "LuxuryEstate",
+    "date": "03/05/2026",
+    "rooms": 21,
+    "m2": 2255,
+    "bathrooms": 24,
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel de lujo en venta Ayora, Comunidad Valenciana",
+    "price": "850.000 €",
+    "location": "Ayora",
+    "description": "DESCRIPCION Hotel en Ayora zona AYORA, 694 m. de superficie, 9 habitaciones dobles, 6 baños, propiedad reformada, orientación sur, suelo de gres. Extras: agua, aire acond. central, aire acondicionado, barbacoa, bomba frío y calor, calefacción, chimenea, jardín, luz, mirador, muebles, patio, piscina propia, sótano, solárium, terraza, urbanización, vistas despejadas, garaje incluido  Lee todo Si quieres saber más, habla con Almanbroker Inmobiliaria 2012, S.l.Haz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p129929058-hotel-for-sale-ayora",
+    "source": "LuxuryEstate",
+    "date": "03/05/2026",
+    "rooms": 9,
+    "m2": 694,
+    "bathrooms": 6,
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "Apartahotel 3 estrellas en Venta en Mallorca Sureste",
+    "price": "16.500.000 €",
+    "location": "Mallorca Sureste",
+    "description": "Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Fortalezas del Negocio o Inversión: Ubicación estratégica: La proximidad a la playa es un gran atractivo para los turistas, especialmente en un destino como Mallorca. Amplias instalaciones: Dispone de 117 apartamentos. La gran zona ajardinada y la piscina son elementos que pueden mejorar la experiencia de los huéspedes. Potencial de desarrollo: La necesidad de CAPEX indica que existe la posibilidad de mejorar las instalaciones y aumentar la rentabilidad del negocio. Gran extensión de terreno: Los 80.000 m2 de terreno ofrecen un amplio margen para futuras expansiones o desarrollos adicionales. Comprar o vender un hotel de lujo con OIREALESTATE garantiza una transacción eficiente y segura, gracias a su amplia experiencia y conocimiento del mercado de alto standing. La inmobiliaria ofrece acceso a oportunidades exclusivas, asesoramiento personalizado y un proceso integral, desde la negociación hasta la gestión post-venta, asegurando una experiencia de inversión fluida y confiable. NOTA: Las fotos no corresponden con el inmueble, son a modo ilustrativo.",
+    "url": "https://www.oirealestate.net/propiedad/78202/apartahotel-3-estrellas-en-venta-en-mallorca-sureste",
+    "source": "Oi Real Estate",
+    "date": "03/05/2026",
+    "location_region": "Baleares",
     "ausencias": 0
   }
 ]
