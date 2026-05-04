@@ -881,7 +881,7 @@
     "title": "6 habitaciones Hotel en venta in Comares - â¬ 899,000",
     "price": "Precio a consultar",
     "location": "Comares",
-    "description": "Located in the heart of the white village of Comares, this exceptional property offers three fully renovated homes on approx. 1,050 mÂ². This is truly a one-of-a-kind property: rarely does a renovation of this quality, style and authenticity come to...",
+    "description": "If fairy tales exist, this is one. Located in the heart of the white village of Comares, this exceptional property offers three fully renovated homes on approx. 1,050 mÂ². This is truly a one-of-a-kind property: a renovation of this quality, style,...",
     "url": "https://www.thinkspain.com/property-for-sale/9661920",
     "source": "ThinkSpain",
     "ausencias": 0
@@ -3462,7 +3462,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9417971",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "6 habitaciones Hotel en venta in Lleida city - â¬ 950,000",
@@ -6401,7 +6401,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9550070",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "4 habitaciones Guesthouse/B & B en venta in Badajoz city - â¬ 250,000",
@@ -9422,7 +9422,7 @@
     "rooms": 8,
     "m2": 386,
     "bathrooms": 6,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 1100 m2 en venta Altea, España",
@@ -9921,7 +9921,7 @@
     "m2": 360,
     "bathrooms": 10,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 1552 m2 en venta Tolox, España",
@@ -10046,7 +10046,7 @@
     "m2": 430,
     "bathrooms": 15,
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 457 m2 en venta Ronda, España",
@@ -11230,7 +11230,7 @@
     "date": "08/04/2026",
     "m2": 992,
     "location_region": "Castilla-La Mancha",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 1791 m2 en venta Pereruela, España",
@@ -15976,7 +15976,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9417969",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta in Arenas de San Pedro with pool garage - â¬ 3,200,000",
@@ -16894,7 +16894,7 @@
     "source": "Oi Real Estate",
     "date": "20/04/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Enguera - â¬ 1,200,000",
@@ -17339,7 +17339,7 @@
     "title": "3 habitaciones Guesthouse/B & B en venta in Comares - â¬ 500,000",
     "price": "Precio a consultar",
     "location": "Comares",
-    "description": "Some houses are felt the moment you walk in. This is one of those places. This special property in Comares consists of two separate houses on one plot with 443m of terraces and has been renovated with exceptional care, attention and love by the...",
+    "description": "If fairy tales exist this is one. Some houses are felt the moment you walk in. This is one of those places. This special property in Comares consists of two separate houses on one plot with 443 mÂ² of terraces and has been renovated with exceptional...",
     "url": "https://www.thinkspain.com/property-for-sale/9661919",
     "source": "ThinkSpain",
     "ausencias": 0
@@ -17614,6 +17614,63 @@
     "source": "Oi Real Estate",
     "date": "03/05/2026",
     "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta in Benaguasil - â¬ 475,000",
+    "price": "Precio a consultar",
+    "location": "Benaguasil",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9814632",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "7 habitaciones Hotel en venta in Pujalt - â¬ 980,000",
+    "price": "Precio a consultar",
+    "location": "Pujalt",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/8895309",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta in Gandia - â¬ 8,700,000",
+    "price": "Precio a consultar",
+    "location": "Gandia",
+    "description": "Builded surface 4000, hotel util surface 4000, conservation status: in good condition, nÂº floor: 1.",
+    "url": "https://www.thinkspain.com/property-for-sale/5774389",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "164 habitaciones Hotel en venta in Palma de Mallorca with pool garage - â¬ 55,000,000",
+    "price": "Precio a consultar",
+    "location": "Palma de Mallorca",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9814045",
+    "source": "ThinkSpain",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta in Estepona - â¬ 2,200,000",
+    "price": "Precio a consultar",
+    "location": "Estepona",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9814443",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "4 habitaciones Guesthouse/B & B en venta in El Borge with pool - â¬ 395,000",
+    "price": "Precio a consultar",
+    "location": "El Borge",
+    "description": "Beautiful country house, with absolute privacy and spectacular views of the town, the countryside and the mountains, located five minutes from the town of El Borge. It has more than three hectares of land with olive trees, mangoes and vines. It has...",
+    "url": "https://www.thinkspain.com/property-for-sale/9257634",
+    "source": "ThinkSpain",
     "ausencias": 0
   }
 ]
