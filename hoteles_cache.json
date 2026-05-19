@@ -512,7 +512,7 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/mallorca/centro-mallorca/hoteles/mal54013.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,014m² en venta en La Garrotxa, Girona",
@@ -2152,19 +2152,6 @@
     "ausencias": 0
   },
   {
-    "title": "Hotel de lujo de 1800 m2 en venta San Antonio, Baleares",
-    "price": "13.800.000 €",
-    "location": "San Antonio",
-    "description": "DESCRIPCION Imagina un hotel boutique con alma propia, donde cada rincon respira calma, autenticidad y belleza natural. Un refugio boho-chic cuidadosamente disenado para quienes buscan desconectar, reconectar y vivir experiencias transformadoras. Ubicado muy cerca de la espectacular Cala Salada, en un entorno natural privilegiado, el hotel se integra armoniosamente en el paisaje mediterraneo. Rodeado de pinos, luz dorada y el sonido suave del mar, se convierte en un oasis de paz y privacidad. Concepto & Esencia Este hotel boutique no es solo un lugar donde alojarse, sino un espacio con licencia de pluriactividades que permite organizar: Retiros de yoga y meditacion Programas de wellness y detox Talleres creativos y experiencias holisticas Eventos intimos y celebraciones conscientes Estancias vacacionales con pernoctacion Su esencia boho-chic se refleja en materiales nobles, texturas naturales y una estetica calida y sutil. Predominan la madera, la piedra, el lino y las fibras vegetales, combinados con piezas artesanales y detalles cuidadosamente seleccionados que aportan caracter sin sobrecargar el espacio. Diseno & Espacios El diseno transmite calidez, equilibrio y personalidad. Cada ambiente ha sido concebido para invitar al descanso y a la contemplacion: Suites y habitaciones con terrazas privadas, tonos neutros y luz natural abundante. Piscina exterior rodeada de jardines mediterraneos, con zonas chill-out y camas balinesas. Sauna y jacuzzi integrados en el area wellness ",
-    "url": "https://www.luxuryestate.com/es/p132299678-hotel-for-sale-san-antonio",
-    "source": "LuxuryEstate",
-    "date": "08/04/2026",
-    "rooms": 14,
-    "m2": 1800,
-    "location_region": "Baleares",
-    "ausencias": 2
-  },
-  {
     "title": "Exclusivo hotel de 526 m2 en venta Montblanch, Cataluña",
     "price": "975.000 €",
     "location": "Montblanch",
@@ -2884,19 +2871,6 @@
     "m2": 457,
     "location_region": "Andalucía",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel con encanto de 3000 m2 en venta Motril, España",
-    "price": "2.800.000 €",
-    "location": "Motril",
-    "description": "DESCRIPCION ¡Hola! Si estás buscando una inversión en el sector hotelero en la hermosa costa tropical, ¡tenemos la opción ideal para ti! Te presentamos el magnífico HOTEL MUÑOZ, que abarca 2.700 metros cuadrados y cuenta con 30 habitaciones, con la posibilidad de aumentar esta capacidad. Además, dispone de varios salones, garaje tanto interior como exterior, un amplio comedor junto a un bar y una gran terraza.  Esta propiedad representa una oportunidad excepcional para quienes buscan un lugar bien situado y con un gran potencial. Las habitaciones están equipadas para garantizar una estancia placentera y son ideales para todo tipo de huéspedes.  Si empezamos por describir el acceso, este puede ser desde dos calles: una que lleva al restaurante y la otra a la recepción, el garaje y el aparcamiento exterior.   El salón, con capacidad para 500 personas, es un espacio versátil que puede albergar diversos eventos, desde bodas y banquetes hasta conferencias y reuniones corporativas. Con un área tan amplia, puedes estar seguro de atraer a muchos clientes satisfechos.  El comedor, que puede recibir a más de 100 comensales, es perfecto para ofrecer servicios tanto a los huéspedes del hotel como a clientes externos que buscan disfrutar de una buena comida en la zona.  La costa tropical es famosa por su ambiente acogedor y relajante, sus playas y su variada oferta de restaurantes, tiendas y lugares por descubrir. Gracias a su ubicación y servicios, es ideal tanto para vacaciones como par",
-    "url": "https://www.luxuryestate.com/es/p132082635-hotel-for-sale-motril",
-    "source": "LuxuryEstate",
-    "date": "08/04/2026",
-    "rooms": 30,
-    "m2": 3000,
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "Exclusivo hotel de 1139 m2 en venta Montejaque, España",
@@ -5171,7 +5145,7 @@
     "rooms": 22,
     "m2": 841,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 800 m2 en venta El Pinar de Campoverde, España",
@@ -5803,7 +5777,7 @@
   },
   {
     "title": "Bed and Breakfast y Hoteles en venta en Australia",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "España",
     "description": "Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/se-vende-australia",
@@ -6087,7 +6061,7 @@
   },
   {
     "title": "Hotel en Palacio siglo XVIII totalmente reformado",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "Provincia Cuenca",
     "description": "Complejo Hostelero céntrico, compuesto de Hotel, Casa Rural, Restaurante, Bar-Cafetería, Terraza exterior, Pub, en la localidad de Cuenca, declarado de interés Turístico Nacional Monumental, muy cercano a Madrid. El Hotel se ubica en un Palacio del siglo XVIII totalmente reformado, habiendo respetado su esencia e incorporado lo necesario para confort de usuarios. Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotel-en-palacio-siglo-xviii-totalmente-reformado",
@@ -6252,7 +6226,7 @@
   },
   {
     "title": "Unique 980 Ha Estate With Permission To Develop Into A Tourist Complex",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "ANDALUCIA",
     "description": "private nature park of 980 hectares with wild boar, mountain goats etc. hunting license for big game only 5km from big city with 40.000 residents located at an altitude of 900m to 1425 mtrs abvove sea level very healthy air through the lack of industry the plot includes 4 municipalities construction possibilities : hotels, villas, bungalows.. maximuum building size : 220.000,00 m2 existing buildings : 4.000,00 m2 infrastructure : electricity, water, gravel roads… no construction duty acqusition of share package financing possible last valuation in 2008: 40.000.000€ Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/proyecto-hotelero/se-vende/espana/unique-980-ha-estate-with-permission-to-develop-into-a-tourist-complex",
@@ -6340,7 +6314,7 @@
   },
   {
     "title": "3* Hotel 200 M From The Beach & Near To Alicante",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "COSTA BLANCA",
     "description": "Investment opportunity! A hotel to be modernized with cosmetic touches and take advantage of its good location and facilities. 50 rooms hotel with a central location, a couple of minutes walk from the center with bars, restaurants and nightclubs and most importantly a few minutes from the beach, with outdoor pool and many other recreational facilities. There is a terrace with beautiful views, Wi-Fi connection, laundry service, luggage storage and parking. A bar and a restaurant are on offer so guests do not have to worry about meals. All rooms have a/c, TV, refrigerator, minibar and private bathroom with hairdryer. Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3-hotel-200-m-from-the-beach-near-to-alicante",
@@ -6494,7 +6468,7 @@
   },
   {
     "title": "Charming Rural Hotel-restaurant Of 3 Stars With Private Area",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "Costa Blanca",
     "description": "The former residence with a lot of history was built in 1905 and became a Hotel-Restaurant in 2005. Its spacious hall welcomes us with an atmosphere of modern colonial style with presence of green leaf plants and a subtle but very special decoration. In the central space, which has the capacity to receive 40 diners, we find the access to the different areas: the large kitchens (fully equipped and in operation, with frozen and refrigerated chambers), the restaurant with living-dining room (50 diners) and winery with a variety of wines, the private area, the two guest bathrooms (gentlemen / ladies and disabled) and a large space / terrace to organize various events, such as celebrations or business center (up to 100 guests). On the upper floor there are eight soundproof, select and comfortable rooms, decorated with care and delicacy for a quiet and relaxed rest. The private area has a bathroom, 2 bedrooms, a nice interior patio, with a small table to eat, which connects the master bedroom with the private lounge. The house is surrounded by a garden with lots of greenery and decorated with motifs from ancient times. The event terrace with a bar counter is partially covered by a tent, which makes the stay more pleasant both in summer and winter. The restaurant offers the best Mediterranean cuisine with traditional dishes with fresh local products. There is also the possibility of acquiring parking spaces and extending the construction m2 for commercial spaces or for the use of th",
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/charming-rural-hotel-restaurant-of-3-stars-with-private-area",
@@ -6626,7 +6600,7 @@
   },
   {
     "title": "Charming Rural Hotel With Restaurant (5 Apartments + 9 Rooms)",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "COSTA BLANCA",
     "description": "This hotel is a farmhouse built in 1850, fully renovated and equipped to offer all the necessary services to its guests, both accommodation and catering. The complex is located on a plot of 25.000m2 and a two-story building of 1.850m2. On the ground floor is the reception, the office, the kitchen of about 60m2 fully equipped and an outdoor patio with barbecue (with 5 paelleras and 5 sinks). On the same floor there are 3 apartments. On the first floor there are 9 rooms and 2 apartments. The modalities of accommodation are: -7 double rooms with bathroom en suite -2 family rooms with bathroom, exit and sofa bed for 2 people -1 two-room apartment, living room, kitchen and a bathroom -3 apartments with three bedrooms, living room and bathroom -1 apartment with three bedrooms, living room and two bathrooms As for the restaurant, the main room has a capacity for 50 people, there are 3 more rooms (25m2, 30m2 and 35m2) for a total of 50 guests. The winery and the ethnological museum are located inside the special rooms. There is also a multipurpose room of about 50m2. There is a rest area and clothing for employees. The wooded parking is for 50 vehicles or more, soccer field and basketball court, green areas of pines, rattles and lime trees. Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/charming-rural-hotel-with-restaurant-5-apartments-9-rooms",
@@ -8957,7 +8931,7 @@
     "source": "Oi Real Estate",
     "date": "20/04/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Castillo / palacio de 680m² en venta en Pla de l'Estany",
@@ -9017,20 +8991,6 @@
     "stars": 2,
     "location_region": "Baleares",
     "ausencias": 0
-  },
-  {
-    "title": "Hotel con encanto de 2118 m2 en venta Güéjar-Sierra, Andalucía",
-    "price": "2.300.000 €",
-    "location": "Güéjar-Sierra",
-    "description": "DESCRIPCION Hotel Juan Francisco – Investment Opportunity in Güéjar Sierra, Granada El Hotel Juan Francisco representa una oportunidad de adquisición de un activo hotelero con identidad propia, ubicado en Güéjar Sierra, una localización especialmente estratégica por su conexión directa con dos de los principales polos de atracción turística del sur de España: Sierra Nevada y Granada capital. Su proximidad a la estación de esquí de Sierra Nevada aporta un valor diferencial para la captación de turismo vinculado a nieve, montaña, deporte y escapadas de temporada, mientras que su cercanía a Granada, a su extraordinaria vida cultural y al atractivo internacional de la Alhambra, amplía notablemente el espectro de demanda potencial durante todo el año. Esta combinación convierte al activo en una propuesta especialmente interesante para inversores y operadores que busquen un establecimiento con capacidad de atraer perfiles diversos de cliente: turismo vacacional, internacional, cultural, experiencial y de naturaleza. El inmueble cuenta con una imagen arquitectónica consolidada, reconocible y coherente con el carácter del entorno, así como con una configuración funcional apta para la explotación hotelera. Dispone de recepción, zonas comunes, bar cafetería, comedor y piscina, terraza con barbacoa , elementos que refuerzan la experiencia de estancia y aportan una base operativa valiosa para distintos escenarios de negocio. Desde una perspectiva estratégica, el activo ofrece potencial p",
-    "url": "https://www.luxuryestate.com/es/p132494993-hotel-for-sale-guejar-sierra",
-    "source": "LuxuryEstate",
-    "date": "23/04/2026",
-    "rooms": 26,
-    "m2": 2118,
-    "bathrooms": 26,
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 340 m2 en venta San Bartolomé de Tirajana, Canarias",
@@ -9293,19 +9253,6 @@
     "ausencias": 0
   },
   {
-    "title": "Exclusivo hotel de 3000 m2 en venta Motril, Andalucía",
-    "price": "2.800.000 €",
-    "location": "Motril",
-    "description": "DESCRIPCION ¡Hola! Si estás buscando una inversión en el sector hotelero en la hermosa costa tropical, ¡tenemos la opción ideal para ti! Te presentamos el magnífico HOTEL MUÑOZ, que abarca 2.700 metros cuadrados y cuenta con 30 habitaciones, con la posibilidad de aumentar esta capacidad. Además, dispone de varios salones, garaje tanto interior como exterior, un amplio comedor junto a un bar y una gran terraza.  Esta propiedad representa una oportunidad excepcional para quienes buscan un lugar bien situado y con un gran potencial. Las habitaciones están equipadas para garantizar una estancia placentera y son ideales para todo tipo de huéspedes.  Si empezamos por describir el acceso, este puede ser desde dos calles: una que lleva al restaurante y la otra a la recepción, el garaje y el aparcamiento exterior.   El salón, con capacidad para 500 personas, es un espacio versátil que puede albergar diversos eventos, desde bodas y banquetes hasta conferencias y reuniones corporativas. Con un área tan amplia, puedes estar seguro de atraer a muchos clientes satisfechos.  El comedor, que puede recibir a más de 100 comensales, es perfecto para ofrecer servicios tanto a los huéspedes del hotel como a clientes externos que buscan disfrutar de una buena comida en la zona.  La costa tropical es famosa por su ambiente acogedor y relajante, sus playas y su variada oferta de restaurantes, tiendas y lugares por descubrir. Gracias a su ubicación y servicios, es ideal tanto para vacaciones como par",
-    "url": "https://www.luxuryestate.com/es/p132550511-hotel-for-sale-motril",
-    "source": "LuxuryEstate",
-    "date": "09/05/2026",
-    "rooms": 30,
-    "m2": 3000,
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "Casa / villa de 80,500m² en venta en Priorat, Costa Dorada",
     "price": "398.000 €",
     "location": "España",
@@ -9423,7 +9370,7 @@
     "source": "Oi Real Estate",
     "date": "15/05/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 2118 m2 en venta Güéjar-Sierra, Andalucía",
@@ -9500,6 +9447,30 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/islas-baleares/mallorca/centro-mallorca/algaida/hoteles/mal54013.html",
     "source": "Lucas Fox",
     "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Exclusivo hotel de 6220 m2 en venta Calvià, España",
+    "price": "35.000.000 €",
+    "location": "Calvià",
+    "description": "DESCRIPCION   Exclusive off market opportunity available only for qualified investors.  4-star Adults Only beachfront hotel located in the prime area of Palmanova, Calvià (Mallorca), with direct beach access and uninterrupted sea views, positioned in one of the most established and high-demand destinations in the Balearic Islands hospitality market.  The property features 135 fully sea-view rooms distributed across a 10-storey building on a 3,502 m2 plot. The hotel operates successfully within the upper midscale leisure segment, attracting a highly loyal international clientele, predominantly from the UK market, ensuring strong occupancy performance and operational stability.  This hotel asset represents a rare combination of:  Prime frontline beach location in Mallorca Direct access to the sea Established operational track record Strong recurring international tourism demand Significant value-add and repositioning potential  The property offers excellent upside through moderate CAPEX investment, with the possibility to reposition the hotel into a 4-star superior or premium boutique hospitality concept, potentially increasing ADR by an estimated 20–30%.  Ideal for:  Hotel investment funds Family offices Private equity investors International hotel operators Hospitality asset managers  Key investment highlights:  Beachfront hotel Mallorca Hotel for sale in Calvià Off market hotel investment Spain Hospitality investment Balearic Islands Adults Only resort Mallorca Sea view hote",
+    "url": "https://www.luxuryestate.com/es/p132579725-hotel-for-sale-calvia",
+    "source": "LuxuryEstate",
+    "date": "19/05/2026",
+    "rooms": 135,
+    "m2": 6220,
+    "bathrooms": 135,
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "Inversión hotelera: Hotel con encanto listo para operar en el Casco Antiguo, Albaida",
+    "price": "420.000 €",
+    "location": "España",
+    "description": "",
+    "url": "https://www.oirealestate.net/propiedad/188294/inversion-hotelera-hotel-con-encanto-listo-para-operar-en-el-casco-antiguo-albaida",
+    "source": "Oi Real Estate",
+    "date": "19/05/2026",
     "ausencias": 0
   }
 ]
