@@ -602,16 +602,6 @@
     "ausencias": 0
   },
   {
-    "title": "Casa / villa de 734m² en venta en Benissa, Costa Blanca",
-    "price": "1.675.000 €",
-    "location": "España",
-    "description": "",
-    "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-blanca/benissa/casa-villa/jav60399.html",
-    "source": "Lucas Fox",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel de 1,314m² en venta en Pla de l'Estany, Girona",
     "price": "1.500.000 €",
     "location": "España",
@@ -726,7 +716,7 @@
     "m2": 619,
     "bathrooms": 11,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel con encanto de 1838 m2 en venta Portocolom, España",
@@ -1165,7 +1155,7 @@
     "m2": 21000,
     "stars": 4,
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 12500 m2 en venta Madrid, España",
@@ -1244,7 +1234,7 @@
     "rooms": 39,
     "m2": 1,
     "stars": 5,
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 1 m2 en venta Palma de Mallorca, España",
@@ -1461,7 +1451,7 @@
     "m2": 10800,
     "stars": 5,
     "location_region": "Madrid",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de lujo de 9200 m2 en venta Madrid, España",
@@ -1609,7 +1599,7 @@
     "rooms": 67,
     "m2": 1,
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 900 m2 en venta Setcases, España",
@@ -3321,7 +3311,7 @@
     "m2": 2000,
     "stars": 4,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 1760 m2 en venta Madrid, España",
@@ -3362,7 +3352,7 @@
     "m2": 5000,
     "stars": 4,
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 4800 m2 en venta Platja d'aro, Girona, Provincia de Girona, Cataluña",
@@ -4770,7 +4760,7 @@
     "rooms": 37,
     "m2": 5000,
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel de lujo de 20000 m2 en venta Málaga, Andalucía",
@@ -5001,7 +4991,7 @@
     "m2": 581,
     "bathrooms": 10,
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel con encanto de 160 m2 en venta Málaga, Andalucía",
@@ -5048,9 +5038,9 @@
   },
   {
     "title": "Hotel con encanto en venta Fiñana, España",
-    "price": "600.000 €",
+    "price": "550.000 €",
     "location": "Fiñana",
-    "description": "DESCRIPCION SI QUIERES MONTAR TU NEGOCIO RURAL EN SIERRA NEVADA O UNA RESIDENCIA ,LO TENEMOS EN FIÑANA ES ESTE HOTEL RESTAUANTE . Hotel en Fiñana zona FIÑANA, 947 m. de superficie, 1965 m. superficie parcela y urbana, 4 habitaciones dobles y 8 habitaciones sencillas, un baño, un aseo, propiedad de origen, orientación sur, terrazo.  Extras: agua, luminoso, luz, terraza, rejas, autobuses, árboles, montaña, rural, vistas despejadas, zona de paso   PRECIO DE VENTA: 600.000€ GASTOS CALCULADOS: 42.000 € (al tipo general) PRECIO FINAL :642.000 € En cumplimiento de las obligaciones de información previstas en la Ley 10/2025, de 28 de diciembre, de servicios de atención a la clientela y transparencia, así como en la normativa sectorial vigente, se hace constar que el precio indicado no incluye los gastos e impuestos inherentes a la adquisición, los cuales se desglosan a continuación: Impuesto sobre Transmisiones Patrimoniales (ITP): Se aplicará el tipo impositivo vigente en la Comunidad Autónoma de Andalucía (generalmente el 7%), sin perjuicio de tipos reducidos del 3,5%, 1,2% o 1% aplicables según las circunstancias personales del comprador o las características del inmueble). El impuesto se devenga sobre el Valor de Referencia de Catastro o el precio de venta, aquel que resulte superior. Gastos de Notaría: Los honorarios notariales se calcularán conforme al arancel oficial regulado en el Anexo I, del Real Decreto 1426/1989, de 17 de noviembre, por el que se aprueba el arancel Notari",
+    "description": "DESCRIPCION SI QUIERES MONTAR TU NEGOCIO RURAL EN SIERRA NEVADA O UNA RESIDENCIA ,LO TENEMOS EN FIÑANA ES ESTE HOTEL RESTAUANTE . Hotel en Fiñana zona FIÑANA, 947 m. de superficie, 1965 m. superficie parcela y urbana, 4 habitaciones dobles y 8 habitaciones sencillas, un baño, un aseo, propiedad de origen, orientación sur, terrazo.  Extras: agua, luminoso, luz, terraza, rejas, autobuses, árboles, montaña, rural, vistas despejadas, zona de paso   PRECIO DE VENTA: 550.000€ GASTOS CALCULADOS: 38.500 € (al tipo general) PRECIO FINAL :642.000 € En cumplimiento de las obligaciones de información previstas en la Ley 10/2025, de 28 de diciembre, de servicios de atención a la clientela y transparencia, así como en la normativa sectorial vigente, se hace constar que el precio indicado no incluye los gastos e impuestos inherentes a la adquisición, los cuales se desglosan a continuación: Impuesto sobre Transmisiones Patrimoniales (ITP): Se aplicará el tipo impositivo vigente en la Comunidad Autónoma de Andalucía (generalmente el 7%), sin perjuicio de tipos reducidos del 3,5%, 1,2% o 1% aplicables según las circunstancias personales del comprador o las características del inmueble). El impuesto se devenga sobre el Valor de Referencia de Catastro o el precio de venta, aquel que resulte superior. Gastos de Notaría: Los honorarios notariales se calcularán conforme al arancel oficial regulado en el Anexo I, del Real Decreto 1426/1989, de 17 de noviembre, por el que se aprueba el arancel Notari",
     "url": "https://www.luxuryestate.com/es/p111969185-hotel-for-sale-finana",
     "source": "LuxuryEstate",
     "date": "08/04/2026",
@@ -6291,7 +6281,7 @@
   },
   {
     "title": "3* Hotel 200 M From The Beach & Near To Alicante",
-    "price": "€50",
+    "price": "Precio a consultar",
     "location": "COSTA BLANCA",
     "description": "Investment opportunity! A hotel to be modernized with cosmetic touches and take advantage of its good location and facilities. 50 rooms hotel with a central location, a couple of minutes walk from the center with bars, restaurants and nightclubs and most importantly a few minutes from the beach, with outdoor pool and many other recreational facilities. There is a terrace with beautiful views, Wi-Fi connection, laundry service, luggage storage and parking. A bar and a restaurant are on offer so guests do not have to worry about meals. All rooms have a/c, TV, refrigerator, minibar and private bathroom with hairdryer. Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/3-hotel-200-m-from-the-beach-near-to-alicante",
@@ -8908,7 +8898,7 @@
     "source": "Oi Real Estate",
     "date": "20/04/2026",
     "location_region": "Baleares",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "Castillo / palacio de 680m² en venta en Pla de l'Estany",
@@ -9347,7 +9337,7 @@
     "source": "Oi Real Estate",
     "date": "15/05/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Exclusivo hotel de 2118 m2 en venta Güéjar-Sierra, Andalucía",
@@ -9712,7 +9702,7 @@
     "description": "with 1000 mÂ² built, 6 Bedrooms, 10 Bathrooms, 0 Toilets",
     "url": "https://www.thinkspain.com/property-for-sale/9848322",
     "source": "ThinkSpain",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Estellenchs - â¬ 2,600,000",
@@ -10698,7 +10688,7 @@
     "description": "Set in an exceptional natural environment beside the Guadiaro River and at the entrance of the majestic Los Alcornocales Natural Park, this Signature Boutique Hotel & Restaurant represents a rare opportunity for investors seeking a unique...",
     "url": "https://www.thinkspain.com/property-for-sale/8936519",
     "source": "ThinkSpain",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "10 habitaciones Hotel en venta in La Vall d'Uixo with garage - â¬ 4,500,000",
@@ -11331,7 +11321,7 @@
     "title": "5 habitaciones Hotel en venta in Sineu - â¬ 2,100,000",
     "price": "Precio a consultar",
     "location": "Sineu",
-    "description": "Located in the very heart of Sineu, Son ToreÃ³ is a singular building with an exceptional history and outstanding potential as a hotel, cultural, and investment project. Over the years, Son ToreÃ³ has served as a historic inn, private residence, and...",
+    "description": "Unique investment opportunity in one of the most characterful historic buildings in the old town of Sineu. Son TorellÃ³ is a unique property of great architectural and heritage value, ideal for the development of an exclusive renovation project. The...",
     "url": "https://www.thinkspain.com/property-for-sale/9608229",
     "source": "ThinkSpain",
     "location_region": "Baleares",
@@ -11667,7 +11657,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8747975",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "13 habitaciones Hotel en venta in Empuriabrava - â¬ 890,000",
@@ -11845,7 +11835,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9451522",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "20 habitaciones Hotel en venta in Sant Fost de Campsentelles - â¬ 820,000",
@@ -12570,7 +12560,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9784879",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "7 habitaciones Hotel en venta in Busot - â¬ 1,200,000",
@@ -12600,7 +12590,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9339227",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta in Guejar Sierra - â¬ 1,500,000",
@@ -13147,7 +13137,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9029659",
     "source": "ThinkSpain",
     "location_region": "Extremadura",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "110 habitaciones Hotel en venta in Cambrils with pool - â¬ 9,500,000",
@@ -13802,7 +13792,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9818161",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta in Malaga city with pool - â¬ 3,000,000",
@@ -16056,7 +16046,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9357361",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "110 habitaciones Hotel en venta in Barcelona city - â¬ 88,000,000",
@@ -17656,6 +17646,137 @@
     "source": "Engel & Völkers",
     "date": "22/05/2026",
     "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "157 habitaciones Hotel en venta in Lloret de Mar with pool - â¬ 9,500,000",
+    "price": "Precio a consultar",
+    "location": "Lloret de Mar",
+    "description": "Hotel opportunity on the Costa Brava â Lloret de Mar A strategically located hotel property for sale, about a 3-minute walk from the sea. - Capacity: 157 rooms / 350 beds + 1 independent apartment. - Facilities: swimming pools, on-site restaurant,...",
+    "url": "https://www.thinkspain.com/property-for-sale/9471190",
+    "source": "ThinkSpain",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "10 habitaciones Hotel en venta in Jumilla with pool - â¬ 1,199,000",
+    "price": "Precio a consultar",
+    "location": "Jumilla",
+    "description": "Large hacienda for sale â ideal for rental with plenty of development potential This impressive hacienda offers a unique combination of luxury, space, and opportunities â perfect for both private stays and as an exclusive rental property. It...",
+    "url": "https://www.thinkspain.com/property-for-sale/9788935",
+    "source": "ThinkSpain",
+    "location_region": "Murcia",
+    "ausencias": 0
+  },
+  {
+    "title": "8 habitaciones Hotel en venta in Els Poblets with pool - â¬ 1,180,000",
+    "price": "Precio a consultar",
+    "location": "Els Poblets",
+    "description": "Exclusive turnkey boutique bed & breakfast near the sea â profitable business opportunity in Els Poblets (near DÃ©nia) Discover a unique opportunity to acquire a fully operational and highly rated boutique bed & breakfast in one of the...",
+    "url": "https://www.thinkspain.com/property-for-sale/9856168",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "130 habitaciones Hotel en venta in Zamora city with pool - â¬ 6,000,000",
+    "price": "Precio a consultar",
+    "location": "Zamora",
+    "description": "With 19,000 mÂ² built, 130 bedrooms, 140 bathrooms, 0 toilets.",
+    "url": "https://www.thinkspain.com/property-for-sale/9856256",
+    "source": "ThinkSpain",
+    "location_region": "Castilla y León",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel en venta in Benalmadena with pool - â¬ 8,500,000",
+    "price": "Precio a consultar",
+    "location": "Benalmadena",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9854331",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto de 600 m2 en venta SAN FELIU, Girona, Cataluña",
+    "price": "12.000.000 €",
+    "location": "SAN FELIU",
+    "description": "DESCRIPCION HOTEL DE 4 ESTRELLAS A ESTRENAR EN 2 LINEA DE PLAYA DE SAN FELIU REFORMADO HACE 2 AÑOS 70 HABITACIONES SIN OPERADOR MAS INFO NO DUDES EN CONSULTARNOS Lee todo Si quieres saber más, habla con Fran Lopez InmobiliariaHaz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p132594943-hotel-for-sale-girona",
+    "source": "LuxuryEstate",
+    "date": "24/05/2026",
+    "rooms": 70,
+    "m2": 600,
+    "stars": 4,
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto de 1000 m2 en venta Benalmádena, Andalucía",
+    "price": "85.000.000 €",
+    "location": "Benalmádena",
+    "description": "DESCRIPCION Se vende este hotel en 1 linea de la playa de benalmadena 350 habitaciones 4 estrellas sin operador mas info no dudes en consultarnos Lee todo Si quieres saber más, habla con Fran Lopez InmobiliariaHaz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p132595287-hotel-for-sale-benalmadena",
+    "source": "LuxuryEstate",
+    "date": "24/05/2026",
+    "rooms": 350,
+    "m2": 1000,
+    "stars": 4,
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel de lujo de 997 m2 en venta Pesquera de Duero, Castilla y León",
+    "price": "800.000 €",
+    "location": "Pesquera de Duero",
+    "description": "DESCRIPCION MaraVILLAS te ofrece una propiedad única, irrepetible y capaz de enamorar a cualquiera que cruce su puerta.  En pleno corazón de la milla de oro de la Ribera del Duero, en uno de los pueblos más emblemáticos y tradicionales de la Denominación de Origen, se encuentra esta extraordinaria Posada Real, ubicada en una espectacular casona antigua cuidadosamente restaurada, donde la historia, la elegancia y la esencia castellana conviven en perfecta armonía. Un edificio con alma, convertido en un negocio consolidado y de enorme prestigio.  La posada dispone de 13 habitaciones con baño privado, pensadas para ofrecer una experiencia auténtica. Dos de ellas forman un espacio independiente con cocina y zona de estar común, ideal para funcionar como apartamento privado o alojamiento premium.  Zonas comunes: salones cálidos con chimenea, espacios de descanso, comedor con cocina propia y una maravillosa terraza en el ático desde donde contemplar las vistas del pueblo, en uno de esos rincones donde el tiempo parece detenerse.  Pero esta propiedad va mucho más allá del alojamiento.  En el mismo establecimiento encontramos un reconocido bar restaurante completamente equipado, auténtico referente gastronómico de la zona. Dispone de cocina profesional, cava de vinos y un tradicional horno de Pereruela, imprescindible para los asados castellanos que forman parte de la identidad de la Ribera del Duero.  Actualmente, el negocio funciona a pleno rendimiento y goza de una excelente reput",
+    "url": "https://www.luxuryestate.com/es/p132600112-hotel-for-sale-pesquera-de-duero",
+    "source": "LuxuryEstate",
+    "date": "24/05/2026",
+    "rooms": 13,
+    "m2": 997,
+    "bathrooms": 14,
+    "location_region": "Castilla y León",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto de 500 m2 en venta playa aro, Girona, Cataluña",
+    "price": "22.000.000 €",
+    "location": "playa aro",
+    "description": "DESCRIPCION SE VENDE HOTEL EN 1º LINEA DE PLAYA DE ARO SE VENDE SIN OPERADOR 70 HABITACIONES RESTAURANTE 2 PISCINAS 4 ESTRELLAS SUPERIOR Lee todo Si quieres saber más, habla con Fran Lopez InmobiliariaHaz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p132594937-hotel-for-sale-girona",
+    "source": "LuxuryEstate",
+    "date": "24/05/2026",
+    "rooms": 75,
+    "m2": 500,
+    "stars": 4,
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Exclusivo hotel de 956 m2 en venta Ribera d'Urgellet, España",
+    "price": "551.000 €",
+    "location": "Ribera d'Urgellet",
+    "description": "DESCRIPCION Excelente oportunidad de inversión en un entorno natural privilegiado, próximo a La Seu d’Urgell y con buenas conexiones hacia Andorra.  Se ofrece edificio destinado a uso de pensión/hospedaje, situado en la calle Sant Sebastià, en la localidad de Pla de Sant Tirs, dentro del municipio de Ribera d’Urgellet.  El inmueble se distribuye en varias plantas y dispone de una amplia superficie construida destinada a diferentes usos:  ✅ Planta semisótano destinada a aparcamiento, con aproximadamente 222 m2 ✅ Planta baja con hall de acceso, sala y varias habitaciones con baño ✅ Planta primera con habitaciones dobles e individuales, todas con baño ✅ Planta bajo cubierta destinada a apartamentos  La superficie construida total aproximada supera los 900 m2, ofreciendo un gran potencial para explotación hotelera, alojamiento turístico o proyecto de restauración y hospedaje rural.  ? Ubicación estratégica en zona turística de montaña, ideal para actividades vinculadas al turismo, naturaleza y deportes.  ? Referencia catastral: 6860228CG6865N0001JO  ? Para más información o concertar una visita, no dude en contactar con nosotros. Lee todo Si quieres saber más, habla con Farre Industrial & Homes SlHaz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p132596496-hotel-for-sale-ribera-d-urgellet",
+    "source": "LuxuryEstate",
+    "date": "24/05/2026",
+    "rooms": 16,
+    "m2": 956,
+    "bathrooms": 2,
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel con encanto de 370 m2 en venta Cortegana, España",
+    "price": "600.000 €",
+    "location": "Cortegana",
+    "description": "DESCRIPCION Pequeño hotel ideal para explotarlo una familia. Totalmente preparado para funcionar. Cuenta con un piso para residir. Lee todo Si quieres saber más, habla con Tac InmobiliariaHaz una pregunta",
+    "url": "https://www.luxuryestate.com/es/p105896945-hotel-for-sale-cortegana",
+    "source": "LuxuryEstate",
+    "date": "24/05/2026",
+    "rooms": 13,
+    "m2": 370,
+    "bathrooms": 10,
     "ausencias": 0
   }
 ]
