@@ -2035,7 +2035,7 @@
     "source": "Oi Real Estate",
     "date": "08/04/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "En venta Hotel Restaurante Zelaa",
@@ -4837,7 +4837,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -4903,7 +4903,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Asturias",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -6041,7 +6041,7 @@
     "source": "Oi Real Estate",
     "date": "13/07/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -6412,6 +6412,17 @@
     "source": "LuxuryEstate",
     "date": "15/07/2026",
     "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "403 ERROR",
+    "price": "697.000 €",
+    "location": "Valle",
+    "description": "Renedo de Cabuérniga · Cantabria En pleno corazón de la Reserva Nacional del Saja, uno de los espacios naturales más emblemáticos y mejor conservados del norte de España, se...",
+    "url": "https://www.luxuryestate.com/es/p132284990-hotel-for-sale-valle",
+    "source": "LuxuryEstate",
+    "date": "16/07/2026",
+    "location_region": "Cantabria",
     "ausencias": 0
   }
 ]
