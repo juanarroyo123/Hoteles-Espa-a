@@ -1182,7 +1182,7 @@
   },
   {
     "title": "Hotels In Mallorca",
-    "price": "Precio a consultar",
+    "price": "€50",
     "location": "MALLORCA",
     "description": "We have several hotels in Mallorca. Information only after the presentation of a non-binding LOI or letter of interest signed by the final purchaser. Por favor ingrese su nombre de usuario o dirección de correo electrónico. Recibirá un enlace para crear una nueva contraseña por correo electrónico.",
     "url": "https://www.hotelsevende.es/hotel/se-vende/espana/hotels-in-mallorca",
@@ -2025,17 +2025,6 @@
     "date": "08/04/2026",
     "location_region": "Cataluña",
     "ausencias": 0
-  },
-  {
-    "title": "Complejo Turísticos en Venta - Edificio en venta Estepona - Málaga",
-    "price": "4.900.000 €",
-    "location": "España",
-    "description": "¡GRAN OPORTUNIDAD DE INVERSIÓN EN ESTEPONA...! El Conjunto Residencial de El Campanario del Paraíso está situado en una de las zonas más privilegiadas de El Paraíso en Estepona, en Guadalmina Alta, entre las lujosas urbanizaciones de Campanario Real y Hotel El Paraíso. Un edificio céntrico de 6 plantas: Planta sótano: 58 plazas de aparcamiento, spa, gimnasio, peluquería, consultas médicas, zona de clínica, garaje independiente con 58 plazas de aparcamiento. Planta Baja, con la entrada principal rodeada de jardín, fuente, cocina, comedor, etc. Plantas 1, 2, 3 en las que hay 36 habitaciones, un total de 26 dobles y 10 individuales. Vestuarios, capilla. Planta baja: recibidor, recepción, despachos, comedores, cocina, aseos. Primera planta: 1 habitaciones individuales, 12 habitaciones dobles, terraza exterior y cubierta. Segunda planta: 2 habitaciones individuales, 12 dobles, habitaciones, terraza exterior y cubierta. Tercera planta: 7 habitaciones individuales, 2 habitaciones dobles, terraza exterior y cubierta. Tercera planta: 7 habitaciones individuales, 2 habitaciones dobles, terraza exterior y cubierta. El edificio dispone de 36 habitaciones muy amplias, tanto individuales como dobles, que cuentan con salón con terraza, zona de cocina, frigorífico y microondas, baño con ducha y todo el equipamiento de emergencia necesario. Nº habitaciones: 36 Ubicación: Edificio en venta en New Golden Mile. Está situado en una de las zonas más privilegiadas de El Paraíso en Estepona, en Guad",
-    "url": "https://www.oirealestate.net/propiedad/50546/complejo-turisticos-en-venta-edificio-en-venta-estepona-malaga",
-    "source": "Oi Real Estate",
-    "date": "08/04/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "En venta Hotel Restaurante Zelaa",
@@ -3301,7 +3290,7 @@
     "source": "Oi Real Estate",
     "date": "07/07/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Disseminat sn, 08729 / Castellet i la Gornal",
@@ -3500,7 +3489,7 @@
     "url": "https://www.luxuryestate.com/es/p130956366-hotel-for-sale-espluga-de-francoli",
     "source": "LuxuryEstate",
     "date": "13/07/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -4837,7 +4826,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -4903,7 +4892,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Asturias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -4935,7 +4924,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -5117,7 +5106,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Castilla y León",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -6041,7 +6030,7 @@
     "source": "Oi Real Estate",
     "date": "13/07/2026",
     "location_region": "Baleares",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "403 ERROR",
@@ -6423,6 +6412,49 @@
     "source": "LuxuryEstate",
     "date": "16/07/2026",
     "location_region": "Cantabria",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel de 366m² en venta en Sant Feliu, Costa Brava",
+    "price": "1.800.000 €",
+    "location": "España",
+    "description": "",
+    "url": "https://www.lucasfox.es/comprar-vivienda/espana/costa-brava/sant-feliu-de-guixols/hoteles/pda71708.html",
+    "source": "Lucas Fox",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "Let's confirm you are human",
+    "price": "1.800.000 €",
+    "location": "Sant Feliu De Guixols",
+    "description": "Exclusivo edificio hotelero de obra nueva en venta en el corazón del casco histórico de Sant Feliu de Guíxols a 250m de la playa caminando. Magnífico edificio de uso hotelero,...",
+    "url": "https://www.luxuryestate.com/es/p132780863-hotel-for-sale-sant-feliu-de-guixols",
+    "source": "LuxuryEstate",
+    "date": "17/07/2026",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "403 ERROR",
+    "price": "5.500.000 €",
+    "location": "Diezma",
+    "description": "Se ofrece una excelente oportunidad de inversión con la venta del Hotel-Restaurante Cerrillo de San Marcos, establecimiento de 2 estrellas, actualmente en pleno funcionamiento,...",
+    "url": "https://www.luxuryestate.com/es/p132779601-hotel-for-sale-diezma",
+    "source": "LuxuryEstate",
+    "date": "17/07/2026",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "403 ERROR",
+    "price": "550.000 €",
+    "location": "Alcala La Real",
+    "description": "Se vende jardines de colón, lugar mágico y con un encanto que enamora. Incluye las dos licencias en vigor de explotación de la hospedería (Vivienda turística Rural) y el...",
+    "url": "https://www.luxuryestate.com/es/p131124602-hotel-for-sale-alcala-la-real",
+    "source": "LuxuryEstate",
+    "date": "17/07/2026",
+    "location_region": "Andalucía",
     "ausencias": 0
   }
 ]
