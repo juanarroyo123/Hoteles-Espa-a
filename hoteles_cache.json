@@ -3290,7 +3290,7 @@
     "source": "Oi Real Estate",
     "date": "07/07/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Disseminat sn, 08729 / Castellet i la Gornal",
@@ -3489,7 +3489,7 @@
     "url": "https://www.luxuryestate.com/es/p130956366-hotel-for-sale-espluga-de-francoli",
     "source": "LuxuryEstate",
     "date": "13/07/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -4675,7 +4675,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -4686,7 +4686,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -4819,17 +4819,6 @@
   },
   {
     "title": "Let's confirm you are human",
-    "price": "1.270.000 €",
-    "location": "Estepona",
-    "description": "Presentamos este encantador hostal en funcionamiento con licencia para uso turístico, situado en el corazón de la pintoresca villa de Cancelada, en el término municipal de...",
-    "url": "https://www.luxuryestate.com/es/p130269827-hotel-for-sale-estepona",
-    "source": "LuxuryEstate",
-    "date": "13/07/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
-    "title": "Let's confirm you are human",
     "price": "500.000 €",
     "location": "Vinaroz",
     "description": "Mocadi Real estate presenta este edificio en el centro de Vinaros, a escasos 450 metros del mar.  Se compone de una planta baja donde se ubica el restaurante, con un magnifico...",
@@ -4885,17 +4874,6 @@
   },
   {
     "title": "Let's confirm you are human",
-    "price": "2.400.000 €",
-    "location": "Cangas De Onis",
-    "description": "Se venden apartamentos turísticos en finca de 5.000 m² cerca de Covadonga y Cangas de Onís  Oportunidad única para invertir en el corazón de Asturias. Con una ubicación...",
-    "url": "https://www.luxuryestate.com/es/p130928030-hotel-for-sale-cangas-de-onis",
-    "source": "LuxuryEstate",
-    "date": "13/07/2026",
-    "location_region": "Asturias",
-    "ausencias": 2
-  },
-  {
-    "title": "Let's confirm you are human",
     "price": "800.000 €",
     "location": "San Bartolome De La Torre",
     "description": "Hostal de lujo en el pueblo de San Bartolomé de la Torre (Huelva) Está situado a la entrada del pueblo y con buen acceso. Cuenta con una plaza por detrás del edificio y zona para...",
@@ -4924,7 +4902,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -5106,7 +5084,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Castilla y León",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -6216,7 +6194,7 @@
     "source": "LuxuryEstate",
     "date": "14/07/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -6455,6 +6433,17 @@
     "source": "LuxuryEstate",
     "date": "17/07/2026",
     "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "403 ERROR",
+    "price": "950.000 €",
+    "location": "Torrevieja",
+    "description": "Hostal Y bar cafetería en playa los locos -torrevieja  Esta es una excelente oportunidad para comprar un exitoso hotel y bar/cafetería cerca de Playa Los Locos y el centro del...",
+    "url": "https://www.luxuryestate.com/es/p130726636-hotel-for-sale-torrevieja",
+    "source": "LuxuryEstate",
+    "date": "18/07/2026",
+    "location_region": "C. Valenciana",
     "ausencias": 0
   }
 ]
