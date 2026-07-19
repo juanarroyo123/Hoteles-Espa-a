@@ -3290,7 +3290,7 @@
     "source": "Oi Real Estate",
     "date": "07/07/2026",
     "location_region": "Baleares",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "Disseminat sn, 08729 / Castellet i la Gornal",
@@ -3480,16 +3480,6 @@
     "date": "13/07/2026",
     "location_region": "Andalucía",
     "ausencias": 0
-  },
-  {
-    "title": "Let's confirm you are human",
-    "price": "1.800.000 €",
-    "location": "Espluga De Francoli",
-    "description": "Lucas Fox presenta este hotel rural con encanto de dos estrellas en pleno funcionamiento en la localidad de L'Espluga de Francolí. Este negocio cuenta con más de 50 años dedicados...",
-    "url": "https://www.luxuryestate.com/es/p130956366-hotel-for-sale-espluga-de-francoli",
-    "source": "LuxuryEstate",
-    "date": "13/07/2026",
-    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -4675,7 +4665,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Let's confirm you are human",
@@ -4686,7 +4676,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Let's confirm you are human",
@@ -4794,7 +4784,7 @@
     "url": "https://www.luxuryestate.com/es/p127720084-hotel-for-sale-portugos",
     "source": "LuxuryEstate",
     "date": "13/07/2026",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Let's confirm you are human",
@@ -4892,17 +4882,6 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "ausencias": 0
-  },
-  {
-    "title": "Let's confirm you are human",
-    "price": "550.000 €",
-    "location": "Alcala La Real",
-    "description": "Lugar mágico y con un encanto que enamora. Incluye las dos licencias en vigor de explotación de la hospedería (Vivienda turística Rural) y el Restaurante/ Cafetería en planta...",
-    "url": "https://www.luxuryestate.com/es/p131033564-hotel-for-sale-alcala-la-real",
-    "source": "LuxuryEstate",
-    "date": "13/07/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -5074,17 +5053,6 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "ausencias": 0
-  },
-  {
-    "title": "Let's confirm you are human",
-    "price": "1.299.000 €",
-    "location": "Muga De Sayago",
-    "description": "Hotel el paraje de sayago  Hotel Rural 2* - Muga de Sayago, Zamora  Precio de comercialización: 1.299.000 euros. Venta negociable.  Una oportunidad única y difícil de...",
-    "url": "https://www.luxuryestate.com/es/p132646624-hotel-for-sale-muga-de-sayago",
-    "source": "LuxuryEstate",
-    "date": "13/07/2026",
-    "location_region": "Castilla y León",
-    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -6008,7 +5976,7 @@
     "source": "Oi Real Estate",
     "date": "13/07/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -6194,7 +6162,7 @@
     "source": "LuxuryEstate",
     "date": "14/07/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "403 ERROR",
@@ -6422,7 +6390,7 @@
     "source": "LuxuryEstate",
     "date": "17/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -6444,6 +6412,28 @@
     "source": "LuxuryEstate",
     "date": "18/07/2026",
     "location_region": "C. Valenciana",
+    "ausencias": 1
+  },
+  {
+    "title": "403 ERROR",
+    "price": "Consultarprecio",
+    "location": "Valencia",
+    "description": "Premier On- and Off-Market Hotels in Spain We work with a network of hotel owners, investors, and industry contacts to offer clients access to hospitality assets across Spain —...",
+    "url": "https://www.luxuryestate.com/es/p132738483-hotel-for-sale-valencia",
+    "source": "LuxuryEstate",
+    "date": "19/07/2026",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "403 ERROR",
+    "price": "5.500.000 €",
+    "location": "Diezma",
+    "description": "Se ofrece una excelente oportunidad de inversión con la venta del Hotel-Restaurante Cerrillo de San Marcos, establecimiento de 2 estrellas, actualmente en pleno funcionamiento,...",
+    "url": "https://www.luxuryestate.com/es/p132783797-hotel-for-sale-diezma",
+    "source": "LuxuryEstate",
+    "date": "19/07/2026",
+    "location_region": "Andalucía",
     "ausencias": 0
   }
 ]
