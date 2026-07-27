@@ -3290,7 +3290,7 @@
     "source": "Oi Real Estate",
     "date": "07/07/2026",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Disseminat sn, 08729 / Castellet i la Gornal",
@@ -5977,7 +5977,7 @@
     "source": "LuxuryEstate",
     "date": "14/07/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -5988,7 +5988,7 @@
     "source": "LuxuryEstate",
     "date": "14/07/2026",
     "location_region": "Madrid",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -6422,6 +6422,17 @@
     "source": "LuxuryEstate",
     "date": "26/07/2026",
     "location_region": "Castilla y León",
+    "ausencias": 0
+  },
+  {
+    "title": "Hotel 3 Estrellas en Venta en Mallorca Sureste",
+    "price": "16.500.000 €",
+    "location": "Mallorca Sureste",
+    "description": "Hotel 3 Estrellas en Venta con excelente ubicación al Sureste de Mallorca Resumen de la Propuesta de Inversión Aspectos claves a considerar: Ubicación Estratégica: Primera línea de playa: Un factor diferenciador que garantiza una alta ocupación durante la temporada alta y atrae a un amplio espectro de clientes. Mallorca Sureste: Buen nivel de competencia hotelera y las tendencias turísticas actuales. Tamaño y Capacidades: 117 habitaciones: Un tamaño considerable que permite generar mayores ingresos y diversificar la oferta de servicios. Zonas ajardinadas: Un valor añadido que mejora la experiencia del huésped y puede ser utilizado para eventos o actividades de ocio. Operador Actual: Venta con operador: Ofrece la ventaja de adquirir un negocio en funcionamiento con una clientela establecida y conocimientos del mercado local. Negociación de salida: Permite al comprador la flexibilidad de mantener al operador actual o implementar su propia gestión. Necesidad de Inversión (CAPEX): Es fundamental realizar mejoras al inmueble, en aras mejorar su rentabilidad. Precio de Venta: 16,5 millones de euros. Comprar o vender un hotel de lujo con OIREALESTATE garantiza una transacción eficiente y segura, gracias a su amplia experiencia y conocimiento del mercado de alto standing. La inmobiliaria ofrece acceso a oportunidades exclusivas, asesoramiento personalizado y un proceso integral, desde la negociación hasta la gestión post-venta, asegurando una experiencia de inversión fluida y confiab",
+    "url": "https://www.oirealestate.net/propiedad/78269/hotel-3-estrellas-en-venta-en-mallorca-sureste",
+    "source": "Oi Real Estate",
+    "date": "27/07/2026",
+    "location_region": "Baleares",
     "ausencias": 0
   }
 ]
