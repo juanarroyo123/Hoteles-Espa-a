@@ -1247,7 +1247,7 @@
     "source": "HotelSeVende",
     "date": "08/04/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Frontline Hotel In Benidorm / Possibility Of 312 Rooms",
@@ -1258,7 +1258,7 @@
     "source": "HotelSeVende",
     "date": "08/04/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotels & Investment Assets In Tenerife",
@@ -2244,17 +2244,6 @@
     "ausencias": 0
   },
   {
-    "title": "Venta de Hostal en Vallfogona de Riucorb - Tarragona",
-    "price": "500.000 €",
-    "location": "Vallfogona de Riucorb",
-    "description": "",
-    "url": "https://www.engelvoelkers.com/es/es/exposes/74f4276a-a9d4-5851-91a2-1920d355f74d",
-    "source": "Engel & Völkers",
-    "date": "08/04/2026",
-    "location_region": "Cataluña",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en primera línea de mar en Torredembarra",
     "price": "3.500.000 €",
     "location": "Torredembarra",
@@ -3073,7 +3062,7 @@
     "url": "https://www.hotelsevende.es/bed-and-breakfast/se-vende/espana/encantadora-casa-de-pueblo-espanola-bb",
     "source": "HotelSeVende",
     "date": "23/06/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Finca para B&B o Wellness Retreat",
@@ -3084,7 +3073,7 @@
     "source": "HotelSeVende",
     "date": "23/06/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Casa rural de 1,385m² en venta en Baix Empordà, Girona",
@@ -3259,16 +3248,6 @@
     "date": "13/07/2026",
     "location_region": "Murcia",
     "ausencias": 0
-  },
-  {
-    "title": "Let's confirm you are human",
-    "price": "950.000 €",
-    "location": "Caldas De Malavella",
-    "description": "Lucas Fox presenta esta propiedad hotelera situada en el centro de Caldes de Malavella, una de las poblaciones mejor comunicadas de La Selva, cerca de Girona, la Costa Brava y...",
-    "url": "https://www.luxuryestate.com/es/p132457691-hotel-for-sale-caldas-de-malavella",
-    "source": "LuxuryEstate",
-    "date": "13/07/2026",
-    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -4139,7 +4118,7 @@
     "source": "LuxuryEstate",
     "date": "13/07/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Let's confirm you are human",
@@ -5685,7 +5664,7 @@
     "source": "LuxuryEstate",
     "date": "14/07/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -6262,7 +6241,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9819631",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "56 habitaciones Hotel en venta in Villarrubia de Santiago with pool",
@@ -6609,7 +6588,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8878567",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "22 habitaciones Hotel en venta in Pueblo Nuevo de Guadiaro",
@@ -7038,15 +7017,6 @@
     "ausencias": 0
   },
   {
-    "title": "9 habitaciones Hotel en venta in Alcala de la Selva with garage",
-    "price": "650,000 €",
-    "location": "Alcala de la Selva",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9418979",
-    "source": "ThinkSpain",
-    "ausencias": 2
-  },
-  {
     "title": "11 habitaciones Hotel en venta in Ibiza / Eivissa town",
     "price": "8,000,000 €",
     "location": "Ibiza",
@@ -7352,7 +7322,7 @@
   },
   {
     "title": "6 habitaciones Hotel en venta in Iznajar with pool garage",
-    "price": "283,000 €",
+    "price": "383,000 €",
     "location": "Iznajar",
     "description": "Potential bed and breakfast Holiday Retreat - Cortijo, Iznájar, Córdoba. 6 Bedrooms, 4 Bathrooms. Currently not licensed, but a licence can be applied for. This spectacular property is located on the outskirts of Iznájar, in the province of...",
     "url": "https://www.thinkspain.com/property-for-sale/7687636",
@@ -8170,7 +8140,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9883779",
     "source": "ThinkSpain",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Benissanet with pool",
@@ -8200,7 +8170,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/7947985",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "24 habitaciones Hotel en venta in San Pedro del Pinatar",
@@ -8469,16 +8439,6 @@
     "url": "https://www.thinkspain.com/property-for-sale/8898021",
     "source": "ThinkSpain",
     "ausencias": 0
-  },
-  {
-    "title": "200 habitaciones Hotel en venta in Toledo city with pool",
-    "price": "25,000,000 €",
-    "location": "Toledo",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/8782055",
-    "source": "ThinkSpain",
-    "location_region": "Castilla-La Mancha",
-    "ausencias": 2
   },
   {
     "title": "208 habitaciones Hotel en venta in Platja d'Aro with pool",
@@ -10126,7 +10086,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9491462",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "85 habitaciones Hotel en venta in Sant Antoni de Portmany with pool",
@@ -10146,7 +10106,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9151040",
     "source": "ThinkSpain",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "4 habitaciones Hotel en venta in Valencia city",
@@ -10288,7 +10248,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10299,7 +10259,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10310,7 +10270,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10321,7 +10281,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Canarias",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10332,7 +10292,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10343,7 +10303,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10354,7 +10314,7 @@
     "source": "LuxuryEstate",
     "date": "31/07/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "10 habitaciones Hotel en venta in Calabardina with garage",
@@ -10364,7 +10324,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9242041",
     "source": "ThinkSpain",
     "location_region": "Murcia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "6 habitaciones Guesthouse/B & B en venta in Valleseco with pool",
@@ -10384,7 +10344,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/7313024",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "403 ERROR",
@@ -10405,7 +10365,7 @@
     "source": "LuxuryEstate",
     "date": "02/08/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Hotel en venta in Cadiz city",
@@ -10435,7 +10395,7 @@
     "description": "Residential hostel composed of 87 rooms; 23 single rooms, 62 doubles and two triples. It also has a reception, two offices, two television rooms, a living room, kitchen, chapel, freight elevator, dining room, bar, storage rooms, bathrooms, laundry...",
     "url": "https://www.thinkspain.com/property-for-sale/8421571",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "9 habitaciones Hotel en venta in Estepona with garage",
@@ -10555,7 +10515,7 @@
     "source": "LuxuryEstate",
     "date": "06/08/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "48 habitaciones Hotel en venta in Antequera with garage",
@@ -10575,7 +10535,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9881568",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "10 habitaciones Guesthouse/B & B en venta in Planes with pool",
@@ -10584,7 +10544,7 @@
     "description": "This beautiful, fully licensed B&B & restaurant is for sale. The property consists of two parts. One part is set in a 18th century former olive mill. It was rebuild in 1994 and has been completely renovated. The last renovations concerned...",
     "url": "https://www.thinkspain.com/property-for-sale/9979289",
     "source": "ThinkSpain",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "12 habitaciones Hotel en venta in Moraira with pool garage",
@@ -10603,7 +10563,7 @@
     "description": "Discover a unique opportunity in Santa Cruz de Marchena, Alpujarra Almeriense! This senior residence, built in 1999, offers a total of 440 m² distributed on three floors. With 13 rooms, each equipped with a private bathroom, this property is ideal...",
     "url": "https://www.thinkspain.com/property-for-sale/9170701",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Let's confirm you are human",
@@ -10635,7 +10595,7 @@
     "url": "https://www.luxuryestate.com/es/p132851468-hotel-for-sale-san-antonio",
     "source": "LuxuryEstate",
     "date": "08/08/2026",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10646,7 +10606,7 @@
     "source": "LuxuryEstate",
     "date": "08/08/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Complejo de apartamentos turísticos en el norte de Mallorca",
@@ -10687,7 +10647,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9378451",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "12 habitaciones Hotel en venta in Terrades with pool garage",
@@ -10705,7 +10665,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9106600",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "19 habitaciones Guesthouse/B & B en venta in Chantada with pool garage",
@@ -10745,7 +10705,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9720549",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel en venta in Guejar Sierra",
@@ -10755,7 +10715,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9289846",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "14 habitaciones Hotel en venta in El Algar",
@@ -10804,7 +10764,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9877227",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "11 habitaciones Hotel en venta in Oliva with pool",
@@ -10855,7 +10815,7 @@
     "source": "LuxuryEstate",
     "date": "12/08/2026",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10877,7 +10837,7 @@
     "source": "LuxuryEstate",
     "date": "12/08/2026",
     "location_region": "Madrid",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10888,7 +10848,7 @@
     "source": "LuxuryEstate",
     "date": "12/08/2026",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "24 habitaciones Hotel en venta in Darnius",
@@ -10918,7 +10878,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8389438",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "10 habitaciones Guesthouse/B & B en venta in Fuengirola",
@@ -10928,7 +10888,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8895310",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "32 habitaciones Guesthouse/B & B en venta in Petrel / Petrer with pool",
@@ -10937,7 +10897,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/8898014",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -10947,16 +10907,6 @@
     "url": "https://www.luxuryestate.com/es/p132846442-hotel-for-sale-malaga",
     "source": "LuxuryEstate",
     "date": "13/08/2026",
-    "location_region": "Andalucía",
-    "ausencias": 1
-  },
-  {
-    "title": "5 habitaciones Hotel en venta in Alhaurin el Grande with garage",
-    "price": "425,000 €",
-    "location": "Alhaurin el Grande",
-    "description": "Very large Townhouse, Alhaurín el Grande, In a popular location. This large property is suitable for many uses. Could be made into an hostel / hotel house of multiple occupation, front part is designed and suitable as a retail unit restaurant or...",
-    "url": "https://www.thinkspain.com/property-for-sale/8620480",
-    "source": "ThinkSpain",
     "location_region": "Andalucía",
     "ausencias": 2
   },
@@ -10996,7 +10946,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/8898013",
     "source": "ThinkSpain",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "9 habitaciones Guesthouse/B & B en venta in Vilafames",
@@ -11006,7 +10956,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8895314",
     "source": "ThinkSpain",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "A Unique Palace In A Historical Village Ideal For BB Or Small Hotel",
@@ -11037,7 +10987,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9676225",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "8 habitaciones Hotel en venta in Jalon / Xalo with garage",
@@ -11067,7 +11017,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/7582225",
     "source": "ThinkSpain",
     "location_region": "Galicia",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "15 habitaciones Hotel en venta in Santa Eulalia / Santa Eularia with pool garage",
@@ -11095,7 +11045,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/8898020",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "14 habitaciones Hotel en venta in Cartes",
@@ -11156,15 +11106,6 @@
     "ausencias": 0
   },
   {
-    "title": "15 habitaciones Hotel en venta in Cenes de la Vega with pool",
-    "price": "1,600,000 €",
-    "location": "Cenes de la Vega",
-    "description": "",
-    "url": "https://www.thinkspain.com/property-for-sale/9986241",
-    "source": "ThinkSpain",
-    "ausencias": 2
-  },
-  {
     "title": "Hotel en venta in Sitges",
     "price": "10,000,000 €",
     "location": "Sitges",
@@ -11172,16 +11113,6 @@
     "url": "https://www.thinkspain.com/property-for-sale/9881549",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
-  },
-  {
-    "title": "14 habitaciones Hotel en venta in Tabernas with pool garage",
-    "price": "1,600,000 €",
-    "location": "Tabernas",
-    "description": "In exclusive. Rural hotel composed of 7 houses with bioclimatic architecture design (570 m2). Large natural swimming pool. Large parking area. 2 warehouses of 60 m each. All built on a 15,842 m2 plot of land in the Tabernas Desert. Almeria 30...",
-    "url": "https://www.thinkspain.com/property-for-sale/5691169",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
     "ausencias": 2
   },
   {
@@ -11202,7 +11133,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/7898776",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "10 habitaciones Hotel en venta in Lugo city with garage",
@@ -11213,16 +11144,6 @@
     "source": "ThinkSpain",
     "location_region": "Galicia",
     "ausencias": 0
-  },
-  {
-    "title": "9 habitaciones Hotel en venta in Benissa with pool garage",
-    "price": "5,200,000 €",
-    "location": "Benissa",
-    "description": "A small, charming hotel ideally located on the edge of a small seaside cove in Benissa, Costa Blanca, Spain. The property is set on two plots of land measuring 2,700 and 1,300 m², totaling 4,000 m², right on the seafront, located halfway between...",
-    "url": "https://www.thinkspain.com/property-for-sale/9074635",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
   },
   {
     "title": "4 habitaciones Hotel en venta in Altea with pool garage",
@@ -11242,7 +11163,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9890744",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "13 habitaciones Hotel en venta in Empuriabrava with garage",
@@ -11252,7 +11173,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9431684",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "20 habitaciones Hotel en venta in Los Realejos",
@@ -11262,7 +11183,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/6804175",
     "source": "ThinkSpain",
     "location_region": "Canarias",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "9 habitaciones Hotel en venta in Sant Rafael de Sa Creu with pool",
@@ -11272,7 +11193,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9232856",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "100 habitaciones Hotel en venta in S'Illot with pool",
@@ -11321,18 +11242,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8688948",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
-  },
-  {
-    "title": "403 ERROR",
-    "price": "50.000.000 €",
-    "location": "Ibiza",
-    "description": "Ubicado en uno de los mercados turisticos mas consolidados y con mayor proyeccion del Mediterraneo, este hotel representa una excelente oportunidad para inversores y operadores...",
-    "url": "https://www.luxuryestate.com/es/p132851467-hotel-for-sale-ibiza",
-    "source": "LuxuryEstate",
-    "date": "18/08/2026",
-    "location_region": "Baleares",
-    "ausencias": 2
+    "ausencias": 1
   },
   {
     "title": "27 habitaciones Hotel en venta in Altea",
@@ -11342,7 +11252,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9819522",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Icod de los Vinos",
@@ -11380,7 +11290,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/10023106",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "6 habitaciones Hotel en venta in Sagra",
@@ -11390,7 +11300,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/10022231",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "12 habitaciones Hotel en venta in Finestrat",
@@ -11430,7 +11340,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9972292",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "10 habitaciones Guesthouse/B & B en venta in Almayate",
@@ -11462,17 +11372,7 @@
     "source": "Oi Real Estate",
     "date": "20/08/2026",
     "location_region": "Baleares",
-    "ausencias": 0
-  },
-  {
-    "title": "6 habitaciones Hotel en venta in Malaga city",
-    "price": "2,920,000 €",
-    "location": "Malaga",
-    "description": "Investment opportunity in premium tourist accommodation Entire building for sale with an AT tourist license, beachfront location in Málaga, one of Spain’s fastest-growing tourist destinations. An ideal asset for investors seeking high...",
-    "url": "https://www.thinkspain.com/property-for-sale/9888113",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
+    "ausencias": 1
   },
   {
     "title": "7 habitaciones Hotel en venta in Inca with pool garage",
@@ -11492,7 +11392,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9193370",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "32 habitaciones Hotel en venta in Portugos with garage",
@@ -11501,7 +11401,7 @@
     "description": "With 3600 m² built, 32 Bedrooms, 33 Bathrooms, 5 Toilets, Hotel for sale in the heart of La Alpujarra. Hotel located in a natural enclave specialized in mountain tourism. The two-star hotel with the permits to obtain a third star. It consists of 32...",
     "url": "https://www.thinkspain.com/property-for-sale/6369952",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "25 habitaciones Hotel en venta in Ayerbe",
@@ -11520,7 +11420,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9785165",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Guesthouse/B & B en venta in Alicante / Alacant city with garage",
@@ -11550,7 +11450,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9537107",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "20 habitaciones Hotel en venta in Viladrau with pool garage",
@@ -11559,7 +11459,7 @@
     "description": "Hostel restaurant for sale located in the Montseny Natural Park in the middle of nature, adjacent to a river and surrounded by vegetation. It has 1000m2 built, with a glazed outdoor dining room and an indoor dining room with fireplace, bar counter,...",
     "url": "https://www.thinkspain.com/property-for-sale/5064758",
     "source": "ThinkSpain",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "50 habitaciones Hotel en venta in Magalluf with pool",
@@ -11578,7 +11478,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9446454",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "22 habitaciones Hotel en venta in Chayofa",
@@ -11587,7 +11487,7 @@
     "description": "Full complex of 22 apartments for sale, located in the residential area of Chayofa. Asset distribution The property consists of: - 5 studio apartments - 12 one-bedroom apartments - 5 two-bedroom apartments Surface area The complex is built on a 2...",
     "url": "https://www.thinkspain.com/property-for-sale/9881540",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Malaga city",
@@ -11597,7 +11497,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9881569",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "Casa rural de 2,979m² en venta en La Garrotxa, Girona",
@@ -11626,7 +11526,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9971638",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "9 habitaciones Hotel en venta in Benahavis with pool",
@@ -11666,7 +11566,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8883812",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "7 habitaciones Hotel en venta in Sineu",
@@ -11676,7 +11576,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9501861",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "110 habitaciones Hotel en venta in Cambrils with pool garage",
@@ -11706,7 +11606,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/10027885",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "21 habitaciones Hotel en venta in Altea with garage",
@@ -11726,7 +11626,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9549903",
     "source": "ThinkSpain",
     "location_region": "Castilla y León",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "20 habitaciones Hotel en venta in Los Realejos",
@@ -11736,17 +11636,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9038254",
     "source": "ThinkSpain",
     "location_region": "Canarias",
-    "ausencias": 0
-  },
-  {
-    "title": "10 habitaciones Hotel en venta in Javea / Xabia with pool garage",
-    "price": "2,600,000 €",
-    "location": "Javea",
-    "description": "This beautiful hotel is of recent construction in perfect condition, for sale in Javea near the historic center and 5 minutes from the sea and the beaches. This beautiful hotel has a reception, a large double kitchen, a lounge, a dining room, and...",
-    "url": "https://www.thinkspain.com/property-for-sale/6985505",
-    "source": "ThinkSpain",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Calpe / Calp",
@@ -11756,7 +11646,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9430824",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 2
+    "ausencias": 0
   },
   {
     "title": "5 habitaciones Hotel en venta in Lleida city",
@@ -11766,7 +11656,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9186236",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "14 habitaciones Hotel en venta in Santa Fe del Penedes with pool garage",
@@ -11775,7 +11665,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/9968378",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "22 habitaciones Hotel en venta in Reinosa",
@@ -11824,7 +11714,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9138580",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "4 habitaciones Hotel en venta in Olot",
@@ -11833,7 +11723,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/8897980",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Playa de Palma",
@@ -11853,7 +11743,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9143895",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "Hotel en venta in Benaguasil",
@@ -11871,7 +11761,7 @@
     "description": "",
     "url": "https://www.thinkspain.com/property-for-sale/8610148",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "130 habitaciones Hotel en venta in Segur de Calafell with pool garage",
@@ -11891,7 +11781,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8424334",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "13 habitaciones Guesthouse/B & B en venta in Rute with pool",
@@ -11901,7 +11791,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8220747",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "6 habitaciones Hotel en venta in Pereiro de Aguiar with pool garage",
@@ -11920,7 +11810,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8482104",
     "source": "ThinkSpain",
     "location_region": "Murcia",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "10 habitaciones Hotel en venta in Arta with pool garage",
@@ -11940,7 +11830,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9566733",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "13 habitaciones Hotel en venta in Villanueva de la Concepcion with pool garage",
@@ -11960,7 +11850,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8296585",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "12 habitaciones Hotel en venta in Yegen",
@@ -11970,7 +11860,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9690969",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "16 habitaciones Hotel en venta in Villaricos",
@@ -12009,7 +11899,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8184829",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "Hotel de 2,200m² en venta en Pla de l'Estany, Girona",
@@ -12043,16 +11933,6 @@
     "ausencias": 0
   },
   {
-    "title": "84 habitaciones Hotel en venta in San Roque with pool garage",
-    "price": "9,500,000 €",
-    "location": "San Roque",
-    "description": "Situated within the prestigious San Roque Golf Resort in Cádiz, the Hotel represents an exceptional opportunity to acquire a substantial and versatile property in one of Southern Spain’s most desirable and fast-developing postcodes. Adjacent to...",
-    "url": "https://www.thinkspain.com/property-for-sale/9301094",
-    "source": "ThinkSpain",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
     "title": "20 habitaciones Hotel en venta in Burgos city",
     "price": "1,100,000 €",
     "location": "Burgos",
@@ -12060,17 +11940,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9585032",
     "source": "ThinkSpain",
     "location_region": "Castilla y León",
-    "ausencias": 0
-  },
-  {
-    "title": "5 habitaciones Hotel en venta in Charco del Palo with pool",
-    "price": "2,500,000 €",
-    "location": "Charco del Palo",
-    "description": "Located on the dramatic coastline of Lanzarote in the peaceful seaside village of Charco del Palo, this rare frontline Atlantic property offers an exceptional opportunity to create a boutique hotel, destination restaurant, or luxury wellness retreat...",
-    "url": "https://www.thinkspain.com/property-for-sale/9689970",
-    "source": "ThinkSpain",
-    "location_region": "Canarias",
-    "ausencias": 2
+    "ausencias": 1
   },
   {
     "title": "4 habitaciones Hotel en venta in Burgos city",
@@ -12201,16 +12071,6 @@
     "ausencias": 0
   },
   {
-    "title": "13 habitaciones Guesthouse/B & B en venta in Santa Barbara",
-    "price": "398,000 €",
-    "location": "Santa Barbara",
-    "description": "Property located in the center of the town of Santa Bárbara, province of Tarragona, built on a plot of 150 m2. It consists of a restaurant-hotel complex of 400 m2 and a duplex apartment of 104 m2 with three access doors: Kitchen, cafeteria and...",
-    "url": "https://www.thinkspain.com/property-for-sale/6186966",
-    "source": "ThinkSpain",
-    "location_region": "Cataluña",
-    "ausencias": 2
-  },
-  {
     "title": "13 habitaciones Guesthouse/B & B en venta in Oliva",
     "price": "499,000 €",
     "location": "Oliva",
@@ -12218,7 +12078,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/6187527",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "21 habitaciones Guesthouse/B & B en venta in Torrevieja",
@@ -12238,49 +12098,6 @@
     "url": "https://www.lucasfox.es/comprar-vivienda/espana/gerona/la-selva/casa-rural/gir71730.html",
     "source": "Lucas Fox",
     "ausencias": 0
-  },
-  {
-    "title": "403 ERROR",
-    "price": "1.800.000 €",
-    "location": "Benidorm",
-    "description": "Se vende Hotel con Bar de Copas en pleno funcionamiento, ubicado en el corazón del Rincón de Loix, una de las zonas más turísticas y transitadas de Benidorm. Características...",
-    "url": "https://www.luxuryestate.com/es/p131693981-hotel-for-sale-benidorm",
-    "source": "LuxuryEstate",
-    "date": "27/08/2026",
-    "location_region": "C. Valenciana",
-    "ausencias": 2
-  },
-  {
-    "title": "403 ERROR",
-    "price": "85.000.000 €",
-    "location": "Marbella",
-    "description": "Oportunidad de inversión confidencial Esta exclusiva oportunidad off-market representa uno de los activos hoteleros más destacados de la Costa del Sol, combinando alojamiento de...",
-    "url": "https://www.luxuryestate.com/es/p131581582-hotel-for-sale-marbella",
-    "source": "LuxuryEstate",
-    "date": "27/08/2026",
-    "location_region": "Andalucía",
-    "ausencias": 2
-  },
-  {
-    "title": "403 ERROR",
-    "price": "18.000.000 €",
-    "location": "Pollenca",
-    "description": "Oportunidad unica de adquirir un establecimiento hotelero consolidado en uno de los destinos mas codiciados de la isla de Mallorca, ideal tanto para explotacion directa como para...",
-    "url": "https://www.luxuryestate.com/es/p130894209-hotel-for-sale-pollenca",
-    "source": "LuxuryEstate",
-    "date": "27/08/2026",
-    "location_region": "Baleares",
-    "ausencias": 2
-  },
-  {
-    "title": "403 ERROR",
-    "price": "8.000.000 €",
-    "location": "Villa De Los Barrios",
-    "description": "El Hotel dispone de 53 habitaciones recientemente reformadas, distribuidas en cuatro cómodas plantas accesibles por ascensor, cada estancia promete ser tan acogedora como...",
-    "url": "https://www.luxuryestate.com/es/p132345192-hotel-for-sale-villa-de-los-barrios",
-    "source": "LuxuryEstate",
-    "date": "27/08/2026",
-    "ausencias": 2
   },
   {
     "title": "403 ERROR",
@@ -12354,7 +12171,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9997244",
     "source": "ThinkSpain",
     "location_region": "Cataluña",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "29 habitaciones Hotel en venta in Dilar with pool garage",
@@ -12364,7 +12181,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9115463",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "5 habitaciones Hotel en venta in Las Palmas de Gran Canaria",
@@ -12383,7 +12200,7 @@
     "description": "In the heart of the charming white mountain village of Canillas de Aceituno lies La Vieja Botica, a unique and well-established B&B with a fascinating history. The property was once a pharmacy, and its history can still be seen in the...",
     "url": "https://www.thinkspain.com/property-for-sale/10034864",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "92 habitaciones Hotel en venta in Sant Antoni de Portmany with pool garage",
@@ -12393,7 +12210,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9519372",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "9 habitaciones Hotel en venta in Benahavis with pool",
@@ -12403,7 +12220,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9826832",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "3 habitaciones Hotel en venta in Sencelles with pool",
@@ -12413,7 +12230,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9406805",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "10 habitaciones Hotel en venta in Masdenverge",
@@ -12431,7 +12248,7 @@
     "description": "Charming Coastal Villa in El Médano - With 7 Tourist Apartments and Pool Located just steps from the ocean and only 600 meters from the beaches, this unique property sits in the peaceful residential area of La Pelada, just a 15-minute walk from the...",
     "url": "https://www.thinkspain.com/property-for-sale/9015500",
     "source": "ThinkSpain",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "12 habitaciones Guesthouse/B & B en venta in Jalon / Xalo with pool",
@@ -12441,7 +12258,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8934582",
     "source": "ThinkSpain",
     "location_region": "C. Valenciana",
-    "ausencias": 1
+    "ausencias": 0
   },
   {
     "title": "4 habitaciones Guesthouse/B & B en venta in Badajoz city",
@@ -12451,7 +12268,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9532629",
     "source": "ThinkSpain",
     "location_region": "Extremadura",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -12462,7 +12279,7 @@
     "source": "LuxuryEstate",
     "date": "28/08/2026",
     "location_region": "Andalucía",
-    "ausencias": 1
+    "ausencias": 2
   },
   {
     "title": "8 habitaciones Hotel en venta in Ronda with pool garage",
@@ -12472,7 +12289,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9517852",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "8 habitaciones Hotel en venta in Moclin",
@@ -12502,7 +12319,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/5942019",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "18 habitaciones Hotel en venta in L'Arenal / S'Arenal with garage",
@@ -12512,7 +12329,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/8479416",
     "source": "ThinkSpain",
     "location_region": "Baleares",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "13 habitaciones Hotel en venta in Cuntis with pool garage",
@@ -12532,7 +12349,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9550083",
     "source": "ThinkSpain",
     "location_region": "Extremadura",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "12 habitaciones Hotel en venta in Xativa with pool garage",
@@ -12552,7 +12369,7 @@
     "url": "https://www.thinkspain.com/property-for-sale/9289829",
     "source": "ThinkSpain",
     "location_region": "Andalucía",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "47 habitaciones Hotel en venta in Alp",
@@ -12579,7 +12396,7 @@
     "description": "Charming rental property for sale with a tourist license in the beautiful village of Sant Mateu, with a privileged location in the old town. This property features 2 bedrooms, 2 bathrooms, and a sunny terrace to enjoy the Mediterranean climate. With...",
     "url": "https://www.thinkspain.com/property-for-sale/9902068",
     "source": "ThinkSpain",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "6 habitaciones Guesthouse/B & B en venta in Caleta de Velez with pool garage",
@@ -12588,7 +12405,7 @@
     "description": "This spectacular villa in Caleta de Vélez is for sale, a unique property thanks to its spacious layout, versatility, and privileged location, offering stunning views of the sea and the town. The property consists of a main house and two independent...",
     "url": "https://www.thinkspain.com/property-for-sale/9912844",
     "source": "ThinkSpain",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "17 habitaciones Guesthouse/B & B en venta in Vinaros",
@@ -12630,7 +12447,7 @@
     "source": "LuxuryEstate",
     "date": "29/08/2026",
     "location_region": "C. Valenciana",
-    "ausencias": 0
+    "ausencias": 1
   },
   {
     "title": "403 ERROR",
@@ -12641,6 +12458,134 @@
     "source": "LuxuryEstate",
     "date": "29/08/2026",
     "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "7 habitaciones Hotel en venta in Alhaurin de la Torre with pool garage",
+    "price": "850,000 €",
+    "location": "Alhaurin de la Torre",
+    "description": "For sale this villa in Alhaurín de la Torre, in the El Lagar area. The villa has recently been appraised at 954,000 euros. The selling price is 100,000 euros lower, as the owner is keen to sell. For sale this villa, which could suit several...",
+    "url": "https://www.thinkspain.com/property-for-sale/9999035",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "8 habitaciones Hotel en venta in Estellenchs",
+    "price": "2,600,000 €",
+    "location": "Estellenchs",
+    "description": "The Boutique Hotel Nord in Estellencs, Mallorca, is a real insider tip for travelers who appreciate the authentic and the special. Nestled against the picturesque backdrop of the Tramuntana mountains, this charming hotel offers a peaceful retreat...",
+    "url": "https://www.thinkspain.com/property-for-sale/8445033",
+    "source": "ThinkSpain",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "6 habitaciones Hotel en venta in Sagra",
+    "price": "569,000 €",
+    "location": "Sagra",
+    "description": "A place to change your life without starting from scratch: a charming bed & breakfast, fully operational and with proven income, in the heart of Sagra. Located in the picturesque village of Sagra, this property offers an excellent opportunity...",
+    "url": "https://www.thinkspain.com/property-for-sale/9835030",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "16 habitaciones Hotel en venta in Losar de la Vera with pool",
+    "price": "1,800,000 €",
+    "location": "Losar de la Vera",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/8920143",
+    "source": "ThinkSpain",
+    "location_region": "Murcia",
+    "ausencias": 0
+  },
+  {
+    "title": "48 habitaciones Hotel en venta in Lleida city",
+    "price": "10,000,000 €",
+    "location": "Lleida",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9396883",
+    "source": "ThinkSpain",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "7 habitaciones Hotel en venta in Valencia city",
+    "price": "1,500,000 €",
+    "location": "Valencia",
+    "description": "Set in the heart of Valencia’s Old City, in the highly sought-after El Carmen district, this fully operational hostal for sale offers a rare, turnkey investment opportunity in one of the city’s most vibrant and central areas—surrounded by...",
+    "url": "https://www.thinkspain.com/property-for-sale/9511347",
+    "source": "ThinkSpain",
+    "location_region": "C. Valenciana",
+    "ausencias": 0
+  },
+  {
+    "title": "20 habitaciones Hotel en venta in Cadiz city",
+    "price": "3,500,000 €",
+    "location": "Cadiz",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9832735",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "5 habitaciones Hotel en venta in La Bisbal d'Emporda",
+    "price": "1,200,000 €",
+    "location": "La Bisbal d'Emporda",
+    "description": "",
+    "url": "https://www.thinkspain.com/property-for-sale/9099433",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "151 habitaciones Hotel en venta in Mahon / Mao with pool",
+    "price": "9,000,000 €",
+    "location": "Mahon",
+    "description": "Possibility of sale with deferred payment Seafront Hotel Complex This apart-hotel is located in Menorca, 3 km from Maó and 10 km from the airport. Currently, the operating license is registered as a 3-star apart-hotel with 150 rooms and 367 guest...",
+    "url": "https://www.thinkspain.com/property-for-sale/9382809",
+    "source": "ThinkSpain",
+    "location_region": "Baleares",
+    "ausencias": 0
+  },
+  {
+    "title": "40 habitaciones Hotel en venta in Platja d'Aro with pool garage",
+    "price": "3,000,000 €",
+    "location": "Platja d'Aro",
+    "description": "Family hotel Costa Brava - Platja d'Aro Hotel investment opportunity Executive summary 2-star hotel for sale located in a quiet residential area of Platja d'Aro, Costa Brava. Ideal property for investors seeking an established hotel business...",
+    "url": "https://www.thinkspain.com/property-for-sale/9059700",
+    "source": "ThinkSpain",
+    "location_region": "Cataluña",
+    "ausencias": 0
+  },
+  {
+    "title": "8 habitaciones Guesthouse/B & B en venta in Torrox-Costa with pool",
+    "price": "1,200,000 €",
+    "location": "Torrox-Costa",
+    "description": "Have you always dreamed of a large, stately home with space for the whole family? Then we have the perfect property for you. This villa of about 500m2 is divided into two semi-detached houses. Two residential units with their own entrances and five...",
+    "url": "https://www.thinkspain.com/property-for-sale/8591728",
+    "source": "ThinkSpain",
+    "location_region": "Andalucía",
+    "ausencias": 0
+  },
+  {
+    "title": "6 habitaciones Guesthouse/B & B en venta in Icod de los Vinos",
+    "price": "995,000 €",
+    "location": "Icod de los Vinos",
+    "description": "Reduced from €1.265,000 now €995.000. This beautiful guesthouse is located in Buenasvista del Norte in front of the plaza. The house has 6 bedrooms, 3 on the first floor and 3 on the 2nd floor. There are currently 2 bathrooms. The bathroom...",
+    "url": "https://www.thinkspain.com/property-for-sale/8253087",
+    "source": "ThinkSpain",
+    "ausencias": 0
+  },
+  {
+    "title": "Apartahotel 3 estrellas en Venta en Mallorca Sureste",
+    "price": "16.500.000 €",
+    "location": "Mallorca Sureste",
+    "description": "Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Apartahotel 3 estrellas en Venta en una ubicación privilegiada en Mallorca. Fortalezas del Negocio o Inversión: Ubicación estratégica: La proximidad a la playa es un gran atractivo para los turistas, especialmente en un destino como Mallorca. Amplias instalaciones: Dispone de 117 apartamentos. La gran zona ajardinada y la piscina son elementos que pueden mejorar la experiencia de los huéspedes. Potencial de desarrollo: La necesidad de CAPEX indica que existe la posibilidad de mejorar las instalaciones y aumentar la rentabilidad del negocio. Gran extensión de terreno: Los 80.000 m2 de terreno ofrecen un amplio margen para futuras expansiones o desarrollos adicionales. Comprar o vender un hotel de lujo con OIREALESTATE garantiza una transacción eficiente y segura, gracias a su amplia experiencia y conocimiento del mercado de alto standing. La inmobiliaria ofrece acceso a oportunidades exclusivas, asesoramiento personalizado y un proceso integral, desde la negociación hasta la gestión post-venta, asegurando una experiencia de inversión fluida y confiable. NOTA: Las fotos no corresponden con el inmueble, son a modo ilustrativo.",
+    "url": "https://www.oirealestate.net/propiedad/78202/apartahotel-3-estrellas-en-venta-en-mallorca-sureste",
+    "source": "Oi Real Estate",
+    "date": "30/08/2026",
+    "location_region": "Baleares",
     "ausencias": 0
   }
 ]
