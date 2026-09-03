@@ -1,0 +1,2386 @@
+#!/usr/bin/env python3
+"""
+Hotel Monitor — Scraper local con cache acumulativo
+Portales activos: ThinkSpain, Lucas Fox
+"""
+import json, re, time, os, subprocess, random, unicodedata
+from datetime import date, datetime, timedelta
+from html import unescape
+
+import undetected_chromedriver as uc
+from selenium.webdriver.common.by import By
+import requests as req_mod
+from bs4 import BeautifulSoup
+
+TODAY      = date.today().strftime('%d/%m/%Y')
+CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hoteles_cache.json')
+
+HOTEL_KW = ['hotel','hostal','hostel','pensión','pension','aparthotel',
+            'posada','parador','fonda','casa rural','alojamiento turístico',
+            'albergue','resort','casa de huespedes','bed and breakfast',
+            'hotel boutique','boutique hotel','complejo hotelero','negocio hotelero',
+            'guesthouse','b&b','inn ','lodge','rural house',
+            'apartamento turístico','apartamentos turísticos','edificio turístico']
+
+SPAM_KW = ['404','página no encontrada','page not found','i want to advertise',
+           'advertise on think','sign up','register','login','cookie',
+           'privacy policy','terms of use','contact us','about us']
+
+def es_hotel(texto):
+    t = (texto or '').lower()
+    if any(s in t for s in SPAM_KW): return False
+    return any(k in t for k in HOTEL_KW)
+
+def clean(s):
+    if not s: return ''
+    s = re.sub(r'<[^>]+>', ' ', str(s))
+    s = unescape(s)
+    return re.sub(r'\s+', ' ', s).strip()
+
+def parsear_fecha(texto):
+    if not texto: return TODAY
+    t = texto.lower().strip()
+    meses = {
+        'ene':1,'feb':2,'mar':3,'abr':4,'may':5,'jun':6,
+        'jul':7,'ago':8,'sep':9,'oct':10,'nov':11,'dic':12,
+        'enero':1,'febrero':2,'marzo':3,'abril':4,'mayo':5,'junio':6,
+        'julio':7,'agosto':8,'septiembre':9,'octubre':10,'noviembre':11,'diciembre':12,
+        'jan':1,'apr':4,'aug':8,'dec':12,
+    }
+    hoy = date.today()
+    if 'hoy' in t or 'today' in t: return TODAY
+    if 'ayer' in t or 'yesterday' in t:
+        return (hoy - timedelta(days=1)).strftime('%d/%m/%Y')
+    m = re.search(r'hace\s+(\d+)\s+(día|isemana|mes|año|ano)', t)
+    if not m: m = re.search(r'(\d+)\s+(day|week|month|year)', t)
+    if m:
+        num = int(m.group(1)); u = m.group(2)
+        if   'día' in u or 'dia' in u or 'day' in u: d = hoy - timedelta(days=num)
+        elif 'semana' in u or 'week' in u: d = hoy - timedelta(weeks=num)
+        elif 'mes' in u or 'month' in u:
+            mes = hoy.month - num; año = hoy.year
+            while mes <= 0: mes += 12; año -= 1
+            d = date(año, mes, min(hoy.day, 28))
+        elif 'año' in u or 'ano' in u or 'year' in u:
+            d = date(hoy.year - num, hoy.month, hoy.day)
+        else: d = hoy
+        return d.strftime('%d/%m/%Y')
+    m = re.search(r'(\d{4})-(\d{2})-(\d{2})', t)
+    if m: return f'{m.group(3)}/{m.group(2)}/{m.group(1)}'
+    m = re.search(r'(\d{1,2})/(\d{1,2})/(\d{4})', t)
+    if m: return f'{int(m.group(1)):02d}/{int(m.group(2)):02d}/{m.group(3)}'
+    m = re.search(r'(\d{1,2})\s+(?:de\s+)?([a-záéíóúñ]+)(?:\s+(?:de\s+)?(\d{4}))?', t)
+    if m:
+        dia = int(m.group(1)); mes_txt = m.group(2)[:3]
+        año = int(m.group(3)) if m.group(3) else hoy.year
+        mes_num = meses.get(mes_txt, 0)
+        if mes_num: return f'{dia:02d}/{mes_num:02d}/{año}'
+    return TODAY
+
+# ─── cache ────────────────────────────────────────────
+def load_cache():
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            print(f'Cache cargado: {len(data)} anuncios previos.')
+            return {item['url']: item for item in data}
+        except Exception as e:
+            print(f'Cache corrupto ({e}), empezando desde cero.')
+    print('Cache vacío — primera ejecución.')
+    return {}
+
+def save_cache(cache_dict):
+    with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+        json.dump(list(cache_dict.values()), f, ensure_ascii=False, indent=2)
+
+# ─── driver ───────────────────────────────────────────
+def init_driver():
+    print('Iniciando Chrome...')
+    opts = uc.ChromeOptions()
+    opts.add_argument('--window-size=1920,1080')
+    opts.add_argument('--lang=es-ES')
+
+    if os.environ.get('GITHUB_ACTIONS'):
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        opts2 = Options()
+        opts2.add_argument('--headless=new')
+        opts2.add_argument('--no-sandbox')
+        opts2.add_argument('--disable-dev-shm-usage')
+        opts2.add_argument('--disable-gpu')
+        opts2.add_argument('--window-size=1920,1080')
+        driver = webdriver.Chrome(options=opts2)
+    else:
+        # En local seguimos usando undetected-chromedriver
+        # (sin version_main fijo: uc detecta automáticamente la versión de Chrome instalada)
+        driver = uc.Chrome(options=opts, use_subprocess=True)
+
+    print('Chrome listo.\n')
+    return driver
+
+def init_driver_stealth():
+    """Driver anti-detección para Idealista — usa undetected_chromedriver siempre."""
+    print('Iniciando Chrome stealth para Idealista...')
+    opts = uc.ChromeOptions()
+    opts.add_argument('--window-size=1920,1080')
+    opts.add_argument('--lang=es-ES')
+    opts.add_argument('--no-first-run')
+    opts.add_argument('--no-default-browser-check')
+
+    if os.environ.get('GITHUB_ACTIONS'):
+        opts.add_argument('--headless=new')
+        opts.add_argument('--no-sandbox')
+        opts.add_argument('--disable-dev-shm-usage')
+        opts.add_argument('--disable-gpu')
+        opts.add_argument('--disable-blink-features=AutomationControlled')
+        # User agent realista (versión genérica reciente; no necesita coincidir exacto)
+        opts.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36')
+
+    try:
+        # Sin version_main fijo: uc detecta automáticamente la versión de Chrome instalada.
+        # Antes esto forzaba 146 y en CI Chrome ya iba por la 151/152 → creación de sesión
+        # fallaba, caía al driver estándar (sin stealth) y Idealista lo detectaba y bloqueaba (0 anuncios).
+        driver = uc.Chrome(options=opts, use_subprocess=True)
+        # Eliminar rastros de webdriver
+        driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    except Exception as e:
+        print(f'  Stealth driver falló ({e}), usando driver estándar')
+        driver = init_driver()
+
+    print('Chrome stealth listo.\n')
+    return driver
+
+def accept_cookies(driver):
+    for bid in ['didomi-notice-agree-button','onetrust-accept-btn-handler',
+                'acceptAllButton','accept-cookies']:
+        try: driver.find_element(By.ID, bid).click(); time.sleep(0.3); return
+        except: pass
+    for txt in ['Aceptar todo','Aceptar todas','Aceptar','Accept all']:
+        try:
+            driver.find_element(By.XPATH, f'//button[contains(.,"{txt}")]').click()
+            time.sleep(0.3); return
+        except: pass
+
+def get_page(driver, url, wait=3):
+    try:
+        driver.get(url); time.sleep(wait)
+        accept_cookies(driver)
+        return driver.page_source
+    except Exception as e:
+        print(f'  ERROR {url[:70]}: {e}')
+        return None
+
+# ─── listings ─────────────────────────────────────────
+found_listings = []
+seen_urls = set()
+
+def normalizar_titulo(s):
+    s = (s or '').lower().strip()
+    s = re.sub(r'[^\w\s]', '', s)
+    for w in ['hotel','hostal','en','venta','de','la','el','las','los','un','una',
+              'lujo','boutique','para','sale','for','luxury','the']:
+        s = re.sub(rf'\b{w}\b', '', s)
+    return re.sub(r'\s+', ' ', s).strip()
+
+def es_duplicado(item, lista=None):
+    """Detecta duplicados por precio + título similar"""
+    from difflib import SequenceMatcher
+    if lista is None: lista = found_listings
+    precio = re.sub(r'[^\d]', '', item.get('price',''))
+    titulo = normalizar_titulo(item.get('title',''))
+    if not precio or not titulo: return False
+    for ex in lista:
+        if re.sub(r'[^\d]', '', ex.get('price','')) == precio:
+            if SequenceMatcher(None, titulo, normalizar_titulo(ex.get('title',''))).ratio() >= 0.72:
+                return True
+    return False
+
+
+# ─── región y limpieza de ubicación ──────────────────
+def _norm(s):
+    if not s: return ''
+    s = unicodedata.normalize('NFD', s)
+    s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
+    s = s.lower()
+    s = re.sub(r'[^\w\s]', ' ', s)
+    return re.sub(r'\s+', ' ', s).strip()
+
+_REGION_MAP = {
+    'madrid':'Madrid','alcala de henares':'Madrid','getafe':'Madrid','mostoles':'Madrid',
+    'alcobendas':'Madrid','pozuelo':'Madrid','majadahonda':'Madrid','cercedilla':'Madrid',
+    'aranjuez':'Madrid','soto del real':'Madrid','rascafria':'Madrid','valdemoro':'Madrid',
+    'guadarrama':'Madrid','villacastin':'Madrid',
+    'barcelona':'Cataluña','girona':'Cataluña','tarragona':'Cataluña','lleida':'Cataluña',
+    'sitges':'Cataluña','lloret':'Cataluña','roses':'Cataluña','calella':'Cataluña',
+    'palamos':'Cataluña','creixell':'Cataluña','salou':'Cataluña','cambrils':'Cataluña',
+    'reus':'Cataluña','tortosa':'Cataluña','platja daro':'Cataluña','vidreres':'Cataluña',
+    'sant feliu de guixols':'Cataluña','badalona':'Cataluña','sabadell':'Cataluña',
+    'terrassa':'Cataluña','manresa':'Cataluña','mataro':'Cataluña','vic':'Cataluña',
+    'figueres':'Cataluña','tordera':'Cataluña','mora la nova':'Cataluña',
+    'calafell':'Cataluña','empuriabrava':'Cataluña','blanes':'Cataluña',
+    'malgrat de mar':'Cataluña','castelldefels':'Cataluña','montblanc':'Cataluña',
+    'granollers':'Cataluña','costa brava':'Cataluña','costa dorada':'Cataluña',
+    'cataluña':'Cataluña','catalonia':'Cataluña','vielha':'Cataluña',
+    'sevilla':'Andalucía','malaga':'Andalucía','granada':'Andalucía',
+    'cadiz':'Andalucía','huelva':'Andalucía','almeria':'Andalucía',
+    'cordoba':'Andalucía','jaen':'Andalucía','marbella':'Andalucía',
+    'torremolinos':'Andalucía','benalmadena':'Andalucía','nerja':'Andalucía',
+    'fuengirola':'Andalucía','ronda':'Andalucía','tarifa':'Andalucía',
+    'velez malaga':'Andalucía','aguadulce':'Andalucía','estepona':'Andalucía',
+    'mijas':'Andalucía','motril':'Andalucía','almunecar':'Andalucía',
+    'salobrena':'Andalucía','gaucin':'Andalucía','mojacar':'Andalucía',
+    'antequera':'Andalucía','competa':'Andalucía','torrox':'Andalucía',
+    'frigiliana':'Andalucía','sotogrande':'Andalucía','carmona':'Andalucía',
+    'aracena':'Andalucía','linares':'Andalucía','ubeda':'Andalucía',
+    'costa del sol':'Andalucía','andalucia':'Andalucía','andalusia':'Andalucía',
+    'pizarra':'Andalucía','tolox':'Andalucía','alhaurin':'Andalucía',
+    'orgiva':'Andalucía','zahara':'Andalucía','sedella':'Andalucía',
+    'baza':'Andalucía','coin':'Andalucía','rute':'Andalucía','chiclana':'Andalucía',
+    'jerez':'Andalucía','algeciras':'Andalucía','san roque':'Andalucía',
+    'arcos de la frontera':'Andalucía','medina sidonia':'Andalucía',
+    'alhama de granada':'Andalucía','alcala la real':'Andalucía',
+    'galaroza':'Andalucía','busquistar':'Andalucía','guejar sierra':'Andalucía',
+    'alora':'Andalucía','diezma':'Andalucía','iznate':'Andalucía',
+    'la zubia':'Andalucía','lecrin':'Andalucía','mondujar':'Andalucía',
+    'pinos genil':'Andalucía','vejer':'Andalucía','seville':'Andalucía',
+    'villanueva de la concepcion':'Andalucía','macharaviaya':'Andalucía',
+    'casariche':'Andalucía','montejaque':'Andalucía','moclin':'Andalucía',
+    'calahonda':'Andalucía','tabernas':'Andalucía','carboneras':'Andalucía',
+    'turre':'Andalucía','laroles':'Andalucía','gualchos':'Andalucía',
+    'iznajar':'Andalucía','baena':'Andalucía','constantina':'Andalucía',
+    'la iruela':'Andalucía','lanjaron':'Andalucía','albolote':'Andalucía',
+    'casarabonela':'Andalucía','benajarafe':'Andalucía','vinuela':'Andalucía',
+    'almayate':'Andalucía','villanueva de tapia':'Andalucía','arriate':'Andalucía',
+    'mijas costa':'Andalucía','playa granada':'Andalucía',
+    'valencia':'C. Valenciana','alicante':'C. Valenciana','castellon':'C. Valenciana',
+    'benidorm':'C. Valenciana','denia':'C. Valenciana','javea':'C. Valenciana',
+    'calpe':'C. Valenciana','altea':'C. Valenciana','benissa':'C. Valenciana',
+    'orihuela':'C. Valenciana','torrevieja':'C. Valenciana','santa pola':'C. Valenciana',
+    'elche':'C. Valenciana','gandia':'C. Valenciana','peniscola':'C. Valenciana',
+    'costa blanca':'C. Valenciana','beniali':'C. Valenciana','palomar':'C. Valenciana',
+    'bocairente':'C. Valenciana','finestrat':'C. Valenciana','alfaz del pi':'C. Valenciana',
+    'el campello':'C. Valenciana','villajoyosa':'C. Valenciana',
+    'playas de orihuela':'C. Valenciana','vall de gallinera':'C. Valenciana',
+    'calig':'C. Valenciana','oliva':'C. Valenciana','vinaros':'C. Valenciana',
+    'parcent':'C. Valenciana','jalon':'C. Valenciana','rojales':'C. Valenciana',
+    'moraira':'C. Valenciana','orba':'C. Valenciana','alcoy':'C. Valenciana',
+    'xativa':'C. Valenciana','alzira':'C. Valenciana','burriana':'C. Valenciana',
+    'enguera':'C. Valenciana','chulilla':'C. Valenciana','tarbena':'C. Valenciana',
+    'ondara':'C. Valenciana','guardamar del segura':'C. Valenciana',
+    'guadalest':'C. Valenciana','la nucia':'C. Valenciana','lliber':'C. Valenciana',
+    'san vicente del raspeig':'C. Valenciana','orihuela costa':'C. Valenciana',
+    'albir':'C. Valenciana','villanueva de san carlos':'C. Valenciana',
+    'mallorca':'Baleares','menorca':'Baleares','ibiza':'Baleares',
+    'formentera':'Baleares','palma':'Baleares','baleares':'Baleares',
+    'balears':'Baleares','islas baleares':'Baleares','illes balears':'Baleares',
+    'balearic islands':'Baleares','eivissa':'Baleares','manacor':'Baleares',
+    'pollensa':'Baleares','alcudia':'Baleares','soller':'Baleares',
+    'estellenchs':'Baleares','ses salines':'Baleares','capdepera':'Baleares',
+    'magaluf':'Baleares','porto cristo':'Baleares','cala millor':'Baleares',
+    'sineu':'Baleares','arta':'Baleares','peguera':'Baleares','portocolom':'Baleares',
+    'inca':'Baleares','arenal':'Baleares','llucmajor':'Baleares','campos':'Baleares',
+    'felanitx':'Baleares','santanyi':'Baleares','ciutadella':'Baleares',
+    'mahon':'Baleares','mao':'Baleares','son servera':'Baleares',
+    'can picafort':'Baleares','cala ratjada':'Baleares','valldemosa':'Baleares',
+    'sencelles':'Baleares','alaro':'Baleares','bunyola':'Baleares','muro':'Baleares',
+    'calvia':'Baleares','santa ponsa':'Baleares','colonia de sant jordi':'Baleares',
+    'portals nous':'Baleares','ferreries':'Baleares','es mercadal':'Baleares',
+    'tenerife':'Canarias','las palmas':'Canarias','gran canaria':'Canarias',
+    'lanzarote':'Canarias','fuerteventura':'Canarias','la palma':'Canarias',
+    'el hierro':'Canarias','la gomera':'Canarias',
+    'santa cruz de tenerife':'Canarias','adeje':'Canarias','arona':'Canarias',
+    'mogan':'Canarias','macher':'Canarias','costa adeje':'Canarias',
+    'islas canarias':'Canarias','canarias':'Canarias','maspalomas':'Canarias',
+    'los realejos':'Canarias','la orotava':'Canarias','teguise':'Canarias',
+    'yaiza':'Canarias','santa brigida':'Canarias','puerto de la cruz':'Canarias',
+    'bilbao':'País Vasco','donostia':'País Vasco','vitoria':'País Vasco',
+    'san sebastian':'País Vasco','bizkaia':'País Vasco','oiartzun':'País Vasco',
+    'pamplona':'Navarra','navarra':'Navarra',
+    'santander':'Cantabria','cantabria':'Cantabria','reinosa':'Cantabria',
+    'oviedo':'Asturias','gijon':'Asturias','asturias':'Asturias',
+    'cangas de onis':'Asturias','llanes':'Asturias','cudillero':'Asturias',
+    'a coruna':'Galicia','coruna':'Galicia','vigo':'Galicia','pontevedra':'Galicia',
+    'santiago':'Galicia','lugo':'Galicia','ourense':'Galicia','galicia':'Galicia',
+    'a guarda':'Galicia','cuntis':'Galicia','moana':'Galicia','ribadeo':'Galicia',
+    'ames':'Galicia','ordes':'Galicia','catoira':'Galicia','lalin':'Galicia',
+    'o porrino':'Galicia','arzua':'Galicia','bueu':'Galicia','marin':'Galicia',
+    'salamanca':'Castilla y León','burgos':'Castilla y León',
+    'valladolid':'Castilla y León','segovia':'Castilla y León',
+    'avila':'Castilla y León','soria':'Castilla y León','zamora':'Castilla y León',
+    'palencia':'Castilla y León','leon':'Castilla y León','ponferrada':'Castilla y León',
+    'ciudad rodrigo':'Castilla y León','bejar':'Castilla y León',
+    'puebla de sanabria':'Castilla y León',
+    'toledo':'Castilla-La Mancha','ciudad real':'Castilla-La Mancha',
+    'albacete':'Castilla-La Mancha','cuenca':'Castilla-La Mancha',
+    'guadalajara':'Castilla-La Mancha','castilla la mancha':'Castilla-La Mancha',
+    'consuegra':'Castilla-La Mancha','almagro':'Castilla-La Mancha',
+    'villarrobledo':'Castilla-La Mancha','yeste':'Castilla-La Mancha',
+    'caceres':'Extremadura','badajoz':'Extremadura','merida':'Extremadura',
+    'trujillo':'Extremadura','zafra':'Extremadura','extremadura':'Extremadura',
+    'zaragoza':'Aragón','huesca':'Aragón','teruel':'Aragón','jaca':'Aragón',
+    'benasque':'Aragón','aragon':'Aragón','graus':'Aragón',
+    'murcia':'Murcia','cartagena':'Murcia','lorca':'Murcia','san javier':'Murcia',
+    'mazarron':'Murcia','caravaca':'Murcia','calabardina':'Murcia',
+    'san pedro del pinatar':'Murcia','alhama de murcia':'Murcia',
+    'aguilas':'Murcia','jumilla':'Murcia','los alcazares':'Murcia',
+    'la manga':'Murcia','vera':'Murcia',
+    'logrono':'La Rioja','la rioja':'La Rioja','rioja':'La Rioja',
+}
+
+def infer_region(texto):
+    """Infiere la comunidad autónoma a partir de cualquier texto de ubicación."""
+    t = _norm(texto or '')
+    for key in sorted(_REGION_MAP.keys(), key=len, reverse=True):
+        if key in t:
+            return _REGION_MAP[key]
+    return None
+
+def limpiar_location(loc):
+    """Limpia ubicaciones con basura pegada (ThinkSpain principalmente)."""
+    if not loc: return loc
+    loc = re.sub(r'â[\x00-\xff]{0,2}', '', loc)
+    loc = re.sub(r'€.*', '', loc)
+    loc = re.sub(r'\s+with\b.*', '', loc, flags=re.I)
+    loc = re.sub(r'\bgarage\b.*', '', loc, flags=re.I)
+    loc = re.sub(r'\bpool\b.*', '', loc, flags=re.I)
+    loc = re.sub(r'\s*-\s*\d.*', '', loc)
+    loc = re.sub(r'\s*/\s*.+', '', loc)
+    loc = re.sub(r'\s+city\b.*', '', loc, flags=re.I)
+    m = re.match(r'([^,]{3,40}),\s*.{4,}', loc)
+    if m: loc = m.group(1)
+    return loc.strip()
+
+def clasificar_tipo(title, description=''):
+    """
+    Clasifica un anuncio según la misma taxonomía que ya usas en tu Excel
+    (columna 'Tipología'), por orden de especificidad (el primero que
+    encuentra, gana). Devuelve un string listo para esa misma columna.
+    """
+    texto = (title or '') + ' ' + (description or '')
+    t = texto.lower()
+
+    # Estrellas, si las menciona (para adjuntar al tipo, ej. "Hotel boutique 4*")
+    estrellas = ''
+    m_estrellas = re.search(r'(\d)\s*(?:\*|estrellas?|★)', t)
+    if m_estrellas:
+        estrellas = f' {m_estrellas.group(1)}*'
+
+    # Orden de prioridad: de lo más específico a lo más genérico
+    if 'hotel boutique' in t or 'boutique hotel' in t:
+        return f'Hotel boutique{estrellas}'
+    if 'hotel rural' in t:
+        return f'Hotel Rural{estrellas}'
+    if 'hostal' in t:
+        return f'Hostal{estrellas}'
+    if 'albergue' in t or 'hostel' in t:
+        return 'Albergue/Hostel'
+    if 'apartahotel' in t or 'apart-hotel' in t or 'apart hotel' in t:
+        return f'Apartahotel{estrellas}'
+    if 'casa rural' in t:
+        return 'Casa Rural'
+    if 'casa de huéspedes' in t or 'casa de huespedes' in t or 'guesthouse' in t or 'guest house' in t:
+        return 'Casa de huéspedes'
+    if 'pensión' in t or 'pension' in t:
+        return 'Pensión'
+    if 'b&b' in t or 'bed and breakfast' in t or 'bed & breakfast' in t:
+        return 'B&B'
+    # ── Apartamentos/edificios turísticos: la categoría nueva que pediste ──
+    if 'apartamentos turísticos' in t or 'apartamentos turisticos' in t or \
+       'apartamento turístico' in t or 'apartamento turistico' in t:
+        return 'Apartamento turístico'
+    if 'edificio turístico' in t or 'edificio turistico' in t:
+        return 'Edificio turístico'
+    if 'parador' in t:
+        return 'Parador'
+    if 'resort' in t:
+        return 'Resort'
+    if 'hotel' in t:
+        return f'Hotel{estrellas}'
+    return 'Alojamiento (n.d.)'  # mismo texto que ya usas tú para los ambiguos
+
+
+def add_listing(item):
+    url = item.get('url','').strip().split('?')[0].rstrip('/')
+    if not url or url in seen_urls: return False
+    if not item.get('title') or len(item['title']) < 8: return False
+    if es_duplicado(item, found_listings): return False
+    seen_urls.add(url)
+    item['url']         = url
+    item['title']       = item['title'][:120]
+    item['description'] = item.get('description','')[:1500]
+    # Tipología (columna "Tipología" en tu Excel) — igual para todos los
+    # portales, sea cual sea el que lo haya encontrado.
+    item['tipo'] = clasificar_tipo(item.get('title',''), item.get('description',''))
+    # Estado: todo anuncio nuevo entra como "Activo" — se marcará "Retirado"
+    # más adelante en limpiar_bajas() si deja de aparecer.
+    item['estado'] = 'Activo'
+    # Limpiar ubicación y asignar región automáticamente
+    if item.get('location'):
+        item['location'] = limpiar_location(item['location'])
+    if not item.get('location_region'):
+        fuentes = [item.get('location',''), item.get('title',''), item.get('description','')[:300]]
+        for t in fuentes:
+            r = infer_region(t)
+            if r:
+                item['location_region'] = r
+                break
+    found_listings.append(item)
+    return True
+
+# ══════════════════════════════════════════════════════
+# 1. THINKSPAIN — requests + JSON-LD
+# ══════════════════════════════════════════════════════
+def scrape_thinkspain(driver):
+    print('\u2192 ThinkSpain...')
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8',
+        'Referer': 'https://www.thinkspain.com/property-for-sale',
+        'Upgrade-Insecure-Requests': '1',
+    }
+    # ThinkSpain elimin\u00f3 las rutas regionales (/andalucia/hotels\u2026 ahora dan 404).
+    # Las nacionales siguen vivas y ya devuelven TODOS los hoteles paginando con ?numpag=N.
+    BASE_URLS = [
+        'https://www.thinkspain.com/property-for-sale/hotels',
+        'https://www.thinkspain.com/property-for-sale/guest-houses-bed-breakfasts',
+    ]
+
+    session = req_mod.Session()
+    session.headers.update(HEADERS)
+
+    def fetch_html(url):
+        # requests primero (r\u00e1pido); si el runner est\u00e1 bloqueado (no llega ItemList),
+        # cae al navegador stealth que ya tenemos abierto.
+        try:
+            r = session.get(url, timeout=20)
+            if r.status_code == 200 and 'ItemList' in r.text:
+                return r.text
+        except Exception as e:
+            print(f'  requests KO {url[-45:]}: {e}')
+        html = get_page(driver, url, wait=3)
+        return html or ''
+
+    def parsear_titulo_ts(name):
+        t = re.sub(r'^[\d][\d.,]*\s*€\s*', '', name).strip()
+        t = re.sub(r'^€\s*[\d][\d.,]*\s*', '', t).strip()
+        t = re.sub(r'\s*\(Ref:.*?\)', '', t)
+        t = re.sub(r'\s*-\s*€.*', '', t).strip()
+        words = t.split()
+        if len(words) >= 8:
+            mid = len(words) // 2
+            p1 = ' '.join(words[:mid]); p2 = ' '.join(words[mid:])
+            if p1.lower()[:20] == p2.lower()[:20]: t = p1
+        t = re.sub(r'\bfor sale\b', 'en venta', t, flags=re.IGNORECASE)
+        t = re.sub(r'(\d+)\s+bedroom\s+', r'\1 habitaciones ', t, flags=re.IGNORECASE)
+        t = t.strip()
+        m = re.search(r'(?:en venta en|in)\s+(.+?)(?:\s+Hotel|\s+Guesthouse|$)', t, re.IGNORECASE)
+        loc = m.group(1).strip().rstrip(',').strip() if m else 'España'
+        return t, loc
+
+    def extraer_precio_ts(name):
+        m = re.search(r'^([\d][\d.,]+)\s*€', name.strip())
+        if m: return m.group(1) + ' €'
+        m = re.search(r'€\s*([\d][\d.,]+)', name)
+        if m: return m.group(1) + ' €'
+        m = re.search(r'([\d][\d.,]+)\s*€', name)
+        if m: return m.group(1) + ' €'
+        return 'Precio a consultar'
+    seen_ts = set()
+    total_ts = 0
+    for base_url in BASE_URLS:
+        region = base_url.split('/')[-1]
+        paginas_vacias = 0
+        for numpag in range(1, 60):
+            url = base_url if numpag == 1 else f'{base_url}?numpag={numpag}'
+            html = fetch_html(url)
+            if not html:
+                break
+            soup = BeautifulSoup(html, 'lxml')
+            enc = 0
+            for s in soup.find_all('script', type='application/ld+json'):
+                try:
+                    data = json.loads(s.get_text())
+                except Exception:
+                    continue
+                for d in (data if isinstance(data, list) else [data]):
+                    if not isinstance(d, dict) or d.get('@type') != 'ItemList':
+                        continue
+                    for item in d.get('itemListElement', []):
+                        prod = item.get('item', {}) if isinstance(item, dict) else {}
+                        url_a = (prod.get('url') or prod.get('@id') or '').split('?')[0].rstrip('/')
+                        if not url_a or url_a in seen_ts:
+                            continue
+                        name = prod.get('name', '')
+                        if not name:
+                            continue
+                        titulo, loc = parsear_titulo_ts(name)
+                        precio = extraer_precio_ts(name)
+                        seen_ts.add(url_a)
+                        added = add_listing({'title': titulo, 'price': precio, 'location': loc,
+                                             'description': clean(prod.get('description', '')),
+                                             'url': url_a, 'source': 'ThinkSpain'})
+                        if added: enc += 1
+            total_ts += enc
+            if enc > 0:
+                print(f'  {region} p{numpag}: {enc} nuevos | Total TS: {total_ts}')
+                paginas_vacias = 0
+            else:
+                paginas_vacias += 1
+            if paginas_vacias >= 2: break
+            time.sleep(0.4)
+    print(f'  ThinkSpain TOTAL: {total_ts}')
+
+# ══════════════════════════════════════════════════════
+# 2. LUCAS FOX — requests
+# ══════════════════════════════════════════════════════
+def scrape_lucasfox(driver):
+    print('\n→ Lucas Fox...')
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.lucasfox.es/',
+    }
+    BASE = 'https://www.lucasfox.es/comprar-vivienda/hoteles.html'
+    session = req_mod.Session()
+    seen_lf = set()
+    total_lf = 0
+    for page in range(1, 10):
+        url = BASE if page == 1 else f'{BASE}?page={page}'
+        try:
+            time.sleep(random.uniform(2, 4))
+            r = session.get(url, headers=HEADERS, timeout=15)
+            if r.status_code != 200:
+                print(f'  LucasFox p{page}: status {r.status_code}, parando'); break
+            soup = BeautifulSoup(r.text, 'lxml')
+            items = soup.find_all('a', href=re.compile(r'/comprar-vivienda/espana/.*\.html$'))
+            if not items:
+                print(f'  LucasFox p{page}: sin anuncios, fin'); break
+            enc = 0
+            for a in items:
+                href = a.get('href','')
+                if not href: continue
+                if not href.startswith('http'): href = 'https://www.lucasfox.es' + href
+                href_clean = href.split('?')[0]
+                if href_clean in seen_lf: continue
+                seen_lf.add(href_clean)
+                li = a.find_parent('li') or a
+                price_el = li.find(class_=re.compile(r'price|precio', re.I))
+                title_el = li.find(class_=re.compile(r'title|heading|name', re.I)) or li.find('h2') or li.find('h3')
+                title_txt = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if len(title_txt) < 5: continue
+                loc_el = li.find(class_=re.compile(r'location|localidad|zone|area', re.I))
+                add_listing({'title': title_txt,
+                             'price': clean(price_el.get_text()) if price_el else 'Precio a consultar',
+                             'location': clean(loc_el.get_text()) if loc_el else 'España',
+                             'description': '', 'url': href_clean, 'source': 'Lucas Fox'})
+                enc += 1; total_lf += 1
+            print(f'  LucasFox p{page}: {enc} | Total LF: {total_lf}')
+            if enc == 0: break
+        except Exception as e:
+            print(f'  LucasFox error p{page}: {e}'); break
+    print(f'  Lucas Fox TOTAL: {total_lf}')
+
+# ══════════════════════════════════════════════════════
+# sistema de baja
+# ══════════════════════════════════════════════════════
+# ══════════════════════════════════════════════════════
+# sistema de baja
+# ══════════════════════════════════════════════════════
+def limpiar_bajas(cache, urls_encontradas):
+    """
+    ANTES: los anuncios que llevaban 3+ ejecuciones sin aparecer se
+    BORRABAN del todo (se perdía el histórico).
+
+    AHORA: se marcan como 'Retirado' (igual que tu columna Estado en el
+    Excel) y se quedan en el cache — así, cuando exportes/descargues,
+    puedes ver qué ha desaparecido de la oferta sin perder el dato.
+    Si un anuncio "Retirado" vuelve a aparecer en un scraping posterior
+    (algunos portales reactivan anuncios), vuelve a "Activo" solo.
+    """
+    marcados_retirado = 0
+    reactivados = 0
+    for url, item in cache.items():
+        if url not in urls_encontradas:
+            ausencias = item.get('ausencias', 0) + 1
+            item['ausencias'] = ausencias
+            if ausencias >= 3 and item.get('estado') != 'Retirado':
+                item['estado'] = 'Retirado'
+                marcados_retirado += 1
+        else:
+            item['ausencias'] = 0
+            if item.get('estado') == 'Retirado':
+                reactivados += 1
+            item['estado'] = 'Activo'
+    if marcados_retirado:
+        print(f'  Marcados como Retirado: {marcados_retirado} anuncios (3+ ejecuciones sin aparecer).')
+    if reactivados:
+        print(f'  Reactivados (volvieron a aparecer): {reactivados} anuncios.')
+    return cache
+
+# ══════════════════════════════════════════════════════
+# git push
+# ══════════════════════════════════════════════════════
+def subir_github(total):
+    print('\nSubiendo a GitHub...')
+    try:
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        subprocess.run(['git','stash'], capture_output=True)
+        subprocess.run(['git','pull','origin','main','--rebase'], check=True)
+        subprocess.run(['git','stash','pop'], capture_output=True)
+        subprocess.run(['git','add','index.html','hoteles_cache.json','index_template.html'], check=True)
+        result = subprocess.run(['git','diff','--cached','--quiet'], capture_output=True)
+        if result.returncode != 0:
+            subprocess.run(['git','commit','-m',f'Actualizacion {TODAY} — {total} hoteles'], check=True)
+            subprocess.run(['git','push','origin','main'], check=True)
+            print(f'Subido OK: https://juanarroyo123.github.io/Hoteles-Espa-a/')
+        else:
+            print('Sin cambios nuevos que subir.')
+    except Exception as e:
+        print(f'Error git: {e}')
+
+# ══════════════════════════════════════════════════════
+# 3. LUXURYESTATE — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def _le_enrich_ficha(driver, href):
+    """Entra en la ficha de LuxuryEstate y extrae rooms, beds, m2, location y descripción."""
+    resultado = {}
+    try:
+        driver.get(href)
+        time.sleep(2.5)
+        page_source = driver.page_source
+
+        # ── Detección de bloqueo/captcha ──
+        # LuxuryEstate a veces devuelve una página de verificación/error en vez
+        # de la ficha real. Si no detectamos esto, el h1 de esa página ("403 ERROR",
+        # "Let's confirm you are human"...) se guarda como si fuera el título del hotel.
+        BLOCK_INDICATORS = [
+            'confirm you are human', 'are you a robot', 'access denied',
+            '403 error', '403 forbidden', 'checking your browser',
+            'attention required', 'cloudflare', 'captcha',
+        ]
+        lower_source = page_source.lower()
+        if any(ind in lower_source for ind in BLOCK_INDICATORS) or len(page_source) < 2000:
+            print(f'    [LE ficha] Bloqueada/captcha en {href[:60]} — uso solo datos del listado')
+            time.sleep(4)  # backoff extra para no insistir agresivamente
+            return resultado  # dict vacío: el llamador usará title_fallback/desc_fallback
+
+        soup = BeautifulSoup(page_source, 'lxml')
+
+        # ── Título desde h1 ──
+        h1 = soup.find('h1')
+        if h1:
+            title_h1 = clean(h1.get_text())
+            # Salvaguarda extra: nunca aceptar un h1 que sea uno de los mensajes de bloqueo
+            if not any(ind in title_h1.lower() for ind in BLOCK_INDICATORS) and len(title_h1) > 3:
+                resultado['title_ficha'] = title_h1
+
+        # ── Ubicación desde h1: "Hotel de lujo de 950 m2 en venta Siétamo, España"
+        #    O desde el breadcrumb / texto de localización
+        if h1:
+            txt_h1 = clean(h1.get_text())
+            # "...en venta Siétamo, España" → "Siétamo"
+            m = re.search(r'en venta\s+([^,]+)', txt_h1, re.I)
+            if m:
+                loc = m.group(1).strip().split(',')[0].strip()
+                if len(loc) > 2:
+                    resultado['location'] = loc
+
+        # Si no salió del h1, intentar breadcrumb
+        if 'location' not in resultado:
+            breadcrumb = soup.find('nav', attrs={'aria-label': re.compile(r'bread', re.I)})
+            if not breadcrumb:
+                breadcrumb = soup.find(class_=re.compile(r'breadcrumb', re.I))
+            if breadcrumb:
+                crumbs = [clean(a.get_text()) for a in breadcrumb.find_all('a')]
+                # El último crumb antes de "España" suele ser la ciudad
+                for crumb in reversed(crumbs):
+                    if crumb and crumb.lower() not in ('españa', 'hoteles', 'inicio', 'home'):
+                        resultado['location'] = crumb
+                        break
+
+        # ── Descripción ──
+        desc_el = soup.find(class_=re.compile(r'description|descrip', re.I))
+        if not desc_el:
+            desc_el = soup.find('div', class_=re.compile(r'text|content|body', re.I))
+        if desc_el:
+            resultado['description'] = clean(desc_el.get_text()).replace('~', ' ')[:1500]
+
+        # ── Datos estructurados: sección DETALLES ──
+        # Buscar todos los pares "Label: Valor" en la sección de detalles
+        # Estructura: <dt>Dormitorios</dt><dd>12</dd> o <span>Dormitorios: 12</span>
+        full_text = soup.get_text(' ', strip=True)
+
+        # Dormitorios / habitaciones — campo principal
+        for pat in [
+            r'Dormitorios[:\s]+(\d+)',
+            r'Habitaciones[:\s]+(\d+)',
+            r'Estancias[:\s]+(\d+)',
+            r'Rooms?[:\s]+(\d+)',
+            r'Bedrooms?[:\s]+(\d+)',
+        ]:
+            m = re.search(pat, full_text, re.I)
+            if m:
+                resultado['rooms'] = int(m.group(1))
+                break
+
+        # Camas / beds
+        for pat in [
+            r'Camas[:\s]+(\d+)',
+            r'Beds?[:\s]+(\d+)',
+        ]:
+            m = re.search(pat, full_text, re.I)
+            if m:
+                resultado['beds'] = int(m.group(1))
+                break
+
+        # M² — superficie
+        for pat in [
+            r'Superficie[:\s]+([\d.,]+)\s*m',
+            r'([\d.,]+)\s*m[²2]\b',
+        ]:
+            m = re.search(pat, full_text, re.I)
+            if m:
+                val = m.group(1).replace('.', '').replace(',', '.')
+                try:
+                    resultado['m2'] = int(float(val))
+                except:
+                    pass
+                break
+
+        # Baños
+        m = re.search(r'Ba[ñn]os?[:\s]+(\d+)', full_text, re.I)
+        if m:
+            resultado['bathrooms'] = int(m.group(1))
+
+        # Estrellas — raro en LE pero por si acaso
+        m = re.search(r'(\d)\s*estrellas?', full_text, re.I)
+        if m:
+            resultado['stars'] = int(m.group(1))
+
+    except Exception as e:
+        print(f'    [LE ficha] Error {href[:60]}: {e}')
+
+    return resultado
+
+
+def scrape_luxuryestate(driver):
+    print('\n→ LuxuryEstate...')
+    BASE = 'https://www.luxuryestate.com/es/hotels-spain'
+    total_le = 0
+    paginas_vacias = 0
+    fichas_pendientes = []  # (href, price, loc_fallback, title_fallback, desc_fallback)
+
+    # ── PASO 1: Recorrer páginas de listado y recopilar URLs nuevas ──
+    for pagina in range(1, 40):
+        url = BASE if pagina == 1 else f'{BASE}?pag={pagina}'
+        try:
+            driver.get(url)
+            time.sleep(3)
+            soup = BeautifulSoup(driver.page_source, 'lxml')
+
+            cards = soup.find_all('li', class_=re.compile(r'search-list__item'))
+            if not cards:
+                paginas_vacias += 1
+                if paginas_vacias >= 2: break
+                continue
+
+            paginas_vacias = 0
+
+            for card in cards:
+                # URL
+                a = card.find('a', href=re.compile(r'/es/p\d+'))
+                if not a: continue
+                href = a.get('href', '')
+                if not href.startswith('http'): href = 'https://www.luxuryestate.com' + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls: continue
+
+                # Precio del listado
+                price_el = card.find('div', class_=re.compile(r'price'))
+                price = clean(price_el.get_text()).replace(' ', '') if price_el else 'Precio a consultar'
+                price = re.sub(r'€\s*([\d.,]+)', r'\1 €', price).strip()
+
+                # m² y habitaciones: el propio listado los muestra junto al
+                # precio (ej: "523 m² 5 5" = 523 m², 5 habitaciones, 5 baños).
+                # Los sacamos aquí porque este paso SÍ funciona — no depende
+                # de entrar en la ficha individual (que está bloqueada).
+                #
+                # IMPORTANTE: buscamos SOLO en el texto pegado al precio
+                # (contenedor padre de price_el), NO en toda la tarjeta —
+                # si buscáramos en toda la tarjeta, una mención de m² dentro
+                # de la descripción (ej. "finca de 20.000 m²...") podría
+                # colarse antes del dato real y dar un número equivocado.
+                m2_le = None
+                rooms_le = None
+                bathrooms_le = None
+                contenedor_stats = price_el.parent if price_el else card
+                texto_stats_le = contenedor_stats.get_text(' ', strip=True) if contenedor_stats else ''
+                m_stats = re.search(r'([\d][\d.,]*)\s*m[²2]\s*(\d+)(?:\s+(\d+))?', texto_stats_le)
+                # Salvaguarda extra: si el contenedor del precio no dio nada
+                # Y la tarjeta es pequeña (probablemente no tiene descripción
+                # larga metida ahí), probamos con la tarjeta entera como
+                # último recurso — mejor un dato con algo más de riesgo que
+                # ningún dato.
+                if not m_stats:
+                    texto_card_le = card.get_text(' ', strip=True)
+                    if len(texto_card_le) < 400:  # tarjeta corta = menos riesgo de "ruido"
+                        m_stats = re.search(r'([\d][\d.,]*)\s*m[²2]\s*(\d+)(?:\s+(\d+))?', texto_card_le)
+                if m_stats:
+                    try:
+                        m2_le = int(float(m_stats.group(1).replace('.', '').replace(',', '.')))
+                    except: pass
+                    if m_stats.group(2): rooms_le = int(m_stats.group(2))
+                    if m_stats.group(3): bathrooms_le = int(m_stats.group(3))
+
+                # Ubicación fallback desde URL
+                loc_fallback = ''
+                m = re.search(r'hotel-for-sale-(.+)$', href)
+                if m: loc_fallback = m.group(1).replace('-', ' ').title()
+
+                # Título fallback
+                title_el = card.find(['h2', 'h3', 'h4'])
+                title_fallback = clean(title_el.get_text()) if title_el else f'Hotel en venta en {loc_fallback or "España"}'
+
+                # Descripción fallback del listado
+                desc_el = card.find('p')
+                desc_fallback = clean(desc_el.get_text()).replace('~', ' ')[:1500] if desc_el else ''
+
+                fichas_pendientes.append((href, price, loc_fallback, title_fallback, desc_fallback, m2_le, rooms_le, bathrooms_le))
+
+            if paginas_vacias == 0:
+                print(f'  LE listado p{pagina}: {len([f for f in fichas_pendientes])} fichas acumuladas')
+            time.sleep(1)
+
+        except Exception as e:
+            print(f'  Error listado p{pagina}: {e}')
+            break
+
+    print(f'  LE: {len(fichas_pendientes)} fichas nuevas.')
+
+    # ── PASO 2: Entrar en cada ficha ──
+    # DESACTIVADO temporalmente (01/09/2026): LuxuryEstate está bloqueando
+    # el 100% de las visitas a fichas individuales (captcha/403). Entrar en
+    # cada una solo para que falle tira ~50 minutos a la basura y quema
+    # peticiones contra el bloqueo sin sacar ningún dato extra.
+    # Nos quedamos con lo que ya sacamos del listado (título, precio,
+    # ubicación, descripción corta) — es peor que con datos completos,
+    # pero real y rápido. Cuando LuxuryEstate deje de bloquear (o metamos
+    # proxies), se puede reactivar poniendo ENRIQUECER_FICHAS_LE = True.
+    ENRIQUECER_FICHAS_LE = False
+
+    for i, (href, price, loc_fallback, title_fallback, desc_fallback, m2_le, rooms_le, bathrooms_le) in enumerate(fichas_pendientes):
+        if ENRIQUECER_FICHAS_LE:
+            ficha = _le_enrich_ficha(driver, href)
+        else:
+            ficha = {}
+
+        title     = ficha.get('title_ficha') or title_fallback
+        loc       = ficha.get('location') or loc_fallback or 'España'
+        desc      = ficha.get('description') or desc_fallback
+        # m²/habitaciones/baños: preferimos los de la ficha si los tenemos
+        # (más fiables), y si no, los que ya sacamos del propio listado.
+        rooms     = ficha.get('rooms') or rooms_le
+        m2        = ficha.get('m2') or m2_le
+        bathrooms = ficha.get('bathrooms') or bathrooms_le
+
+        item = {
+            'title':           title,
+            'price':           price,
+            'location':        loc,
+            'description':     desc,
+            'url':             href,
+            'source':          'LuxuryEstate',
+            'date':            TODAY,
+        }
+        # Campos estructurados — solo si se encontraron
+        if rooms:                    item['rooms']      = rooms
+        if ficha.get('beds'):        item['beds']       = ficha['beds']
+        if m2:                       item['m2']         = m2
+        if bathrooms:                item['bathrooms']  = bathrooms
+        if ficha.get('stars'):       item['stars']      = ficha['stars']
+
+        added = add_listing(item)
+        if added:
+            total_le += 1
+            datos = []
+            if rooms: datos.append(f"{rooms} hab")
+            if m2:    datos.append(f"{m2} m²")
+            print(f'  [{i+1}/{len(fichas_pendientes)}] ✅ {loc} — {" | ".join(datos) or "sin datos extra"}')
+        # Solo hace falta esperar entre peticiones si de verdad hicimos una
+        # petición (visita a la ficha). Sin visita, no hay razón para frenar.
+        if ENRIQUECER_FICHAS_LE:
+            time.sleep(1.5)
+
+    print(f'  LuxuryEstate TOTAL: {total_le}')
+
+# ══════════════════════════════════════════════════════
+# 4. OI REAL ESTATE — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_oirealestate(driver):
+    print('\n→ Oi Real Estate...')
+    import requests as req_mod
+    HEADERS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+    }
+    BASE = 'https://www.oirealestate.net'
+    pages = [
+        f'{BASE}/venta/hoteles',
+        f'{BASE}/venta/hoteles/page-2',
+        f'{BASE}/venta/hoteles/page-3',
+    ]
+    seen_oi = set()
+    total_oi = 0
+
+    for page_url in pages:
+        try:
+            r = req_mod.get(page_url, headers=HEADERS, timeout=15)
+            if r.status_code != 200: continue
+            soup = BeautifulSoup(r.text, 'lxml')
+            links = list(set([
+                a.get('href') for a in soup.find_all('a', href=re.compile(r'/propiedad/\d+'))
+                if a.get('href')
+            ]))
+            for link in links:
+                full = BASE + link if link.startswith('/') else link
+                full = full.split('?')[0].rstrip('/')
+                if full in seen_oi or full in seen_urls: continue
+                seen_oi.add(full)
+                try:
+                    r2 = req_mod.get(full, headers=HEADERS, timeout=15)
+                    if r2.status_code != 200: continue
+                    soup2 = BeautifulSoup(r2.text, 'lxml')
+
+                    # Título
+                    h1 = soup2.find('h1')
+                    title = clean(h1.get_text()) if h1 else ''
+                    if not title or len(title) < 8: continue
+
+                    # Precio
+                    price_el = soup2.find(string=re.compile(r'[\d.,]+\s*€'))
+                    price = clean(str(price_el)) if price_el else 'Precio a consultar'
+
+                    # Ubicación — extraer de la URL
+                    m = re.search(r'/propiedad/\d+/[^/]+-en-venta-en-(.+)$', link)
+                    loc = m.group(1).replace('-', ' ').title() if m else 'España'
+
+                    # Descripción
+                    desc_el = soup2.find('div', class_=re.compile(r'desc|content|text|body', re.I))
+                    description = clean(desc_el.get_text())[:1500] if desc_el else ''
+
+                    added = add_listing({
+                        'title': title,
+                        'price': price,
+                        'location': loc,
+                        'description': description,
+                        'url': full,
+                        'source': 'Oi Real Estate',
+                        'date': TODAY
+                    })
+                    if added: total_oi += 1
+                    time.sleep(0.5)
+                except Exception as e:
+                    print(f'  Error ficha {full[:60]}: {e}')
+        except Exception as e:
+            print(f'  Error página {page_url}: {e}')
+
+    print(f'  Oi Real Estate TOTAL: {total_oi}')
+
+# ══════════════════════════════════════════════════════
+# MAIN
+# ══════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════
+# MAIN
+# ══════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════
+# 5. NEGOCIOSENVENTA — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_negociosenventa(driver):
+    print('\n→ NegociosEnVenta...')
+    BASE = 'https://www.negociosenventa.es'
+    pages = [f'{BASE}/venta/hosteleria/hoteles', f'{BASE}/venta/hosteleria/hoteles?page=2']
+    total_nv = 0
+    seen_nv = set()
+    for page_url in pages:
+        try:
+            html = get_page(driver, page_url, wait=4)
+            if not html: continue
+            soup = BeautifulSoup(html, 'lxml')
+            # Cada anuncio tiene h2.listviewtitle con link dentro
+            h2s = soup.find_all('h2', class_='listviewtitle')
+            for h in h2s:
+                a = h.find('a', href=True)
+                if not a: continue
+                href = a.get('href','')
+                if not href.startswith('http'): href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_nv or href in seen_urls: continue
+                seen_nv.add(href)
+                title = clean(h.get_text())
+                if not title or len(title) < 5: continue
+                # Contenedor padre para precio y ciudad
+                container = h.parent  # div.newslisttext
+                loc_el = container.find('span', class_='textintro') if container else None
+                loc = clean(loc_el.get_text()) if loc_el else 'España'
+                desc_el = container.find('p') if container else None
+                description = clean(desc_el.get_text()) if desc_el else ''
+                # Precio — subir niveles hasta encontrar numPrice
+                price = 'Precio a consultar'
+                el = h
+                for _ in range(8):
+                    el = el.parent
+                    if not el: break
+                    p = el.find('span', class_='numPrice')
+                    if p:
+                        precio_txt = clean(p.get_text())
+                        if precio_txt and precio_txt != '1€' and precio_txt != '1 €':
+                            price = precio_txt
+                        break
+                added = add_listing({'title':title,'price':price,'location':loc,
+                    'description':description,'url':href,'source':'NegociosEnVenta','date':TODAY})
+                if added: total_nv += 1
+        except Exception as e:
+            print(f'  Error {page_url}: {e}')
+    print(f'  NegociosEnVenta TOTAL: {total_nv}')
+
+
+# ══════════════════════════════════════════════════════
+# 6. ENGEL & VÖLKERS — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_engelvoelkers(driver):
+    print('\n→ Engel & Völkers...')
+    import requests as req_mod
+    HEADERS_EV = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+    }
+    BASE = 'https://www.engelvoelkers.com'
+    url = f'{BASE}/es/es/inmuebles/com/compra/hotel'
+    total_ev = 0
+    try:
+        r = req_mod.get(url, headers=HEADERS_EV, timeout=15)
+        if r.status_code != 200:
+            print(f'  Status {r.status_code}, saltando')
+            return
+        soup = BeautifulSoup(r.text, 'lxml')
+        cards = soup.find_all('article')
+        for card in cards:
+            # Link
+            a = card.find('a', href=re.compile(r'/es/es/exposes/'))
+            if not a: continue
+            href = BASE + a.get('href','')
+            href = href.split('?')[0].rstrip('/')
+            if href in seen_urls: continue
+            # Título desde img alt
+            img = card.find('img')
+            title = clean(img.get('alt','')) if img else ''
+            if not title or len(title) < 8: continue
+            # Texto completo para extraer ubicación y precio
+            txt = card.get_text()
+            # Precio
+            pm = re.search(r'([\d.,]+(?:\.\d{3})*\s*€)', txt)
+            price = clean(pm.group(1)) if pm else 'Precio a consultar'
+            # Ubicación — primera línea antes del título
+            loc = 'España'
+            lines = [l.strip() for l in txt.split('\n') if l.strip()]
+            for line in lines[:3]:
+                if 'España' in line or 'Baleares' in line or ',' in line:
+                    loc = line.split('España')[0].strip().rstrip(',').strip()
+                    if loc: break
+            added = add_listing({
+                'title': title,
+                'price': price,
+                'location': loc or 'España',
+                'description': '',
+                'url': href,
+                'source': 'Engel & Völkers',
+                'date': TODAY
+            })
+            if added: total_ev += 1
+    except Exception as e:
+        print(f'  Error: {e}')
+    print(f'  Engel & Völkers TOTAL: {total_ev}')
+
+
+# ══════════════════════════════════════════════════════
+# NUEVO — palabras clave para validar que un anuncio es
+# realmente un hotel/alojamiento antes de aceptarlo.
+# (Evita el bug que vimos en Hispacasas: una URL de paginación
+# que decía "hoteles" pero devolvía fincas, chalets y áticos.)
+# ══════════════════════════════════════════════════════
+HOTEL_KEYWORDS = ['hotel', 'hostal', 'hostel', 'pensión', 'pension', 'aparthotel',
+                  'posada', 'parador', 'fonda', 'casa rural', 'albergue', 'resort',
+                  'guesthouse', 'b&b', 'boutique', 'apart-hotel',
+                  'apartamento turístico', 'apartamentos turísticos', 'edificio turístico']
+
+def _parece_hotel(*textos):
+    """True si alguno de los textos dados contiene una palabra clave de hotel."""
+    junto = ' '.join(t or '' for t in textos).lower()
+    return any(k in junto for k in HOTEL_KEYWORDS)
+
+
+# ══════════════════════════════════════════════════════
+# 8. HISPACASAS — hoteles en venta España
+# ══════════════════════════════════════════════════════
+def scrape_hispacasas(driver):
+    print('\n→ Hispacasas...')
+    import requests as req_mod
+    HEADERS_HC = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Referer': 'https://www.hispacasas.com/',
+    }
+    BASE = 'https://www.hispacasas.com'
+    # Página 1 y paginación confirmadas por búsqueda: viviendas-p/2, viviendas-p/3...
+    # OJO: NO usar la ruta .../hotel/<provincia>/casas/N/ — comprobado que rompe
+    # el filtro de categoría y devuelve fincas/áticos/chalets en vez de hoteles.
+    urls = [f'{BASE}/venta/hotel/'] + [f'{BASE}/venta/hotel/viviendas-p/{n}/' for n in range(2, 12)]
+    total_hc = 0
+    paginas_vacias = 0
+    session = req_mod.Session()
+
+    for url in urls:
+        if paginas_vacias >= 2:
+            break
+
+        # CAMBIO: antes usábamos el navegador Chrome (get_page/driver.get) y
+        # se quedaba colgado 120s sin responder — típico de un sitio que
+        # ralentiza deliberadamente el tráfico automatizado ("tarpit").
+        # Ahora usamos requests directo, con timeout real y 2 reintentos
+        # cortos — si el sitio tapona la conexión, fallamos rápido y
+        # seguimos con la siguiente página en vez de perder 2 minutos.
+        html = None
+        for intento in range(2):
+            try:
+                r = session.get(url, headers=HEADERS_HC, timeout=12)
+                if r.status_code == 200:
+                    html = r.text
+                else:
+                    print(f'  [Hispacasas] {url} → status {r.status_code}')
+                break
+            except Exception as e:
+                if intento == 0:
+                    print(f'  [Hispacasas] {url} → intento 1 falló ({e}), reintentando...')
+                    time.sleep(3)
+                else:
+                    print(f'  [Hispacasas] {url} → fallo tras 2 intentos: {e}')
+
+        if not html:
+            paginas_vacias += 1
+            continue
+
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+
+            # ── Cascada de selectores: probamos varias estrategias típicas
+            # de portales inmobiliarios españoles hasta que una encuentre algo.
+            cards = []
+            estrategia = None
+            for nombre, selector in [
+                ('article', lambda s: s.find_all('article')),
+                ('div.ficha', lambda s: s.find_all('div', class_=re.compile(r'ficha', re.I))),
+                ('div.listado-item', lambda s: s.find_all('div', class_=re.compile(r'listado.?item|list.?item', re.I))),
+                ('div.anuncio', lambda s: s.find_all('div', class_=re.compile(r'anuncio|property.?card', re.I))),
+                ('a con href de inmueble', lambda s: s.find_all('a', href=re.compile(r'/inmueble/|/hotel-')) ),
+            ]:
+                encontrados = selector(soup)
+                if encontrados:
+                    cards = encontrados
+                    estrategia = nombre
+                    break
+
+            if not cards:
+                print(f'  [Hispacasas] {url} → 0 tarjetas con ningún selector conocido. HTML recibido: {len(html)} chars.')
+                paginas_vacias += 1
+                continue
+
+            paginas_vacias = 0
+            nuevos_pagina = 0
+
+            for card in cards:
+                # Enlace a la ficha
+                a = card if card.name == 'a' else card.find('a', href=True)
+                if not a or not a.get('href'):
+                    continue
+                href = a.get('href', '')
+                if not href.startswith('http'):
+                    href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls:
+                    continue
+
+                texto_card = card.get_text(' ', strip=True)
+
+                # Título: primer heading dentro de la tarjeta, o el texto del propio link
+                title_el = card.find(['h1', 'h2', 'h3', 'h4'])
+                title = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if not title or len(title) < 5:
+                    title = f'Hotel en venta ({texto_card[:40]})'
+
+                # Validación defensiva: si ni el título ni el texto de la tarjeta
+                # mencionan nada de hotel/hostal/etc., la descartamos — mejor
+                # 0 anuncios que anuncios basura sin relación.
+                if not _parece_hotel(title, texto_card[:200]):
+                    continue
+
+                # Precio: primer patrón "NNN.NNN €" en el texto de la tarjeta
+                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                # Ubicación: heurística simple — última palabra capitalizada del título
+                loc = 'España'
+                m = re.search(r'\ben\s+([A-ZÁÉÍÓÚÑ][\wÁÉÍÓÚÑáéíóúñ\s]{2,30})$', title)
+                if m:
+                    loc = m.group(1).strip()
+
+                item = {
+                    'title': title,
+                    'price': price,
+                    'location': loc,
+                    'description': texto_card[:800],
+                    'url': href,
+                    'source': 'Hispacasas',
+                    'date': TODAY,
+                }
+                added = add_listing(item)
+                if added:
+                    total_hc += 1
+                    nuevos_pagina += 1
+
+            print(f'  Hispacasas [{estrategia}] {url.split("hispacasas.com")[-1]}: {nuevos_pagina} nuevos | Total: {total_hc}')
+            time.sleep(random.uniform(2, 4))
+
+        except Exception as e:
+            print(f'  Error Hispacasas {url}: {e}')
+            paginas_vacias += 1
+
+    print(f'  Hispacasas TOTAL: {total_hc}')
+
+
+# ══════════════════════════════════════════════════════
+# 9. MILANUNCIOS — hoteles/hostales en venta o traspaso
+#    ⚠️ Portal de clasificados grande (grupo Adevinta). Es el más
+#    propenso a tener protección anti-bot fuerte, igual que Idealista.
+#    Usamos el driver stealth desde el principio y, si aun así da 0,
+#    lo más probable es que necesite el mismo tipo de arreglo que
+#    Idealista (o directamente no sea viable sin proxies residenciales).
+# ══════════════════════════════════════════════════════
+def scrape_milanuncios(driver_stealth):
+    print('\n→ Milanuncios (nacional, modo suave)...')
+    BASE = 'https://www.milanuncios.com'
+    # Fuentes NACIONALES (todos los hoteles en venta/traspaso, no por ciudad)
+    FUENTES = [
+        BASE + '/traspasos-de-hostales-y-hoteles/',
+        BASE + '/anuncios/?s=hotel+en+venta',
+        BASE + '/anuncios/?s=traspaso+hotel+hostal',
+        BASE + '/anuncios/?s=venta+de+hotel',
+        BASE + '/anuncios/?s=hostal+en+venta',
+    ]
+    SPAM = re.compile(r'buscamos|compramos|gesti[oo]n de venta|grupo inversor|\binversor\b|invertir|'
+                      r'financiaci|se alquila|\balquiler\b|habitaci[oo]n en|se necesita|\bempleo\b|'
+                      r'camarer|recepcionist|reforma|se ofrece|dispongo de activos|activos y empresas|toda espa|cartera de', re.I)
+    KEEP = re.compile(r'hotel|hostal|hostel|pensi[oo]n|albergue|apartahotel|casa rural|alojamiento', re.I)
+    def pnum(s): s=re.sub(r'[^\d]','',s or ''); return int(s) if s else 0
+    def tipo_ma(t):
+        tl=(t or '').lower()
+        if re.search(r'apartahotel|aparthotel',tl): return 'Apartahotel'
+        if re.search(r'\bhostal\b',tl): return 'Hostal'
+        if re.search(r'\bpensi',tl): return 'Pension'
+        if re.search(r'albergue|hostel',tl): return 'Albergue'
+        return 'Hotel'
+
+    total_ma = 0
+    try: get_page(driver_stealth, BASE, wait=4)
+    except: pass
+
+    for fuente in FUENTES:
+        sin_nuevos = 0
+        for pagina in range(1, 41):        # hasta 40 páginas por fuente
+            sep = '&' if '?' in fuente else '?'
+            url = fuente if pagina == 1 else f'{fuente}{sep}pagina={pagina}'
+            try:
+                html = get_page(driver_stealth, url, wait=4)
+                if not html:
+                    break
+                low = html.lower()
+                if len(html) < 5000 or any(b in low for b in
+                        ['confirm you are human','are you a robot','access denied','datadome','geo.captcha']):
+                    print(f'  [Milanuncios] bloqueo en {url[-40:]}')
+                    time.sleep(random.uniform(18,28)); sin_nuevos += 1
+                    if sin_nuevos >= 2: break
+                    continue
+                soup = BeautifulSoup(html, 'lxml')
+                cards = soup.find_all('article', class_=re.compile(r'AdCard', re.I))
+                if not cards:
+                    break
+                enc = 0
+                for card in cards:
+                    a = card.find('a', href=True)
+                    if not a: continue
+                    u = a['href']
+                    if u.startswith('/'): u = BASE + u
+                    u = u.split('?')[0].rstrip('/')
+                    if u in seen_urls: continue
+                    t_el = card.find(class_=re.compile(r'title', re.I))
+                    titulo = clean(t_el.get_text()) if t_el else ''
+                    texto = clean(card.get_text(' '))
+                    blob = titulo + ' ' + texto
+                    if not KEEP.search(blob) or SPAM.search(blob): continue
+                    pe = next((e for e in card.find_all(True) if not e.find_all() and '€' in e.get_text()), None)
+                    precio = clean(pe.get_text()) if pe else ''
+                    if pnum(precio) < 30000: continue
+                    mm = re.search(r'([A-Za-zÀ-ÿ\.\-\' ]+?)\s*\(([A-Za-zÀ-ÿ\.\-\' ]+?)\)', texto)
+                    loc = mm.group(1).strip() if mm else 'España'
+                    added = add_listing({
+                        'title': titulo or 'Hotel en venta',
+                        'price': precio or 'Precio a consultar',
+                        'location': loc,
+                        'description': texto[:300],
+                        'url': u,
+                        'source': 'Milanuncios',
+                        'tipo': tipo_ma(blob),
+                        'date': TODAY
+                    })
+                    if added: enc += 1; total_ma += 1
+                if enc > 0:
+                    print(f'  {url[-35:]} p{pagina}: {enc} | Total MA: {total_ma}')
+                    sin_nuevos = 0
+                else:
+                    sin_nuevos += 1
+                if sin_nuevos >= 2: break     # 2 páginas seguidas sin nuevos = fin de esta fuente
+            except Exception as e:
+                print(f'  Error Milanuncios p{pagina}: {e}'); break
+            time.sleep(random.uniform(3, 6))   # ritmo rapido validado (0 bloqueos)
+
+    print(f'  Milanuncios TOTAL: {total_ma}')
+
+def scrape_lancoisdoval(driver):
+    print('\n→ Lançois Doval...')
+    import requests as req_mod
+    HEADERS_LD = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Referer': 'https://www.lancoisdoval.es/',
+    }
+    BASE = 'https://www.lancoisdoval.es'
+    # NUEVO: añadida la página de "edificios en rentabilidad" — confirmada
+    # por búsqueda, incluye edificios de apartamentos turísticos completos
+    # que la página de "hoteles con encanto" no cubre.
+    paginas = [
+        f'{BASE}/hoteles-con-encanto-en-venta.html',
+        f'{BASE}/venta-edificios-en-rentabilidad.html',
+    ]
+    total_ld = 0
+    session = req_mod.Session()
+
+    for url in paginas:
+        html = None
+        for intento in range(2):
+            try:
+                r = session.get(url, headers=HEADERS_LD, timeout=15)
+                if r.status_code == 200:
+                    html = r.text
+                else:
+                    print(f'  [Lançois Doval] status {r.status_code} en {url}')
+                break
+            except Exception as e:
+                if intento == 0:
+                    print(f'  [Lançois Doval] intento 1 falló ({e}), reintentando...')
+                    time.sleep(3)
+                else:
+                    print(f'  [Lançois Doval] fallo tras 2 intentos: {e}')
+
+        if not html:
+            continue
+
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+
+            # Enlaces de fichas individuales: patrón confirmado "ldNNNN-propiedad-...html"
+            # (distinto de las "nota-de-prensa-...html" que son artículos, no fichas).
+            links = soup.find_all('a', href=re.compile(r'/ld\d+-propiedad-.*\.html$'))
+
+            if not links:
+                # Cascada de respaldo por si el patrón de URL cambia
+                links = soup.find_all('a', href=re.compile(r'-propiedad-.*\.html$'))
+
+            if not links:
+                print(f'  [Lançois Doval] {url.split("lancoisdoval.es")[-1]} → 0 enlaces de ficha. HTML: {len(html)} chars.')
+                continue
+
+            vistos = set()
+            nuevos_pagina = 0
+            for a in links:
+                href = a.get('href', '')
+                if not href.startswith('http'):
+                    href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in vistos or href in seen_urls:
+                    continue
+                vistos.add(href)
+
+                # Tarjeta = contenedor padre del link (varios niveles arriba,
+                # buscando algo que ya incluya precio o descripción)
+                card = a
+                for _ in range(4):
+                    if card.parent:
+                        card = card.parent
+                    else:
+                        break
+                texto_card = card.get_text(' ', strip=True)
+
+                title = clean(a.get_text()) or clean(a.get('title', ''))
+                if not title or len(title) < 5:
+                    # Fallback: derivar título desde la URL (slug legible)
+                    m = re.search(r'ld\d+-propiedad-(.+)\.html$', href)
+                    title = m.group(1).replace('-', ' ').title() if m else 'Propiedad en venta'
+
+                # Filtro ampliado: aceptamos también "turístic-/turistic-"
+                # sueltos (edificios de apartamentos turísticos), no solo
+                # palabras de hotel — la página de "edificios en rentabilidad"
+                # tiene ese tipo de activo con frecuencia.
+                t_lower = (title + ' ' + texto_card[:200]).lower()
+                if not (_parece_hotel(title, texto_card[:200]) or 'turístic' in t_lower or 'turistic' in t_lower):
+                    continue
+
+                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                item = {
+                    'title': title,
+                    'price': price,
+                    'location': 'España',
+                    'description': texto_card[:800],
+                    'url': href,
+                    'source': 'Lançois Doval',
+                    'date': TODAY,
+                }
+                added = add_listing(item)
+                if added:
+                    total_ld += 1
+                    nuevos_pagina += 1
+
+            print(f'  Lançois Doval {url.split("lancoisdoval.es")[-1]}: {len(links)} enlaces vistos | {nuevos_pagina} nuevos | Total: {total_ld}')
+
+        except Exception as e:
+            print(f'  Error Lançois Doval {url}: {e}')
+
+    print(f'  Lançois Doval TOTAL: {total_ld}')
+
+
+# ══════════════════════════════════════════════════════
+# 15. YAENCONTRE — edificios de apartamentos turísticos completos
+#     Agregador con categoría "edificios" por ciudad (general, mezcla
+#     edificios normales con turísticos). Confirmado por búsqueda con
+#     volúmenes grandes: Valencia provincia 496, Madrid 230, Málaga 145,
+#     Sevilla 97, Asturias 322 (lujo). El mejor hallazgo de esta tanda.
+# ══════════════════════════════════════════════════════
+def scrape_yaencontre(driver):
+    print('\n→ Yaencontre...')
+    import requests as req_mod
+    HEADERS_YE = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Referer': 'https://www.yaencontre.com/',
+    }
+    BASE = 'https://www.yaencontre.com'
+    total_ye = 0
+    session = req_mod.Session()
+
+    for ciudad in NUROA_CIUDADES:  # reutilizamos la misma lista de ciudades
+        url = f'{BASE}/venta/edificios/{ciudad}'
+
+        html = None
+        for intento in range(2):
+            try:
+                r = session.get(url, headers=HEADERS_YE, timeout=15)
+                if r.status_code == 200:
+                    html = r.text
+                break
+            except Exception as e:
+                if intento == 0:
+                    time.sleep(2)
+                else:
+                    print(f'  [Yaencontre] {url} → fallo: {e}')
+
+        if not html:
+            continue
+
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+
+            cards = []
+            estrategia = None
+            for nombre, selector in [
+                ('article', lambda s: s.find_all('article')),
+                ('div.listing', lambda s: s.find_all('div', class_=re.compile(r'listing|property|card|item-info', re.I))),
+                ('a href numérico', lambda s: s.find_all('a', href=re.compile(r'-\d{5,}'))),
+            ]:
+                encontrados = selector(soup)
+                if encontrados:
+                    cards = encontrados
+                    estrategia = nombre
+                    break
+
+            if not cards:
+                print(f'  [Yaencontre] edificios-{ciudad} → 0 tarjetas. HTML: {len(html)} chars.')
+                continue
+
+            nuevos_pagina = 0
+            for card in cards:
+                a = card if card.name == 'a' else card.find('a', href=True)
+                if not a or not a.get('href'):
+                    continue
+                href = a.get('href', '')
+                if not href.startswith('http'):
+                    href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls:
+                    continue
+
+                texto_card = card.get_text(' ', strip=True)
+                title_el = card.find(['h1', 'h2', 'h3'])
+                title = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if not title or len(title) < 5:
+                    continue
+
+                # Esta categoría es "edificios" en general (no solo
+                # turísticos), así que SÍ hace falta filtrar aquí — solo
+                # nos quedamos con los que mencionan turismo/hotel/AT.
+                t_lower = (title + ' ' + texto_card[:300]).lower()
+                if not (_parece_hotel(title, texto_card[:300]) or
+                        'turístic' in t_lower or 'turistic' in t_lower or
+                        re.search(r'\blicencia\s+at\b', t_lower)):
+                    continue
+
+                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                item = {
+                    'title': title,
+                    'price': price,
+                    'location': ciudad.capitalize(),
+                    'description': texto_card[:800],
+                    'url': href,
+                    'source': 'Yaencontre',
+                    'date': TODAY,
+                }
+                added = add_listing(item)
+                if added:
+                    total_ye += 1
+                    nuevos_pagina += 1
+
+            if nuevos_pagina > 0:
+                print(f'  Yaencontre [{estrategia}] edificios-{ciudad}: {nuevos_pagina} nuevos | Total: {total_ye}')
+            time.sleep(random.uniform(1.5, 3))
+
+        except Exception as e:
+            print(f'  Error Yaencontre {url}: {e}')
+
+    print(f'  Yaencontre TOTAL: {total_ye}')
+
+
+# ══════════════════════════════════════════════════════
+# 11. CASA SAPO — hoteles/negocios en venta (Portugal + España)
+#     Portal grande sin señales de bloqueo conocidas. requests directo.
+# ══════════════════════════════════════════════════════
+def scrape_casasapo(driver):
+    print('\n→ Casa Sapo...')
+    import requests as req_mod
+    HEADERS_CS = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'pt-PT,pt;q=0.9,es;q=0.8',
+        'Referer': 'https://casa.sapo.pt/',
+    }
+    BASE = 'https://casa.sapo.pt'
+    # Página 1 confirmada (136 resultados). Probamos varios patrones de
+    # paginación plausibles — no pude confirmar el exacto sin ver el HTML,
+    # así que cada uno que falle simplemente no aporta URLs nuevas.
+    urls = [f'{BASE}/negocio/hotel/']
+    for n in range(2, 6):
+        urls.append(f'{BASE}/negocio/hotel/pn{n}/')
+        urls.append(f'{BASE}/negocio/hotel/?pn={n}')
+
+    total_cs = 0
+    paginas_vacias = 0
+    session = req_mod.Session()
+
+    for url in urls:
+        if paginas_vacias >= 4:  # aquí toleramos más vacías: varios patrones de paginación fallarán a propósito
+            break
+        html = None
+        for intento in range(2):
+            try:
+                r = session.get(url, headers=HEADERS_CS, timeout=15)
+                if r.status_code == 200:
+                    html = r.text
+                break
+            except Exception as e:
+                if intento == 0:
+                    time.sleep(2)
+                else:
+                    print(f'  [Casa Sapo] {url} → fallo: {e}')
+
+        if not html:
+            paginas_vacias += 1
+            continue
+
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+
+            cards = []
+            estrategia = None
+            for nombre, selector in [
+                ('article', lambda s: s.find_all('article')),
+                ('div.property', lambda s: s.find_all('div', class_=re.compile(r'property|listing|imovel', re.I))),
+                ('a href .htm', lambda s: s.find_all('a', href=re.compile(r'\.htm$'))),
+            ]:
+                encontrados = selector(soup)
+                if encontrados:
+                    cards = encontrados
+                    estrategia = nombre
+                    break
+
+            if not cards:
+                print(f'  [Casa Sapo] {url} → 0 tarjetas. HTML: {len(html)} chars.')
+                paginas_vacias += 1
+                continue
+
+            nuevos_pagina = 0
+            for card in cards:
+                a = card if card.name == 'a' else card.find('a', href=True)
+                if not a or not a.get('href'):
+                    continue
+                href = a.get('href', '')
+                if not href.startswith('http'):
+                    href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls:
+                    continue
+                # Descarta links de navegación/categoría, no fichas
+                if href.rstrip('/').endswith(('/hotel', '/negocio', 'casa.sapo.pt')):
+                    continue
+
+                texto_card = card.get_text(' ', strip=True)
+                title_el = card.find(['h1', 'h2', 'h3'])
+                title = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if not title or len(title) < 5:
+                    continue
+                if not _parece_hotel(title, texto_card[:200]):
+                    continue
+
+                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                item = {
+                    'title': title,
+                    'price': price,
+                    'location': 'Portugal',
+                    'description': texto_card[:800],
+                    'url': href,
+                    'source': 'Casa Sapo',
+                    'date': TODAY,
+                }
+                added = add_listing(item)
+                if added:
+                    total_cs += 1
+                    nuevos_pagina += 1
+
+            if nuevos_pagina > 0:
+                paginas_vacias = 0
+            print(f'  Casa Sapo [{estrategia}] {url.split("casa.sapo.pt")[-1]}: {nuevos_pagina} nuevos | Total: {total_cs}')
+            time.sleep(random.uniform(2, 4))
+
+        except Exception as e:
+            print(f'  Error Casa Sapo {url}: {e}')
+            paginas_vacias += 1
+
+    print(f'  Casa Sapo TOTAL: {total_cs}')
+
+
+# ══════════════════════════════════════════════════════
+# 12. SUPERCASA — hoteles/hotelaria en venta (Portugal)
+#     Portal hermano de Casa Sapo. URL confirmada por búsqueda:
+#     /comprar-espacos_comerciais_ou_armazens/{zona}/com-hotelaria
+# ══════════════════════════════════════════════════════
+def scrape_supercasa(driver):
+    print('\n→ Supercasa...')
+    import requests as req_mod
+    HEADERS_SC = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'pt-PT,pt;q=0.9,es;q=0.8',
+        'Referer': 'https://supercasa.pt/',
+    }
+    BASE = 'https://supercasa.pt'
+    # Intentamos primero sin zona (nacional) y si no, varias zonas grandes
+    # confirmadas por búsqueda como que sí tienen resultados de hotelaria.
+    urls = [
+        f'{BASE}/comprar-espacos_comerciais_ou_armazens/com-hotelaria',
+        f'{BASE}/comprar-espacos_comerciais_ou_armazens/lisboa/com-hotelaria',
+        f'{BASE}/comprar-espacos_comerciais_ou_armazens/porto-distrito/com-hotelaria',
+        f'{BASE}/comprar-espacos_comerciais_ou_armazens/porto/com-hotelaria',
+        f'{BASE}/comprar-espacos_comerciais_ou_armazens/lagos/com-hotelaria',
+        f'{BASE}/comprar-espacos_comerciais_ou_armazens/algarve/com-hotelaria',
+    ]
+    total_sc = 0
+
+    for url in urls:
+        # Supercasa va con Cloudflare -> usamos el NAVEGADOR (driver), no requests
+        html = get_page(driver, url, wait=8)
+        if html and any(x in html.lower() for x in ['just a moment','um momento','checking your browser','cf-browser-verification']):
+            time.sleep(6)
+            html = get_page(driver, url, wait=6)   # reintento tras el reto Cloudflare
+        if not html:
+            continue
+
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+
+            cards = []
+            estrategia = None
+            for nombre, selector in [
+                ('article', lambda s: s.find_all('article')),
+                ('div.property', lambda s: s.find_all('div', class_=re.compile(r'property|listing|imovel|card', re.I))),
+                ('a href numérico', lambda s: s.find_all('a', href=re.compile(r'/\d{5,}'))),
+            ]:
+                encontrados = selector(soup)
+                if encontrados:
+                    cards = encontrados
+                    estrategia = nombre
+                    break
+
+            if not cards:
+                print(f'  [Supercasa] {url.split("supercasa.pt")[-1]} → 0 tarjetas. HTML: {len(html)} chars.')
+                continue
+
+            nuevos_pagina = 0
+            for card in cards:
+                a = card if card.name == 'a' else card.find('a', href=True)
+                if not a or not a.get('href'):
+                    continue
+                href = a.get('href', '')
+                if not href.startswith('http'):
+                    href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls:
+                    continue
+
+                texto_card = card.get_text(' ', strip=True)
+                title_el = card.find(['h1', 'h2', 'h3'])
+                title = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if not title or len(title) < 5:
+                    continue
+                # "hotelaria" es la palabra que usa este portal — la sumamos
+                # a la validación estándar de _parece_hotel
+                if not (_parece_hotel(title, texto_card[:200]) or 'hotelaria' in texto_card[:200].lower()):
+                    continue
+
+                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                item = {
+                    'title': title,
+                    'price': price,
+                    'location': 'Portugal',
+                    'description': texto_card[:800],
+                    'url': href,
+                    'source': 'Supercasa',
+                    'date': TODAY,
+                }
+                added = add_listing(item)
+                if added:
+                    total_sc += 1
+                    nuevos_pagina += 1
+
+            print(f'  Supercasa [{estrategia}] {url.split("supercasa.pt")[-1]}: {nuevos_pagina} nuevos | Total: {total_sc}')
+            time.sleep(random.uniform(2, 4))
+
+        except Exception as e:
+            print(f'  Error Supercasa {url}: {e}')
+
+    print(f'  Supercasa TOTAL: {total_sc}')
+
+
+# ══════════════════════════════════════════════════════
+# 13. ROBERTO BELOKI — negocios en venta (Gipuzkoa/Navarra),
+#     filtrado a hoteles. ⚠️ Es una inmobiliaria GENERALISTA, no
+#     especializada en hoteles — se espera un rendimiento bajo
+#     (pocos o ningún hotel en cartera en un momento dado). No es
+#     un fallo del scraper si da 0 o 1-2 resultados.
+# ══════════════════════════════════════════════════════
+def scrape_robertobeloki(driver):
+    print('\n→ Roberto Beloki...')
+    import requests as req_mod
+    HEADERS_RB = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Referer': 'https://www.robertobeloki.com/',
+    }
+    BASE = 'https://www.robertobeloki.com'
+    urls = [f'{BASE}/negocios/', f'{BASE}/negocios/page/2/']
+    total_rb = 0
+    session = req_mod.Session()
+
+    for url in urls:
+        html = None
+        for intento in range(2):
+            try:
+                r = session.get(url, headers=HEADERS_RB, timeout=15)
+                if r.status_code == 200:
+                    html = r.text
+                break
+            except Exception as e:
+                if intento == 0:
+                    time.sleep(2)
+                else:
+                    print(f'  [Roberto Beloki] {url} → fallo: {e}')
+
+        if not html:
+            continue
+
+        try:
+            soup = BeautifulSoup(html, 'lxml')
+
+            cards = []
+            estrategia = None
+            for nombre, selector in [
+                ('article', lambda s: s.find_all('article')),
+                ('div.property', lambda s: s.find_all('div', class_=re.compile(r'property|listing|ficha|card', re.I))),
+                ('a href numérico', lambda s: s.find_all('a', href=re.compile(r'/propiedad/|/inmueble/'))),
+            ]:
+                encontrados = selector(soup)
+                if encontrados:
+                    cards = encontrados
+                    estrategia = nombre
+                    break
+
+            if not cards:
+                print(f'  [Roberto Beloki] {url} → 0 tarjetas. HTML: {len(html)} chars.')
+                continue
+
+            nuevos_pagina = 0
+            for card in cards:
+                a = card if card.name == 'a' else card.find('a', href=True)
+                if not a or not a.get('href'):
+                    continue
+                href = a.get('href', '')
+                if not href.startswith('http'):
+                    href = BASE + href
+                href = href.split('?')[0].rstrip('/')
+                if href in seen_urls:
+                    continue
+
+                texto_card = card.get_text(' ', strip=True)
+                title_el = card.find(['h1', 'h2', 'h3'])
+                title = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                if not title or len(title) < 5:
+                    continue
+                # Filtro estricto: esta web es generalista, así que aquí
+                # el filtro _parece_hotel es el que hace todo el trabajo
+                # de quedarnos solo con los pocos hoteles que haya.
+                if not _parece_hotel(title, texto_card[:300]):
+                    continue
+
+                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                item = {
+                    'title': title,
+                    'price': price,
+                    'location': 'País Vasco / Navarra',
+                    'description': texto_card[:800],
+                    'url': href,
+                    'source': 'Roberto Beloki',
+                    'date': TODAY,
+                }
+                added = add_listing(item)
+                if added:
+                    total_rb += 1
+                    nuevos_pagina += 1
+
+            print(f'  Roberto Beloki [{estrategia}] {url.split("robertobeloki.com")[-1]}: {nuevos_pagina} nuevos | Total: {total_rb}')
+            time.sleep(random.uniform(2, 4))
+
+        except Exception as e:
+            print(f'  Error Roberto Beloki {url}: {e}')
+
+    print(f'  Roberto Beloki TOTAL: {total_rb}')
+
+
+# ══════════════════════════════════════════════════════
+# 14. NUROA — apartamentos y edificios turísticos en venta
+#     Agregador con categoría propia por ciudad (confirmado por
+#     búsqueda: Granada 185, Córdoba 172, Sevilla 108+37, Madrid 55...).
+#     No confirmé el patrón exacto de paginación — probamos varios
+#     candidatos típicos en cascada, igual que hicimos con Casa Sapo.
+# ══════════════════════════════════════════════════════
+
+# Ciudades/provincias grandes de España — ampliable si vemos que da
+# buenos resultados. Solo nombres simples (sin tildes/espacios) porque
+# son los que confirmé que funcionan en las URLs reales de Nuroa.
+NUROA_CIUDADES = [
+    'madrid', 'barcelona', 'valencia', 'sevilla', 'zaragoza', 'malaga',
+    'murcia', 'palma', 'alicante', 'cordoba', 'valladolid', 'vigo',
+    'gijon', 'granada', 'cadiz', 'tarragona', 'girona', 'almeria',
+    'santander', 'toledo', 'marbella', 'bilbao', 'huelva', 'jaen',
+    'caceres', 'badajoz', 'leon', 'burgos', 'salamanca', 'pontevedra',
+]
+
+def scrape_nuroa(driver):
+    print('\n→ Nuroa...')
+    import requests as req_mod
+    HEADERS_NU = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+        'Referer': 'https://www.nuroa.es/',
+    }
+    BASE = 'https://www.nuroa.es'
+    total_nu = 0
+    session = req_mod.Session()
+
+    for ciudad in NUROA_CIUDADES:
+        # Dos categorías por ciudad: apartamentos sueltos y edificios completos
+        for categoria in ['apartamentos-turisticos', 'edificio-apartamentos-turisticos']:
+            url_base = f'{BASE}/venta/{categoria}-{ciudad}'
+            # Cascada de candidatos de paginación (probamos solo página 1 y 2
+            # por ciudad para no disparar el número de peticiones; si la
+            # página 2 funciona con algún patrón, lo sabremos en el log)
+            urls_intentar = [
+                (url_base, 'p1'),
+                (f'{url_base}?pagina=2', 'p2-pagina'),
+                (f'{url_base}-2', 'p2-guion'),
+            ]
+
+            encontro_algo_en_ciudad = False
+            for url, etiqueta in urls_intentar:
+                if etiqueta != 'p1' and not encontro_algo_en_ciudad:
+                    # Si la página 1 no dio nada, no perdemos tiempo probando
+                    # variantes de página 2 de esa misma ciudad/categoría.
+                    break
+
+                html = None
+                for intento in range(2):
+                    try:
+                        r = session.get(url, headers=HEADERS_NU, timeout=15)
+                        if r.status_code == 200:
+                            html = r.text
+                        break
+                    except Exception as e:
+                        if intento == 0:
+                            time.sleep(2)
+                        else:
+                            print(f'  [Nuroa] {url} → fallo: {e}')
+
+                if not html:
+                    continue
+
+                try:
+                    soup = BeautifulSoup(html, 'lxml')
+
+                    cards = []
+                    estrategia = None
+                    for nombre, selector in [
+                        ('article', lambda s: s.find_all('article')),
+                        ('div.listing', lambda s: s.find_all('div', class_=re.compile(r'listing|property|anuncio|item-info', re.I))),
+                        ('a href numérico', lambda s: s.find_all('a', href=re.compile(r'-\d{6,}'))),
+                    ]:
+                        encontrados = selector(soup)
+                        if encontrados:
+                            cards = encontrados
+                            estrategia = nombre
+                            break
+
+                    if not cards:
+                        if etiqueta == 'p1':
+                            print(f'  [Nuroa] {categoria}-{ciudad} → 0 tarjetas. HTML: {len(html)} chars.')
+                        continue
+
+                    nuevos_pagina = 0
+                    for card in cards:
+                        a = card if card.name == 'a' else card.find('a', href=True)
+                        if not a or not a.get('href'):
+                            continue
+                        href = a.get('href', '')
+                        if not href.startswith('http'):
+                            href = BASE + href
+                        href = href.split('?')[0].rstrip('/')
+                        if href in seen_urls:
+                            continue
+
+                        texto_card = card.get_text(' ', strip=True)
+                        title_el = card.find(['h1', 'h2', 'h3'])
+                        title = clean(title_el.get_text()) if title_el else clean(a.get_text())
+                        if not title or len(title) < 5:
+                            continue
+                        # Aquí el filtro es más laxo: aceptamos también
+                        # "turístico"/"turistico" sueltos, porque Nuroa ya
+                        # filtró por esa categoría — no hace falta que
+                        # aparezca la palabra "hotel" para que sea válido.
+                        t_lower = (title + ' ' + texto_card[:200]).lower()
+                        if not (_parece_hotel(title, texto_card[:200]) or 'turístic' in t_lower or 'turistic' in t_lower):
+                            continue
+
+                        pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                        price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                        item = {
+                            'title': title,
+                            'price': price,
+                            'location': ciudad.capitalize(),
+                            'description': texto_card[:800],
+                            'url': href,
+                            'source': 'Nuroa',
+                            'date': TODAY,
+                        }
+                        added = add_listing(item)
+                        if added:
+                            total_nu += 1
+                            nuevos_pagina += 1
+
+                    if nuevos_pagina > 0:
+                        encontro_algo_en_ciudad = True
+                        print(f'  Nuroa [{estrategia}] {categoria}-{ciudad} ({etiqueta}): {nuevos_pagina} nuevos | Total: {total_nu}')
+                    time.sleep(random.uniform(1.5, 3))
+
+                except Exception as e:
+                    print(f'  Error Nuroa {url}: {e}')
+
+    print(f'  Nuroa TOTAL: {total_nu}')
+
+
+# ══════════════════════════════════════════════════════
+# 7. HOTELSEVENDE — hoteles y B&B en venta España
+# ══════════════════════════════════════════════════════
+def scrape_hotelsevende(driver):
+    print('\n→ HotelSeVende...')
+    BASE = 'https://www.hotelsevende.es'
+    EXCLUDE = ['en-venta','tipo','pais','page','estado','norteamerica',
+               'inversion','contacto','about','alquiler','africa','asia',
+               'sudamerica','europa','blog','vender']
+    total_hs = 0
+    seen_hs = set()
+
+    # Recopilar links de las 11 páginas
+    urls_fichas = []
+    for pagina in range(1, 12):
+        page_url = f'{BASE}/en-venta/pais/espana/' if pagina == 1 else f'{BASE}/en-venta/pais/espana/page/{pagina}/'
+        try:
+            html = get_page(driver, page_url, wait=3)
+            if not html: continue
+            soup = BeautifulSoup(html, 'lxml')
+            for a in soup.find_all('a', href=re.compile(r'hotelsevende\.es')):
+                href = a.get('href','').rstrip('/') + '/'
+                if any(x in href for x in EXCLUDE): continue
+                if href.count('/') < 4: continue
+                if href not in seen_hs and href not in seen_urls:
+                    seen_hs.add(href)
+                    urls_fichas.append(href)
+        except Exception as e:
+            print(f'  Error pag {pagina}: {e}')
+
+    print(f'  Links recopilados: {len(urls_fichas)}')
+
+    # Entrar en cada ficha
+    for href in urls_fichas:
+        try:
+            html = get_page(driver, href, wait=2)
+            if not html: continue
+            soup = BeautifulSoup(html, 'lxml')
+
+            # Título
+            h1 = soup.find('h1')
+            title = clean(h1.get_text()) if h1 else ''
+            if not title or len(title) < 8: continue
+
+            # Precio
+            pm = re.search(r'€([\d.,]+(?:\.\d{3})*)', soup.get_text())
+            price = f'€{pm.group(1)}' if pm else 'Precio a consultar'
+            if price == '€1': price = 'Precio a consultar'
+
+            # Ciudad — <strong>Ciudad</strong> precedida por el valor
+            loc = 'España'
+            ciudad_label = soup.find('li', string=re.compile(r'^Ciudad$', re.I))
+            if ciudad_label:
+                prev = ciudad_label.find_previous_sibling('li')
+                if prev:
+                    strong = prev.find('strong')
+                    if strong: loc = clean(strong.get_text())
+
+            # Descripción — párrafos
+            paras = soup.find_all('p')
+            description = ' '.join(clean(p.get_text()) for p in paras if len(p.get_text().strip()) > 40)[:1500]
+
+            added = add_listing({
+                'title': title,
+                'price': price,
+                'location': loc,
+                'description': description,
+                'url': href,
+                'source': 'HotelSeVende',
+                'date': TODAY
+            })
+            if added: total_hs += 1
+            time.sleep(1)
+        except Exception as e:
+            print(f'  Error ficha {href[:60]}: {e}')
+
+    print(f'  HotelSeVende TOTAL: {total_hs}')
+
+
+# ══════════════════════════════════════════════════════
+# 8. IDEALISTA — hoteles en venta por provincia
+# ══════════════════════════════════════════════════════
+def scrape_idealista(driver):
+    print('\n→ Idealista (modo suave + filtro hoteles reales)...')
+    BASE = 'https://www.idealista.com'
+    PROVINCIAS = [
+        'madrid-provincia','barcelona-provincia','valencia-provincia',
+        'sevilla-provincia','malaga-provincia','alicante',
+        'murcia-provincia','zaragoza-provincia','valladolid-provincia',
+        'balears-illes','las-palmas','santa-cruz-de-tenerife-provincia',
+        'granada-provincia','cordoba-provincia','toledo-provincia',
+        'girona-provincia','tarragona-provincia','lleida-provincia',
+        'cadiz-provincia','huelva-provincia','almeria-provincia',
+        'jaen-provincia','badajoz-provincia','caceres-provincia',
+        'salamanca-provincia','burgos-provincia','leon-provincia',
+        'asturias','cantabria','la-rioja',
+        'navarra','guipuzcoa','vizcaya',
+        'pontevedra-provincia','a-coruna-provincia','lugo-provincia',
+        'ourense-provincia','ciudad-real-provincia','cuenca-provincia',
+        'albacete-provincia','castellon','huesca-provincia',
+        'segovia-provincia','soria-provincia','teruel-provincia',
+        'ibiza-y-formentera','menorca'
+    ]
+
+    # Clasificador: devuelve tipo de hotel real, o None si es local comercial (se descarta)
+    def tip_hotel(t):
+        tl = (t or '').lower()
+        if re.search(r'apartahotel|aparthotel|apart-hotel', tl): return 'Apartahotel'
+        if re.search(r'hotel\s*rural', tl): return 'Hotel Rural'
+        if re.search(r'\bboutique\b', tl): return 'Hotel boutique'
+        if re.search(r'balneario', tl): return 'Balneario'
+        if re.search(r'\bhostal\b', tl): return 'Hostal'
+        if re.search(r'\bhotel\b|hotelero|complejo hotelero', tl): return 'Hotel'
+        if re.search(r'\bpensi[oo]n\b|\bpensión\b', tl): return 'Pension'
+        if re.search(r'albergue|\bhostel\b', tl): return 'Albergue'
+        if re.search(r'casa rural|casa de hu[ee]spedes|hospeder|\bposada\b|\bfonda\b|\bparador\b|b\s*&\s*b|bed and breakfast', tl): return 'Casa rural / B&B'
+        if re.search(r'habitacion|dormitorio|hu[ee]spedes|alojamiento tur|uso hotelero|turismo rural|\bresort\b|plazas', tl): return 'Alojamiento turistico'
+        return None
+
+    total_id = 0
+    seen_id = set()
+
+    # Home primero, como humano (coge cookies)
+    try:
+        get_page(driver, BASE, wait=2)
+    except: pass
+
+    for provincia in PROVINCIAS:
+        url = f'{BASE}/venta-locales/{provincia}/con-hotel/'   # SOLO 1 pagina = modo suave
+        try:
+            html = get_page(driver, url, wait=6)
+            # Si DataDome ha bloqueado la IP -> parar Idealista entero (no seguir quemando)
+            if html and ('data-element-id' not in html) and any(b in html.lower() for b in
+                    ['uso indebido', 'acceso se ha bloqueado', 'has sido bloqueado', 'datadome', 'geo.captcha']):
+                print(f'  \u26a0\ufe0f Idealista ha bloqueado la IP (en {provincia}) - dejo de buscar en Idealista.')
+                break
+            if html:
+                soup = BeautifulSoup(html, 'lxml')
+                articles = soup.find_all('article', attrs={'data-element-id': True})
+                enc = 0
+                for art in articles:
+                    item_id = art.get('data-element-id','')
+                    if not item_id: continue
+                    href = f'{BASE}/inmueble/{item_id}/'
+                    if href in seen_id or href in seen_urls: continue
+                    seen_id.add(href)
+                    info = art.find(class_='item-info-container') or art
+                    a = info.find('a', class_='item-link')
+                    title = clean(a.get('title','')) if a else ''
+                    if not title or len(title) < 8: continue
+                    price_el = info.find(class_='item-price')
+                    price = clean(price_el.get_text()) if price_el else 'Precio a consultar'
+                    desc_el = info.find('p', class_='ellipsis') or info.find(class_=re.compile(r'item-description'))
+                    description = clean(desc_el.get_text()) if desc_el else ''
+                    # FILTRO: solo hoteles reales, descarta locales comerciales
+                    tip = tip_hotel(title + ' ' + description)
+                    if not tip:
+                        continue
+                    loc = provincia.replace('-provincia','').replace('-',' ').title()
+                    mm = re.search(r',\s*([^,]+),\s*([^,]+)$', title)
+                    if mm: loc = mm.group(2).strip()
+                    added = add_listing({
+                        'title': title,
+                        'price': price,
+                        'location': loc,
+                        'description': description,
+                        'url': href,
+                        'source': 'Idealista',
+                        'tipo': tip,
+                        'date': TODAY
+                    })
+                    if added: enc += 1; total_id += 1
+                if enc > 0:
+                    print(f'  {provincia}: {enc} hoteles | Total ID: {total_id}')
+        except Exception as e:
+            print(f'  Error {provincia}: {e}')
+        # PAUSA LARGA entre provincias = clave para NO banear
+        time.sleep(random.uniform(12, 20))
+
+    print(f'  Idealista TOTAL: {total_id}')
+
+if __name__ == '__main__':
+    print(f'=== Hotel Monitor Local — {TODAY} ===\n')
+
+    cache = load_cache()
+    driver = init_driver()
+
+    # ── GRUPO 1: ThinkSpain + LucasFox (Chrome 1) ──────
+    try:
+        try: scrape_thinkspain(driver)
+        except Exception as e: print(f'Error ThinkSpain: {e}')
+
+        try: scrape_lucasfox(driver)
+        except Exception as e: print(f'Error LucasFox: {e}')
+    finally:
+        try: driver.quit()
+        except: pass
+
+    # ── GRUPO 2: LuxuryEstate solo (Chrome 2) ──────────
+    print('\nIniciando Chrome 2 para LuxuryEstate...')
+    driver2 = init_driver()
+    try:
+        try: scrape_luxuryestate(driver2)
+        except Exception as e: print(f'Error LuxuryEstate: {e}')
+    finally:
+        try: driver2.quit()
+        except: pass
+
+    # ── GRUPO 3: NegociosEnVenta + HotelSeVende (Chrome 3) ──
+    print('\nIniciando Chrome 3...')
+    driver3 = init_driver()
+    try:
+        try: scrape_negociosenventa(driver3)
+        except Exception as e: print(f'Error NegociosEnVenta: {e}')
+
+        try: scrape_hotelsevende(driver3)
+        except Exception as e: print(f'Error HotelSeVende: {e}')
+
+        try: scrape_hispacasas(driver3)
+        except Exception as e: print(f'Error Hispacasas: {e}')
+
+        try: scrape_lancoisdoval(driver3)
+        except Exception as e: print(f'Error Lançois Doval: {e}')
+
+        try: scrape_casasapo(driver3)
+        except Exception as e: print(f'Error Casa Sapo: {e}')
+
+        try: scrape_supercasa(driver3)
+        except Exception as e: print(f'Error Supercasa: {e}')
+
+        try: scrape_robertobeloki(driver3)
+        except Exception as e: print(f'Error Roberto Beloki: {e}')
+
+        # Nuroa DESACTIVADO: solo busca edificios turísticos, que no hay en venta (siempre 0)
+
+        try: scrape_yaencontre(driver3)
+        except Exception as e: print(f'Error Yaencontre: {e}')
+    finally:
+        try: driver3.quit()
+        except: pass
+
+    # ── GRUPO 4: Idealista + Milanuncios (Chrome 4 stealth) ──
+    print('\nIniciando Chrome 4 para Idealista y Milanuncios...')
+    driver4 = init_driver_stealth()
+    try:
+        try: scrape_idealista(driver4)
+        except Exception as e: print(f'Error Idealista: {e}')
+
+        try: scrape_milanuncios(driver4)
+        except Exception as e: print(f'Error Milanuncios: {e}')
+    finally:
+        try: driver4.quit()
+        except: pass
+
+    # ── GRUPO 3: Sin Chrome (requests) ──────────────────
+    try: scrape_oirealestate(None)
+    except Exception as e: print(f'Error Oi Real Estate: {e}')
+
+    try: scrape_engelvoelkers(None)
+    except Exception as e: print(f'Error Engel Volkers: {e}')
+
+    print('\nNavegador cerrado.')
+
+    # Merge con cache
+    urls_encontradas = {item['url'] for item in found_listings}
+    cache_nuevo = dict(cache)
+    nuevos = 0
+    for item in found_listings:
+        url_key = item['url']
+        if url_key not in cache_nuevo:
+            cache_nuevo[url_key] = item
+            nuevos += 1
+        else:
+            cache_nuevo[url_key]['price']       = item.get('price', cache_nuevo[url_key].get('price',''))
+            cache_nuevo[url_key]['description'] = item.get('description', cache_nuevo[url_key].get('description',''))
+            cache_nuevo[url_key]['tipo']        = item.get('tipo', cache_nuevo[url_key].get('tipo',''))
+            cache_nuevo[url_key]['ausencias']   = 0
+
+    # Backfill: anuncios guardados ANTES de tener el campo 'tipo' (o 'estado')
+    # los clasificamos ahora, para que el Excel/JSON completo quede coherente,
+    # no solo los que se scrapean a partir de hoy.
+    backfilled = 0
+    for item in cache_nuevo.values():
+        if not item.get('tipo'):
+            item['tipo'] = clasificar_tipo(item.get('title',''), item.get('description',''))
+            backfilled += 1
+        if not item.get('estado'):
+            item['estado'] = 'Activo'
+    if backfilled:
+        print(f'  Clasificados retroactivamente (sin "tipo" previo): {backfilled} anuncios.')
+
+    print('\nRevisando bajas...')
+    cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas)
+    save_cache(cache_nuevo)
+    print(f'Cache guardado: {len(cache_nuevo)} totales ({nuevos} nuevos).')
+
+    todos = list(cache_nuevo.values())
+    def fsort(x):
+        try: return datetime.strptime(x.get('date','01/01/2000'), '%d/%m/%Y')
+        except: return datetime.min
+    todos.sort(key=fsort, reverse=True)
+
+    print(f'\n{"="*50}')
+    print(f'TOTAL ANUNCIOS: {len(todos)}')
+    print('='*50)
+
+    with open('index_template.html','r',encoding='utf-8') as f:
+        template = f.read()
+
+    # Inyectar benchmark ADR si existe (generado por scraper_adr.py, corre 1x/mes)
+    adr_benchmark_json = '{}'
+    if os.path.exists('adr_benchmark.json'):
+        with open('adr_benchmark.json','r',encoding='utf-8') as fb:
+            adr_benchmark_json = fb.read().strip()
+        print('adr_benchmark.json encontrado — inyectando datos reales Booking')
+    else:
+        print('adr_benchmark.json no existe — tasación usará fallback INE')
+
+    html = template.replace('__LISTINGS_JSON__', json.dumps(todos, ensure_ascii=False))
+    html = html.replace('__ADR_BENCHMARK_JSON__', adr_benchmark_json)
+
+    with open('index.html','w',encoding='utf-8') as f:
+        f.write(html)
+    print(f'index.html generado con {len(todos)} anuncios.')
+
+    if os.environ.get('GITHUB_ACTIONS'):
+        print('\nEjecutando en GitHub Actions: el commit y push los hace el propio workflow (scrape.yml).')
+    else:
+        subir_github(len(todos))
+        input('\nPresiona Enter para cerrar...')
