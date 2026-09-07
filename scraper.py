@@ -425,6 +425,20 @@ def add_listing(item):
             if r:
                 item['location_region'] = r
                 break
+    # ── Sanear precio: descartar valores basura (parsing erroneo) ──
+    _pnum = re.sub(r'[^\d]', '', item.get('price','') or '')
+    if _pnum:
+        _pv = int(_pnum)
+        if _pv < 1000 or _pv > 100_000_000:
+            item['price'] = 'Precio a consultar'
+    # ── Habitaciones: si el portal no las dio, sacarlas del texto ──
+    if not item.get('rooms'):
+        _blob = (item.get('title','') or '') + ' ' + (item.get('description','') or '')
+        _m = re.search(r'(\d{1,4})\s*(?:habitaciones|habitacion|habs?\b|dormitorios|rooms?|bedrooms?|llaves)', _blob, re.I)
+        if _m:
+            _rv = int(_m.group(1))
+            if 1 <= _rv <= 2000:
+                item['rooms'] = _rv
     found_listings.append(item)
     return True
 
@@ -2335,15 +2349,34 @@ if __name__ == '__main__':
     # Backfill: anuncios guardados ANTES de tener el campo 'tipo' (o 'estado')
     # los clasificamos ahora, para que el Excel/JSON completo quede coherente,
     # no solo los que se scrapean a partir de hoy.
-    backfilled = 0
+    backfilled = 0; rooms_fill = 0; precio_fix = 0
+    _ROOMS_RE = re.compile(r'(\d{1,4})\s*(?:habitaciones|habitacion|habs?\b|dormitorios|rooms?|bedrooms?|llaves)', re.I)
     for item in cache_nuevo.values():
         if not item.get('tipo'):
             item['tipo'] = clasificar_tipo(item.get('title',''), item.get('description',''))
             backfilled += 1
         if not item.get('estado'):
             item['estado'] = 'Activo'
+        # Backfill habitaciones desde title+description (TODOS los anuncios del cache)
+        if not item.get('rooms'):
+            _blob = (item.get('title','') or '') + ' ' + (item.get('description','') or '')
+            _m = _ROOMS_RE.search(_blob)
+            if _m:
+                _rv = int(_m.group(1))
+                if 1 <= _rv <= 2000:
+                    item['rooms'] = _rv; rooms_fill += 1
+        # Sanear precios basura en TODO el cache (no solo los nuevos)
+        _pn = re.sub(r'[^\d]', '', item.get('price','') or '')
+        if _pn:
+            _pv = int(_pn)
+            if _pv < 1000 or _pv > 100_000_000:
+                item['price'] = 'Precio a consultar'; precio_fix += 1
     if backfilled:
         print(f'  Clasificados retroactivamente (sin "tipo" previo): {backfilled} anuncios.')
+    if rooms_fill:
+        print(f'  Habitaciones rellenadas retroactivamente: {rooms_fill} anuncios.')
+    if precio_fix:
+        print(f'  Precios basura saneados: {precio_fix} anuncios.')
 
     print('\nRevisando bajas...')
     cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas)
