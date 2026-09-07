@@ -15,6 +15,66 @@ from bs4 import BeautifulSoup
 TODAY      = date.today().strftime('%d/%m/%Y')
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hoteles_cache.json')
 
+# ── Licencias turísticas oficiales (scraper aparte, 1 vez/semana) ──
+# La tarea programada de Windows dispara ESTE scraper.py todos los días,
+# pero el de licencias (17 CCAA, Cantabria 552 páginas, Asturias 11 PDF...)
+# tarda varios minutos y las fuentes oficiales casi nunca cambian a
+# diario. Por eso no lo corremos cada vez: guardamos la fecha de la
+# última ejecución en un archivo de estado, y solo lo repetimos si han
+# pasado 7+ días desde la última vez — así la tarea diaria de Windows
+# puede llamar a este script sin cambios, y licencias se actualiza solo
+# semanalmente por dentro.
+LICENCIAS_ESTADO_FILE = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), 'licencias_ultima_ejecucion.txt')
+LICENCIAS_INTERVALO_DIAS = 7
+
+
+def ejecutar_licencias_si_toca():
+    """Corre el scraper de licencias (scraper_licencias.py, en la misma
+    carpeta) solo si han pasado 7+ días desde la última vez, o si nunca
+    se ha corrido. Nunca deja que un fallo aquí tumbe el scraper
+    principal de anuncios — se captura cualquier excepción y se sigue."""
+    try:
+        ultima_vez = None
+        if os.path.exists(LICENCIAS_ESTADO_FILE):
+            with open(LICENCIAS_ESTADO_FILE, 'r', encoding='utf-8') as f:
+                texto = f.read().strip()
+            try:
+                ultima_vez = datetime.strptime(texto, '%Y-%m-%d').date()
+            except ValueError:
+                ultima_vez = None  # archivo de estado corrupto -> tratamos como "nunca"
+
+        hoy = date.today()
+        if ultima_vez is not None:
+            dias_pasados = (hoy - ultima_vez).days
+            if dias_pasados < LICENCIAS_INTERVALO_DIAS:
+                print(f'\nLicencias: última actualización hace {dias_pasados} día(s) '
+                      f'— toca cada {LICENCIAS_INTERVALO_DIAS}, no se repite hoy.')
+                return
+
+        print(f'\n{"="*50}')
+        print('Actualizando licencias turísticas oficiales (toca esta semana)...')
+        print('='*50)
+
+        import sys
+        carpeta_actual = os.path.dirname(os.path.abspath(__file__))
+        if carpeta_actual not in sys.path:
+            sys.path.insert(0, carpeta_actual)
+
+        import scraper_licencias
+        scraper_licencias.main()
+
+        with open(LICENCIAS_ESTADO_FILE, 'w', encoding='utf-8') as f:
+            f.write(hoy.strftime('%Y-%m-%d'))
+        print('Licencias actualizadas correctamente — próxima actualización en '
+              f'{LICENCIAS_INTERVALO_DIAS} días.')
+
+    except Exception as e:
+        print(f'\n⚠️  Error actualizando licencias (no afecta a los anuncios): {e}')
+        print('   Se reintentará en la próxima ejecución de todas formas, ya que')
+        print('   no se ha actualizado la fecha de estado.')
+
+
 HOTEL_KW = ['hotel','hostal','hostel','pensión','pension','aparthotel',
             'posada','parador','fonda','casa rural','alojamiento turístico',
             'albergue','resort','casa de huespedes','bed and breakfast',
@@ -644,7 +704,21 @@ def subir_github(total):
         subprocess.run(['git','stash'], capture_output=True)
         subprocess.run(['git','pull','origin','main','--rebase'], check=True)
         subprocess.run(['git','stash','pop'], capture_output=True)
-        subprocess.run(['git','add','index.html','hoteles_cache.json','index_template.html'], check=True)
+
+        # CONFIRMADO — riesgo real detectado antes de que pasara: si
+        # 'licencias_completo.json' no existe todavía (primera vez, o
+        # esa semana en concreto falló), 'git add' con un archivo
+        # inexistente falla ENTERO y ni siquiera se suben index.html ni
+        # hoteles_cache.json ese día. Por eso comprobamos qué archivos
+        # existen de verdad antes de añadirlos, uno a uno.
+        archivos_candidatos = ['index.html', 'hoteles_cache.json',
+                                'index_template.html', 'licencias_completo.json']
+        archivos_a_subir = [a for a in archivos_candidatos if os.path.exists(a)]
+        faltantes = [a for a in archivos_candidatos if a not in archivos_a_subir]
+        if faltantes:
+            print(f'  Aviso: no encontrados (se omiten esta vez): {faltantes}')
+        subprocess.run(['git','add'] + archivos_a_subir, check=True)
+
         result = subprocess.run(['git','diff','--cached','--quiet'], capture_output=True)
         if result.returncode != 0:
             subprocess.run(['git','commit','-m',f'Actualizacion {TODAY} — {total} hoteles'], check=True)
@@ -2411,6 +2485,12 @@ if __name__ == '__main__':
     with open('index.html','w',encoding='utf-8') as f:
         f.write(html)
     print(f'index.html generado con {len(todos)} anuncios.')
+
+    # Licencias: se actualiza aparte, solo si toca esta semana (ver
+    # ejecutar_licencias_si_toca — no es cada día). Va aquí, después de
+    # que index.html ya esté generado y guardado, así que aunque algo
+    # falle en licencias, los anuncios de hoy no se pierden.
+    ejecutar_licencias_si_toca()
 
     if os.environ.get('GITHUB_ACTIONS'):
         print('\nEjecutando en GitHub Actions: el commit y push los hace el propio workflow (scrape.yml).')

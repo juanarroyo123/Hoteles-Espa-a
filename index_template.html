@@ -1356,7 +1356,46 @@ const PRIORIDAD_DEFECTO = [
   ['Granada', 3], ['Salou', 3], ['Torremolinos', 3], ['Valencia', 3],
 ];
 
-function descargarExcel() {
+async function descargarExcel() {
+  // Licencias completas (372.676 registros, ~54 MB) — se cargan SOLO al
+  // pulsar el botón, no al abrir la web (si se metieran en el HTML como
+  // los anuncios, la página cargaría 54 MB de golpe para todo el mundo,
+  // aunque no vaya a descargar nada). El archivo lo genera y sube el
+  // scraper de licencias 1 vez por semana (scraper_licencias.py).
+  //
+  // Formato "cabecera + filas" (no array de objetos): con 372.676
+  // registros, repetir el nombre de cada columna en cada uno habría
+  // costado ~30 MB extra solo en texto repetido — documentado también
+  // en scraper_licencias.py, función guardar_json().
+  const botonExcel = document.getElementById('excel-toggle');
+  const textoOriginalBoton = botonExcel ? botonExcel.textContent : null;
+  if (botonExcel) {
+    botonExcel.textContent = '⏳ Cargando licencias (puede tardar unos segundos)...';
+    botonExcel.disabled = true;
+  }
+
+  let columnasLicencias = [];
+  let filasLicencias = [];
+  try {
+    const respuestaLicencias = await fetch('licencias_completo.json');
+    if (respuestaLicencias.ok) {
+      const datosLicencias = await respuestaLicencias.json();
+      columnasLicencias = datosLicencias.columnas || [];
+      filasLicencias = datosLicencias.filas || [];
+    } else {
+      console.warn('licencias_completo.json no disponible (status ' +
+                    respuestaLicencias.status + ') — el Excel se genera sin esa hoja.');
+    }
+  } catch (e) {
+    console.warn('No se pudieron cargar las licencias:', e,
+                  '— el Excel se genera sin esa hoja.');
+  } finally {
+    if (botonExcel) {
+      botonExcel.textContent = textoOriginalBoton;
+      botonExcel.disabled = false;
+    }
+  }
+
   // Mapa ciudad (en minúsculas, sin tildes) -> prioridad, para poder
   // pre-ordenar la descarga. IMPORTANTE: usamos coincidencia EXACTA
   // (tras normalizar mayúsculas/tildes), la misma que hace VLOOKUP en la
@@ -1467,9 +1506,36 @@ function descargarExcel() {
   ]);
   wsInputs['!cols'] = [{wch:22},{wch:12}];
 
+  // ── Hoja nueva: TODAS LAS LICENCIAS ──
+  // Las 372.676 licencias turísticas oficiales de toda España (17 CCAA),
+  // sin filtrar por destino — se pidió expresamente no dejar ninguna
+  // fuera. Si el fetch de arriba falló (archivo no disponible todavía,
+  // sin conexión...), esta hoja sale con solo la cabecera y un aviso, en
+  // vez de romper la descarga entera del Excel.
+  const CABECERA_LICENCIAS = columnasLicencias.length
+    ? columnasLicencias.map(c => c.toUpperCase())
+    : ['DESTINO', 'PROVINCIA', 'MUNICIPIO', 'TIPO', 'CATEGORIA', 'REGISTRO',
+       'NOMBRE', 'DIRECCION', 'CP', 'HAB', 'PLAZAS'];
+
+  const filasParaHoja = filasLicencias.length
+    ? filasLicencias
+    : [['No se pudieron cargar las licencias en esta descarga — vuelve a intentarlo, '
+        + 'o revisa que "licencias_completo.json" esté publicado en la web.']];
+
+  const wsLicencias = XLSX.utils.aoa_to_sheet([CABECERA_LICENCIAS, ...filasParaHoja]);
+  wsLicencias['!cols'] = [
+    {wch:14},{wch:16},{wch:20},{wch:20},{wch:18},{wch:16},
+    {wch:30},{wch:36},{wch:8},{wch:8},{wch:8}
+  ];
+  wsLicencias['!freeze'] = {xSplit:0, ySplit:1};
+  if (filasLicencias.length) {
+    wsLicencias['!autofilter'] = { ref: `A1:K${filasLicencias.length + 1}` };
+  }
+
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'OFERTAS TOTALES');
   XLSX.utils.book_append_sheet(wb, wsInputs, 'INPUTS');
+  XLSX.utils.book_append_sheet(wb, ws, 'OFERTAS TOTALES');
+  XLSX.utils.book_append_sheet(wb, wsLicencias, 'TODAS LAS LICENCIAS');
 
   const hoy = new Date().toISOString().slice(0,10);
   XLSX.writeFile(wb, `Hoteles_España_${hoy}.xlsx`);
