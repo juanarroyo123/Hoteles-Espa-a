@@ -554,7 +554,7 @@ header{
 .heat-sub{font-size:0.6rem;color:rgba(255,255,255,0.6);position:relative;z-index:1}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 </head>
 <body>
 
@@ -1414,8 +1414,104 @@ async function descargarExcel() {
     return mapaPrioridad.has(n) ? mapaPrioridad.get(n) : 99; // sin prioridad = al final
   };
 
+  // ── Cruce de licencias: candidato por nº de habitaciones ──────────
+  // Los anuncios no dan nombre ni dirección fiables, así que casamos por
+  // MUNICIPIO + nº de HABITACIONES contra las licencias de alojamiento
+  // (hotel/pensión/hostal/turismo rural/albergue/apartamentos turísticos,
+  // NUNCA viviendas de uso turístico). Cuando en un municipio hay una sola
+  // licencia con ese nº de habitaciones, es un candidato fiable.
+  const _normLic = s => (s || '').toString().toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+  const _ci = {}; columnasLicencias.forEach((c, i) => { _ci[c] = i; });
+  const _esAloj = (t, c) => {
+    const x = _normLic(t) + ' ' + _normLic(c);
+    if (x.includes('vivienda') || x.includes('vut')) return false;
+    return ['hotel','pension','hostal','turismo rural','turisme rural','albergue',
+            'apartamentos turisticos','apartahotel','apartamento turistico']
+            .some(k => x.includes(k));
+  };
+  const _licPorMuni = new Map();
+  if (filasLicencias.length && columnasLicencias.length && _ci.municipio != null) {
+    for (const r of filasLicencias) {
+      if (!_esAloj(r[_ci.tipo], r[_ci.categoria])) continue;
+      const m = _normLic(r[_ci.municipio]);
+      if (!m) continue;
+      if (!_licPorMuni.has(m)) _licPorMuni.set(m, []);
+      _licPorMuni.get(m).push(r);
+    }
+  }
+  // ── Provincia automática (municipio -> provincia, desde las licencias) ──
+  const _muniProv = new Map();
+  if (filasLicencias.length && _ci.municipio != null && _ci.provincia != null) {
+    const _tmp = new Map(); // muni -> {prov: count}
+    for (const r of filasLicencias) {
+      const m = _normLic(r[_ci.municipio]); const p = (r[_ci.provincia] || '').toString().trim();
+      if (!m || !p) continue;
+      if (!_tmp.has(m)) _tmp.set(m, {});
+      const o = _tmp.get(m); o[p] = (o[p] || 0) + 1;
+    }
+    for (const [m, o] of _tmp) { let bp = '', bc = 0; for (const p in o) if (o[p] > bc) { bc = o[p]; bp = p; } _muniProv.set(m, bp); }
+  }
+  const provinciaDe = loc => _muniProv.get(_normLic((loc || '').split(',')[0])) || '';
+  // provincia (normalizada) -> comunidad
+  const _PROVCOM = {
+    'malaga':'Andalucía','sevilla':'Andalucía','cadiz':'Andalucía','granada':'Andalucía','almeria':'Andalucía','cordoba':'Andalucía','huelva':'Andalucía','jaen':'Andalucía',
+    'huesca':'Aragón','teruel':'Aragón','zaragoza':'Aragón','asturias':'Asturias',
+    'illes balears':'Baleares','baleares':'Baleares','islas baleares':'Baleares','balears':'Baleares',
+    'las palmas':'Canarias','santa cruz de tenerife':'Canarias','cantabria':'Cantabria',
+    'avila':'Castilla y León','burgos':'Castilla y León','leon':'Castilla y León','palencia':'Castilla y León','salamanca':'Castilla y León','segovia':'Castilla y León','soria':'Castilla y León','valladolid':'Castilla y León','zamora':'Castilla y León',
+    'albacete':'Castilla-La Mancha','ciudad real':'Castilla-La Mancha','cuenca':'Castilla-La Mancha','guadalajara':'Castilla-La Mancha','toledo':'Castilla-La Mancha',
+    'barcelona':'Cataluña','girona':'Cataluña','gerona':'Cataluña','lleida':'Cataluña','lerida':'Cataluña','tarragona':'Cataluña',
+    'alicante':'C. Valenciana','alacant':'C. Valenciana','castellon':'C. Valenciana','castello':'C. Valenciana','valencia':'C. Valenciana',
+    'badajoz':'Extremadura','caceres':'Extremadura',
+    'a coruna':'Galicia','la coruna':'Galicia','coruna':'Galicia','lugo':'Galicia','ourense':'Galicia','orense':'Galicia','pontevedra':'Galicia',
+    'madrid':'Madrid','murcia':'Murcia','navarra':'Navarra','nafarroa':'Navarra',
+    'alava':'País Vasco','araba':'País Vasco','bizkaia':'País Vasco','vizcaya':'País Vasco','gipuzkoa':'País Vasco','guipuzcoa':'País Vasco',
+    'la rioja':'La Rioja','rioja':'La Rioja','ceuta':'Ceuta','melilla':'Melilla'
+  };
+  const comunidadDe = prov => _PROVCOM[_normLic(prov)] || '';
+
+  // ── Prioridad por PROVINCIA ───────────────────────────────────────
+  // Detectamos la provincia de cada ciudad por defecto (Fuengirola->Málaga)
+  // y montamos el preset de prioridad A NIVEL DE PROVINCIA. Se usa tanto
+  // para pre-ordenar las filas como para rellenar la hoja INPUTS.
+  const _provPreset = new Map();  // provincia (normalizada) -> prioridad
+  PRIORIDAD_DEFECTO.forEach(([ciudad, p]) => {
+    const prov = provinciaDe(String(ciudad).replace(/ ciudad$/i, ''));
+    if (!prov) return;
+    const k = _normLic(prov);
+    if (!_provPreset.has(k) || p < _provPreset.get(k)) _provPreset.set(k, p);
+  });
+  const prioridadProv = h => { const p = _normLic(provinciaDe(h.location)); return _provPreset.has(p) ? _provPreset.get(p) : 99; };
+
+  const _STOP = new Set(['hotel','hostal','pension','pensi','venta','apartamentos','apartamento','casa','rural','boutique']);
+  const _toks = s => new Set(_normLic(s).split(' ').filter(w => w.length >= 5 && !_STOP.has(w)));
+  const _habLic = r => { const v = String(r[_ci.hab]).trim(); return /^\d+$/.test(v) ? parseInt(v, 10) : null; };
+  const _fmtLic = r => `${r[_ci.nombre]||''} | ${r[_ci.registro]||'s/n'} | ${r[_ci.categoria]||r[_ci.tipo]||''}`.trim();
+  function cruzarLicencia(h) {
+    const muni = _normLic((h.location || '').split(',')[0]);
+    const cands = _licPorMuni.get(muni);
+    if (!cands || !cands.length) return ['', ''];
+    const R = (typeof h.rooms === 'number' && h.rooms > 0) ? h.rooms : null;
+    if (R) {
+      const exact = cands.filter(r => _habLic(r) === R);
+      if (exact.length === 1) return [_fmtLic(exact[0]), `nº hab coincide (${R}, único en ${h.location})`];
+      if (exact.length > 1) {
+        const ht = _toks((h.title || '') + ' ' + (h.description || '').slice(0, 150));
+        let best = null, bs = 0;
+        for (const r of exact) { let sc = 0; for (const w of _toks(r[_ci.nombre])) if (ht.has(w)) sc++; if (sc > bs) { bs = sc; best = r; } }
+        if (best && bs >= 1) return [_fmtLic(best), `nº hab + nombre (${R})`];
+      } else {
+        const aprox = cands.filter(r => { const hh = _habLic(r); return hh !== null && Math.abs(hh - R) <= 2; });
+        if (aprox.length === 1) return [_fmtLic(aprox[0]), `nº hab aprox. (${_habLic(aprox[0])} vs ${R})`];
+      }
+    }
+    return ['', `${cands.length} licencias de alojamiento en ${h.location || 'el municipio'} (ver hoja TODAS LAS LICENCIAS)`];
+  }
+
   const CABECERA = [
-    'Prioridad', 'Interesante', 'Destino targeting', 'País', 'Municipio / Zona',
+    'Prioridad', 'Interesante', 'País', 'Municipio / Zona',
     'Provincia', 'Comunidad / Región', 'Tipología', 'Hab.', 'Camas', 'Sup. (m²)',
     'Precio (€)', '€/hab.', 'Operación', 'Portal', 'Estado', 'Verificado', 'Link',
     'Descripción', 'Mail / Teléfono', 'Link Booking / Posible link ',
@@ -1430,7 +1526,7 @@ async function descargarExcel() {
   // Prioridad se actualizará sola, pero para reordenar filas hace falta
   // un clic en el filtro (te lo explico también en el propio Excel).
   const datosOrdenados = [...HOTELES_RAW_PARA_EXCEL].sort(
-    (a, b) => prioridadDe(a.location) - prioridadDe(b.location)
+    (a, b) => prioridadProv(a) - prioridadProv(b)
   );
 
   const filas = datosOrdenados.map((h, i) => {
@@ -1439,18 +1535,20 @@ async function descargarExcel() {
     const eurPorHab = (precioNum && habNum) ? Math.round(precioNum / habNum) : '';
     const pais = (h.source === 'Casa Sapo' || h.source === 'Supercasa') ? 'Portugal' : 'España';
     const filaExcel = i + 2; // +2 porque la fila 1 es la cabecera
+    const lic = cruzarLicencia(h);   // [texto licencia candidata, motivo]
+    const prov = provinciaDe(h.location);                        // provincia automática (desde licencias)
+    const com  = comunidadDe(prov) || h.location_region || '';   // comunidad según la provincia
 
     return [
-      // Fórmula: busca el Municipio/Zona de ESTA fila (columna E) dentro
-      // de la hoja INPUTS y devuelve su prioridad. Si cambias INPUTS,
-      // esto se actualiza solo sin que tengas que volver a descargar nada.
-      { f: `IFERROR(VLOOKUP(E${filaExcel},INPUTS!$A:$B,2,0),"")` },
+      // Prioridad automática desde INPUTS (col E = Provincia). Si la
+      // provincia no está en INPUTS o no tiene prioridad -> "Sin prioridad".
+      // Se actualiza sola si editas INPUTS.
+      { f: `IFERROR(IF(VLOOKUP(E${filaExcel},INPUTS!$A:$B,2,0)="","Sin prioridad",VLOOKUP(E${filaExcel},INPUTS!$A:$B,2,0)),"Sin prioridad")` },
       '',                          // Interesante (manual)
-      '',                          // Destino targeting (manual)
       pais,                        // País
       h.location || '',            // Municipio / Zona
-      '',                          // Provincia (no lo tenemos separado de forma fiable)
-      h.location_region || '',     // Comunidad / Región
+      prov,                        // Provincia (automática, desde licencias)
+      com,                         // Comunidad / Región (según provincia)
       h.tipo || '',                // Tipología
       habNum,                      // Hab.
       h.beds || '',                // Camas
@@ -1465,8 +1563,8 @@ async function descargarExcel() {
       h.description || '',         // Descripción
       '',                          // Mail / Teléfono (manual)
       '',                          // Link Booking / Posible link (manual)
-      '',                          // Licencia cruzada (manual)
-      '',                          // Motivo del cruce (manual)
+      lic[0],                      // Licencia cruzada (candidato automático por nº hab)
+      lic[1],                      // Motivo del cruce (automático)
       '',                          // RevPAR destino (manual)
       '',                          // Payback bruto (manual)
       '',                          // Contactado (manual)
@@ -1479,32 +1577,115 @@ async function descargarExcel() {
 
   // Anchos de columna aproximados a los de tu Excel original
   ws['!cols'] = [
-    {wch:10},{wch:11},{wch:16},{wch:9},{wch:20},{wch:14},{wch:16},{wch:20},
-    {wch:7},{wch:8},{wch:10},{wch:13},{wch:10},{wch:10},{wch:14},{wch:10},
-    {wch:12},{wch:40},{wch:60},{wch:16},{wch:22},{wch:26},{wch:20},{wch:16},
+    {wch:12},{wch:11},{wch:9},{wch:20},{wch:14},{wch:16},{wch:20},
+    {wch:7},{wch:8},{wch:10},{wch:13},{wch:11},{wch:10},{wch:14},{wch:10},
+    {wch:12},{wch:40},{wch:45},{wch:16},{wch:22},{wch:30},{wch:28},{wch:16},
     {wch:16},{wch:12},{wch:16},{wch:12}
   ];
   ws['!freeze'] = {xSplit:0, ySplit:1};
   // Autofiltro en toda la tabla — así puedes ordenar por Prioridad (o por
   // cualquier otra columna) con 1 clic en la flechita de la cabecera.
-  ws['!autofilter'] = { ref: `A1:AC${filas.length + 1}` };
+  ws['!autofilter'] = { ref: `A1:${XLSX.utils.encode_col(CABECERA.length - 1)}${filas.length + 1}` };
+
+  // ── Estilos visuales (xlsx-js-style): cabecera verde, moneda, P1 ──
+  const _VERDE = '1F5C4A';
+  const _cab = { fill:{fgColor:{rgb:_VERDE}}, font:{bold:true,color:{rgb:'FFFFFF'},sz:10},
+                 alignment:{horizontal:'center',vertical:'center',wrapText:true} };
+  const _rng = XLSX.utils.decode_range(ws['!ref']);
+  const _nc = CABECERA.length;
+  // índices de columna por NOMBRE (robusto aunque cambien las columnas)
+  const _iPrecio = CABECERA.indexOf('Precio (€)');
+  const _iEur    = CABECERA.indexOf('€/hab.');
+  const _iHab    = CABECERA.indexOf('Hab.');
+  const _iCamas  = CABECERA.indexOf('Camas');
+  const _iSup    = CABECERA.indexOf('Sup. (m²)');
+  const _iDesc   = CABECERA.indexOf('Descripción');
+  const _iLic    = CABECERA.indexOf('Licencia cruzada (nombre | nº | cat.)');
+  for (let c=0; c<_nc; c++){ const ref=XLSX.utils.encode_cell({r:0,c}); if(ws[ref]) ws[ref].s=_cab; }
+  for (let r=1; r<=_rng.e.r; r++){
+    const _lref = XLSX.utils.encode_cell({r, c:_iLic});
+    const licOk = ws[_lref] && ws[_lref].v;
+    for (let c=0; c<_nc; c++){
+      const ref = XLSX.utils.encode_cell({r,c}); if(!ws[ref]) continue;
+      // Cuerpo BLANCO (sin relleno) — solo la cabecera va en verde. Y SIN
+      // ajuste de texto, para que cada fila quede a altura normal de una
+      // línea (como el Excel de antes), aunque la descripción sea larga.
+      const s = { font:{sz:10}, alignment:{vertical:'center', wrapText:false},
+                  border:{bottom:{style:'thin',color:{rgb:'EEEEEE'}}} };
+      if (c===0) s.font = {sz:10, bold:true};            // Prioridad en negrita
+      if (c===_iLic && licOk){ s.fill = {fgColor:{rgb:'D6E4F5'}}; s.font = {sz:10, bold:true, color:{rgb:'1F4E79'}}; } // licencia encontrada: único acento de color
+      if (c===_iPrecio || c===_iEur){ ws[ref].z='#,##0" €"'; s.alignment={horizontal:'right',vertical:'center'}; }
+      else if (c===_iHab || c===_iCamas || c===_iSup){ ws[ref].z='#,##0'; s.alignment={horizontal:'center',vertical:'center'}; }
+      ws[ref].s = s;
+    }
+  }
+  ws['!rows'] = [{hpt:26}];   // solo la cabecera (fila 1) algo más alta; el resto, altura normal
 
   // ── Hoja nueva: INPUTS ──
   // Aquí es donde editas las prioridades. La fórmula de OFERTAS TOTALES
   // busca aquí, así que cualquier cambio se refleja solo en esa columna.
-  const filasInputs = PRIORIDAD_DEFECTO.map(([ciudad, p]) => [ciudad, p]);
-  const wsInputs = XLSX.utils.aoa_to_sheet([
-    ['Ciudad / Destino', 'Prioridad'],
-    ...filasInputs,
+  // INPUTS = SOLO PROVINCIAS detectadas en las ofertas (Fuengirola cuenta como
+  // Málaga, Salou como Tarragona, etc.), nunca pueblos sueltos. Prioridad
+  // preasignada donde coincida con la lista por defecto; el resto en blanco
+  // (= "Sin prioridad"). Ordenadas por nº de ofertas de la provincia.
+  const _provCount = new Map();   // provincia (texto original) -> nº de ofertas
+  HOTELES_RAW_PARA_EXCEL.forEach(h => { const prov = provinciaDe(h.location); if (prov) _provCount.set(prov, (_provCount.get(prov) || 0) + 1); });
+  const _provRows = [...(_provCount.entries())]
+    .sort((a, b) => b[1] - a[1])
+    .map(([prov, n]) => [prov, _provPreset.get(_normLic(prov)) || '', n]);
+
+  // Cabecera informativa + tabla bonita. OJO: la PROVINCIA va en la col A y la
+  // PRIORIDAD en la col B, para que la VLOOKUP de OFERTAS (INPUTS!$A:$B) siga
+  // funcionando aunque haya texto de instrucciones encima.
+  const _INTRO = [
+    ['🎯  PRIORIDADES POR PROVINCIA'],
+    ['En la columna PRIORIDAD escribe 1, 2 o 3 (1 = máxima). Si la dejas en blanco = "Sin prioridad".'],
+    ['La prioridad es POR PROVINCIA: si pones Málaga = 1, todas sus ciudades (Fuengirola, Marbella, Torremolinos…) heredan 1.'],
+    ['En OFERTAS TOTALES la columna "Prioridad" se actualiza sola. Para reordenar: clic en el filtro ▼ de "Prioridad" → Ordenar de menor a mayor.'],
+    ['Truco (opcional): para un desplegable 1/2/3, selecciona la col PRIORIDAD → Datos → Validación de datos → Lista → escribe 1,2,3.'],
+    ['LEYENDA:   1 = máxima   ·   2 = media   ·   3 = baja   ·   (vacío) = sin prioridad'],
+  ];
+  const aoaInputs = [
+    ..._INTRO,
     [],
-    ['📌 Cómo usar esta hoja:'],
-    ['1. Escribe aquí el nombre de la ciudad exactamente como aparece en "Municipio / Zona" de OFERTAS TOTALES.'],
-    ['2. Ponle prioridad 1, 2 o 3 (1 = máxima prioridad).'],
-    ['3. Añade o borra filas libremente — puedes tener tantas ciudades como quieras.'],
-    ['4. La columna "Prioridad" de OFERTAS TOTALES se actualiza sola.'],
-    ['5. Para que las FILAS se reordenen: en OFERTAS TOTALES, clic en la flechita de la cabecera "Prioridad" → Ordenar de menor a mayor.'],
-  ]);
-  wsInputs['!cols'] = [{wch:22},{wch:12}];
+    ['PROVINCIA', 'PRIORIDAD', 'Nº ofertas'],
+    ..._provRows,
+  ];
+  const wsInputs = XLSX.utils.aoa_to_sheet(aoaInputs);
+  wsInputs['!cols'] = [{wch:34},{wch:16},{wch:12}];
+  const _rIntro   = _INTRO.length;      // nº de filas de intro (1-index de la última)
+  const _rHead    = _rIntro + 2;        // fila (1-index) de la cabecera de la tabla
+  const _rDataIni = _rHead + 1;         // primera fila de datos (1-index)
+  // Fusionar la intro a lo ancho (A:C) para que el texto se lea entero
+  wsInputs['!merges'] = [];
+  for (let i = 1; i <= _rIntro; i++) wsInputs['!merges'].push({ s:{r:i-1,c:0}, e:{r:i-1,c:2} });
+  // Estilos de la intro
+  const _titulo  = { fill:{fgColor:{rgb:'1F5C4A'}}, font:{bold:true,sz:14,color:{rgb:'FFFFFF'}}, alignment:{horizontal:'left',vertical:'center',indent:1} };
+  const _nota    = { font:{sz:10,color:{rgb:'333333'}}, alignment:{horizontal:'left',vertical:'center',wrapText:true,indent:1} };
+  const _leyenda = { fill:{fgColor:{rgb:'EAF3EE'}}, font:{sz:10,bold:true,color:{rgb:'1F5C4A'}}, alignment:{horizontal:'left',vertical:'center',indent:1} };
+  if (wsInputs['A1']) wsInputs['A1'].s = _titulo;
+  for (let i = 2; i <= _rIntro - 1; i++){ const ref = 'A'+i; if (wsInputs[ref]) wsInputs[ref].s = _nota; }
+  { const ref = 'A'+_rIntro; if (wsInputs[ref]) wsInputs[ref].s = _leyenda; }
+  // Alturas: título alto, notas con sitio para 2 líneas
+  wsInputs['!rows'] = [];
+  wsInputs['!rows'][0] = { hpt:30 };
+  for (let i = 1; i <= _rIntro - 1; i++) wsInputs['!rows'][i] = { hpt:30 };
+  // Cabecera de la tabla (verde) en A/B/C
+  ['A','B','C'].forEach(col => { const ref = col+_rHead; if (wsInputs[ref]) wsInputs[ref].s = _cab; });
+  // Filas de datos: zebra + prioridad coloreada (1 verde, 2 amarillo, 3 naranja)
+  const _thin = { style:'thin', color:{rgb:'D9D9D9'} };
+  const _bordAll = { top:_thin, bottom:_thin, left:_thin, right:_thin };
+  for (let k = 0; k < _provRows.length; k++){
+    const rr = _rDataIni + k;
+    const zebra = (k % 2 === 0) ? 'FFFFFF' : 'F3F8F5';
+    const pv = _provRows[k][1];
+    const pc = pv===1 ? 'D8F0E2' : pv===2 ? 'FFF3CD' : pv===3 ? 'FCE3CE' : zebra;
+    if (wsInputs['A'+rr]) wsInputs['A'+rr].s = { font:{sz:10}, fill:{fgColor:{rgb:zebra}}, alignment:{horizontal:'left',vertical:'center',indent:1}, border:_bordAll };
+    if (wsInputs['B'+rr]) wsInputs['B'+rr].s = { font:{sz:11,bold:true}, fill:{fgColor:{rgb:pc}}, alignment:{horizontal:'center',vertical:'center'}, border:_bordAll };
+    if (wsInputs['C'+rr]) wsInputs['C'+rr].s = { font:{sz:10,color:{rgb:'888888'}}, fill:{fgColor:{rgb:zebra}}, alignment:{horizontal:'center',vertical:'center'}, border:_bordAll };
+  }
+  wsInputs['!freeze'] = { xSplit:0, ySplit:_rHead };
+  wsInputs['!autofilter'] = { ref: `A${_rHead}:C${_rHead + _provRows.length}` };
 
   // ── Hoja nueva: TODAS LAS LICENCIAS ──
   // Las 372.676 licencias turísticas oficiales de toda España (17 CCAA),
@@ -1528,6 +1709,8 @@ async function descargarExcel() {
     {wch:30},{wch:36},{wch:8},{wch:8},{wch:8}
   ];
   wsLicencias['!freeze'] = {xSplit:0, ySplit:1};
+  // Cabecera en verde (solo la fila 1; las 370k filas de datos van sin estilo por rendimiento)
+  ['A1','B1','C1','D1','E1','F1','G1','H1','I1','J1','K1'].forEach(ref => { if (wsLicencias[ref]) wsLicencias[ref].s = _cab; });
   if (filasLicencias.length) {
     wsLicencias['!autofilter'] = { ref: `A1:K${filasLicencias.length + 1}` };
   }
@@ -1538,7 +1721,7 @@ async function descargarExcel() {
   XLSX.utils.book_append_sheet(wb, wsLicencias, 'TODAS LAS LICENCIAS');
 
   const hoy = new Date().toISOString().slice(0,10);
-  XLSX.writeFile(wb, `Hoteles_España_${hoy}.xlsx`);
+  XLSX.writeFile(wb, `Hoteles_España_${hoy}.xlsx`, { compression: true });
 }
 
 // Benchmark ADR por municipio (Booking.com, generado por scraper_adr.py 1x/mes)
