@@ -1336,9 +1336,13 @@ const HOTELES = (function(raw) {
   });
 })(__LISTINGS_JSON__);
 
-// Copia SIN filtrar (incluye "Retirado") — se usa solo para la exportación
-// a Excel, para que puedas ver ahí lo que ha desaparecido de la web.
+// Anuncios ACTIVOS (el scraper ya excluye los "Retirado"): son los que van
+// a la hoja OFERTAS TOTALES del Excel.
 const HOTELES_RAW_PARA_EXCEL = __LISTINGS_JSON__;
+
+// Histórico PERMANENTE de anuncios retirados (comparables). Se acumula en
+// retirados_historico.json y nunca se borra. Va a su propia hoja del Excel.
+const RETIRADOS_HIST = __RETIRADOS_JSON__;
 
 // ── Descarga a Excel (mismas columnas que tu hoja "OFERTAS TOTALES") ──
 // Incluye TODOS los anuncios (Activo + Retirado) para que puedas comparar
@@ -1715,9 +1719,45 @@ async function descargarExcel() {
     wsLicencias['!autofilter'] = { ref: `A1:K${filasLicencias.length + 1}` };
   }
 
+  // ── Hoja: RETIRADOS (comparables) — histórico permanente ──
+  // Anuncios que ya se retiraron de la venta. No van en OFERTAS TOTALES, se
+  // acumulan aquí para comparar precios de activos que ya no están a la venta.
+  const CAB_RET = ['Municipio / Zona','Provincia','Comunidad / Región','Tipología',
+    'Hab.','Sup. (m²)','Precio (€)','€/hab.','Portal','Fecha retirada','Link','Descripción'];
+  const _retArr = Array.isArray(RETIRADOS_HIST) ? RETIRADOS_HIST : [];
+  const filasRet = _retArr.map(h => {
+    const precioNum = parseFloat(String(h.price||'').replace(/[^\d,]/g,'').replace(',','.')) || '';
+    const habNum = h.rooms || '';
+    const eur = (precioNum && habNum) ? Math.round(precioNum/habNum) : '';
+    const prov = provinciaDe(h.location);
+    const com  = comunidadDe(prov) || h.location_region || '';
+    return [h.location||'', prov, com, h.tipo||'', habNum, h.m2||'', precioNum, eur,
+            h.source||'', h.fecha_retirado||'', h.url||'', (h.description||'').slice(0,500)];
+  });
+  const wsRet = XLSX.utils.aoa_to_sheet([CAB_RET, ...filasRet]);
+  wsRet['!cols'] = [{wch:22},{wch:14},{wch:16},{wch:18},{wch:7},{wch:10},{wch:13},{wch:11},{wch:14},{wch:13},{wch:40},{wch:50}];
+  wsRet['!freeze'] = {xSplit:0, ySplit:1};
+  if (filasRet.length) wsRet['!autofilter'] = { ref: `A1:${XLSX.utils.encode_col(CAB_RET.length-1)}${filasRet.length+1}` };
+  (function(){
+    const nc = CAB_RET.length;
+    for (let c=0;c<nc;c++){ const ref=XLSX.utils.encode_cell({r:0,c}); if(wsRet[ref]) wsRet[ref].s=_cab; }
+    const iPre=CAB_RET.indexOf('Precio (€)'), iEur=CAB_RET.indexOf('€/hab.'), iHab=CAB_RET.indexOf('Hab.'), iSup=CAB_RET.indexOf('Sup. (m²)');
+    const rng = XLSX.utils.decode_range(wsRet['!ref']);
+    for (let r=1;r<=rng.e.r;r++){
+      for (let c=0;c<nc;c++){ const ref=XLSX.utils.encode_cell({r,c}); if(!wsRet[ref]) continue;
+        const s={ font:{sz:10}, alignment:{vertical:'center',wrapText:false}, border:{bottom:{style:'thin',color:{rgb:'EEEEEE'}}} };
+        if(c===iPre||c===iEur){ wsRet[ref].z='#,##0" €"'; s.alignment={horizontal:'right',vertical:'center'}; }
+        else if(c===iHab||c===iSup){ wsRet[ref].z='#,##0'; s.alignment={horizontal:'center',vertical:'center'}; }
+        wsRet[ref].s=s;
+      }
+    }
+    wsRet['!rows']=[{hpt:26}];
+  })();
+
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, wsInputs, 'INPUTS');
   XLSX.utils.book_append_sheet(wb, ws, 'OFERTAS TOTALES');
+  XLSX.utils.book_append_sheet(wb, wsRet, 'RETIRADOS (comparables)');
   XLSX.utils.book_append_sheet(wb, wsLicencias, 'TODAS LAS LICENCIAS');
 
   const hoy = new Date().toISOString().slice(0,10);
