@@ -1457,7 +1457,51 @@ async function descargarExcel() {
     }
     for (const [m, o] of _tmp) { let bp = '', bc = 0; for (const p in o) if (o[p] > bc) { bc = o[p]; bp = p; } _muniProv.set(m, bp); }
   }
-  const provinciaDe = loc => _muniProv.get(_normLic((loc || '').split(',')[0])) || '';
+  // Nombre canónico de provincia (normalizado -> tal cual está en el registro,
+  // p.ej. 'illes balears' -> 'ILLES BALEARS'), para que OFERTAS e INPUTS usen
+  // exactamente la misma cadena y la VLOOKUP case.
+  const _provCanon = new Map();
+  if (filasLicencias.length && _ci.provincia != null) {
+    for (const r of filasLicencias) {
+      const p = (r[_ci.provincia] || '').toString().trim();
+      if (p) { const k = _normLic(p); if (!_provCanon.has(k)) _provCanon.set(k, p); }
+    }
+  }
+  const _canonProv = x => { const k = _normLic(x); return _provCanon.get(k) || (x ? x.toString().trim().toUpperCase() : ''); };
+  // Islas / localidades frecuentes que NO son municipio del registro -> provincia
+  const _LOCPROV = {
+    'porto cristo':'illes balears','cala millor':'illes balears','cala d or':'illes balears',
+    'ferreries':'illes balears','mallorca':'illes balears','menorca':'illes balears',
+    'ibiza':'illes balears','eivissa':'illes balears','formentera':'illes balears','balears':'illes balears','baleares':'illes balears',
+    'tenerife':'santa cruz de tenerife','la palma':'santa cruz de tenerife','la gomera':'santa cruz de tenerife','el hierro':'santa cruz de tenerife',
+    'gran canaria':'las palmas','fuerteventura':'las palmas','lanzarote':'las palmas'
+  };
+  // Comunidades uniprovinciales: comunidad -> provincia (mismo territorio)
+  const _COMU_UNIPROV = {
+    'asturias':'asturias','principado de asturias':'asturias','cantabria':'cantabria','madrid':'madrid',
+    'comunidad de madrid':'madrid','murcia':'murcia','region de murcia':'murcia','navarra':'navarra',
+    'nafarroa':'navarra','la rioja':'la rioja','rioja':'la rioja','baleares':'illes balears',
+    'illes balears':'illes balears','islas baleares':'illes balears'
+  };
+  // provincia detectada probando: municipio del registro (cada parte), la propia
+  // provincia si aparece, y el diccionario de islas/localidades.
+  const provinciaDe = loc => {
+    if (!loc) return '';
+    const partes = loc.split(/[,()]/).map(s => s.trim()).filter(Boolean);
+    // 1) provincia EXPLÍCITA en la ubicación (p.ej. "Aguadulce (Almería)") — manda
+    //    sobre el municipio, porque desambigua municipios homónimos.
+    for (const p of partes) { const c = _provCanon.get(_normLic(p)); if (c) return c; }
+    // 2) municipio del registro
+    for (const p of partes) { const m = _muniProv.get(_normLic(p)); if (m) return m; }
+    // 3) diccionario de islas/localidades conocidas
+    for (const p of partes) { const g = _LOCPROV[_normLic(p)]; if (g) return _canonProv(g); }
+    return '';
+  };
+  // Respaldo por comunidad uniprovincial (usa location_region del anuncio)
+  const _provFromRegion = reg => { const k = _normLic(reg); return _COMU_UNIPROV[k] ? _canonProv(_COMU_UNIPROV[k]) : ''; };
+  // Provincia final de un anuncio: municipio/registro -> comunidad uniprov ->
+  // 'Sin localizar' (para que TODAS las ofertas aparezcan y sumen).
+  const provResuelta = h => provinciaDe(h.location) || _provFromRegion(h.location_region) || 'Sin localizar';
   // provincia (normalizada) -> comunidad
   const _PROVCOM = {
     'malaga':'Andalucía','sevilla':'Andalucía','cadiz':'Andalucía','granada':'Andalucía','almeria':'Andalucía','cordoba':'Andalucía','huelva':'Andalucía','jaen':'Andalucía',
@@ -1480,14 +1524,11 @@ async function descargarExcel() {
   // Detectamos la provincia de cada ciudad por defecto (Fuengirola->Málaga)
   // y montamos el preset de prioridad A NIVEL DE PROVINCIA. Se usa tanto
   // para pre-ordenar las filas como para rellenar la hoja INPUTS.
-  const _provPreset = new Map();  // provincia (normalizada) -> prioridad
-  PRIORIDAD_DEFECTO.forEach(([ciudad, p]) => {
-    const prov = provinciaDe(String(ciudad).replace(/ ciudad$/i, ''));
-    if (!prov) return;
-    const k = _normLic(prov);
-    if (!_provPreset.has(k) || p < _provPreset.get(k)) _provPreset.set(k, p);
-  });
-  const prioridadProv = h => { const p = _normLic(provinciaDe(h.location)); return _provPreset.has(p) ? _provPreset.get(p) : 99; };
+  // SIN prioridades predeterminadas: la columna PRIORIDAD de INPUTS sale en
+  // blanco y la rellenas tú (1/2/3 o vacío = Sin prioridad). El preset queda
+  // vacío a propósito.
+  const _provPreset = new Map();  // provincia (normalizada) -> prioridad (vacío)
+  const prioridadProv = h => 99;  // sin orden por prioridad hasta que edites INPUTS
 
   const _STOP = new Set(['hotel','hostal','pension','pensi','venta','apartamentos','apartamento','casa','rural','boutique']);
   const _toks = s => new Set(_normLic(s).split(' ').filter(w => w.length >= 5 && !_STOP.has(w)));
@@ -1540,7 +1581,7 @@ async function descargarExcel() {
     const pais = (h.source === 'Casa Sapo' || h.source === 'Supercasa') ? 'Portugal' : 'España';
     const filaExcel = i + 2; // +2 porque la fila 1 es la cabecera
     const lic = cruzarLicencia(h);   // [texto licencia candidata, motivo]
-    const prov = provinciaDe(h.location);                        // provincia automática (desde licencias)
+    const prov = provResuelta(h);                                // provincia (registro/isla/comunidad) o 'Sin localizar'
     const com  = comunidadDe(prov) || h.location_region || '';   // comunidad según la provincia
 
     return [
@@ -1632,8 +1673,8 @@ async function descargarExcel() {
   // Málaga, Salou como Tarragona, etc.), nunca pueblos sueltos. Prioridad
   // preasignada donde coincida con la lista por defecto; el resto en blanco
   // (= "Sin prioridad"). Ordenadas por nº de ofertas de la provincia.
-  const _provCount = new Map();   // provincia (texto original) -> nº de ofertas
-  HOTELES_RAW_PARA_EXCEL.forEach(h => { const prov = provinciaDe(h.location); if (prov) _provCount.set(prov, (_provCount.get(prov) || 0) + 1); });
+  const _provCount = new Map();   // provincia -> nº de ofertas (incluye 'Sin localizar')
+  HOTELES_RAW_PARA_EXCEL.forEach(h => { const prov = provResuelta(h); _provCount.set(prov, (_provCount.get(prov) || 0) + 1); });
   const _provRows = [...(_provCount.entries())]
     .sort((a, b) => b[1] - a[1])
     .map(([prov, n]) => [prov, _provPreset.get(_normLic(prov)) || '', n]);
@@ -1729,7 +1770,7 @@ async function descargarExcel() {
     const precioNum = parseFloat(String(h.price||'').replace(/[^\d,]/g,'').replace(',','.')) || '';
     const habNum = h.rooms || '';
     const eur = (precioNum && habNum) ? Math.round(precioNum/habNum) : '';
-    const prov = provinciaDe(h.location);
+    const prov = provResuelta(h);
     const com  = comunidadDe(prov) || h.location_region || '';
     return [h.location||'', prov, com, h.tipo||'', habNum, h.m2||'', precioNum, eur,
             h.source||'', h.fecha_retirado||'', h.url||'', (h.description||'').slice(0,500)];
