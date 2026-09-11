@@ -3,7 +3,7 @@
 Hotel Monitor — Scraper local con cache acumulativo
 Portales activos: ThinkSpain, Lucas Fox
 """
-import json, re, time, os, subprocess, random, unicodedata
+import json, re, time, os, subprocess, random, unicodedata, shutil
 from datetime import date, datetime, timedelta
 from html import unescape
 
@@ -14,6 +14,10 @@ from bs4 import BeautifulSoup
 
 TODAY      = date.today().strftime('%d/%m/%Y')
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'hoteles_cache.json')
+# Historico PERMANENTE de anuncios retirados. Nunca se borra: acumula cada
+# anuncio que se retira, aunque la cache se resetee o cambiemos de scraper.
+# Sirve de comparables historicos (precios de activos que ya no estan a la venta).
+RETIRADOS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'retirados_historico.json')
 
 # ── Licencias turísticas oficiales (scraper aparte, 1 vez/semana) ──
 # La tarea programada de Windows dispara ESTE scraper.py todos los días,
@@ -73,6 +77,90 @@ def ejecutar_licencias_si_toca():
         print(f'\n⚠️  Error actualizando licencias (no afecta a los anuncios): {e}')
         print('   Se reintentará en la próxima ejecución de todas formas, ya que')
         print('   no se ha actualizado la fecha de estado.')
+
+
+def cruzar_licencias_con_activos(todos_activos):
+    """Cruza cada anuncio activo con el registro oficial de licencias
+    turísticas (licencias_completo.json), usando EXACTAMENTE la misma
+    función (cruzarLicencia, y sus ayudantes) que usa el botón "Descargar
+    Excel" de la web -- no es una reimplementación aparte: se extrae en
+    caliente de index_template.html y se ejecuta con Node.js
+    (cruzar_licencias.js), así que la web y este cruce automático nunca
+    pueden divergir ni hay que mantener la lógica dos veces.
+
+    Escribe 'licencia_texto' y 'licencia_motivo' directamente en cada dict
+    de todos_activos -- como son los MISMOS objetos que ya están dentro de
+    cache_nuevo (todos_activos = filtro de list(cache_nuevo.values())), con
+    modificarlos aquí basta para que el siguiente save_cache() los persista
+    en hoteles_cache.json, y para que __LISTINGS_JSON__ los lleve también a
+    index.html.
+
+    Se recalcula desde cero en cada ejecución (nunca se fía de un
+    licencia_texto/motivo ya guardado de un día anterior), para que las
+    licencias nuevas de la actualización semanal, o cualquier mejora en la
+    lógica de cruce, se reflejen enseguida. Cualquier fallo aquí (Node no
+    instalado, template cambiado, JSON corrupto...) se registra y se
+    ignora: nunca debe tumbar el scraper de anuncios."""
+    carpeta = os.path.dirname(os.path.abspath(__file__))
+    ruta_licencias = os.path.join(carpeta, 'licencias_completo.json')
+    ruta_template = os.path.join(carpeta, 'index_template.html')
+    ruta_script = os.path.join(carpeta, 'cruzar_licencias.js')
+
+    if not os.path.exists(ruta_licencias):
+        print('\nCruce de licencias: no existe licencias_completo.json todavía -- se omite.')
+        return
+    if not os.path.exists(ruta_script):
+        print('\n⚠️  Cruce de licencias: falta cruzar_licencias.js -- se omite.')
+        return
+    if shutil.which('node') is None:
+        print('\n⚠️  Cruce de licencias: Node.js no está disponible en este entorno -- se omite '
+              '(en GitHub Actions, comprueba que el workflow tenga instalado Node).')
+        return
+
+    print(f'\n{"="*50}')
+    print('Cruzando anuncios con licencias turísticas oficiales...')
+    print('='*50)
+
+    tmp_activos = os.path.join(carpeta, '_tmp_cruce_activos.json')
+    tmp_salida = os.path.join(carpeta, '_tmp_cruce_resultado.json')
+    try:
+        with open(tmp_activos, 'w', encoding='utf-8') as f:
+            json.dump(todos_activos, f, ensure_ascii=False)
+
+        resultado = subprocess.run(
+            ['node', ruta_script, ruta_template, ruta_licencias, tmp_activos, tmp_salida],
+            cwd=carpeta, capture_output=True, text=True, timeout=900,
+        )
+        if resultado.stdout:
+            print(resultado.stdout.strip())
+        if resultado.returncode != 0:
+            print(f'⚠️  Cruce de licencias: cruzar_licencias.js terminó con error '
+                  f'(código {resultado.returncode}) -- se omite esta vez, no se toca ningún dato.')
+            if resultado.stderr:
+                print(resultado.stderr.strip())
+            return
+
+        with open(tmp_salida, 'r', encoding='utf-8') as f:
+            por_url = json.load(f)
+
+        aplicados = 0
+        for h in todos_activos:
+            info = por_url.get(h.get('url'))
+            if info is None:
+                continue
+            h['licencia_texto'] = info.get('licencia_texto', '') or ''
+            h['licencia_motivo'] = info.get('licencia_motivo', '') or ''
+            aplicados += 1
+        print(f'Cruce de licencias aplicado a {aplicados} anuncios activos.')
+    except Exception as e:
+        print(f'⚠️  Error en el cruce de licencias (no afecta a los anuncios): {e}')
+    finally:
+        for p in (tmp_activos, tmp_salida):
+            try:
+                if os.path.exists(p):
+                    os.remove(p)
+            except OSError:
+                pass
 
 
 HOTEL_KW = ['hotel','hostal','hostel','pensión','pension','aparthotel',
@@ -155,12 +243,58 @@ def save_cache(cache_dict):
         json.dump(list(cache_dict.values()), f, ensure_ascii=False, indent=2)
 
 # ─── driver ───────────────────────────────────────────
+def _chrome_major():
+    """Versión mayor de Chrome instalada (Windows, vía registro). int o None."""
+    try:
+        import winreg
+        for hive, path in [
+            (winreg.HKEY_CURRENT_USER,  r'Software\Google\Chrome\BLBeacon'),
+            (winreg.HKEY_LOCAL_MACHINE, r'SOFTWARE\Google\Chrome\BLBeacon'),
+        ]:
+            try:
+                k = winreg.OpenKey(hive, path)
+                v, _ = winreg.QueryValueEx(k, 'version')
+                winreg.CloseKey(k)
+                if v:
+                    return int(str(v).split('.')[0])
+            except OSError:
+                continue
+    except Exception:
+        pass
+    return None
+
+def _uc_chrome(build_opts):
+    """Crea uc.Chrome fijando la versión de Chrome INSTALADA (evita el fallo
+    'ChromeDriver only supports Chrome version X / current is Y'). Si aun así
+    falla por desajuste, reintenta con la versión exacta que reporta el error,
+    así se autoarregla cuando Chrome se actualiza."""
+    # Si hay un chromedriver.exe local (misma carpeta que el scraper), usarlo y
+    # NO descargar nada — evita el fallo de red al bajar el driver (WinError 10065).
+    _local = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'chromedriver.exe')
+    if os.path.exists(_local):
+        print(f'  Usando chromedriver local: {_local}')
+        return uc.Chrome(options=build_opts(), use_subprocess=True, driver_executable_path=_local)
+    mv = _chrome_major()
+    try:
+        kw = {'use_subprocess': True}
+        if mv:
+            kw['version_main'] = mv
+        return uc.Chrome(options=build_opts(), **kw)
+    except Exception as e:
+        m = re.search(r'Current browser version is (\d+)', str(e))
+        if not m:
+            raise
+        ver = int(m.group(1))
+        print(f'  Ajustando ChromeDriver a Chrome {ver} y reintentando...')
+        return uc.Chrome(options=build_opts(), use_subprocess=True, version_main=ver)
+
 def init_driver():
     print('Iniciando Chrome...')
-    opts = uc.ChromeOptions()
-    opts.add_argument('--window-size=1920,1080')
-    opts.add_argument('--lang=es-ES')
-
+    def _mk():
+        o = uc.ChromeOptions()
+        o.add_argument('--window-size=1920,1080')
+        o.add_argument('--lang=es-ES')
+        return o
     if os.environ.get('GITHUB_ACTIONS'):
         from selenium import webdriver
         from selenium.webdriver.chrome.options import Options
@@ -172,42 +306,34 @@ def init_driver():
         opts2.add_argument('--window-size=1920,1080')
         driver = webdriver.Chrome(options=opts2)
     else:
-        # En local seguimos usando undetected-chromedriver
-        # (sin version_main fijo: uc detecta automáticamente la versión de Chrome instalada)
-        driver = uc.Chrome(options=opts, use_subprocess=True)
-
+        driver = _uc_chrome(_mk)
     print('Chrome listo.\n')
     return driver
 
 def init_driver_stealth():
     """Driver anti-detección para Idealista — usa undetected_chromedriver siempre."""
     print('Iniciando Chrome stealth para Idealista...')
-    opts = uc.ChromeOptions()
-    opts.add_argument('--window-size=1920,1080')
-    opts.add_argument('--lang=es-ES')
-    opts.add_argument('--no-first-run')
-    opts.add_argument('--no-default-browser-check')
-
-    if os.environ.get('GITHUB_ACTIONS'):
-        opts.add_argument('--headless=new')
-        opts.add_argument('--no-sandbox')
-        opts.add_argument('--disable-dev-shm-usage')
-        opts.add_argument('--disable-gpu')
-        opts.add_argument('--disable-blink-features=AutomationControlled')
-        # User agent realista (versión genérica reciente; no necesita coincidir exacto)
-        opts.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36')
-
+    _ci = bool(os.environ.get('GITHUB_ACTIONS'))
+    def _mk():
+        o = uc.ChromeOptions()
+        o.add_argument('--window-size=1920,1080')
+        o.add_argument('--lang=es-ES')
+        o.add_argument('--no-first-run')
+        o.add_argument('--no-default-browser-check')
+        if _ci:
+            o.add_argument('--headless=new')
+            o.add_argument('--no-sandbox')
+            o.add_argument('--disable-dev-shm-usage')
+            o.add_argument('--disable-gpu')
+            o.add_argument('--disable-blink-features=AutomationControlled')
+            o.add_argument('--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36')
+        return o
     try:
-        # Sin version_main fijo: uc detecta automáticamente la versión de Chrome instalada.
-        # Antes esto forzaba 146 y en CI Chrome ya iba por la 151/152 → creación de sesión
-        # fallaba, caía al driver estándar (sin stealth) y Idealista lo detectaba y bloqueaba (0 anuncios).
-        driver = uc.Chrome(options=opts, use_subprocess=True)
-        # Eliminar rastros de webdriver
+        driver = _uc_chrome(_mk)
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     except Exception as e:
         print(f'  Stealth driver falló ({e}), usando driver estándar')
         driver = init_driver()
-
     print('Chrome stealth listo.\n')
     return driver
 
@@ -399,6 +525,15 @@ def infer_region(texto):
 def limpiar_location(loc):
     """Limpia ubicaciones con basura pegada (ThinkSpain principalmente)."""
     if not loc: return loc
+    # Engel & Völkers pega el texto del botón "Añadir a favoritos" delante
+    # del municipio real, sin espacio (ej. "Añadir a favoritosEl Prat de
+    # Llobregat") -- comprobado en hoteles_cache.json: 8 anuncios así, todos
+    # de ese portal. Lo quitamos para que la ubicación mostrada (y el cruce
+    # de licencias, que depende de ella) usen el municipio real.
+    loc = re.sub(r'^\s*añadir a favoritos\s*', '', loc, flags=re.I)
+    # Algún portal antepone el código postal al municipio (ej. "14979
+    # Iznajar") -- lo quitamos igual que el resto de basura pegada.
+    loc = re.sub(r'^\d{5}\s+', '', loc)
     loc = re.sub(r'â[\x00-\xff]{0,2}', '', loc)
     loc = re.sub(r'€.*', '', loc)
     loc = re.sub(r'\s+with\b.*', '', loc, flags=re.I)
@@ -486,19 +621,55 @@ def add_listing(item):
                 item['location_region'] = r
                 break
     # ── Sanear precio: descartar valores basura (parsing erroneo) ──
+    # CONFIRMADO: esto antes solo arreglaba precios con dígitos raros
+    # (demasiado pequeños/grandes) -- si el precio venía VACÍO desde el
+    # principio (portal sin precio, o parsing que no encontró nada), se
+    # quedaba tal cual en vez de caer a "Precio a consultar". Ahora
+    # cubre los dos casos, para TODOS los portales por igual (este es el
+    # único sitio por el que pasan todos los anuncios antes de guardarse).
     _pnum = re.sub(r'[^\d]', '', item.get('price','') or '')
     if _pnum:
         _pv = int(_pnum)
         if _pv < 1000 or _pv > 100_000_000:
             item['price'] = 'Precio a consultar'
+    else:
+        item['price'] = 'Precio a consultar'
     # ── Habitaciones: si el portal no las dio, sacarlas del texto ──
+    # CONFIRMADO: faltaba "quartos" (portugués) -- Casa Sapo nunca se
+    # beneficiaba de este respaldo porque solo buscaba términos en
+    # español/inglés. Añadido sin quitar nada de lo que ya funcionaba.
     if not item.get('rooms'):
         _blob = (item.get('title','') or '') + ' ' + (item.get('description','') or '')
-        _m = re.search(r'(\d{1,4})\s*(?:habitaciones|habitacion|habs?\b|dormitorios|rooms?|bedrooms?|llaves)', _blob, re.I)
+        _m = re.search(r'(\d{1,4})\s*(?:habitaciones|habitacion|habs?\b|dormitorios|rooms?|bedrooms?|llaves|quartos?)', _blob, re.I)
         if _m:
             _rv = int(_m.group(1))
             if 1 <= _rv <= 2000:
                 item['rooms'] = _rv
+    # ── m²: NO existía ningún respaldo general para esto -- cada portal
+    # lo sacaba (o no) con su propio código. Añadimos uno común, igual
+    # que el de habitaciones, para que cualquier portal que no lo saque
+    # ya (como Casa Sapo) al menos lo intente desde el texto libre.
+    if not item.get('m2'):
+        # BUG REAL encontrado con un test de verdad: clean() (aplicada al
+        # título, pero NO a la descripción) convierte \xa0 en un espacio
+        # normal -- así que el título trae el número YA ROTO ("1 176m²"
+        # con espacio normal, imposible de unir) mientras la descripción
+        # sí conserva el \xa0 real. Antes buscábamos en título+descripción
+        # PEGADOS, y al encontrar antes el título roto, nos quedábamos
+        # con "176" en vez de "1176". Ahora miramos la descripción
+        # PRIMERO (más fiable, sin procesar) y el título solo como plan B.
+        _mm = None
+        for _fuente in (item.get('description','') or '', item.get('title','') or ''):
+            _mm = re.search(r'([\d][\d.,\xa0]*)\s*m[\u00b22]\b', _fuente, re.I)
+            if _mm:
+                break
+        if _mm:
+            try:
+                _m2v = int(float(_mm.group(1).replace('\xa0', '').replace('.', '').replace(',', '.')))
+                if 5 <= _m2v <= 1_000_000:  # descarta ruido (0 m² o cifras absurdas)
+                    item['m2'] = _m2v
+            except ValueError:
+                pass
     found_listings.append(item)
     return True
 
@@ -529,6 +700,15 @@ def scrape_thinkspain(driver):
         # cae al navegador stealth que ya tenemos abierto.
         try:
             r = session.get(url, timeout=20)
+            # CONFIRMADO con datos reales: sin esto, el euro salia roto
+            # como "a-brevecent" (mojibake clasico de 'requests' -- si el
+            # servidor no manda el charset exacto en la cabecera, requests
+            # asume Latin-1 en vez de UTF-8 aunque el contenido SI sea
+            # UTF-8). Eso rompia el regex que limpia el precio del titulo
+            # porque buscaba un simbolo euro de verdad y no lo encontraba
+            # mal codificado. Forzamos UTF-8 explicitamente, que es lo
+            # que ThinkSpain manda de verdad.
+            r.encoding = 'utf-8'
             if r.status_code == 200 and 'ItemList' in r.text:
                 return r.text
         except Exception as e:
@@ -572,6 +752,44 @@ def scrape_thinkspain(driver):
             if not html:
                 break
             soup = BeautifulSoup(html, 'lxml')
+
+            # CONFIRMADO con diagnóstico real (07/09/2026): el JSON-LD
+            # (ItemList) NUNCA trajo habitaciones/baños/m² -- solo
+            # título/precio-en-texto/descripción/url. Esos datos están
+            # en un sitio totalmente distinto: cada <article> de la
+            # tarjeta lleva un atributo 'data-base-twc-analytic-event-
+            # parameters' (pensado para analítica interna de la propia
+            # web) con un JSON limpio: {"propertyID":..., "price":...,
+            # "beds":..., "baths":..., "buildSqm":...}. Lo cruzamos con
+            # el JSON-LD por 'propertyID' == 'productID' -- mismo
+            # identificador en los dos sitios, confirmado con datos
+            # reales. Esto es MUCHO más fiable que sacar el precio y
+            # las habitaciones a base de regex sobre el texto del título
+            # (que es justo lo que se estaba haciendo antes, y fallaba
+            # para la mayoría de anuncios en cuanto el título no seguía
+            # el patrón exacto esperado).
+            stats_por_id = {}
+            for article in soup.find_all('article', attrs={'data-base-twc-analytic-event-parameters': True}):
+                try:
+                    stats = json.loads(article['data-base-twc-analytic-event-parameters'])
+                except (json.JSONDecodeError, KeyError, TypeError):
+                    continue
+                pid = str(stats.get('propertyID', '')).strip()
+                # Fallback: si el JSON de la ficha no trae buildSqm, lo leemos
+                # del texto visible de la tarjeta ("1253 m2 Build"/"1253 m² Build").
+                if not stats.get('buildSqm'):
+                    _txt = article.get_text(' ', strip=True)
+                    _mb = re.search(r'([\d][\d.,\xa0]*)\s*m\s*(?:²|2)\s*Build', _txt, re.I)
+                    if _mb:
+                        try:
+                            _bv = int(re.sub(r'[^\d]', '', _mb.group(1)))
+                            if 5 <= _bv <= 1_000_000:
+                                stats['buildSqm'] = _bv
+                        except ValueError:
+                            pass
+                if pid:
+                    stats_por_id[pid] = stats
+
             enc = 0
             for s in soup.find_all('script', type='application/ld+json'):
                 try:
@@ -590,11 +808,29 @@ def scrape_thinkspain(driver):
                         if not name:
                             continue
                         titulo, loc = parsear_titulo_ts(name)
-                        precio = extraer_precio_ts(name)
                         seen_ts.add(url_a)
-                        added = add_listing({'title': titulo, 'price': precio, 'location': loc,
-                                             'description': clean(prod.get('description', '')),
-                                             'url': url_a, 'source': 'ThinkSpain'})
+
+                        # Cruce con las stats reales de la tarjeta (ver arriba)
+                        product_id = str(prod.get('productID', '')).strip()
+                        stats = stats_por_id.get(product_id, {})
+
+                        precio_num = stats.get('price')
+                        if isinstance(precio_num, (int, float)) and precio_num > 0:
+                            precio = f'{precio_num:,.0f} €'.replace(',', '.')
+                        else:
+                            precio = extraer_precio_ts(name)  # fallback: el regex de siempre
+
+                        listing = {'title': titulo, 'price': precio, 'location': loc,
+                                   'description': clean(prod.get('description', '')),
+                                   'url': url_a, 'source': 'ThinkSpain'}
+                        if isinstance(stats.get('beds'), (int, float)) and stats['beds'] > 0:
+                            listing['rooms'] = int(stats['beds'])
+                        if isinstance(stats.get('baths'), (int, float)) and stats['baths'] > 0:
+                            listing['bathrooms'] = int(stats['baths'])
+                        if isinstance(stats.get('buildSqm'), (int, float)) and stats['buildSqm'] > 0:
+                            listing['m2'] = int(stats['buildSqm'])
+
+                        added = add_listing(listing)
                         if added: enc += 1
             total_ts += enc
             if enc > 0:
@@ -695,6 +931,53 @@ def limpiar_bajas(cache, urls_encontradas):
     return cache
 
 # ══════════════════════════════════════════════════════
+# Historico permanente de RETIRADOS (comparables)
+# ══════════════════════════════════════════════════════
+def cargar_retirados():
+    if os.path.exists(RETIRADOS_FILE):
+        try:
+            with open(RETIRADOS_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                return {x.get('url'): x for x in data if x.get('url')}
+            if isinstance(data, dict):
+                return data
+        except Exception as e:
+            print(f'  Aviso: no se pudo leer retirados_historico.json ({e}); empiezo vacio.')
+    return {}
+
+def guardar_retirados(hist):
+    with open(RETIRADOS_FILE, 'w', encoding='utf-8') as f:
+        json.dump(list(hist.values()), f, ensure_ascii=False, indent=1)
+
+def actualizar_historico_retirados(cache):
+    """Acumula en retirados_historico.json TODO anuncio marcado 'Retirado'.
+    NUNCA borra: sobrevive a resets de cache y cambios de scraper. Guarda la
+    fecha de retirada la primera vez y rellena datos utiles (m2/hab/precio) si
+    faltaban. Devuelve el dict {url: item} completo del historico."""
+    hist = cargar_retirados()
+    nuevos = 0
+    for url, item in cache.items():
+        if not url or item.get('estado') != 'Retirado':
+            continue
+        if url not in hist:
+            snap = dict(item)
+            snap['fecha_retirado'] = snap.get('fecha_retirado') or TODAY
+            hist[url] = snap
+            nuevos += 1
+        else:
+            prev = hist[url]
+            if not prev.get('fecha_retirado'):
+                prev['fecha_retirado'] = TODAY
+            for k in ('price', 'rooms', 'm2', 'beds', 'location', 'location_region',
+                      'tipo', 'title', 'source', 'description'):
+                if not prev.get(k) and item.get(k):
+                    prev[k] = item[k]
+    guardar_retirados(hist)
+    print(f'  Historico de retirados: +{nuevos} nuevos (total acumulado {len(hist)}).')
+    return hist
+
+# ══════════════════════════════════════════════════════
 # git push
 # ══════════════════════════════════════════════════════
 def subir_github(total):
@@ -712,7 +995,10 @@ def subir_github(total):
         # hoteles_cache.json ese día. Por eso comprobamos qué archivos
         # existen de verdad antes de añadirlos, uno a uno.
         archivos_candidatos = ['index.html', 'hoteles_cache.json',
-                                'index_template.html', 'licencias_completo.json']
+                                'index_template.html', 'licencias_completo.json',
+                                'retirados_historico.json',
+                                'scraper.py', 'scraper_licencias.py', 'cruzar_licencias.js',
+                                'comprobar_licencias.py', 'comprobar_licencias.bat']
         archivos_a_subir = [a for a in archivos_candidatos if os.path.exists(a)]
         faltantes = [a for a in archivos_candidatos if a not in archivos_a_subir]
         if faltantes:
@@ -827,7 +1113,7 @@ def _le_enrich_ficha(driver, href):
         # M² — superficie
         for pat in [
             r'Superficie[:\s]+([\d.,]+)\s*m',
-            r'([\d.,]+)\s*m[²2]\b',
+            r'([\d.,]+)\s*m[\u00b22]\b',
         ]:
             m = re.search(pat, full_text, re.I)
             if m:
@@ -888,40 +1174,77 @@ def scrape_luxuryestate(driver):
 
                 # Precio del listado
                 price_el = card.find('div', class_=re.compile(r'price'))
-                price = clean(price_el.get_text()).replace(' ', '') if price_el else 'Precio a consultar'
-                price = re.sub(r'€\s*([\d.,]+)', r'\1 €', price).strip()
+                price_raw = clean(price_el.get_text()) if price_el else ''
+                price = re.sub(r'€\s*([\d.,]+)', r'\1 €', price_raw.replace(' ', '')).strip()
+                # CONFIRMADO como fallo real: si el texto del precio no
+                # tenía el símbolo € (p.ej. "Price on request", o la
+                # tarjeta está vacía), el regex de arriba no encontraba
+                # nada que sustituir y nos quedábamos con basura sin
+                # espacios ("Priceonrequest") en vez de cae a "Precio a
+                # consultar". Ahora validamos el resultado FINAL: si no
+                # tiene pinta de verdad de "NÚMERO €", se descarta.
+                if not re.match(r'^[\d.,]+\s*€$', price):
+                    price = 'Precio a consultar'
 
-                # m² y habitaciones: el propio listado los muestra junto al
-                # precio (ej: "523 m² 5 5" = 523 m², 5 habitaciones, 5 baños).
-                # Los sacamos aquí porque este paso SÍ funciona — no depende
-                # de entrar en la ficha individual (que está bloqueada).
-                #
-                # IMPORTANTE: buscamos SOLO en el texto pegado al precio
-                # (contenedor padre de price_el), NO en toda la tarjeta —
-                # si buscáramos en toda la tarjeta, una mención de m² dentro
-                # de la descripción (ej. "finca de 20.000 m²...") podría
-                # colarse antes del dato real y dar un número equivocado.
+                # CONFIRMADO con HTML real (07/09/2026): el listado SÍ
+                # trae m²/baños/habitaciones limpios en un bloque
+                # <div class="specs">, cada uno junto a un icono SVG
+                # propio (#size, #bath, #bed). El código anterior los
+                # sacaba con un regex posicional que ASUMÍA el orden
+                # "m² - habitaciones - baños", pero el orden real en la
+                # web es "m² - BAÑOS - HABITACIONES" -- estaban
+                # intercambiados. Además, depender del orden es frágil
+                # (si a un anuncio le falta un dato, todo se desplaza).
+                # Ahora identificamos cada número por su ICONO asociado,
+                # no por su posición -- no puede confundirse aunque
+                # cambie el orden o falte algún dato.
                 m2_le = None
                 rooms_le = None
                 bathrooms_le = None
-                contenedor_stats = price_el.parent if price_el else card
-                texto_stats_le = contenedor_stats.get_text(' ', strip=True) if contenedor_stats else ''
-                m_stats = re.search(r'([\d][\d.,]*)\s*m[²2]\s*(\d+)(?:\s+(\d+))?', texto_stats_le)
-                # Salvaguarda extra: si el contenedor del precio no dio nada
-                # Y la tarjeta es pequeña (probablemente no tiene descripción
-                # larga metida ahí), probamos con la tarjeta entera como
-                # último recurso — mejor un dato con algo más de riesgo que
-                # ningún dato.
-                if not m_stats:
-                    texto_card_le = card.get_text(' ', strip=True)
-                    if len(texto_card_le) < 400:  # tarjeta corta = menos riesgo de "ruido"
-                        m_stats = re.search(r'([\d][\d.,]*)\s*m[²2]\s*(\d+)(?:\s+(\d+))?', texto_card_le)
-                if m_stats:
-                    try:
-                        m2_le = int(float(m_stats.group(1).replace('.', '').replace(',', '.')))
-                    except: pass
-                    if m_stats.group(2): rooms_le = int(m_stats.group(2))
-                    if m_stats.group(3): bathrooms_le = int(m_stats.group(3))
+                specs_div = card.find('div', class_=re.compile(r'\bspecs\b'))
+                if specs_div:
+                    for svg in specs_div.find_all('svg'):
+                        use_tag = svg.find('use')
+                        if not use_tag:
+                            continue
+                        # BUG REAL encontrado con un test de verdad: esta
+                        # variable se llamaba 'href' antes, igual que la
+                        # URL del anuncio ya calculada más arriba (línea
+                        # ~la del 'a = card.find(...)'). Al reutilizar el
+                        # mismo nombre dentro de este bucle, SOBRESCRIBÍA
+                        # la URL real del anuncio con el href del icono
+                        # SVG (p.ej. '...sprite.svg#bed') -- y como varios
+                        # anuncios distintos acababan con el mismo
+                        # fragmento repetido, el sistema los trataba como
+                        # duplicados entre sí y descartaba casi todos
+                        # (de 452 fichas solo pasaban 12). Ahora con un
+                        # nombre de variable distinto no puede volver a
+                        # pasar.
+                        href_icono = use_tag.get('xlink:href', '') or use_tag.get('href', '') or ''
+
+                        valor_texto = ''
+                        nodo = svg.next_sibling
+                        while nodo and not (hasattr(nodo, 'name') and nodo.name == 'svg'):
+                            if isinstance(nodo, str):
+                                valor_texto += nodo
+                            nodo = nodo.next_sibling
+                        valor_texto = valor_texto.strip()
+
+                        if '#size' in href_icono:
+                            m = re.search(r'([\d][\d.,]*)', valor_texto)
+                            if m:
+                                try:
+                                    m2_le = int(float(m.group(1).replace('.', '').replace(',', '.')))
+                                except ValueError:
+                                    pass
+                        elif '#bath' in href_icono:
+                            m = re.search(r'(\d+)', valor_texto)
+                            if m:
+                                bathrooms_le = int(m.group(1))
+                        elif '#bed' in href_icono:
+                            m = re.search(r'(\d+)', valor_texto)
+                            if m:
+                                rooms_le = int(m.group(1))
 
                 # Ubicación fallback desde URL
                 loc_fallback = ''
@@ -1678,8 +2001,28 @@ def scrape_yaencontre(driver):
 # 11. CASA SAPO — hoteles/negocios en venta (Portugal + España)
 #     Portal grande sin señales de bloqueo conocidas. requests directo.
 # ══════════════════════════════════════════════════════
+def _area_pt(texto):
+    """m2 construidos desde el texto de la tarjeta PT ('5 000m2', '1.250 m2', '250m2')."""
+    m = re.search(r'(?<![A-Za-z])(\d{1,3}(?:[.\s]\d{3})*|\d+)\s*m\s*(?:\u00b2|2)', texto or '')
+    if not m:
+        return None
+    n = re.sub(r'[^\d]', '', m.group(1))
+    if not n:
+        return None
+    v = int(n)
+    return v if 20 <= v <= 200000 else None
+
+def _quartos_pt(texto):
+    """habitaciones/camas si el anuncio las publica (en hoteles PT casi nunca)."""
+    m = re.search(r'(\d{1,4})\s*(?:quartos?|camas?|dormit\u00f3rios?|habitaci[o\u00f3]n(?:es)?)', texto or '', re.I)
+    if m:
+        v = int(m.group(1))
+        if 1 <= v <= 2000:
+            return v
+    return None
+
 def scrape_casasapo(driver):
-    print('\n→ Casa Sapo...')
+    print('\n→ Casa Sapo... [VERSION-CON-ARREGLO-XA0-v2]')
     import requests as req_mod
     HEADERS_CS = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
@@ -1742,10 +2085,30 @@ def scrape_casasapo(driver):
 
             nuevos_pagina = 0
             for card in cards:
-                a = card if card.name == 'a' else card.find('a', href=True)
+                # CONFIRMADO con datos reales: coger el PRIMER <a> de la
+                # tarjeta a veces trae un enlace de rastreo/contador
+                # ("gespub.casa.sapo.pt/.../counter.aspx") en vez de la
+                # ficha real -- pasaba en anuncios "destacados" con más
+                # de un enlace dentro de la misma tarjeta. Ahora
+                # preferimos un enlace que tenga pinta real de ficha
+                # (".html" en el propio dominio), y solo si no hay
+                # ninguno así, caemos al primero que encontremos.
+                enlaces_candidatos = card.find_all('a', href=True) if card.name != 'a' else [card]
+                a = None
+                for candidato in enlaces_candidatos:
+                    href_candidato = candidato.get('href', '')
+                    if '.html' in href_candidato and 'sapo.pt' in (href_candidato if href_candidato.startswith('http') else BASE):
+                        a = candidato
+                        break
+                if a is None and enlaces_candidatos:
+                    a = enlaces_candidatos[0]
                 if not a or not a.get('href'):
                     continue
                 href = a.get('href', '')
+                if 'counter.aspx' in href.lower() or 'gespub' in href.lower():
+                    _mm = re.search(r'[?&]l=(https?://[^&]+)', href)
+                    if _mm:
+                        href = _mm.group(1)
                 if not href.startswith('http'):
                     href = BASE + href
                 href = href.split('?')[0].rstrip('/')
@@ -1766,15 +2129,45 @@ def scrape_casasapo(driver):
                 pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
                 price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
 
+                # CONFIRMADO con títulos reales: siguen el patrón
+                # "Hotel [LUGAR], Distrito de [DISTRITO] [Usado/Novo/...]".
+                # Sacamos los dos -- "lugar" (la ciudad/pueblo concreto) y
+                # "distrito" (equivalente portugués a una provincia
+                # española) -- en vez de dejar "Portugal" a secas para
+                # los 101 anuncios. De paso, ponemos el distrito
+                # DIRECTAMENTE en location_region: el sistema genérico
+                # infer_region() busca nombres de provincias ESPAÑOLAS,
+                # así que con texto portugués adivinaba region absurdos
+                # (ej. "Cataluña" para un hotel en Cascais).
+                location = 'Portugal'
+                location_region = None
+                _m_loc = re.search(r'^Hotel\s+(?:T\d+\s+)?(.*?),?\s*Distrito de\s+([A-ZÀ-Ú][a-zà-ú]+)',
+                                    title, re.I)
+                if _m_loc:
+                    _lugar = _m_loc.group(1).split(',')[0].strip()
+                    _distrito = _m_loc.group(2).strip()
+                    if _lugar:
+                        location = _lugar
+                    if _distrito:
+                        location_region = _distrito
+
+                _m2_pt = _area_pt(texto_card)
+                _rooms_pt = _quartos_pt(texto_card)
                 item = {
                     'title': title,
                     'price': price,
-                    'location': 'Portugal',
+                    'location': location,
                     'description': texto_card[:800],
                     'url': href,
                     'source': 'Casa Sapo',
                     'date': TODAY,
                 }
+                if location_region:
+                    item['location_region'] = location_region
+                if _m2_pt:
+                    item['m2'] = _m2_pt
+                if _rooms_pt:
+                    item['rooms'] = _rooms_pt
                 added = add_listing(item)
                 if added:
                     total_cs += 1
@@ -1872,15 +2265,48 @@ def scrape_supercasa(driver):
                 pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
                 price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
 
+                # CONFIRMADO con datos reales: el patrón de Supercasa es
+                # DISTINTO al de Casa Sapo (a pesar de ser "hermanos") --
+                # aquí es "[Tipo] em [Barrio], [Ciudad]" en vez de
+                # "Hotel [Lugar], Distrito de [Distrito]". El intento
+                # anterior (copiar el regex de Casa Sapo) dio 0/38 con
+                # datos reales -- este es el patrón correcto, verificado
+                # contra los 8 ejemplos reales del primer test.
+                location = 'Portugal'
+                location_region = None
+                _m_loc = re.search(r'\bem\s+(.+)$', title)
+                if _m_loc:
+                    _partes = [p.strip() for p in _m_loc.group(1).split(',') if p.strip()]
+                    if _partes:
+                        location_region = _partes[-1]  # ciudad
+                        # BUG REAL encontrado con un test de verdad:
+                        # limpiar_location() (pensada para limpiar
+                        # basura de ThinkSpain) corta automáticamente
+                        # todo lo que va después de la primera coma --
+                        # así que un valor tipo "Calle, Barrio" se
+                        # quedaba solo en "Calle". Evitamos comas del
+                        # todo: si hay 3+ partes (calle + barrio +
+                        # ciudad), usamos el PENÚLTIMO segmento (el
+                        # barrio, más útil que el nombre de una calle).
+                        location = _partes[-2] if len(_partes) > 1 else _partes[-1]
+
+                _m2_pt = _area_pt(texto_card)
+                _rooms_pt = _quartos_pt(texto_card)
                 item = {
                     'title': title,
                     'price': price,
-                    'location': 'Portugal',
+                    'location': location,
                     'description': texto_card[:800],
                     'url': href,
                     'source': 'Supercasa',
                     'date': TODAY,
                 }
+                if location_region:
+                    item['location_region'] = location_region
+                if _m2_pt:
+                    item['m2'] = _m2_pt
+                if _rooms_pt:
+                    item['rooms'] = _rooms_pt
                 added = add_listing(item)
                 if added:
                     total_sc += 1
@@ -2419,12 +2845,20 @@ if __name__ == '__main__':
             cache_nuevo[url_key]['description'] = item.get('description', cache_nuevo[url_key].get('description',''))
             cache_nuevo[url_key]['tipo']        = item.get('tipo', cache_nuevo[url_key].get('tipo',''))
             cache_nuevo[url_key]['ausencias']   = 0
+            # Refrescar datos estructurados (m2/habitaciones/camas/banos) con lo
+            # scrapeado HOY. Antes no se copiaban aqui, asi que los anuncios ya
+            # cacheados nunca cogian m2/hab aunque mejorasemos el scraper -> por
+            # eso salian con m2 solo los NUEVOS. Ahora se actualizan siempre.
+            for _k in ('rooms', 'm2', 'beds', 'bathrooms'):
+                if item.get(_k):
+                    cache_nuevo[url_key][_k] = item[_k]
 
     # Backfill: anuncios guardados ANTES de tener el campo 'tipo' (o 'estado')
     # los clasificamos ahora, para que el Excel/JSON completo quede coherente,
     # no solo los que se scrapean a partir de hoy.
-    backfilled = 0; rooms_fill = 0; precio_fix = 0
-    _ROOMS_RE = re.compile(r'(\d{1,4})\s*(?:habitaciones|habitacion|habs?\b|dormitorios|rooms?|bedrooms?|llaves)', re.I)
+    backfilled = 0; rooms_fill = 0; precio_fix = 0; m2_fill = 0
+    _ROOMS_RE = re.compile(r'(\d{1,4})\s*(?:habitaciones|habitacion|habs?\b|dormitorios|rooms?|bedrooms?|llaves|quartos?)', re.I)
+    _M2_RE = re.compile(r'(?<![a-zA-Z])([\d][\d.,\xa0]*)\s*m\s*(?:\u00b2|2)(?![a-z0-9])', re.I)
     for item in cache_nuevo.values():
         if not item.get('tipo'):
             item['tipo'] = clasificar_tipo(item.get('title',''), item.get('description',''))
@@ -2439,16 +2873,38 @@ if __name__ == '__main__':
                 _rv = int(_m.group(1))
                 if 1 <= _rv <= 2000:
                     item['rooms'] = _rv; rooms_fill += 1
-        # Sanear precios basura en TODO el cache (no solo los nuevos)
+        # Backfill m² desde title+description (TODOS los anuncios del cache)
+        # -- no existía ningún respaldo para esto hasta ahora. Mismo orden
+        # que en add_listing(): descripción primero (sin procesar por
+        # clean(), conserva el \xa0 real), título como plan B.
+        if not item.get('m2'):
+            _mm = None
+            for _fuente in (item.get('description','') or '', item.get('title','') or ''):
+                _mm = _M2_RE.search(_fuente)
+                if _mm:
+                    break
+            if _mm:
+                try:
+                    _m2v = int(float(_mm.group(1).replace('\xa0', '').replace('.', '').replace(',', '.')))
+                    if 5 <= _m2v <= 1_000_000:
+                        item['m2'] = _m2v; m2_fill += 1
+                except ValueError:
+                    pass
+        # Sanear precios basura en TODO el cache (no solo los nuevos) --
+        # mismo arreglo que en add_listing(): vacío también cuenta.
         _pn = re.sub(r'[^\d]', '', item.get('price','') or '')
         if _pn:
             _pv = int(_pn)
             if _pv < 1000 or _pv > 100_000_000:
                 item['price'] = 'Precio a consultar'; precio_fix += 1
+        elif item.get('price') != 'Precio a consultar':
+            item['price'] = 'Precio a consultar'; precio_fix += 1
     if backfilled:
         print(f'  Clasificados retroactivamente (sin "tipo" previo): {backfilled} anuncios.')
     if rooms_fill:
         print(f'  Habitaciones rellenadas retroactivamente: {rooms_fill} anuncios.')
+    if m2_fill:
+        print(f'  m² rellenados retroactivamente: {m2_fill} anuncios.')
     if precio_fix:
         print(f'  Precios basura saneados: {precio_fix} anuncios.')
 
@@ -2457,15 +2913,34 @@ if __name__ == '__main__':
     save_cache(cache_nuevo)
     print(f'Cache guardado: {len(cache_nuevo)} totales ({nuevos} nuevos).')
 
+    # Historico permanente de retirados (comparables). Se acumula aparte y
+    # nunca se pierde, aunque la cache se resetee o cambiemos de scraper.
+    hist_retirados = actualizar_historico_retirados(cache_nuevo)
+
     todos = list(cache_nuevo.values())
     def fsort(x):
         try: return datetime.strptime(x.get('date','01/01/2000'), '%d/%m/%Y')
         except: return datetime.min
     todos.sort(key=fsort, reverse=True)
 
+    # OFERTAS TOTALES = solo ACTIVOS. Los retirados no van aqui: van a su
+    # hoja/archivo aparte (comparables). Excluimos del historico los que
+    # ahora mismo estan activos (por si un anuncio se reactivo).
+    todos_activos = [h for h in todos if h.get('estado') != 'Retirado']
+    activos_urls = {h.get('url') for h in todos_activos}
+    retirados_hist = [h for h in hist_retirados.values() if h.get('url') not in activos_urls]
+
     print(f'\n{"="*50}')
-    print(f'TOTAL ANUNCIOS: {len(todos)}')
+    print(f'TOTAL ANUNCIOS: {len(todos)}  (activos: {len(todos_activos)} | retirados histórico: {len(retirados_hist)})')
     print('='*50)
+
+    # Cruce automático con licencias turísticas oficiales -- se hace aquí,
+    # cada vez que se scrapea, en vez de dejarlo solo para cuando alguien
+    # pulsa "Descargar Excel" en la web. Modifica los mismos objetos de
+    # todos_activos (que son los de cache_nuevo), así que un save_cache()
+    # después de esto ya deja licencia_texto/licencia_motivo guardados.
+    cruzar_licencias_con_activos(todos_activos)
+    save_cache(cache_nuevo)
 
     with open('index_template.html','r',encoding='utf-8') as f:
         template = f.read()
@@ -2479,12 +2954,13 @@ if __name__ == '__main__':
     else:
         print('adr_benchmark.json no existe — tasación usará fallback INE')
 
-    html = template.replace('__LISTINGS_JSON__', json.dumps(todos, ensure_ascii=False))
+    html = template.replace('__LISTINGS_JSON__', json.dumps(todos_activos, ensure_ascii=False))
+    html = html.replace('__RETIRADOS_JSON__', json.dumps(retirados_hist, ensure_ascii=False))
     html = html.replace('__ADR_BENCHMARK_JSON__', adr_benchmark_json)
 
     with open('index.html','w',encoding='utf-8') as f:
         f.write(html)
-    print(f'index.html generado con {len(todos)} anuncios.')
+    print(f'index.html generado con {len(todos_activos)} activos + {len(retirados_hist)} retirados (comparables).')
 
     # Licencias: se actualiza aparte, solo si toca esta semana (ver
     # ejecutar_licencias_si_toca — no es cada día). Va aquí, después de

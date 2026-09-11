@@ -1447,6 +1447,83 @@ def descargar_baleares_mallorca():
 
 
 # ══════════════════════════════════════════════════════
+# BALEARES — Menorca (Registre d'Empreses, Activitats i Establiments
+# Turístics del Consell Insular de Menorca)
+# Fuente: MISMO catálogo de datos abiertos que Mallorca
+# (intranet.caib.es/opendatacataleg), dataset "Allotjaments turístics de
+# Menorca" -- confirmado con descarga real 2026-09-11. Cierra parte del
+# hueco de Baleares documentado antes (ver TODO en main()): Menorca YA
+# tiene fuente automatizable; Eivissa/Formentera, comprobado en la misma
+# fecha, NO -- no hay dataset equivalente en el catálogo balear (solo
+# estadísticas agregadas de turistas, no un registro por establecimiento),
+# y el portal propio del Consell d'Eivissa (registreturistic.conselldeivissa.es)
+# no responde de forma fiable (times out incluso al pedir robots.txt) y su
+# portal de datos abiertos (opendata.conselldeivissa.es) tiene el
+# certificado SSL caducado -- no es razonable automatizar contra eso.
+# ══════════════════════════════════════════════════════
+def descargar_baleares_menorca():
+    print('\n→ Baleares — Menorca (alojamientos turísticos)...')
+    url = ('https://intranet.caib.es/opendatacataleg/files/dataset/'
+           'allotjaments_turistics_menorca/allotjaments_turistics_menorca.csv')
+
+    texto = descargar_texto(url, timeout=60)
+    if not texto:
+        print('  Menorca: 0 registros (fallo de descarga)')
+        return []
+
+    try:
+        muestra = texto[:2000]
+        separador = ';' if muestra.count(';') > muestra.count(',') else ','
+        lector = csv.DictReader(io.StringIO(texto), delimiter=separador)
+
+        print(f'  [DIAGNÓSTICO] Separador: {separador!r}')
+        print(f'  [DIAGNÓSTICO] Columnas reales del CSV: {lector.fieldnames}')
+
+        registros = []
+        for fila in lector:
+            fila_norm = {clave_normalizada(k): v for k, v in fila.items()}
+
+            def val(*campos):
+                for c in campos:
+                    v = fila_norm.get(c)
+                    if v:
+                        return clean(v)
+                return ''
+
+            # Columnas REALES confirmadas (run 2026-09-11):
+            # 'tipus' (tipo), 'poblacio' (municipio), 'nom' (nombre),
+            # 'domicili' (dirección), 'registre' (nº de registro),
+            # 'nombrehabitacions' (habitaciones), 'nombreplaces' (plazas).
+            # Esta fuente NO publica categoría (estrellas) ni código
+            # postal -- se quedan vacíos siempre, igual que en Mallorca
+            # ocurre a veces con la categoría.
+            municipio = val('poblacio').upper()
+
+            registros.append({
+                'destino': calcular_destino(municipio),
+                'provincia': 'ILLES BALEARS',
+                'municipio': municipio,
+                'tipo': val('tipus'),
+                'categoria': '',
+                'registro': val('registre'),
+                'nombre': val('nom'),
+                'direccion': val('domicili'),
+                'cp': '',
+                'hab': fila_norm.get('nombrehabitacions') or '',
+                'plazas': fila_norm.get('nombreplaces') or '',
+            })
+
+        print(f'  Menorca: {len(registros)} registros procesados')
+        if registros:
+            print(f'  Ejemplo primera fila: {registros[0]}')
+        return registros
+
+    except Exception as e:
+        print(f'  Error procesando CSV de Menorca: {e}')
+        return []
+
+
+# ══════════════════════════════════════════════════════
 # MURCIA — turismoregiondemurcia.es
 # Fuente CONFIRMADA con diagnóstico real del formulario (no adivinada):
 # POST a /es/etudoc.parser/ con 3 campos:
@@ -2344,14 +2421,20 @@ def main():
     todos.extend(descargar_castillalamancha())
     todos.extend(descargar_navarra())
     todos.extend(descargar_baleares_mallorca())
+    todos.extend(descargar_baleares_menorca())
     todos.extend(descargar_murcia())
     todos.extend(descargar_cantabria())
     todos.extend(descargar_larioja())
     todos.extend(descargar_asturias())
 
-    # TODO: pendientes de fuente automatizable real:
-    #   - Baleares: falta Menorca (dataset propio, pendiente de probar),
-    #     y no localicé datos abiertos de Eivissa/Formentera.
+    # TODO: pendiente de fuente automatizable real:
+    #   - Baleares: Eivissa/Formentera. Comprobado el 2026-09-11 -- no hay
+    #     dataset de establecimientos en el catálogo balear (solo
+    #     estadísticas agregadas de turistas), el portal propio del Consell
+    #     d'Eivissa (registreturistic.conselldeivissa.es) no responde de
+    #     forma fiable, y su portal de datos abiertos tiene el certificado
+    #     SSL caducado. Si en el futuro publican un CSV/API de verdad,
+    #     añadir aquí siguiendo el mismo patrón que descargar_baleares_menorca().
 
     # Normalizamos 'hab' y 'plazas' a un tipo ÚNICO y consistente en TODO
     # el dataset. Con 17 fuentes distintas, cada una entrega estos campos

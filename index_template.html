@@ -1430,19 +1430,61 @@ async function descargarExcel() {
   const _ci = {}; columnasLicencias.forEach((c, i) => { _ci[c] = i; });
   const _esAloj = (t, c) => {
     const x = _normLic(t) + ' ' + _normLic(c);
-    if (x.includes('vivienda') || x.includes('vut')) return false;
-    return ['hotel','pension','hostal','turismo rural','turisme rural','albergue',
-            'apartamentos turisticos','apartahotel','apartamento turistico']
+    // Excluye VIVIENDAS DE USO TURÍSTICO (en catalán se registran como
+    // "Habitatges d'ús turístic" -- 104.457 registros; en ningún caso
+    // queremos colarlas aquí) y campings (no son "hoteles en venta").
+    if (['vivienda','vut','habitatge','camping','campament'].some(k => x.includes(k))) return false;
+    // Alojamiento real reconocido en CUALQUIERA de las nomenclaturas que usan
+    // las distintas CCAA para lo mismo -- antes solo se reconocía el
+    // castellano estándar y se perdían 2.608 licencias reales a nivel
+    // nacional (comprobado con los datos completos): "Agroturisme"/
+    // "Apartaments turístics"/"Turisme d'interior" en Baleares/Cataluña,
+    // "Casa Rural"/"Apartamento Rural" en Madrid/Asturias, "Posada de
+    // Cantabria", etc. -- se quedaban fuera solo por estar en otro idioma o
+    // con otra palabra, no porque no fueran alojamiento de verdad.
+    return ['hotel','pension','pensio','hostal','turismo rural','turisme rural',
+            'turisme dinterior','agroturis','albergue','alberg','apartamentos turisticos',
+            'apartament turistic','apartaments turistics','apart turistico','apartamento rural',
+            'apartahotel','apartamento turistico','casa rural','casa d hostes','hostatgeria',
+            'posada','fonda']
             .some(k => x.includes(k));
+  };
+  // Municipios con doble nombre oficial separado por "/" (113 casos, sobre
+  // todo Comunidad Valenciana, País Vasco y Navarra -- "ALACANT/ALICANTE",
+  // "XÀBIA/JÁVEA", "DONOSTIA / SAN SEBASTIÁN"...): se indexan por AMBOS
+  // nombres, para que el anuncio cruce con el registro use el nombre que use.
+  //
+  // Además, el registro oficial (estilo INE) escribe 239 municipios con el
+  // artículo al final -- separado por coma en 239 municipios ("VENDRELL,
+  // EL", "PUERTO DE SANTA MARIA, EL", "BISBAL D'EMPORDÀ, LA"...) o entre
+  // paréntesis en otros 50 ("PUEBLA DE ARGANZÓN (LA)", "ALMUNIA DE DOÑA
+  // GODINA (LA)", "ASTILLERO (EL)"...) -- mientras que en los anuncios (y en
+  // el habla normal) el artículo va delante: "El Vendrell", "La Puebla de
+  // Arganzón". Sin esto, esos ~289 municipios aparecían como "sin
+  // licencias" aunque sí las tuvieran, solo por el formato del nombre.
+  // Generamos también esa segunda forma.
+  const _muniClaves = m => {
+    const partes = (m || '').toString().split('/').map(p => p.trim()).filter(Boolean);
+    const claves = new Set();
+    for (const p of partes) {
+      const k1 = _normLic(p);
+      if (k1) claves.add(k1);
+      const conArticulo = p.match(/^(.+)[,(]\s*(el|la|los|las|els|les|l')\)?$/i);
+      if (conArticulo) {
+        const k2 = _normLic(conArticulo[2] + ' ' + conArticulo[1]);
+        if (k2) claves.add(k2);
+      }
+    }
+    return [...claves];
   };
   const _licPorMuni = new Map();
   if (filasLicencias.length && columnasLicencias.length && _ci.municipio != null) {
     for (const r of filasLicencias) {
       if (!_esAloj(r[_ci.tipo], r[_ci.categoria])) continue;
-      const m = _normLic(r[_ci.municipio]);
-      if (!m) continue;
-      if (!_licPorMuni.has(m)) _licPorMuni.set(m, []);
-      _licPorMuni.get(m).push(r);
+      for (const m of _muniClaves(r[_ci.municipio])) {
+        if (!_licPorMuni.has(m)) _licPorMuni.set(m, []);
+        _licPorMuni.get(m).push(r);
+      }
     }
   }
   // ── Provincia automática (municipio -> provincia, desde las licencias) ──
@@ -1450,12 +1492,65 @@ async function descargarExcel() {
   if (filasLicencias.length && _ci.municipio != null && _ci.provincia != null) {
     const _tmp = new Map(); // muni -> {prov: count}
     for (const r of filasLicencias) {
-      const m = _normLic(r[_ci.municipio]); const p = (r[_ci.provincia] || '').toString().trim();
-      if (!m || !p) continue;
-      if (!_tmp.has(m)) _tmp.set(m, {});
-      const o = _tmp.get(m); o[p] = (o[p] || 0) + 1;
+      const p = (r[_ci.provincia] || '').toString().trim();
+      if (!p) continue;
+      for (const m of _muniClaves(r[_ci.municipio])) {
+        if (!_tmp.has(m)) _tmp.set(m, {});
+        const o = _tmp.get(m); o[p] = (o[p] || 0) + 1;
+      }
     }
     for (const [m, o] of _tmp) { let bp = '', bc = 0; for (const p in o) if (o[p] > bc) { bc = o[p]; bp = p; } _muniProv.set(m, bp); }
+  }
+  // Alias puntuales verificados a mano contra licencias_completo.json --
+  // topónimos donde el anuncio usa un nombre (turístico, abreviado o en otro
+  // idioma) distinto del que aparece en el registro oficial, y que no
+  // encajan en las reglas generales de arriba (ni "/" ni coma+artículo).
+  // Cada clave de la derecha se ha comprobado que existe tal cual en el
+  // registro antes de añadirla aquí -- si un municipio no está confirmado,
+  // mejor dejarlo como "sin datos" que arriesgarse a inventar un alias.
+  const _ALIAS_MUNI = {
+    'palma de mallorca': 'palma',                 // registro: "PALMA"
+    'calpe': 'calp',                               // registro: "CALP" (sin "/CALPE")
+    'santa cruz de tenerife': 'santa cruz tenerife', // registro: "SANTA CRUZ TENERIFE" (sin "de")
+    'castellon': 'castello de la plana',           // registro: ".../CASTELLÓN DE LA PLANA"
+    "platja d'aro": 'castell d aro platja d aro i s agaro',
+    "s'agaro": 'castell d aro platja d aro i s agaro',
+    "castell d'aro": 'castell d aro platja d aro i s agaro',
+    "castell-platja d'aro": 'castell d aro platja d aro i s agaro', // anuncios: "Castell Platja D Aro"
+    'mahon': 'mao',                                // Menorca -- registro: "MAÓ"
+    'mahón': 'mao',
+    'ciutadella de menorca': 'ciutadella',         // registro: "CIUTADELLA"
+
+    // Zonas turísticas / urbanizaciones que los anuncios usan como ubicación
+    // en vez del municipio oficial al que pertenecen -- verificado uno por
+    // uno contra el registro real antes de añadirlo (mismo criterio que
+    // arriba: mejor dejarlo sin datos que arriesgarse a inventar un alias).
+    'magaluf': 'calvia',                           // Calvià (Mallorca)
+    'magalluf': 'calvia',
+    'peguera': 'calvia',
+    'costa de la calma': 'calvia',
+    'cala ratjada': 'capdepera',                   // Capdepera (Mallorca)
+    'coves noves': 'es mercadal',                  // Es Mercadal (Menorca)
+    'costa adeje': 'adeje',                        // Tenerife
+    'chayofa': 'arona',
+    'costa del silencio': 'arona',
+    'el medano': 'granadilla de abona',
+    'el médano': 'granadilla de abona',
+    'maspalomas': 'san bartolome de tirajana',     // Gran Canaria
+    'corralejo': 'la oliva',                       // Fuerteventura
+    'san pedro de alcantara': 'marbella',          // distrito de Marbella
+    'santiago de la ribera': 'san javier santiago de la ribera', // registro: "SAN JAVIER (SANTIAGO DE LA RIBERA)"
+    'donostia-san sebastian': 'san sebastian',     // registro: "DONOSTIA / SAN SEBASTIÁN"
+    'empuriabrava': 'castello d empuries',         // registro: "CASTELLÓ D'EMPÚRIES"
+    'alfaz del pi': 'l alfas del pi',              // registro: "L'ALFÀS DEL PI"
+    'jalon': 'xalo',                               // registro: "XALÓ"
+    'petrel': 'petrer',                            // registro: "PETRER"
+    'guadalest': 'el castell de guadalest',        // registro: "EL CASTELL DE GUADALEST"
+  };
+  for (const alias in _ALIAS_MUNI) {
+    const clave = _normLic(alias), real = _ALIAS_MUNI[alias];
+    if (_licPorMuni.has(real) && !_licPorMuni.has(clave)) _licPorMuni.set(clave, _licPorMuni.get(real));
+    if (_muniProv.has(real) && !_muniProv.has(clave)) _muniProv.set(clave, _muniProv.get(real));
   }
   // Nombre canónico de provincia (normalizado -> tal cual está en el registro,
   // p.ej. 'illes balears' -> 'ILLES BALEARS'), para que OFERTAS e INPUTS usen
@@ -1568,28 +1663,194 @@ async function descargarExcel() {
   const _provPreset = new Map();  // provincia (normalizada) -> prioridad (vacío)
   const prioridadProv = h => 99;  // sin orden por prioridad hasta que edites INPUTS
 
-  const _STOP = new Set(['hotel','hostal','pension','pensi','venta','apartamentos','apartamento','casa','rural','boutique']);
-  const _toks = s => new Set(_normLic(s).split(' ').filter(w => w.length >= 5 && !_STOP.has(w)));
+  const _STOP = new Set(['hotel','hostal','hostales','pension','pensiones','pensi','venta','apartamentos',
+    'apartamento','apartahotel','casa','casas','rural','boutique','turismo','turistico','turistica',
+    'alojamiento','establecimiento','centro','ciudad','the','and','fonda','posada','hosteria','masia',
+    'cortijo','hacienda','refugio','finca','complejo','alberg']);
+  const _toks = s => new Set(_normLic(s).split(' ').filter(w => w.length >= 4 && !_STOP.has(w)));
   const _habLic = r => { const v = String(r[_ci.hab]).trim(); return /^\d+$/.test(v) ? parseInt(v, 10) : null; };
+  const _plazasLic = r => { const v = String(r[_ci.plazas]).trim(); return /^\d+$/.test(v) ? parseInt(v, 10) : null; };
+  // Habitaciones "efectivas": si la licencia no publica nº de habitaciones
+  // (Madrid no lo publica; País Vasco solo da plazas), la derivamos de las
+  // plazas -- misma fórmula que ya usa enrich_registry.py: plazas / 1.9 --
+  // para poder seguir cruzando por nº de habitaciones en esas comunidades.
+  const _habEfectiva = r => { const hh = _habLic(r); if (hh !== null) return hh;
+    const p = _plazasLic(r); return p !== null ? Math.max(1, Math.round(p / 1.9)) : null; };
   const _fmtLic = r => `${r[_ci.nombre]||''} | ${r[_ci.registro]||'s/n'} | ${r[_ci.categoria]||r[_ci.tipo]||''}`.trim();
+
+  // ── Peso IDF de cada palabra del NOMBRE de licencia, calculado sobre las
+  //    372.676 licencias nacionales: una palabra que aparece en pocos
+  //    nombres de licencia (un apellido, "Ballesteros") pesa mucho; una que
+  //    aparece en miles ("Málaga", "Playa") pesa casi nada. Esto es DISTINTO
+  //    del primer intento fallido de cruzar por nombre a nivel nacional
+  //    (ese comparaba contra las 372.676 licencias de toda España, así que
+  //    una palabra de la descripción podía "acertar" con el hotel de otra
+  //    ciudad): aquí SOLO se compara contra los candidatos del MISMO
+  //    municipio (normalmente 1-20), así que el único riesgo que queda es
+  //    elegir mal entre varios hoteles del mismo pueblo -- por eso además se
+  //    excluye el nombre del propio municipio (sale en casi todos los
+  //    nombres y en casi todos los anuncios de ese pueblo, no distingue
+  //    nada) y solo cuentan palabras que también son RARAS en los propios
+  //    anuncios (ver _dfAds más abajo: si "city" o "investment" aparecen en
+  //    cientos de anuncios, no son una mención real del nombre del hotel).
+  const _dfLic = new Map();
+  if (filasLicencias.length && _ci.nombre != null) {
+    for (const r of filasLicencias) for (const w of _toks(r[_ci.nombre])) _dfLic.set(w, (_dfLic.get(w) || 0) + 1);
+  }
+  const _nLic = filasLicencias.length || 1;
+  const _idf = w => Math.log(_nLic / (1 + (_dfLic.get(w) || 0)));
+
+  const _dfAds = new Map();
+  for (const h0 of HOTELES_RAW_PARA_EXCEL) {
+    for (const w of _toks((h0.title || '') + ' ' + (h0.description || ''))) _dfAds.set(w, (_dfAds.get(w) || 0) + 1);
+  }
+  const _RARO_MAX = 8; // aparece en <=8 anuncios de esta tanda -> se considera "raro" (mención real, no vocabulario genérico)
+
+  // Incluye también el inglés ("4-star", "4 stars") -- muchos anuncios de
+  // portales internacionales (Lucas Fox, HotelSeVende, ThinkSpain...) solo
+  // dan la categoría en inglés, y antes se perdía esa señal por completo.
+  const _estrellasTexto = t => { const m = _normLic(t).match(/(\d)\s*(?:estrellas?|\*|stars?)/); return m ? parseInt(m[1], 10) : null; };
+  // Canarias (y algún otro registro) no usa dígitos, escribe la categoría
+  // con la palabra: "Una Estrella", "Cuatro Estrellas"... -- sin esto,
+  // _estrellasLic devolvía null para TODOS los hoteles canarios y la
+  // categoría nunca podía usarse como señal de desempate allí.
+  const _NUM_LIC = { una: 1, uno: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5 };
+  const _estrellasLic = r => {
+    const c = String(r[_ci.categoria] || '');
+    const m = c.match(/(\d)/);
+    if (m) return parseInt(m[1], 10);
+    const nc = _normLic(c);
+    for (const palabra in _NUM_LIC) {
+      if (new RegExp('(^| )' + palabra + '( |$)').test(nc)) return _NUM_LIC[palabra];
+    }
+    return null;
+  };
+
+  // ¿El nº de habitaciones del anuncio (R) es compatible con el de la
+  // licencia candidata? Si NINGUNO de los dos se conoce, no hay contradicción
+  // -- pasa. Si la licencia no publica nº de habitaciones/plazas, tampoco hay
+  // forma de contradecirla -- pasa. Si ambos se conocen, exigimos que estén
+  // dentro de un factor de 2x: family de un hotel de 56 habitaciones no es
+  // creíble como candidato de una licencia con capacidad para 11 (caso real
+  // visto en Villarrubia de Santiago) -- eso es señal de que es OTRO
+  // establecimiento del mismo pueblo, no del mismo.
+  const _habCoherente = (r, R) => {
+    if (!R) return true;
+    const hh = _habEfectiva(r);
+    if (hh === null) return true;
+    return hh >= R * 0.5 - 0.01 && hh <= R * 2 + 0.01;
+  };
+
+  // Mismo criterio que _habCoherente pero con las estrellas: si el anuncio
+  // dice explícitamente "hotel de 1 estrella" y la licencia candidata es de
+  // 3 estrellas, no es la misma licencia por mucho que una palabra suelta de
+  // la descripción (p.ej. el nombre de un balneario o paraje cercano)
+  // coincida con el nombre registrado -- es más probable que sea OTRO
+  // alojamiento del mismo pueblo. Si el anuncio no menciona estrellas, o la
+  // licencia no tiene categoría con nº de estrellas, no hay nada que
+  // contradecir y se deja pasar.
+  const _estrellasCoherentes = (r, estrH) => {
+    if (!estrH) return true;
+    const el = _estrellasLic(r);
+    if (el === null) return true;
+    return el === estrH;
+  };
+
   function cruzarLicencia(h) {
     const muni = _normLic((h.location || '').split(',')[0]);
     const cands = _licPorMuni.get(muni);
     if (!cands || !cands.length) return ['', ''];
+    const muniWords = new Set(muni.split(' '));
+    // Si el municipio tiene doble nombre oficial (p.ej. "ALCOI/ALCOY",
+    // "XÀBIA/JÁVEA"), el anuncio puede mencionar CUALQUIERA de los dos en el
+    // título aunque h.location solo traiga uno -- si no excluimos también el
+    // otro nombre, "Alcoi" se cuenta como coincidencia "distintiva" con la
+    // licencia "SERCOTEL CIUTAT D'ALCOI" (falso positivo real, detectado en
+    // verificación manual: dos anuncios distintos de Alcoy salían con la
+    // misma licencia solo por compartir esa palabra).
+    for (const w of _normLic(cands[0][_ci.municipio]).split(' ')) muniWords.add(w);
+
     const R = (typeof h.rooms === 'number' && h.rooms > 0) ? h.rooms : null;
+    const textoCompleto = (h.title || '') + ' ' + (h.description || '');
+    const htTodo = [..._toks(textoCompleto)].filter(w => !muniWords.has(w));
+    const ht = new Set(htTodo.filter(w => (_dfAds.get(w) || 0) <= _RARO_MAX));
+    const estrH = _estrellasTexto(textoCompleto);
+
+    // Puntuación por solape de palabras DISTINTIVAS entre el nombre de la
+    // licencia y el título+descripción completos del anuncio (antes solo se
+    // miraban los primeros 150 caracteres de la descripción).
+    const _nameScore = r => { const nt = [..._toks(r[_ci.nombre])].filter(w => !muniWords.has(w));
+      let s = 0, n = 0; for (const w of nt) if (ht.has(w)) { s += _idf(w); n++; } return [s, n]; };
+    const _mejorConMargen = (lista, minScore, minMargen) => {
+      const ordenada = [...lista].sort((a, b) => _nameScore(b)[0] - _nameScore(a)[0]);
+      const [s0, n0] = _nameScore(ordenada[0]);
+      const s1 = ordenada.length > 1 ? _nameScore(ordenada[1])[0] : 0;
+      return (n0 >= 1 && s0 >= minScore && s0 >= minMargen * Math.max(s1, 0.01)) ? ordenada[0] : null;
+    };
+
     if (R) {
-      const exact = cands.filter(r => _habLic(r) === R);
+      const exact = cands.filter(r => _habEfectiva(r) === R);
       if (exact.length === 1) return [_fmtLic(exact[0]), `nº hab coincide (${R}, único en ${h.location})`];
       if (exact.length > 1) {
-        const ht = _toks((h.title || '') + ' ' + (h.description || '').slice(0, 150));
-        let best = null, bs = 0;
-        for (const r of exact) { let sc = 0; for (const w of _toks(r[_ci.nombre])) if (ht.has(w)) sc++; if (sc > bs) { bs = sc; best = r; } }
-        if (best && bs >= 1) return [_fmtLic(best), `nº hab + nombre (${R})`];
+        const porNombre = _mejorConMargen(exact, 2.5, 1.5);
+        if (porNombre) return [_fmtLic(porNombre), `nº hab + nombre/descripción coincide (${R})`];
+        if (estrH) {
+          const porEstrellas = exact.filter(r => _estrellasLic(r) === estrH);
+          if (porEstrellas.length === 1) return [_fmtLic(porEstrellas[0]), `nº hab + categoría coincide (${R}, ${estrH}★)`];
+        }
       } else {
-        const aprox = cands.filter(r => { const hh = _habLic(r); return hh !== null && Math.abs(hh - R) <= 2; });
-        if (aprox.length === 1) return [_fmtLic(aprox[0]), `nº hab aprox. (${_habLic(aprox[0])} vs ${R})`];
+        const aprox = cands.filter(r => { const hh = _habEfectiva(r); return hh !== null && Math.abs(hh - R) <= 2; });
+        if (aprox.length === 1) return [_fmtLic(aprox[0]), `nº hab aprox. (${_habEfectiva(aprox[0])} vs ${R})`];
+        if (aprox.length > 1) {
+          const porNombre = _mejorConMargen(aprox, 2.5, 1.5);
+          if (porNombre) return [_fmtLic(porNombre), `nº hab aprox. + nombre/descripción coincide (${R})`];
+        }
       }
     }
+
+    // Sin nº de habitaciones que decida (o no bastó): probamos con la
+    // categoría/estrellas explícitas del anuncio, mismo principio que con
+    // las habitaciones -- si SOLO una licencia del pueblo tiene esa
+    // categoría, es un candidato razonable. Sujeto también a que no la
+    // contradiga un nº de habitaciones que sí conocemos.
+    if (estrH) {
+      const porEstrellas = cands.filter(r => _estrellasLic(r) === estrH);
+      if (porEstrellas.length === 1 && _habCoherente(porEstrellas[0], R)) {
+        return [_fmtLic(porEstrellas[0]), `categoría coincide (${estrH}★, único en ${h.location})`];
+      }
+    }
+
+    // Único alojamiento con licencia en todo el municipio: si solo hay UNA
+    // licencia de este tipo en el pueblo, es el candidato más razonable
+    // aunque no tengamos nº de habitaciones para confirmarlo -- PERO solo si
+    // no la contradice un nº de habitaciones que sí conocemos (ver
+    // _habCoherente) -- si no, es más probable que sea OTRO alojamiento del
+    // mismo pueblo que no está en el registro, y es mejor no arriesgar.
+    if (cands.length === 1) {
+      if (_habCoherente(cands[0], R) && _estrellasCoherentes(cands[0], estrH)) {
+        const notaHab = R && _habEfectiva(cands[0]) !== null
+          ? ` (nº hab compatible: ${_habEfectiva(cands[0])} vs ${R})` : '';
+        return [_fmtLic(cands[0]), `único alojamiento con licencia en ${h.location}${notaHab}`];
+      }
+      return ['', `1 licencia de alojamiento en ${h.location} pero su nº de habitaciones o categoría no coincide (revisar a mano)`];
+    }
+
+    // Nombre o referencia distintiva mencionada en el título/descripción,
+    // en municipios con pocos candidatos (probado hasta 20: por encima, el
+    // riesgo de coincidencias por azar en ciudades grandes empieza a subir
+    // y ya no compensa) -- p.ej. la descripción dice literalmente "Hotel
+    // Juan Francisco" o "Ref: BUENOS AIRES". También sujeto al mismo
+    // chequeo de coherencia de habitaciones y de estrellas (si el anuncio
+    // dice "1 estrella" y la licencia es de 3, no cuela por mucho que una
+    // palabra suelta -- p.ej. el nombre de un balneario o paraje cercano --
+    // coincida con el nombre registrado).
+    if (cands.length <= 20 && ht.size) {
+      const porNombre = _mejorConMargen(cands, 3.5, 2.0);
+      if (porNombre && _habCoherente(porNombre, R) && _estrellasCoherentes(porNombre, estrH)) {
+        return [_fmtLic(porNombre), `nombre/descripción coincide con la licencia`];
+      }
+    }
+
     return ['', `${cands.length} licencias de alojamiento en ${h.location || 'el municipio'} (ver hoja TODAS LAS LICENCIAS)`];
   }
 
