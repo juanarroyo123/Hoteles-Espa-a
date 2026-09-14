@@ -2826,7 +2826,16 @@ async function licCargarDatos() {
   // trabajo síncrono pesado caían en el mismo frame y la pantalla se
   // quedaba en blanco/congelada sin ninguna pista de que algo se estaba
   // cargando, en vez de mostrar el aviso.
-  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  // OJO: si la pestaña del navegador está en segundo plano (minimizada, en
+  // otra ventana, u otra pestaña activa), requestAnimationFrame NO SE
+  // DISPARA NUNCA -- comprobado en pruebas reales: sin la carrera contra un
+  // setTimeout de respaldo, esto dejaba la carga colgada para siempre
+  // (nunca pasaba de "Cargando licencias...") cada vez que la pestaña no
+  // estaba en primer plano en el momento de abrir Licencias.
+  await Promise.race([
+    new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+    new Promise(resolve => setTimeout(resolve, 100))
+  ]);
   try {
     // licencias_completo.json pesa ~56MB reales -- descargarlo y hacer
     // JSON.parse() bloquea la pestaña un rato (comprobado: ~0,6-0,9s solo el
