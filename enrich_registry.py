@@ -160,6 +160,14 @@ def _chrome_major():
         except: pass
     return None
 
+def _driver_vivo(driver):
+    """Comprueba si el proceso de Chrome/chromedriver sigue respondiendo."""
+    try:
+        _ = driver.title
+        return True
+    except Exception:
+        return False
+
 def init_driver(headless=True):
     with _driver_init_lock:
         opts = uc.ChromeOptions()
@@ -391,16 +399,33 @@ def _worker(chunk, cache, headless, wid, pausa, stats, stats_lock, t0):
                                           pausa['google_wait'])
             except Exception as e:
                 msg = str(e).lower()
-                if any(k in msg for k in ('invalid session','no such session',
-                                           'disconnected','not reachable')):
-                    print(f"[w{wid}] Sesión muerta — reiniciando...", flush=True)
+                # ANTES solo se detectaban 4 frases muy concretas de Selenium.
+                # En GitHub Actions el fallo real casi siempre era el chromedriver
+                # muriendo del todo (Chrome crasheado), que Selenium reporta como
+                # un error de conexión de urllib3/requests -- NINGUNA de esas 4
+                # frases aparece ahí, así que nunca se reiniciaba el navegador y
+                # TODOS los hoteles siguientes de ese worker fallaban igual (por
+                # eso salían 15-20 "Max retries exceeded" seguidos con null).
+                # Ahora, además de ampliar las frases conocidas, comprobamos si
+                # el driver sigue vivo de verdad antes de decidir si reiniciar.
+                palabras_muerte = (
+                    'invalid session', 'no such session', 'disconnected',
+                    'not reachable', 'max retries exceeded', 'connection refused',
+                    'newconnectionerror', 'remote end closed', 'connection aborted',
+                    'httpconnectionpool', 'failed to establish a new connection',
+                    'connection reset', 'chrome not reachable',
+                )
+                muerto = any(k in msg for k in palabras_muerte) or not _driver_vivo(driver)
+                if muerto:
+                    print(f"[w{wid}] Sesión muerta ({str(e)[:60]}) — reiniciando...", flush=True)
                     try: driver.quit()
                     except: pass
                     time.sleep(3)
                     try:
                         driver = init_driver(headless)
                         _gt_aceptar_consent(driver)
-                    except: pass
+                    except Exception as e2:
+                        print(f"[w{wid}] ERROR reiniciando Chrome: {e2}", flush=True)
                 bk = {'fuente': 'booking',      'error': str(e)[:80]}
                 gt = {'fuente': 'google_travel', 'error': str(e)[:80]}
 
