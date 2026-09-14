@@ -1,0 +1,137 @@
+name: Precios de licencias (Booking + Google Travel, en paralelo)
+
+# Disparo manual únicamente por ahora — no automático ni por horario, hasta
+# que hayamos comprobado un par de tandas reales y decidamos programarlo.
+on:
+  workflow_dispatch:
+    inputs:
+      limit_por_tanda:
+        description: 'Límite de hoteles por tanda (0 = sin límite, los ~3.690 de cada shard). Usa un número pequeño (p.ej. 20) para una prueba.'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+jobs:
+  # ── 6 tandas en paralelo, cada una en su propia máquina de GitHub ─────────
+  tanda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340   # 5h40min, igual que enrich.yml — margen seguro antes del límite de 6h de GitHub
+    strategy:
+      fail-fast: false     # si una tanda falla o se topa con captchas, las demás siguen
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Chrome estable
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y --no-install-recommends ca-certificates curl gnupg
+          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
+            | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] \
+            http://dl.google.com/linux/chrome/deb/ stable main" \
+            | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update -q
+          sudo apt-get install -y google-chrome-stable
+          google-chrome --version
+
+      - name: Instalar dependencias Python
+        run: |
+          pip install --upgrade pip
+          pip install undetected-chromedriver beautifulsoup4 lxml
+
+      - name: Ejecutar tanda ${{ matrix.shard }}
+        env:
+          GITHUB_ACTIONS: 'true'
+          PYTHONUNBUFFERED: '1'
+        run: |
+          LIMIT="${{ github.event.inputs.limit_por_tanda }}"
+          if [ -z "$LIMIT" ] || [ "$LIMIT" = "0" ]; then LIMIT=999999; fi
+          python enrich_registry.py \
+            --input licencias_objetivo_precios_shard${{ matrix.shard }}.json \
+            --limit "$LIMIT" \
+            --workers 3 \
+            --fast \
+            --headless
+
+      # ── Subimos el resultado de ESTA tanda como artefacto, NO hacemos commit
+      #    aquí -- así 6 tandas en paralelo nunca se pisan entre sí en git.
+      - name: Subir resultado de la tanda ${{ matrix.shard }}
+        if: always()   # subir lo que haya, aunque la tanda se quede a medias por timeout
+        uses: actions/upload-artifact@v4
+        with:
+          name: registro-tanda-${{ matrix.shard }}
+          path: registro_enriquecido.json
+          if-no-files-found: warn
+
+  # ── Fusión final: junta las 6 tandas + lo que ya hubiera en el repo, y
+  #    hace UN SOLO commit. Corre solo cuando las 6 tandas han terminado
+  #    (o han fallado/se han quedado a medias -- gracias a fail-fast:false
+  #    y always() arriba, aprovechamos lo que cada una consiguiera).
+  fusionar:
+    needs: tanda
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Descargar los resultados de las 6 tandas
+        uses: actions/download-artifact@v4
+        with:
+          pattern: registro-tanda-*
+          path: tandas_descargadas
+          merge-multiple: false
+
+      - name: Fusionar en registro_enriquecido.json (nunca borra lo que ya había)
+        run: |
+          python3 - <<'EOF'
+          import json, glob, os
+
+          CACHE_FILE = 'registro_enriquecido.json'
+
+          # Partimos de lo que YA estaba commiteado en el repo (si existe) --
+          # así nunca perdemos datos de tandas anteriores.
+          existente = {}
+          if os.path.exists(CACHE_FILE):
+              with open(CACHE_FILE, encoding='utf-8') as f:
+                  for r in json.load(f):
+                      existente[r['n_registro']] = r
+
+          antes = len(existente)
+          for carpeta in glob.glob('tandas_descargadas/registro-tanda-*'):
+              archivo = os.path.join(carpeta, 'registro_enriquecido.json')
+              if not os.path.exists(archivo):
+                  print(f'  (sin archivo en {carpeta}, la tanda no llegó a guardar nada)')
+                  continue
+              with open(archivo, encoding='utf-8') as f:
+                  datos = json.load(f)
+              print(f'  {carpeta}: {len(datos)} hoteles')
+              for r in datos:
+                  existente[r['n_registro']] = r
+
+          with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+              json.dump(list(existente.values()), f, ensure_ascii=False, indent=2)
+
+          print(f'\nTotal antes de esta fusión: {antes}')
+          print(f'Total después de esta fusión: {len(existente)}')
+          EOF
+
+      - name: Commit y push (un solo commit para las 6 tandas)
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add registro_enriquecido.json
+          git diff --staged --quiet || \
+            git commit -m "💶 Precios de licencias actualizados $(date +'%d/%m/%Y %H:%M UTC') — $(python3 -c 'import json; print(len(json.load(open("registro_enriquecido.json"))))') hoteles"
+          git push
