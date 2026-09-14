@@ -1074,6 +1074,7 @@ header{
           <button class="det-tab" id="licdet-tab-btn-precios" onclick="licDetSwitchTab('precios')">💶 Precios (Trivago)</button>
           <button class="det-tab" id="licdet-tab-btn-societario" onclick="licDetSwitchTab('societario')">🏢 Societario (BORME)</button>
           <button class="det-tab" id="licdet-tab-btn-contacto" onclick="licDetSwitchTab('contacto')">📞 Contacto</button>
+          <button class="det-tab" id="licdet-tab-btn-venta" onclick="licDetSwitchTab('venta')">🏷 En venta</button>
         </div>
 
         <div class="det-tab-content active" id="licdet-tab-content-catastro">
@@ -1087,6 +1088,9 @@ header{
         </div>
         <div class="det-tab-content" id="licdet-tab-content-contacto" style="display:none">
           <div class="det-card"><div class="det-card-header">Contacto</div><div class="det-card-body" id="licdet-contacto-body"></div></div>
+        </div>
+        <div class="det-tab-content" id="licdet-tab-content-venta" style="display:none">
+          <div class="det-card"><div class="det-card-header">Anuncio de venta cruzado</div><div class="det-card-body" id="licdet-venta-body"></div></div>
         </div>
 
         <div style="background:var(--surface);border-left:3px solid var(--border-dark);padding:0.9rem 1.2rem;font-size:0.72rem;color:var(--muted);line-height:1.6">
@@ -1458,6 +1462,14 @@ header{
           <input id="lic-f-plazas-max" type="number" min="0" oninput="licOnFilterChange()" placeholder="máx">
         </div>
       </div>
+      <div class="lic-ffield">
+        <label for="lic-f-venta">En venta</label>
+        <select id="lic-f-venta" onchange="licOnFilterChange()">
+          <option value="">Todos</option>
+          <option value="venta">En venta</option>
+          <option value="desconocido">Desconocido</option>
+        </select>
+      </div>
     </div>
     <div class="lic-filter-footer">
       <button class="filter-reset" onclick="licLimpiarFiltros()">Limpiar filtros</button>
@@ -1475,7 +1487,7 @@ header{
       <table class="zone-table lic-table">
         <thead><tr>
           <th></th><th>Nombre</th><th>Tipo</th><th>Categoría</th><th>Comunidad</th><th>Provincia</th>
-          <th>Municipio</th><th>Dirección</th><th>C.P.</th><th>Registro</th><th>Hab.</th><th>Plazas</th>
+          <th>Municipio</th><th>Dirección</th><th>C.P.</th><th>Registro</th><th>Hab.</th><th>Plazas</th><th>En venta</th>
         </tr></thead>
         <tbody id="lic-tbody"></tbody>
       </table>
@@ -1605,70 +1617,7 @@ const PRIORIDAD_DEFECTO = [
   ['Granada', 3], ['Salou', 3], ['Torremolinos', 3], ['Valencia', 3],
 ];
 
-async function descargarExcel() {
-  // Licencias completas (372.676 registros, ~54 MB) — se cargan SOLO al
-  // pulsar el botón, no al abrir la web (si se metieran en el HTML como
-  // los anuncios, la página cargaría 54 MB de golpe para todo el mundo,
-  // aunque no vaya a descargar nada). El archivo lo genera y sube el
-  // scraper de licencias 1 vez por semana (scraper_licencias.py).
-  //
-  // Formato "cabecera + filas" (no array de objetos): con 372.676
-  // registros, repetir el nombre de cada columna en cada uno habría
-  // costado ~30 MB extra solo en texto repetido — documentado también
-  // en scraper_licencias.py, función guardar_json().
-  const botonExcel = document.getElementById('excel-toggle');
-  const textoOriginalBoton = botonExcel ? botonExcel.textContent : null;
-  if (botonExcel) {
-    botonExcel.textContent = '⏳ Cargando licencias (puede tardar unos segundos)...';
-    botonExcel.disabled = true;
-  }
-
-  let columnasLicencias = [];
-  let filasLicencias = [];
-  try {
-    const respuestaLicencias = await fetch('licencias_completo.json');
-    if (respuestaLicencias.ok) {
-      const datosLicencias = await respuestaLicencias.json();
-      columnasLicencias = datosLicencias.columnas || [];
-      filasLicencias = datosLicencias.filas || [];
-    } else {
-      console.warn('licencias_completo.json no disponible (status ' +
-                    respuestaLicencias.status + ') — el Excel se genera sin esa hoja.');
-    }
-  } catch (e) {
-    console.warn('No se pudieron cargar las licencias:', e,
-                  '— el Excel se genera sin esa hoja.');
-  } finally {
-    if (botonExcel) {
-      botonExcel.textContent = textoOriginalBoton;
-      botonExcel.disabled = false;
-    }
-  }
-
-  // Mapa ciudad (en minúsculas, sin tildes) -> prioridad, para poder
-  // pre-ordenar la descarga. IMPORTANTE: usamos coincidencia EXACTA
-  // (tras normalizar mayúsculas/tildes), la misma que hace VLOOKUP en la
-  // fórmula de Excel — así el orden de las filas y lo que muestra la
-  // columna "Prioridad" siempre coinciden. Si usáramos coincidencia
-  // parcial aquí pero exacta en la fórmula, una fila podría aparecer
-  // arriba del todo (como si fuera prioridad 1) pero con la celda de
-  // Prioridad en blanco — contradictorio y confuso.
-  const normalizar = s => (s || '').toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-  const mapaPrioridad = new Map(
-    PRIORIDAD_DEFECTO.map(([ciudad, p]) => [normalizar(ciudad), p])
-  );
-  const prioridadDe = (municipio) => {
-    const n = normalizar(municipio);
-    return mapaPrioridad.has(n) ? mapaPrioridad.get(n) : 99; // sin prioridad = al final
-  };
-
-  // ── Cruce de licencias: candidato por nº de habitaciones ──────────
-  // Los anuncios no dan nombre ni dirección fiables, así que casamos por
-  // MUNICIPIO + nº de HABITACIONES contra las licencias de alojamiento
-  // (hotel/pensión/hostal/turismo rural/albergue/apartamentos turísticos,
-  // NUNCA viviendas de uso turístico). Cuando en un municipio hay una sola
-  // licencia con ese nº de habitaciones, es un candidato fiable.
+function construirCruceLicencias(columnasLicencias, filasLicencias) {
   const _normLic = s => (s || '').toString().toLowerCase()
     .normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -2004,7 +1953,7 @@ async function descargarExcel() {
   function cruzarLicencia(h) {
     const muni = _normLic((h.location || '').split(',')[0]);
     const cands = _licPorMuni.get(muni);
-    if (!cands || !cands.length) return ['', ''];
+    if (!cands || !cands.length) return ['', '', null];
     const muniWords = new Set(muni.split(' '));
     // Si el municipio tiene doble nombre oficial (p.ej. "ALCOI/ALCOY",
     // "XÀBIA/JÁVEA"), el anuncio puede mencionar CUALQUIERA de los dos en el
@@ -2035,20 +1984,20 @@ async function descargarExcel() {
 
     if (R) {
       const exact = cands.filter(r => _habEfectiva(r) === R);
-      if (exact.length === 1) return [_fmtLic(exact[0]), `nº hab coincide (${R}, único en ${h.location})`];
+      if (exact.length === 1) return [_fmtLic(exact[0]), `nº hab coincide (${R}, único en ${h.location})`, exact[0]];
       if (exact.length > 1) {
         const porNombre = _mejorConMargen(exact, 2.5, 1.5);
-        if (porNombre) return [_fmtLic(porNombre), `nº hab + nombre/descripción coincide (${R})`];
+        if (porNombre) return [_fmtLic(porNombre), `nº hab + nombre/descripción coincide (${R})`, porNombre];
         if (estrH) {
           const porEstrellas = exact.filter(r => _estrellasLic(r) === estrH);
-          if (porEstrellas.length === 1) return [_fmtLic(porEstrellas[0]), `nº hab + categoría coincide (${R}, ${estrH}★)`];
+          if (porEstrellas.length === 1) return [_fmtLic(porEstrellas[0]), `nº hab + categoría coincide (${R}, ${estrH}★)`, porEstrellas[0]];
         }
       } else {
         const aprox = cands.filter(r => { const hh = _habEfectiva(r); return hh !== null && Math.abs(hh - R) <= 2; });
-        if (aprox.length === 1) return [_fmtLic(aprox[0]), `nº hab aprox. (${_habEfectiva(aprox[0])} vs ${R})`];
+        if (aprox.length === 1) return [_fmtLic(aprox[0]), `nº hab aprox. (${_habEfectiva(aprox[0])} vs ${R})`, aprox[0]];
         if (aprox.length > 1) {
           const porNombre = _mejorConMargen(aprox, 2.5, 1.5);
-          if (porNombre) return [_fmtLic(porNombre), `nº hab aprox. + nombre/descripción coincide (${R})`];
+          if (porNombre) return [_fmtLic(porNombre), `nº hab aprox. + nombre/descripción coincide (${R})`, porNombre];
         }
       }
     }
@@ -2061,7 +2010,7 @@ async function descargarExcel() {
     if (estrH) {
       const porEstrellas = cands.filter(r => _estrellasLic(r) === estrH);
       if (porEstrellas.length === 1 && _habCoherente(porEstrellas[0], R)) {
-        return [_fmtLic(porEstrellas[0]), `categoría coincide (${estrH}★, único en ${h.location})`];
+        return [_fmtLic(porEstrellas[0]), `categoría coincide (${estrH}★, único en ${h.location})`, porEstrellas[0]];
       }
     }
 
@@ -2075,9 +2024,9 @@ async function descargarExcel() {
       if (_habCoherente(cands[0], R) && _estrellasCoherentes(cands[0], estrH)) {
         const notaHab = R && _habEfectiva(cands[0]) !== null
           ? ` (nº hab compatible: ${_habEfectiva(cands[0])} vs ${R})` : '';
-        return [_fmtLic(cands[0]), `único alojamiento con licencia en ${h.location}${notaHab}`];
+        return [_fmtLic(cands[0]), `único alojamiento con licencia en ${h.location}${notaHab}`, cands[0]];
       }
-      return ['', `1 licencia de alojamiento en ${h.location} pero su nº de habitaciones o categoría no coincide (revisar a mano)`];
+      return ['', `1 licencia de alojamiento en ${h.location} pero su nº de habitaciones o categoría no coincide (revisar a mano)`, null];
     }
 
     // Nombre o referencia distintiva mencionada en el título/descripción,
@@ -2092,12 +2041,80 @@ async function descargarExcel() {
     if (cands.length <= 20 && ht.size) {
       const porNombre = _mejorConMargen(cands, 3.5, 2.0);
       if (porNombre && _habCoherente(porNombre, R) && _estrellasCoherentes(porNombre, estrH)) {
-        return [_fmtLic(porNombre), `nombre/descripción coincide con la licencia`];
+        return [_fmtLic(porNombre), `nombre/descripción coincide con la licencia`, porNombre];
       }
     }
 
-    return ['', `${cands.length} licencias de alojamiento en ${h.location || 'el municipio'} (ver hoja TODAS LAS LICENCIAS)`];
+    return ['', `${cands.length} licencias de alojamiento en ${h.location || 'el municipio'} (ver hoja TODAS LAS LICENCIAS)`, null];
   }
+  return { cruzarLicencia, provResuelta, comunidadDe, prioridadProv };
+}
+
+async function descargarExcel() {
+  // Licencias completas (372.676 registros, ~54 MB) — se cargan SOLO al
+  // pulsar el botón, no al abrir la web (si se metieran en el HTML como
+  // los anuncios, la página cargaría 54 MB de golpe para todo el mundo,
+  // aunque no vaya a descargar nada). El archivo lo genera y sube el
+  // scraper de licencias 1 vez por semana (scraper_licencias.py).
+  //
+  // Formato "cabecera + filas" (no array de objetos): con 372.676
+  // registros, repetir el nombre de cada columna en cada uno habría
+  // costado ~30 MB extra solo en texto repetido — documentado también
+  // en scraper_licencias.py, función guardar_json().
+  const botonExcel = document.getElementById('excel-toggle');
+  const textoOriginalBoton = botonExcel ? botonExcel.textContent : null;
+  if (botonExcel) {
+    botonExcel.textContent = '⏳ Cargando licencias (puede tardar unos segundos)...';
+    botonExcel.disabled = true;
+  }
+
+  let columnasLicencias = [];
+  let filasLicencias = [];
+  try {
+    const respuestaLicencias = await fetch('licencias_completo.json');
+    if (respuestaLicencias.ok) {
+      const datosLicencias = await respuestaLicencias.json();
+      columnasLicencias = datosLicencias.columnas || [];
+      filasLicencias = datosLicencias.filas || [];
+    } else {
+      console.warn('licencias_completo.json no disponible (status ' +
+                    respuestaLicencias.status + ') — el Excel se genera sin esa hoja.');
+    }
+  } catch (e) {
+    console.warn('No se pudieron cargar las licencias:', e,
+                  '— el Excel se genera sin esa hoja.');
+  } finally {
+    if (botonExcel) {
+      botonExcel.textContent = textoOriginalBoton;
+      botonExcel.disabled = false;
+    }
+  }
+
+  // Mapa ciudad (en minúsculas, sin tildes) -> prioridad, para poder
+  // pre-ordenar la descarga. IMPORTANTE: usamos coincidencia EXACTA
+  // (tras normalizar mayúsculas/tildes), la misma que hace VLOOKUP en la
+  // fórmula de Excel — así el orden de las filas y lo que muestra la
+  // columna "Prioridad" siempre coinciden. Si usáramos coincidencia
+  // parcial aquí pero exacta en la fórmula, una fila podría aparecer
+  // arriba del todo (como si fuera prioridad 1) pero con la celda de
+  // Prioridad en blanco — contradictorio y confuso.
+  const normalizar = s => (s || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+  const mapaPrioridad = new Map(
+    PRIORIDAD_DEFECTO.map(([ciudad, p]) => [normalizar(ciudad), p])
+  );
+  const prioridadDe = (municipio) => {
+    const n = normalizar(municipio);
+    return mapaPrioridad.has(n) ? mapaPrioridad.get(n) : 99; // sin prioridad = al final
+  };
+
+  // ── Cruce de licencias: candidato por nº de habitaciones ──────────
+  // Los anuncios no dan nombre ni dirección fiables, así que casamos por
+  // MUNICIPIO + nº de HABITACIONES contra las licencias de alojamiento
+  // (hotel/pensión/hostal/turismo rural/albergue/apartamentos turísticos,
+  // NUNCA viviendas de uso turístico). Cuando en un municipio hay una sola
+  // licencia con ese nº de habitaciones, es un candidato fiable.
+  const { cruzarLicencia, provResuelta, comunidadDe, prioridadProv } = construirCruceLicencias(columnasLicencias, filasLicencias);
 
   const CABECERA = [
     'Prioridad', 'Interesante', 'País', 'Municipio / Zona',
@@ -2718,6 +2735,25 @@ window._licFiltradas = null;
 window._licPagina = 1;
 let _licDebounceTimer = null;
 
+function _licConstruirVentaMap(columnas, filas, ci) {
+  window._licVentaMap = new Map();
+  try {
+    const { cruzarLicencia } = construirCruceLicencias(columnas, filas);
+    const listado = (typeof HOTELES !== 'undefined') ? HOTELES : [];
+    for (const h of listado) {
+      const resultado = cruzarLicencia(h);
+      const filaLicencia = resultado[2];
+      if (filaLicencia) {
+        const key = licFavKey(filaLicencia, ci);
+        if (!window._licVentaMap.has(key)) window._licVentaMap.set(key, []);
+        window._licVentaMap.get(key).push(h);
+      }
+    }
+  } catch (e) {
+    console.warn('No se pudo cruzar licencias con anuncios en venta:', e);
+  }
+}
+
 async function licCargarDatos() {
   const statusEl = document.getElementById('lic-status');
   const statusTitle = document.getElementById('lic-status-title');
@@ -2734,6 +2770,7 @@ async function licCargarDatos() {
     data.columnas.forEach((c, i) => ci[c] = i);
     window._licCI = ci;
     window._licLoaded = true;
+    _licConstruirVentaMap(data.columnas, data.filas, ci);
     licPoblarFiltros();
     licAplicarFiltros();
     statusEl.style.display = 'none';
@@ -2748,6 +2785,7 @@ async function licCargarDatos() {
     data.columnas.forEach((c, i) => ci[c] = i);
     window._licCI = ci;
     window._licLoaded = true;
+    _licConstruirVentaMap(data.columnas, data.filas, ci);
     licPoblarFiltros();
     licAplicarFiltros();
     statusEl.style.display = 'none';
@@ -2826,7 +2864,7 @@ function licLimpiarFiltros() {
   document.getElementById('lic-f-comunidad').value = '';
   document.getElementById('lic-f-provincia').value = '';
   licOnComunidadChange();
-  ['lic-f-municipio', 'lic-f-cp', 'lic-f-tipo', 'lic-f-categoria', 'lic-f-nombre', 'lic-f-direccion', 'lic-f-registro', 'lic-f-hab-min', 'lic-f-hab-max', 'lic-f-plazas-min', 'lic-f-plazas-max']
+  ['lic-f-municipio', 'lic-f-cp', 'lic-f-tipo', 'lic-f-categoria', 'lic-f-nombre', 'lic-f-direccion', 'lic-f-registro', 'lic-f-hab-min', 'lic-f-hab-max', 'lic-f-plazas-min', 'lic-f-plazas-max', 'lic-f-venta']
     .forEach(id => document.getElementById(id).value = '');
   licAplicarFiltros();
 }
@@ -2849,6 +2887,7 @@ function licAplicarFiltros() {
   const habMax = parseFloat(document.getElementById('lic-f-hab-max').value);
   const plazasMin = parseFloat(document.getElementById('lic-f-plazas-min').value);
   const plazasMax = parseFloat(document.getElementById('lic-f-plazas-max').value);
+  const fVenta = document.getElementById('lic-f-venta').value;
   const habActivo = !isNaN(habMin) || !isNaN(habMax);
   const plazasActivo = !isNaN(plazasMin) || !isNaN(plazasMax);
 
@@ -2880,6 +2919,11 @@ function licAplicarFiltros() {
       if (!hay.includes(q)) return false;
     }
     if (licFavFilter && !isLicFav(licFavKey(f, ci))) return false;
+    if (fVenta) {
+      const enVenta = window._licVentaMap && window._licVentaMap.has(licFavKey(f, ci));
+      if (fVenta === 'venta' && !enVenta) return false;
+      if (fVenta === 'desconocido' && enVenta) return false;
+    }
     return true;
   });
 
@@ -3431,7 +3475,7 @@ function _licPillConfianza(c) {
 }
 
 function licDetSwitchTab(tab) {
-  ['catastro','precios','societario','contacto'].forEach(t => {
+  ['catastro','precios','societario','contacto','venta'].forEach(t => {
     document.getElementById('licdet-tab-btn-' + t).classList.toggle('active', t === tab);
     document.getElementById('licdet-tab-content-' + t).style.display = (t === tab) ? 'block' : 'none';
   });
@@ -3534,6 +3578,35 @@ function openLicDetail(idx) {
     conBody.innerHTML = `<div style="color:var(--muted);font-size:0.8rem">No probado en esta muestra.</div>`;
   }
 
+  // ── En venta (cruce con anuncios de "Hoteles en venta", mismo motor que el Excel) ──
+  const ventaBody = document.getElementById('licdet-venta-body');
+  const ventaBtn = document.getElementById('licdet-tab-btn-venta');
+  const claveVenta = licFavKey(f, ci);
+  const anunciosVenta = (window._licVentaMap && window._licVentaMap.get(claveVenta)) || [];
+  if (anunciosVenta.length) {
+    ventaBtn.textContent = `🏷 En venta (${anunciosVenta.length})`;
+    ventaBody.innerHTML = anunciosVenta.map((h, i) => {
+      const precio = (h.price && h.price !== 'Precio a consultar') ? esc(h.price) : 'A consultar';
+      const sep = i < anunciosVenta.length - 1 ? 'margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border)' : '';
+      return `
+        <div style="${sep}">
+          <div style="display:flex;align-items:baseline;gap:0.6rem;margin-bottom:0.6rem;flex-wrap:wrap">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700;color:var(--green)">${precio}</span>
+            <span style="font-size:0.75rem;color:var(--muted)">${esc(h.source) || 'portal sin identificar'}${h.date ? ' · visto ' + esc(h.date) : ''}</span>
+          </div>
+          <div class="licdet-row"><span class="licdet-lbl">Ubicación del anuncio</span><span>${esc(h.location) || '—'}</span></div>
+          <div class="licdet-row"><span class="licdet-lbl">Habitaciones (anuncio)</span><span>${h.rooms || '—'}</span></div>
+          <div class="licdet-row"><span class="licdet-lbl">Superficie (anuncio)</span><span>${h.m2 ? h.m2 + ' m²' : '—'}</span></div>
+          ${h.description ? `<div style="margin-top:0.7rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(h.description).slice(0, 320)}${h.description.length > 320 ? '…' : ''}</div>` : ''}
+          ${h.url ? `<div style="margin-top:0.8rem"><a href="${h.url}" target="_blank" style="font-size:0.78rem;color:var(--green);font-weight:600">Ver anuncio original →</a></div>` : ''}
+        </div>`;
+    }).join('') + `
+        <div style="margin-top:1rem;font-size:0.68rem;color:var(--muted)">Cruce automático por municipio + nº de habitaciones/nombre (mismo criterio que la columna "Licencia cruzada" del Excel). Puede haber falsos negativos si el anuncio no da datos suficientes.</div>`;
+  } else {
+    ventaBtn.textContent = '🏷 En venta';
+    ventaBody.innerHTML = `<div style="color:var(--muted);font-size:0.8rem">No hemos encontrado ningún anuncio de venta activo cruzado con esta licencia (mismo cruce automático que usa el Excel, por municipio + nº de habitaciones/nombre). Puede estar en venta igualmente sin que el anuncio dé datos suficientes para identificarla.</div>`;
+  }
+
   licDetSwitchTab('catastro');
 }
 
@@ -3594,7 +3667,7 @@ function licRenderPagina() {
   const tbody = document.getElementById('lic-tbody');
   const esc = s => (s === undefined || s === null ? '' : String(s)).replace(/</g, '&lt;');
   if (!pageRows.length) {
-    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;color:var(--muted);padding:2rem;white-space:normal">Sin resultados con estos filtros</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="13" style="text-align:center;color:var(--muted);padding:2rem;white-space:normal">Sin resultados con estos filtros</td></tr>`;
   } else {
     tbody.innerHTML = pageRows.map((f, localIdx) => {
       const com = _licComunidadDe(f[ci.provincia]);
@@ -3616,6 +3689,7 @@ function licRenderPagina() {
         <td>${esc(f[ci.registro]) || '—'}</td>
         <td>${esc(f[ci.hab]) || '—'}</td>
         <td>${esc(f[ci.plazas]) || '—'}</td>
+        <td>${(window._licVentaMap && window._licVentaMap.has(favKey)) ? '<span class="licdet-pill ok">En venta</span>' : '<span class="licdet-pill na">Desconocido</span>'}</td>
       </tr>`;
     }).join('');
   }
