@@ -1593,6 +1593,10 @@ const HOTELES = (function(raw) {
   });
 })(__LISTINGS_JSON__);
 
+// URLs actualmente activas (ya filtradas de spam/retirados arriba). Se usa
+// para depurar favoritos guardados de anuncios que ya no existen/activos.
+const HOTELES_URLS = new Set(HOTELES.map(h => h.url).filter(Boolean));
+
 // Anuncios ACTIVOS (el scraper ya excluye los "Retirado"): son los que van
 // a la hoja OFERTAS TOTALES del Excel.
 const HOTELES_RAW_PARA_EXCEL = __LISTINGS_JSON__;
@@ -2383,6 +2387,7 @@ function init() {
   updateStats();
   updatePortalChips();
   updateRegionChips();
+  limpiarFavsInactivos();
   updateFavBadge();
   render();
   renderHeatmap();
@@ -2597,7 +2602,7 @@ function render() {
     const srcKey    = (h.source||'otro').toLowerCase().replace(/[^a-z]/g,'');
     const badgeClass = BADGE[srcKey] || 'badge-otro';
     const fechaRel   = getFechaRelativa(h.date);
-    const isNew      = isRecente(h.date, 7);
+    const isNew      = esDeHoy(h.date);
     const delay      = Math.min(i, 20) * 0.03;
     const url        = (h.url||'').replace(/'/g,"\\'");
     // Limpiar título: quitar duplicados (ThinkSpain repite el título)
@@ -2672,6 +2677,18 @@ function getFechaRelativa(str) {
 function isRecente(str, days) {
   const d = parseDate(str);
   return d && (new Date()-d)/86400000 <= days;
+}
+
+// "Nuevo" = apareció HOY en el scraping (fecha de alta = hoy), no "dentro de
+// los últimos N días" (eso hacía que el badge pareciera aparecer "random" en
+// anuncios que solo se re-confirmaron como activos, no que fueran nuevos).
+function esDeHoy(str) {
+  if (!str) return false;
+  const hoy = new Date();
+  const dd = String(hoy.getDate()).padStart(2, '0');
+  const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+  const yyyy = hoy.getFullYear();
+  return str === `${dd}/${mm}/${yyyy}`;
 }
 
 function switchTab(tab) {
@@ -6254,6 +6271,15 @@ function saveFavs(arr) {
 }
 function isFav(url) {
   return getFavs().includes(url);
+}
+// Quita de favoritos guardados los anuncios que el scraper ya no reconoce
+// como activos (se borraron del portal o llevan 3+ scrapeos sin aparecer y
+// se marcaron "Retirado"). Se ejecuta al cargar la página para que un
+// favorito nunca quede "fantasma" en la lista/contador.
+function limpiarFavsInactivos() {
+  const favs = getFavs();
+  const activos = favs.filter(u => HOTELES_URLS.has(u));
+  if (activos.length !== favs.length) saveFavs(activos);
 }
 function toggleFav(url, btn) {
   let favs = getFavs();
