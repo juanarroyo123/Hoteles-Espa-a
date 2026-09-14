@@ -1,1 +1,566 @@
-[]
+[
+  {
+    "n_registro": null,
+    "nombre": "HOTEL RURAL CASA GRANDE",
+    "direccion": "",
+    "municipio": "",
+    "provincia": "",
+    "categoria": 3,
+    "habitaciones": 16,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.583,
+      "revpar_real": null,
+      "revpar_ine": 43,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 251120,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001717",
+    "nombre": "ALDA ORZAN",
+    "direccion": "CALLE SOL Nº 10",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 39,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 441285,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001977",
+    "nombre": "HOTEL ATTICA21 CORUÑA",
+    "direccion": "ENRIQUE MARIÑAS ROMERO Nº 16",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 4,
+    "habitaciones": 160,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.62,
+      "revpar_real": null,
+      "revpar_ine": 59,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 3445600,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000923",
+    "nombre": "HOTEL PLAZA",
+    "direccion": "AVENIDA FERNÁNDEZ LATORRE Nº 45",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 4,
+    "habitaciones": 88,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.62,
+      "revpar_real": null,
+      "revpar_ine": 59,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 1895080,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001562",
+    "nombre": "ALAMEDA",
+    "direccion": "ALAMEDA, 12",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 12,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 135780,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002218",
+    "nombre": "CASA CANOSA",
+    "direccion": "LUGAR DE SOMESO, 2 - SOMESO",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 8,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.508,
+      "revpar_real": null,
+      "revpar_ine": 21,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 61320,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000836",
+    "nombre": "LISTE CRISOL",
+    "direccion": "RONDA DE OUTEIRO Nº 126",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 8,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 90520,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002942",
+    "nombre": "MARINA 30",
+    "direccion": "AVENIDA MARINA Nº 30",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 3,
+    "habitaciones": 11,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.583,
+      "revpar_real": null,
+      "revpar_ine": 43,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 172645,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000799",
+    "nombre": "ROMA",
+    "direccion": "RÚA NOVA, 3",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 3,
+    "habitaciones": 20,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.583,
+      "revpar_real": null,
+      "revpar_ine": 43,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 313900,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002083",
+    "nombre": "A.B.C.",
+    "direccion": "AVENIDA LÓPEZ ASTRAY Nº 33",
+    "municipio": "A LARACHA",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 19,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.508,
+      "revpar_real": null,
+      "revpar_ine": 21,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 145635,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001921",
+    "nombre": "CRISTAL DOS",
+    "direccion": "AVENIDA SAN ROQUE DE AFUERA, S/N",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 27,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": null,
+      "reviews": null,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=CRISTAL+DOS+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 305505,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002236",
+    "nombre": "HOTEL RUSTICO CASA DAS VEIGAS",
+    "direccion": "SARANDOS Nº 1",
+    "municipio": "ABEGONDO",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 8,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 90520,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001830",
+    "nombre": "PAYRO",
+    "direccion": "CALLE ANXERIZ, 12 - MILLADOIRO",
+    "municipio": "AMES",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 17,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 192355,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001874",
+    "nombre": "BRISA",
+    "direccion": "AVENIDA MANUEL PLATAS VARELA Nº 60",
+    "municipio": "ARTEIXO",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 9,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=59789): Max retries exceeded with url: /session/52729b9d7448f33fec8bb010e5f4f8"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 101835,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000015",
+    "nombre": "BALNEARIO DE ARTEIXO",
+    "direccion": "PASEO DEL BALNEARIO, S/N",
+    "municipio": "ARTEIXO",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 27,
+    "booking": {
+      "fuente": "booking",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "error": "HTTPConnectionPool(host='localhost', port=46257): Max retries exceeded with url: /session/0b409bf2c07350a8d024b959a034e0"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 305505,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002109",
+    "nombre": "MOON",
+    "direccion": "CALLE RAMÓN Y CAJAL Nº 47",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 26,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.1,
+      "reviews": 599,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=MOON+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 294190,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001697",
+    "nombre": "HOSTAL LINAR",
+    "direccion": "CALLE ÁLVARO CEBREIRO Nº 7",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 18,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 3.9,
+      "reviews": 654,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=HOSTAL+LINAR+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 203670,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000078",
+    "nombre": "PAZO DE SAN ANTONIO",
+    "direccion": "PRAZA DE GALICIA, 2",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 9,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.3,
+      "reviews": 42,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=PAZO+DE+SAN+ANTONIO+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.508,
+      "revpar_real": null,
+      "revpar_ine": 21,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 68985,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001742",
+    "nombre": "CABÍO",
+    "direccion": ", S/N",
+    "municipio": "A POBRA DO CARAMIÑAL",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 11,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": null,
+      "reviews": null,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=CABÍO+A+POBRA+DO+CARAMIÑAL+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.508,
+      "revpar_real": null,
+      "revpar_ine": 21,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 84315,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002880",
+    "nombre": "MILLADOR",
+    "direccion": "CALLE AGRO DA VELLA Nº 1, PISO 1 LETRA C",
+    "municipio": "AMES",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 1,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.4,
+      "reviews": 442,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=MILLADOR+AMES+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": null,
+      "ocupacion": 0.546,
+      "revpar_real": null,
+      "revpar_ine": 31,
+      "ingreso_anual_real": null,
+      "ingreso_anual_ine": 11315,
+      "precision": "solo_ine"
+    },
+    "fecha_consulta": "2026-10-21"
+  }
+]
