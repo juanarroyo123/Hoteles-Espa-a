@@ -1625,17 +1625,25 @@ const PRIORIDAD_DEFECTO = [
   ['Granada', 3], ['Salou', 3], ['Torremolinos', 3], ['Valencia', 3],
 ];
 
-function construirCruceLicencias(columnasLicencias, filasLicencias) {
+async function construirCruceLicencias(columnasLicencias, filasLicencias) {
   const _normLic = s => (s || '').toString().toLowerCase()
     .normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
   const _ci = {}; columnasLicencias.forEach((c, i) => { _ci[c] = i; });
+  // Un único regex de alternancia por lista de palabras clave es mucho más
+  // rápido que recorrer el array con .some(includes) fila a fila, y
+  // normalizar tipo+categoría YA concatenados (una sola pasada NFD) en vez
+  // de normalizar cada campo por separado evita repetir ese paso dos veces
+  // por fila. Con 368.000 filas esto es una parte notable y medible del
+  // coste real de esta función (comprobado: ~0,5s de los ~1,7s del bucle).
+  const _RE_ESALOJ_EXCLUYE = /vivienda|vut|habitatge|camping|campament/;
+  const _RE_ESALOJ_INCLUYE = /hotel|pension|pensio|hostal|turismo rural|turisme rural|turisme dinterior|agroturis|albergue|alberg|apartamentos turisticos|apartament turistic|apartaments turistics|apart turistico|apartamento rural|apartahotel|apartamento turistico|casa rural|casa d hostes|hostatgeria|posada|fonda/;
   const _esAloj = (t, c) => {
-    const x = _normLic(t) + ' ' + _normLic(c);
+    const x = _normLic((t || '') + ' ' + (c || ''));
     // Excluye VIVIENDAS DE USO TURÍSTICO (en catalán se registran como
     // "Habitatges d'ús turístic" -- 104.457 registros; en ningún caso
     // queremos colarlas aquí) y campings (no son "hoteles en venta").
-    if (['vivienda','vut','habitatge','camping','campament'].some(k => x.includes(k))) return false;
+    if (_RE_ESALOJ_EXCLUYE.test(x)) return false;
     // Alojamiento real reconocido en CUALQUIERA de las nomenclaturas que usan
     // las distintas CCAA para lo mismo -- antes solo se reconocía el
     // castellano estándar y se perdían 2.608 licencias reales a nivel
@@ -1644,12 +1652,7 @@ function construirCruceLicencias(columnasLicencias, filasLicencias) {
     // "Casa Rural"/"Apartamento Rural" en Madrid/Asturias, "Posada de
     // Cantabria", etc. -- se quedaban fuera solo por estar en otro idioma o
     // con otra palabra, no porque no fueran alojamiento de verdad.
-    return ['hotel','pension','pensio','hostal','turismo rural','turisme rural',
-            'turisme dinterior','agroturis','albergue','alberg','apartamentos turisticos',
-            'apartament turistic','apartaments turistics','apart turistico','apartamento rural',
-            'apartahotel','apartamento turistico','casa rural','casa d hostes','hostatgeria',
-            'posada','fonda']
-            .some(k => x.includes(k));
+    return _RE_ESALOJ_INCLUYE.test(x);
   };
   // Municipios con doble nombre oficial separado por "/" (113 casos, sobre
   // todo Comunidad Valenciana, País Vasco y Navarra -- "ALACANT/ALICANTE",
@@ -1666,7 +1669,20 @@ function construirCruceLicencias(columnasLicencias, filasLicencias) {
   // licencias" aunque sí las tuvieran, solo por el formato del nombre.
   // Generamos también esa segunda forma.
   const _muniClaves = m => {
-    const partes = (m || '').toString().split('/').map(p => p.trim()).filter(Boolean);
+    const str = (m || '').toString();
+    // Camino rápido: la inmensa mayoría de los 368.000 municipios NO tienen
+    // doble nombre ("/") ni el patrón "NOMBRE, EL"/"NOMBRE (EL)" -- para esos
+    // el resultado es idéntico al camino completo de abajo pero sin crear un
+    // Set + array por cada una de las 368.000 filas (comprobado: sin "/" ni
+    // "," ni "(" el regex del artículo nunca podía matchear de todas formas,
+    // así que el camino completo siempre acababa devolviendo justo esto
+    // mismo). Evitar esa allocación de más es la otra parte notable del
+    // coste real de esta función (~0,5s de los ~1,7s del bucle).
+    if (str.indexOf('/') === -1 && str.indexOf(',') === -1 && str.indexOf('(') === -1) {
+      const k = _normLic(str);
+      return k ? [k] : [];
+    }
+    const partes = str.split('/').map(p => p.trim()).filter(Boolean);
     const claves = new Set();
     for (const p of partes) {
       const k1 = _normLic(p);
@@ -1679,29 +1695,52 @@ function construirCruceLicencias(columnasLicencias, filasLicencias) {
     }
     return [...claves];
   };
+  // _licPorMuni, _muniProv y _provCanon salían antes de TRES bucles
+  // separados, cada uno recorriendo las 368.000 licencias enteras y
+  // renormalizando texto (regex + NFD) una y otra vez -- con datos reales
+  // eso eran ~2s bloqueando la pestaña solo en esta función. Un único
+  // bucle que calcula los tres a la vez corta esa redundancia a un tercio.
   const _licPorMuni = new Map();
-  if (filasLicencias.length && columnasLicencias.length && _ci.municipio != null) {
-    for (const r of filasLicencias) {
-      if (!_esAloj(r[_ci.tipo], r[_ci.categoria])) continue;
-      for (const m of _muniClaves(r[_ci.municipio])) {
-        if (!_licPorMuni.has(m)) _licPorMuni.set(m, []);
-        _licPorMuni.get(m).push(r);
-      }
-    }
-  }
-  // ── Provincia automática (municipio -> provincia, desde las licencias) ──
   const _muniProv = new Map();
-  if (filasLicencias.length && _ci.municipio != null && _ci.provincia != null) {
-    const _tmp = new Map(); // muni -> {prov: count}
-    for (const r of filasLicencias) {
-      const p = (r[_ci.provincia] || '').toString().trim();
-      if (!p) continue;
-      for (const m of _muniClaves(r[_ci.municipio])) {
-        if (!_tmp.has(m)) _tmp.set(m, {});
-        const o = _tmp.get(m); o[p] = (o[p] || 0) + 1;
+  const _provCanon = new Map();
+  if (filasLicencias.length && columnasLicencias.length) {
+    const _tmpMuniProv = new Map(); // muni -> {prov: count}
+    // Recorrer las 368.000 filas de un tirón bloquea la pestaña entera ~1s
+    // aunque la propia fila sea rápida de procesar -- se nota como que la
+    // página "no responde" (ni scroll, ni otros tabs, nada). Troceando en
+    // bloques de 20.000 filas y cediendo el hilo (setTimeout 0) entre cada
+    // uno, el navegador puede pintar/atender otros eventos entre bloques:
+    // el resultado tarda parecido en total, pero la página nunca deja de
+    // responder mientras carga.
+    const _CHUNK = 20000;
+    for (let _i = 0; _i < filasLicencias.length; _i += _CHUNK) {
+      const _fin = Math.min(_i + _CHUNK, filasLicencias.length);
+      for (let _j = _i; _j < _fin; _j++) {
+        const r = filasLicencias[_j];
+        const p = (r[_ci.provincia] || '').toString().trim();
+        if (p) {
+          const k = _normLic(p);
+          if (!_provCanon.has(k)) _provCanon.set(k, p);
+        }
+        if (_ci.municipio != null) {
+          const claves = _muniClaves(r[_ci.municipio]);
+          if (_esAloj(r[_ci.tipo], r[_ci.categoria])) {
+            for (const m of claves) {
+              if (!_licPorMuni.has(m)) _licPorMuni.set(m, []);
+              _licPorMuni.get(m).push(r);
+            }
+          }
+          if (p && _ci.provincia != null) {
+            for (const m of claves) {
+              if (!_tmpMuniProv.has(m)) _tmpMuniProv.set(m, {});
+              const o = _tmpMuniProv.get(m); o[p] = (o[p] || 0) + 1;
+            }
+          }
+        }
       }
+      if (_fin < filasLicencias.length) await new Promise(resolve => setTimeout(resolve, 0));
     }
-    for (const [m, o] of _tmp) { let bp = '', bc = 0; for (const p in o) if (o[p] > bc) { bc = o[p]; bp = p; } _muniProv.set(m, bp); }
+    for (const [m, o] of _tmpMuniProv) { let bp = '', bc = 0; for (const p in o) if (o[p] > bc) { bc = o[p]; bp = p; } _muniProv.set(m, bp); }
   }
   // Alias puntuales verificados a mano contra licencias_completo.json --
   // topónimos donde el anuncio usa un nombre (turístico, abreviado o en otro
@@ -1756,14 +1795,8 @@ function construirCruceLicencias(columnasLicencias, filasLicencias) {
   }
   // Nombre canónico de provincia (normalizado -> tal cual está en el registro,
   // p.ej. 'illes balears' -> 'ILLES BALEARS'), para que OFERTAS e INPUTS usen
-  // exactamente la misma cadena y la VLOOKUP case.
-  const _provCanon = new Map();
-  if (filasLicencias.length && _ci.provincia != null) {
-    for (const r of filasLicencias) {
-      const p = (r[_ci.provincia] || '').toString().trim();
-      if (p) { const k = _normLic(p); if (!_provCanon.has(k)) _provCanon.set(k, p); }
-    }
-  }
+  // exactamente la misma cadena y la VLOOKUP case. (_provCanon ya se calculó
+  // arriba, en el mismo bucle que _licPorMuni/_muniProv.)
   const _canonProv = x => { const k = _normLic(x); return _provCanon.get(k) || (x ? x.toString().trim().toUpperCase() : ''); };
   // ── Localidades/islas frecuentes que NO son municipio del registro ──
   const _LOCPROV = {
@@ -1897,7 +1930,17 @@ function construirCruceLicencias(columnasLicencias, filasLicencias) {
   //    cientos de anuncios, no son una mención real del nombre del hotel).
   const _dfLic = new Map();
   if (filasLicencias.length && _ci.nombre != null) {
-    for (const r of filasLicencias) for (const w of _toks(r[_ci.nombre])) _dfLic.set(w, (_dfLic.get(w) || 0) + 1);
+    // Mismo troceado que el bucle de arriba y por el mismo motivo: recorrer
+    // las 368.000 licencias tokenizando cada nombre es la otra mitad del
+    // bloqueo real de esta función (~1s comprobado).
+    const _CHUNK = 20000;
+    for (let _i = 0; _i < filasLicencias.length; _i += _CHUNK) {
+      const _fin = Math.min(_i + _CHUNK, filasLicencias.length);
+      for (let _j = _i; _j < _fin; _j++) {
+        for (const w of _toks(filasLicencias[_j][_ci.nombre])) _dfLic.set(w, (_dfLic.get(w) || 0) + 1);
+      }
+      if (_fin < filasLicencias.length) await new Promise(resolve => setTimeout(resolve, 0));
+    }
   }
   const _nLic = filasLicencias.length || 1;
   const _idf = w => Math.log(_nLic / (1 + (_dfLic.get(w) || 0)));
@@ -2122,7 +2165,7 @@ async function descargarExcel() {
   // (hotel/pensión/hostal/turismo rural/albergue/apartamentos turísticos,
   // NUNCA viviendas de uso turístico). Cuando en un municipio hay una sola
   // licencia con ese nº de habitaciones, es un candidato fiable.
-  const { cruzarLicencia, provResuelta, comunidadDe, prioridadProv } = construirCruceLicencias(columnasLicencias, filasLicencias);
+  const { cruzarLicencia, provResuelta, comunidadDe, prioridadProv } = await construirCruceLicencias(columnasLicencias, filasLicencias);
 
   const CABECERA = [
     'Prioridad', 'Interesante', 'País', 'Municipio / Zona',
@@ -2756,10 +2799,10 @@ window._licFiltradas = null;
 window._licPagina = 1;
 let _licDebounceTimer = null;
 
-function _licConstruirVentaMap(columnas, filas, ci) {
+async function _licConstruirVentaMap(columnas, filas, ci) {
   window._licVentaMap = new Map();
   try {
-    const { cruzarLicencia } = construirCruceLicencias(columnas, filas);
+    const { cruzarLicencia } = await construirCruceLicencias(columnas, filas);
     const listado = (typeof HOTELES !== 'undefined') ? HOTELES : [];
     for (const h of listado) {
       const resultado = cruzarLicencia(h);
@@ -2782,7 +2825,22 @@ async function licCargarDatos() {
   statusEl.style.display = 'block';
   document.getElementById('lic-table-wrap').style.display = 'none';
   document.getElementById('lic-pagination').style.display = 'none';
+  // Aseguramos que el navegador PINTE el "Cargando licencias..." antes de
+  // arrancar el trabajo pesado -- sin esto, el cambio de display y el
+  // trabajo síncrono pesado caían en el mismo frame y la pantalla se
+  // quedaba en blanco/congelada sin ninguna pista de que algo se estaba
+  // cargando, en vez de mostrar el aviso.
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   try {
+    // licencias_completo.json pesa ~56MB reales -- descargarlo y hacer
+    // JSON.parse() bloquea la pestaña un rato (comprobado: ~0,6-0,9s solo el
+    // parse). Se probó moverlo a un Web Worker para no bloquear nada, pero
+    // en pruebas reales resultó CONTRAPRODUCENTE: devolver el objeto ya
+    // parseado (56MB) del worker al hilo principal usa "structured clone",
+    // que con un objeto tan grande tarda más que el propio JSON.parse --
+    // el tiempo total con Worker era MAYOR que sin él. Por eso se quedó en
+    // fetch normal: el bloqueo real y medido está en construirCruceLicencias
+    // (el cruce con las 368.000 licencias, justo debajo), no aquí.
     const r = await fetch('licencias_completo.json');
     if (!r.ok) throw new Error('status ' + r.status);
     const data = await r.json();
@@ -2791,7 +2849,14 @@ async function licCargarDatos() {
     data.columnas.forEach((c, i) => ci[c] = i);
     window._licCI = ci;
     window._licLoaded = true;
-    _licConstruirVentaMap(data.columnas, data.filas, ci);
+    // Un respiro entre el parseo (bloqueo grande e inevitable, no se puede
+    // trocear un JSON.parse) y el cruce de licencias (ya troceado arriba):
+    // sin esto, aunque el cruce ceda el hilo internamente, el primer trozo
+    // se pegaba justo detrás del parseo y se notaba como un único bloqueo
+    // más largo en vez de dos más cortos con el spinner respirando en medio.
+    await new Promise(resolve => setTimeout(resolve, 0));
+    await _licConstruirVentaMap(data.columnas, data.filas, ci);
+    await new Promise(resolve => setTimeout(resolve, 0));
     licPoblarFiltros();
     licAplicarFiltros();
     statusEl.style.display = 'none';
@@ -2806,7 +2871,7 @@ async function licCargarDatos() {
     data.columnas.forEach((c, i) => ci[c] = i);
     window._licCI = ci;
     window._licLoaded = true;
-    _licConstruirVentaMap(data.columnas, data.filas, ci);
+    await _licConstruirVentaMap(data.columnas, data.filas, ci);
     licPoblarFiltros();
     licAplicarFiltros();
     statusEl.style.display = 'none';
@@ -2825,10 +2890,18 @@ function licPoblarFiltros() {
   const provincias = [...new Set(filas.map(f => f[ci.provincia]).filter(Boolean))].sort();
   const comunidades = [...new Set(provincias.map(_licComunidadDe).filter(Boolean))].sort();
 
+  // Montamos las opciones en un DocumentFragment fuera del DOM y las
+  // insertamos de una vez -- con 5.104 municipios, hacer appendChild() uno
+  // a uno directamente sobre el <select> obliga al navegador a recalcular
+  // el desplegable en cada inserción; con el fragment solo lo hace una vez.
   const selProv = document.getElementById('lic-f-provincia');
-  provincias.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; selProv.appendChild(o); });
+  const fragProv = document.createDocumentFragment();
+  provincias.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; fragProv.appendChild(o); });
+  selProv.appendChild(fragProv);
   const selCom = document.getElementById('lic-f-comunidad');
-  comunidades.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; selCom.appendChild(o); });
+  const fragCom = document.createDocumentFragment();
+  comunidades.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; fragCom.appendChild(o); });
+  selCom.appendChild(fragCom);
   licRepoblarMunicipios();
 
   document.getElementById('lic-k-total').textContent = filas.length.toLocaleString('es-ES');
@@ -2853,7 +2926,9 @@ function licRepoblarMunicipios() {
   const muniActual = selMuni.value;
   const visibles = _licMunicipiosVisibles();
   selMuni.innerHTML = '<option value="">Todos</option>';
-  visibles.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; selMuni.appendChild(o); });
+  const fragMuni = document.createDocumentFragment();
+  visibles.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; fragMuni.appendChild(o); });
+  selMuni.appendChild(fragMuni);
   if (visibles.includes(muniActual)) selMuni.value = muniActual;
 }
 
