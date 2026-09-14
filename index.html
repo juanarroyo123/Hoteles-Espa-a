@@ -566,6 +566,9 @@ header{
 .lic-table th:nth-child(10),.lic-table td:nth-child(10),
 .lic-table th:nth-child(11),.lic-table td:nth-child(11){text-align:right !important;font-variant-numeric:tabular-nums}
 .lic-table td{font-size:0.78rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.lic-th-sort{cursor:pointer;user-select:none}
+.lic-th-sort:hover{color:var(--green)}
+.lic-sort-arrow{font-size:0.7em;opacity:0.85}
 .lic-filters-grid{
   display:flex;flex-wrap:wrap;
   gap:1rem 1.2rem;padding:1.1rem 2.5rem;
@@ -1486,7 +1489,7 @@ header{
     <div id="lic-table-wrap" style="overflow-x:auto;display:none">
       <table class="zone-table lic-table">
         <thead><tr>
-          <th></th><th>Nombre</th><th>Tipo</th><th>Categoría</th><th>Comunidad</th><th>Provincia</th>
+          <th></th><th class="lic-th-sort" onclick="licOrdenarPor('nombre')" title="Ordenar por nombre">Nombre <span id="lic-sort-nombre" class="lic-sort-arrow"></span></th><th>Tipo</th><th>Categoría</th><th>Comunidad</th><th>Provincia</th>
           <th>Municipio</th><th>Dirección</th><th>C.P.</th><th>Registro</th><th>Hab.</th><th>Plazas</th><th>En venta</th>
         </tr></thead>
         <tbody id="lic-tbody"></tbody>
@@ -2944,11 +2947,51 @@ function licAplicarFiltros() {
     return true;
   });
 
-  window._licFiltradas = out;
+  window._licFiltradas = _licAplicarOrden(out);
   window._licPagina = 1;
   document.getElementById('lic-k-resultados').textContent = out.length.toLocaleString('es-ES');
   document.getElementById('lic-result-count').textContent = out.length.toLocaleString('es-ES') + ' resultados';
   licRenderPagina();
+  _licActualizarIndicadorOrden();
+}
+
+// ── Orden por columna (de momento solo "Nombre", A→Z / Z→A) ──────────────
+window._licOrden = { campo: null, dir: 1 };
+
+function _licAplicarOrden(arr) {
+  const { campo, dir } = window._licOrden;
+  if (!campo) return arr;
+  const idx = window._licCI[campo];
+  return arr.slice().sort((a, b) => {
+    const va = String(a[idx] ?? '').trim();
+    const vb = String(b[idx] ?? '').trim();
+    return dir * va.localeCompare(vb, 'es', { sensitivity: 'base', numeric: true });
+  });
+}
+
+function licOrdenarPor(campo) {
+  if (!window._licLoaded || !window._licFiltradas) return;
+  if (window._licOrden.campo === campo) {
+    window._licOrden.dir *= -1;
+  } else {
+    window._licOrden.campo = campo;
+    window._licOrden.dir = 1;
+  }
+  window._licFiltradas = _licAplicarOrden(window._licFiltradas);
+  window._licPagina = 1;
+  licRenderPagina();
+  _licActualizarIndicadorOrden();
+}
+
+function _licActualizarIndicadorOrden() {
+  const map = { nombre: 'lic-sort-nombre' };
+  Object.entries(map).forEach(([campo, id]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = window._licOrden.campo === campo
+      ? (window._licOrden.dir === 1 ? '▲' : '▼')
+      : '';
+  });
 }
 
 function licCambiarPagina(delta) {
