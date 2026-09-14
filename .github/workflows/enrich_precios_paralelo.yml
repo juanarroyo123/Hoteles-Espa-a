@@ -31,15 +31,15 @@ jobs:
 
       - name: Instalar Chrome estable
         run: |
+          # Descargamos el .deb directamente en vez de gestionar la llave GPG
+          # del repositorio (el método con "curl | gpg --dearmor" se rompió
+          # tras la actualización de imagen de GitHub Actions del 19/09 --
+          # gpg intenta abrir /dev/tty y no existe en el runner). Instalar
+          # el .deb suelto con apt evita ese problema por completo.
+          curl -fsSL -o /tmp/google-chrome-stable.deb \
+            https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends ca-certificates curl gnupg
-          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
-            | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] \
-            http://dl.google.com/linux/chrome/deb/ stable main" \
-            | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update -q
-          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y /tmp/google-chrome-stable.deb
           google-chrome --version
 
       - name: Instalar dependencias Python
