@@ -20,6 +20,7 @@
   --green-light:#2a7a5e;
   --green-glow:rgba(26,92,69,0.08);
   --gold:#c9a84c;
+  --allout-green:#00785a;
   --text:#1a1814;
   --text-mid:#4a4640;
   --muted:#8a857a;
@@ -151,22 +152,22 @@ header{
 .tab-btn.active{color:#fff;font-weight:700}
 .map-btn{
   margin-left:auto;padding:0.38rem 1rem;
-  background:transparent;border:1px solid var(--green);
-  color:var(--green);
+  background:var(--allout-green);border:1px solid var(--allout-green);
+  color:#fff;
   font-family:'Montserrat',sans-serif;
   font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;
   cursor:pointer;transition:all 0.15s;
 }
-.map-btn:hover,.map-btn.on{background:var(--green);border-color:var(--green);color:#fff}
+.map-btn:hover,.map-btn.on{filter:brightness(0.9)}
 .fav-btn{
   padding:0.38rem 1rem;
-  background:transparent;border:1px solid var(--gold);
-  color:var(--gold);
+  background:var(--gold);border:1px solid var(--gold);
+  color:#fff;
   font-family:'Montserrat',sans-serif;
   font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;
   cursor:pointer;transition:all 0.15s;white-space:nowrap;
 }
-.fav-btn:hover,.fav-btn.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.fav-btn:hover,.fav-btn.on{filter:brightness(0.9)}
 .card-fav{
   position:absolute;top:0.6rem;right:0.6rem;
   background:rgba(255,255,255,0.92);border:none;
@@ -230,6 +231,7 @@ header{
 }
 .filter-dropdown.open{display:block}
 @keyframes dropIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.filter-panel-static{border-top:1px solid var(--border)}
 .filter-dropdown-section{padding:1rem 1.4rem;border-bottom:1px solid var(--border)}
 .filter-dropdown-section:last-child{border-bottom:none}
 .filter-dropdown-label{
@@ -265,8 +267,24 @@ header{
 #map{width:100%;height:460px}
 .map-info{padding:0.7rem 2rem;font-size:0.72rem;color:var(--muted);background:var(--surface);border-top:1px solid var(--border)}
 
-/* ══ GRID ════════════════════════════════════════════════ */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--border);padding:1px}
+/* ══ GRID (tabla de hoteles) ═══════════════════════════════ */
+.hotel-table th,.hotel-table td{text-align:left !important;white-space:nowrap}
+.hotel-table th:first-child,.hotel-table td:first-child{width:2rem}
+.hotel-table th:last-child,.hotel-table td:last-child{text-align:right !important;max-width:none;overflow:visible;white-space:nowrap}
+.hotel-table th:nth-child(6),.hotel-table td:nth-child(6),
+.hotel-table th:nth-child(7),.hotel-table td:nth-child(7),
+.hotel-table th:nth-child(8),.hotel-table td:nth-child(8),
+.hotel-table th:nth-child(11),.hotel-table td:nth-child(11){text-align:right !important;font-variant-numeric:tabular-nums}
+.hotel-table td{font-size:0.82rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.hotel-table tr{animation:cardIn 0.3s ease both}
+.hotel-row-fav{width:1.6rem;height:1.6rem;border-radius:50%;border:none;background:transparent;color:var(--border-dark);cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:color 0.15s}
+.hotel-row-fav.saved,.hotel-row-fav:hover{color:var(--gold)}
+.hotel-row-title{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hotel-row-new{margin-left:0.5rem;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap}
+.hotel-row-price{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--green)}
+.hotel-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:0.8rem}
+.hotel-table .card-link{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em}
+.hotel-table .btn-tasacion{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em;padding:0.3rem 0.65rem}
 
 /* ══ CARD ════════════════════════════════════════════════ */
 /* ══ CARD WOFY-STYLE ═══════════════════════════════════ */
@@ -544,6 +562,33 @@ header{
 .zone-table td{padding:0.75rem 1rem;font-size:0.82rem;color:var(--text);border-bottom:1px solid var(--border)}
 .zone-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
 .zone-table tr:hover td{background:var(--surface)}
+.lic-table th,.lic-table td{text-align:left !important;white-space:nowrap}
+.lic-table th:nth-child(10),.lic-table td:nth-child(10),
+.lic-table th:nth-child(11),.lic-table td:nth-child(11){text-align:right !important;font-variant-numeric:tabular-nums}
+.lic-table td{font-size:0.78rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.lic-filters-grid{
+  display:flex;flex-wrap:wrap;
+  gap:1rem 1.2rem;padding:1.1rem 2.5rem;
+}
+.lic-ffield{flex:1 1 150px}
+.lic-ffield label{
+  display:block;font-family:'Montserrat',sans-serif;font-size:0.58rem;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin-bottom:0.4rem;
+}
+.lic-ffield select,.lic-ffield input{
+  width:100%;background:#fff;border:1px solid var(--border-dark);
+  color:var(--text);font-family:'Open Sans',sans-serif;font-size:0.78rem;
+  padding:0.42rem 0.6rem;outline:none;transition:border-color 0.15s;
+}
+.lic-ffield select:focus,.lic-ffield input:focus{border-color:var(--green)}
+.lic-ffield input::placeholder{color:var(--muted)}
+.lic-ffield-range{display:flex;gap:0.4rem}
+.lic-ffield-range input{width:50%}
+.lic-filter-footer{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 2.5rem 1.1rem;font-size:0.78rem;color:var(--muted);
+}
 .tag-costa{color:#4a9ede;font-size:0.65rem;letter-spacing:0.08em}
 .tag-ciudad{color:#b07fe8;font-size:0.65rem;letter-spacing:0.08em}
 .tag-rural{color:var(--green);font-size:0.65rem;letter-spacing:0.08em}
@@ -552,6 +597,19 @@ header{
 .heat-prov{font-size:0.78rem;font-weight:500;color:#fff;position:relative;z-index:1}
 .heat-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:#fff;position:relative;z-index:1;line-height:1;margin-top:0.2rem}
 .heat-sub{font-size:0.6rem;color:rgba(255,255,255,0.6);position:relative;z-index:1}
+
+#lic-detail-page{display:none;background:var(--bg);min-height:100vh}
+#lic-detail-page.open{display:block}
+.lic-table tbody tr{cursor:pointer}
+.lic-muestra-badge{display:inline-block;margin-left:0.5rem;padding:0.12rem 0.45rem;background:var(--gold);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.52rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;border-radius:2px;vertical-align:middle}
+.licdet-row{display:flex;justify-content:space-between;gap:1rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.8rem}
+.licdet-row:last-child{border-bottom:none}
+.licdet-lbl{color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.58rem;text-transform:uppercase;letter-spacing:0.08em}
+.licdet-pill{display:inline-block;padding:0.2rem 0.6rem;border-radius:3px;font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:700}
+.licdet-pill.ok{background:#e6f4ea;color:#1e7e34}
+.licdet-pill.mid{background:#fff4e0;color:#9a6700}
+.licdet-pill.bad{background:#fbe7e7;color:#b23a3a}
+.licdet-pill.na{background:var(--surface);color:var(--muted)}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
@@ -574,6 +632,7 @@ header{
   <!-- Pestañas dentro del header -->
   <div class="view-bar">
     <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
+    <button class="tab-btn" id="tab-licencias" onclick="switchTab('licencias')">Licencias</button>
     <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
   </div>
 </header>
@@ -604,63 +663,58 @@ header{
       <span class="search-icon">⌕</span>
       <input class="search-input" id="search" placeholder="Buscar ciudad, tipo de hotel..." oninput="render()">
     </div>
-    <div style="position:relative">
-      <button class="filter-btn" id="filter-toggle-btn" onclick="toggleFilterDropdown()">
-        ⚙ Filtros
-        <span class="filter-arrow">▾</span>
-        <span class="filter-active-count" id="filter-count"></span>
-      </button>
-      <div class="filter-dropdown" id="filter-dropdown">
-        <div class="filter-dropdown-section">
-          <div class="filter-dropdown-label">Portal</div>
-          <div class="filter-chips" id="portal-bar">
-            <button class="chip on" id="chip-todos-portal" onclick="setPortalFilter('todos',this)">Todos</button>
-            <button class="chip" onclick="setPortalFilter('Idealista',this)">Idealista</button>
-            <button class="chip" onclick="setPortalFilter('ThinkSpain',this)">ThinkSpain</button>
-            <button class="chip" onclick="setPortalFilter('Fotocasa',this)">Fotocasa</button>
-            <button class="chip" onclick="setPortalFilter('Kyero',this)">Kyero</button>
-          </div>
-        </div>
-        <div class="filter-dropdown-section">
-          <div class="filter-dropdown-label">Región / Comunidad autónoma</div>
-          <div class="filter-chips" id="region-bar">
-            <button class="chip on" id="chip-todos-region" onclick="setRegionFilter('todos',this)">Todas</button>
-          </div>
-        </div>
-        <div class="filter-dropdown-section">
-          <div class="filter-dropdown-label">Rango de precio</div>
-          <div class="filter-chips">
-            <button class="chip on" id="pf-all"   onclick="setPriceFilter('all',this)">Todos</button>
-            <button class="chip"    id="pf-c"      onclick="setPriceFilter('consultar',this)">A consultar</button>
-            <button class="chip"    id="pf-500"    onclick="setPriceFilter('0-500',this)">&lt; 500K €</button>
-            <button class="chip"    id="pf-1m"     onclick="setPriceFilter('500-1000',this)">500K – 1M €</button>
-            <button class="chip"    id="pf-3m"     onclick="setPriceFilter('1000-3000',this)">1M – 3M €</button>
-            <button class="chip"    id="pf-5m"     onclick="setPriceFilter('3000-5000',this)">3M – 5M €</button>
-            <button class="chip"    id="pf-10m"    onclick="setPriceFilter('5000-10000',this)">5M – 10M €</button>
-            <button class="chip"    id="pf-10mp"   onclick="setPriceFilter('10000+',this)">&gt; 10M €</button>
-          </div>
-        </div>
-        <div class="filter-dropdown-section">
-          <div class="filter-dropdown-label">Fecha de publicación</div>
-          <div class="filter-chips">
-            <button class="chip on" id="df-all"    onclick="setDateFilter('all',this)">Todos</button>
-            <button class="chip"    id="df-day"    onclick="setDateFilter('day',this)">Hoy</button>
-            <button class="chip"    id="df-week"   onclick="setDateFilter('week',this)">Esta semana</button>
-            <button class="chip"    id="df-month"  onclick="setDateFilter('month',this)">Este mes</button>
-            <button class="chip"    id="df-3month" onclick="setDateFilter('3month',this)">Últimos 3 meses</button>
-            <button class="chip"    id="df-year"   onclick="setDateFilter('year',this)">Último año</button>
-          </div>
-        </div>
-        <div class="filter-dropdown-footer">
-          <span class="date-count" id="date-count"></span>
-          <button class="filter-reset" onclick="resetFilters()">Limpiar filtros</button>
-        </div>
-      </div>
-    </div>
     <span id="results-count" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);white-space:nowrap"></span>
       <button class="fav-btn" id="fav-toggle" onclick="toggleFavFilter()">★ Favoritos <span id="fav-count-badge"></span></button>
       <button class="map-btn" id="map-toggle" onclick="toggleMap()" style="margin-left:0">🗺 Ver mapa</button>
       <button class="map-btn" id="excel-toggle" onclick="descargarExcel()" style="margin-left:0">⬇ Descargar Excel</button>
+  </div>
+  <div class="filter-panel-static">
+    <div class="lic-filters-grid">
+      <div class="lic-ffield">
+        <label for="portal-select">Portal</label>
+        <select id="portal-select" onchange="setPortalFilter(this.value)">
+          <option value="todos">Todos</option>
+          <option value="Idealista">Idealista</option>
+          <option value="ThinkSpain">ThinkSpain</option>
+          <option value="Fotocasa">Fotocasa</option>
+          <option value="Kyero">Kyero</option>
+        </select>
+      </div>
+      <div class="lic-ffield">
+        <label for="region-select">Región / Comunidad autónoma</label>
+        <select id="region-select" onchange="setRegionFilter(this.value)">
+          <option value="todos">Todas</option>
+        </select>
+      </div>
+      <div class="lic-ffield">
+        <label for="price-select">Rango de precio</label>
+        <select id="price-select" onchange="setPriceFilter(this.value)">
+          <option value="all">Todos</option>
+          <option value="consultar">A consultar</option>
+          <option value="0-500">&lt; 500K €</option>
+          <option value="500-1000">500K – 1M €</option>
+          <option value="1000-3000">1M – 3M €</option>
+          <option value="3000-5000">3M – 5M €</option>
+          <option value="5000-10000">5M – 10M €</option>
+          <option value="10000+">&gt; 10M €</option>
+        </select>
+      </div>
+      <div class="lic-ffield">
+        <label for="date-select">Fecha de publicación</label>
+        <select id="date-select" onchange="setDateFilter(this.value)">
+          <option value="all">Todos</option>
+          <option value="day">Hoy</option>
+          <option value="week">Esta semana</option>
+          <option value="month">Este mes</option>
+          <option value="3month">Últimos 3 meses</option>
+          <option value="year">Último año</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-dropdown-footer">
+      <span class="date-count" id="date-count"></span>
+      <button class="filter-reset" onclick="resetFilters()">Limpiar filtros</button>
+    </div>
   </div>
 </div>
 
@@ -987,10 +1041,97 @@ header{
   </div>
 </div>
 
+
+<!-- ══ FICHA DE LICENCIA (muestra de prueba, 30 hoteles) ══════════ -->
+<div id="lic-detail-page">
+  <div class="det-header">
+    <div style="max-width:1100px;margin:0 auto;padding:0">
+      <button class="det-back" onclick="closeLicDetail()"><span class="det-back-arrow">←</span> Volver a licencias</button>
+      <div class="det-eyebrow">Ficha de licencia · Hotel Monitor España</div>
+      <div class="det-title" id="licdet-title">—</div>
+      <div class="det-meta" id="licdet-meta"></div>
+    </div>
+  </div>
+  <div class="det-body">
+    <div class="det-layout">
+      <div>
+        <div class="det-section-title">Datos de la licencia</div>
+        <div class="det-metrics" id="licdet-metrics">
+          <div class="det-metric"><div class="det-metric-lbl">Tipo</div><div class="det-metric-val" id="licdet-m-tipo" style="font-size:1.1rem">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl">Categoría</div><div class="det-metric-val" id="licdet-m-cat" style="font-size:1.1rem">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl">Habitaciones</div><div class="det-metric-val" id="licdet-m-hab">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl">Plazas</div><div class="det-metric-val" id="licdet-m-plazas">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl">CP</div><div class="det-metric-val" id="licdet-m-cp" style="font-size:1.1rem">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl">Nº registro</div><div class="det-metric-val" id="licdet-m-reg" style="font-size:0.95rem">—</div></div>
+        </div>
+
+        <div id="licdet-banner-noincluida" style="display:none;background:var(--surface);border-left:3px solid var(--gold);padding:0.9rem 1.2rem;font-size:0.75rem;color:var(--muted);line-height:1.6;margin-bottom:1.2rem">
+          <strong style="color:var(--text-mid)">Esta licencia todavía no forma parte de la muestra de prueba.</strong> Por ahora hemos verificado a mano Catastro, Trivago, BORME y contacto para 30 licencias de ejemplo. Las pestañas de abajo muestran cómo se vería el cruce cuando se extienda al resto de las 368.000 licencias.
+        </div>
+
+        <div class="det-tabs" id="licdet-tabs">
+          <button class="det-tab active" id="licdet-tab-btn-catastro" onclick="licDetSwitchTab('catastro')">🗺 Catastro</button>
+          <button class="det-tab" id="licdet-tab-btn-precios" onclick="licDetSwitchTab('precios')">💶 Precios (Trivago)</button>
+          <button class="det-tab" id="licdet-tab-btn-societario" onclick="licDetSwitchTab('societario')">🏢 Societario (BORME)</button>
+          <button class="det-tab" id="licdet-tab-btn-contacto" onclick="licDetSwitchTab('contacto')">📞 Contacto</button>
+        </div>
+
+        <div class="det-tab-content active" id="licdet-tab-content-catastro">
+          <div class="det-card"><div class="det-card-header">Referencia catastral</div><div class="det-card-body" id="licdet-catastro-body"></div></div>
+        </div>
+        <div class="det-tab-content" id="licdet-tab-content-precios" style="display:none">
+          <div class="det-card"><div class="det-card-header">Precio en Trivago</div><div class="det-card-body" id="licdet-precios-body"></div></div>
+        </div>
+        <div class="det-tab-content" id="licdet-tab-content-societario" style="display:none">
+          <div class="det-card"><div class="det-card-header">Registro Mercantil (BORME)</div><div class="det-card-body" id="licdet-societario-body"></div></div>
+        </div>
+        <div class="det-tab-content" id="licdet-tab-content-contacto" style="display:none">
+          <div class="det-card"><div class="det-card-header">Contacto</div><div class="det-card-body" id="licdet-contacto-body"></div></div>
+        </div>
+
+        <div style="background:var(--surface);border-left:3px solid var(--border-dark);padding:0.9rem 1.2rem;font-size:0.72rem;color:var(--muted);line-height:1.6">
+          <strong style="color:var(--text-mid)">Aviso:</strong> Datos de fuentes públicas gratuitas (Sede Electrónica del Catastro, trivago.es, BOE/BORME, Google Maps), verificados a mano dirección por dirección. Fase de prueba sobre 30 licencias — pendiente de automatizar y extender antes de publicarse como dato oficial de la ficha.
+        </div>
+      </div>
+      <div>
+        <div class="det-sidebar-card">
+          <div class="det-sidebar-title">Dirección de la licencia</div>
+          <div class="det-sidebar-body" style="font-size:0.8rem;color:var(--text-mid);line-height:1.6" id="licdet-sidebar-dir">—</div>
+        </div>
+        <div class="det-sidebar-card">
+          <div class="det-sidebar-body">
+            <button class="det-btn-secondary" onclick="closeLicDetail()">← Volver al listado</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ PANEL HOTELES ══════════════════════════════════════ -->
 <div id="panel-hoteles">
-  <div class="grid" id="grid">
-    <div class="empty"><div class="empty-title">Cargando anuncios...</div></div>
+  <div style="overflow-x:auto">
+    <table class="zone-table hotel-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nombre</th>
+          <th>Tipología</th>
+          <th>Comunidad</th>
+          <th>Municipio</th>
+          <th>Superficie</th>
+          <th>Habitaciones</th>
+          <th>Camas</th>
+          <th>Portal</th>
+          <th>Fecha</th>
+          <th>Precio</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="grid" id="grid">
+        <tr><td colspan="12"><div class="empty"><div class="empty-title">Cargando anuncios...</div></div></td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
@@ -1239,6 +1380,110 @@ header{
     <div style="border-top:1px solid var(--border);padding:1.4rem">
       <div style="font-family:'Montserrat',sans-serif;font-size:0.62rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin-bottom:1rem">Precio medio asking por zona</div>
       <div class="heatmap-grid" id="heatmap"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ PANEL LICENCIAS ════════════════════════════════════ -->
+<div id="panel-licencias" style="display:none">
+
+  <div class="hero" id="hero-licencias">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Registro oficial de turismo</div>
+      <div class="hero-title">Licencias turísticas<br><span>en España</span></div>
+      <p class="hero-desc">Registro oficial de establecimientos turísticos (hoteles, hostales, apartamentos, casas rurales, viviendas de uso turístico y más) de las administraciones autonómicas, actualizado semanalmente. Búscalo y fíltralo por cualquier campo.</p>
+    </div>
+    <div class="kpi-bar">
+      <div class="kpi-box"><div class="kpi-box-val" id="lic-k-total">—</div><div class="kpi-box-lbl">Licencias totales</div></div>
+      <div class="kpi-box"><div class="kpi-box-val" id="lic-k-resultados">—</div><div class="kpi-box-lbl">Con estos filtros</div></div>
+      <div class="kpi-box"><div class="kpi-box-val" id="lic-k-provincias">—</div><div class="kpi-box-lbl">Provincias</div></div>
+      <div class="kpi-box"><div class="kpi-box-val" id="lic-k-municipios">—</div><div class="kpi-box-lbl">Municipios</div></div>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <div class="lic-filters-grid">
+      <div class="lic-ffield">
+        <label for="lic-search">Buscar</label>
+        <input id="lic-search" placeholder="Nombre, municipio, dirección..." oninput="licOnSearchInput()">
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-comunidad">Comunidad</label>
+        <select id="lic-f-comunidad" onchange="licOnComunidadChange()"><option value="">Todas</option></select>
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-provincia">Provincia</label>
+        <select id="lic-f-provincia" onchange="licOnProvinciaChange()"><option value="">Todas</option></select>
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-municipio">Municipio</label>
+        <select id="lic-f-municipio" onchange="licOnFilterChange()"><option value="">Todos</option></select>
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-cp">C. Postal</label>
+        <input id="lic-f-cp" oninput="licOnFilterChange()" placeholder="ej. 070">
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-tipo">Tipo</label>
+        <input id="lic-f-tipo" oninput="licOnFilterChange()" placeholder="ej. Hotel">
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-categoria">Categoría</label>
+        <input id="lic-f-categoria" oninput="licOnFilterChange()" placeholder="ej. 3 estrellas">
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-nombre">Nombre</label>
+        <input id="lic-f-nombre" oninput="licOnFilterChange()" placeholder="contiene...">
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-direccion">Dirección</label>
+        <input id="lic-f-direccion" oninput="licOnFilterChange()" placeholder="contiene...">
+      </div>
+      <div class="lic-ffield">
+        <label for="lic-f-registro">Nº registro</label>
+        <input id="lic-f-registro" oninput="licOnFilterChange()" placeholder="contiene...">
+      </div>
+      <div class="lic-ffield">
+        <label>Habitaciones</label>
+        <div class="lic-ffield-range">
+          <input id="lic-f-hab-min" type="number" min="0" oninput="licOnFilterChange()" placeholder="mín">
+          <input id="lic-f-hab-max" type="number" min="0" oninput="licOnFilterChange()" placeholder="máx">
+        </div>
+      </div>
+      <div class="lic-ffield">
+        <label>Plazas</label>
+        <div class="lic-ffield-range">
+          <input id="lic-f-plazas-min" type="number" min="0" oninput="licOnFilterChange()" placeholder="mín">
+          <input id="lic-f-plazas-max" type="number" min="0" oninput="licOnFilterChange()" placeholder="máx">
+        </div>
+      </div>
+    </div>
+    <div class="lic-filter-footer">
+      <button class="filter-reset" onclick="licLimpiarFiltros()">Limpiar filtros</button>
+      <button class="fav-btn" id="lic-fav-toggle" onclick="licToggleFavFilter()">★ Favoritos <span id="lic-fav-count-badge"></span></button>
+      <div id="lic-result-count"></div>
+    </div>
+  </div>
+
+  <div style="padding:1.4rem 2.5rem">
+    <div id="lic-status" class="empty" style="display:none">
+      <div class="empty-title" id="lic-status-title">Cargando registro de licencias...</div>
+      <div class="empty-sub" id="lic-status-sub">Son cerca de 370.000 registros — puede tardar unos segundos la primera vez.</div>
+    </div>
+    <div id="lic-table-wrap" style="overflow-x:auto;display:none">
+      <table class="zone-table lic-table">
+        <thead><tr>
+          <th></th><th>Nombre</th><th>Tipo</th><th>Categoría</th><th>Comunidad</th><th>Provincia</th>
+          <th>Municipio</th><th>Dirección</th><th>C.P.</th><th>Registro</th><th>Hab.</th><th>Plazas</th>
+        </tr></thead>
+        <tbody id="lic-tbody"></tbody>
+      </table>
+    </div>
+    <div id="lic-pagination" style="display:none;align-items:center;justify-content:center;gap:0.6rem;padding:1.4rem 0">
+      <button class="filter-btn" id="lic-page-prev" onclick="licCambiarPagina(-1)">‹ Anterior</button>
+      <span style="font-size:0.78rem;color:var(--text-mid)" id="lic-page-info"></span>
+      <button class="filter-btn" id="lic-page-next" onclick="licCambiarPagina(1)">Siguiente ›</button>
     </div>
   </div>
 
@@ -2136,16 +2381,16 @@ function updateBadge() {
 }
 
 function updatePortalChips() {
-  const bar     = document.getElementById('portal-bar');
+  const sel     = document.getElementById('portal-select');
+  if (!sel) return;
   const fixed   = ['Idealista','ThinkSpain','Fotocasa','Kyero'];
   const sources = [...new Set(HOTELES.map(h => h.source).filter(Boolean))].sort();
   sources.forEach(src => {
     if (fixed.includes(src)) return;
-    const btn = document.createElement('button');
-    btn.className = 'chip';
-    btn.textContent = src;
-    btn.onclick = function(){ setPortalFilter(src, this); };
-    bar.insertBefore(btn, bar.querySelector('.search-wrap'));
+    const opt = document.createElement('option');
+    opt.value = src;
+    opt.textContent = src;
+    sel.appendChild(opt);
   });
 }
 
@@ -2171,54 +2416,52 @@ function updateStats() {
   if (hkHoy) hkHoy.textContent = HOTELES.filter(h=>{const d=parseDate(h.date);return d&&d.toLocaleDateString('es-ES')===todayStrb;}).length;
 }
 
-function setPortalFilter(portal, btn) {
+function setPortalFilter(portal) {
   portalFilter = portal;
-  document.querySelectorAll('#portal-bar .chip').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
+  const sel = document.getElementById('portal-select');
+  if (sel) sel.value = portal;
   render();
 }
 
-function setDateFilter(df, btn) {
+function setDateFilter(df) {
   dateFilter = df;
-  document.querySelectorAll('.filter-bar [id^="df-"]').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
+  const sel = document.getElementById('date-select');
+  if (sel) sel.value = df;
   render();
 }
 
-function setRegionFilter(region, btn) {
+function setRegionFilter(region) {
   regionFilter = region;
-  document.querySelectorAll('#region-bar .chip').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
+  const sel = document.getElementById('region-select');
+  if (sel) sel.value = region;
   render();
 }
 
-function setPriceFilter(range, btn) {
+function setPriceFilter(range) {
   priceFilter = range;
-  document.querySelectorAll('[id^="pf-"]').forEach(c => c.classList.remove('on'));
-  btn.classList.add('on');
+  const sel = document.getElementById('price-select');
+  if (sel) sel.value = range;
   render();
 }
 
 function updateRegionChips() {
-  const bar = document.getElementById('region-bar');
-  if (!bar) return;
+  const sel = document.getElementById('region-select');
+  if (!sel) return;
   // Obtener regiones únicas ordenadas alfabéticamente, excluyendo '?'
   const regions = [...new Set(HOTELES.map(h => h.location_region).filter(r => r && r !== '?'))].sort();
   regions.forEach(reg => {
-    const btn = document.createElement('button');
-    btn.className = 'chip';
-    btn.textContent = reg;
-    btn.onclick = function() { setRegionFilter(reg, this); };
-    bar.appendChild(btn);
+    const opt = document.createElement('option');
+    opt.value = reg;
+    opt.textContent = reg;
+    sel.appendChild(opt);
   });
   // Añadir "Sin región" al final si hay hoteles sin región
   const sinRegion = HOTELES.filter(h => !h.location_region || h.location_region === '?').length;
   if (sinRegion > 0) {
-    const btn = document.createElement('button');
-    btn.className = 'chip';
-    btn.textContent = 'Sin región';
-    btn.onclick = function() { setRegionFilter('sin-region', this); };
-    bar.appendChild(btn);
+    const opt = document.createElement('option');
+    opt.value = 'sin-region';
+    opt.textContent = 'Sin región';
+    sel.appendChild(opt);
   }
 }
 
@@ -2316,10 +2559,10 @@ function render() {
   if (resCount) resCount.textContent = `${list.length} resultado${list.length!==1?'s':''}`;
 
   if (!list.length) {
-    grid.innerHTML = `<div class="empty">
+    grid.innerHTML = `<tr><td colspan="12"><div class="empty">
       <div class="empty-title">Sin resultados</div>
       <div class="empty-sub">Prueba otro filtro o búsqueda</div>
-    </div>`;
+    </div></td></tr>`;
     return;
   }
 
@@ -2365,42 +2608,33 @@ function render() {
     const dupIdx = desc.toLowerCase().lastIndexOf(titleShort, desc.length - 20);
     if (dupIdx > desc.length * 0.6) desc = desc.slice(0, dupIdx).trim();
 
-    // Pills de datos estructurados
+    // Habitaciones / camas (columnas separadas)
     const rooms = h.rooms || tasParseRooms(h.title, h.description, h.rooms);
-    const m2val = h.m2 || null;
-    const price = tasParsePrice(h.price);
-    const pph = (price && rooms) ? Math.round(price/rooms) : null;
-    const pillsHtml = [
-      rooms ? `<span class="card-pill pill-rooms">🏨 ${rooms} hab</span>` : '',
-      m2val ? `<span class="card-pill pill-m2">${m2val.toLocaleString('es-ES')} m²</span>` : '',
-      pph   ? `<span class="card-pill pill-pph">${Math.round(pph/1000)}k€/hab</span>` : '',
-    ].filter(Boolean).join('');
-    const regionBadge = h.location_region || '';
-    return `<div class="card${isNew?' is-new':''}" style="animation-delay:${delay}s" >
-      <div class="card-new-badge">Nuevo</div>
-      <button class="card-fav${isFav(h.url)?' saved':''}" style="position:absolute;top:0.6rem;right:0.6rem;background:rgba(255,255,255,0.92);border:none;width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;z-index:4;transition:transform 0.15s,background 0.15s;box-shadow:0 1px 4px rgba(0,0,0,0.15)" onclick="event.stopPropagation();toggleFav('${url}',this)" title="Guardar">${isFav(h.url)?'★':'☆'}</button>
-      <div class="card-img">
-        <div class="card-img-inner"><span class="card-img-icon">🏨</span></div>
-        ${regionBadge?`<span class="card-img-region">📍 ${regionBadge}</span>`:''}
-      </div>
-      <div class="card-body">
-        <div class="card-top">
-          <span class="source-badge ${badgeClass}">${h.source||'Otro'}</span>
-          <span class="card-date" title="${h.date||''}">${fechaRel}</span>
+    const beds  = h.beds || null;
+    const roomsDisplay = rooms || '—';
+    const bedsDisplay  = beds || '—';
+    const superficie = h.m2 ? `${h.m2} m²` : '—';
+    return `<tr style="animation-delay:${delay}s">
+      <td><button class="hotel-row-fav${isFav(h.url)?' saved':''}" onclick="event.stopPropagation();toggleFav('${url}',this)" title="Guardar">${isFav(h.url)?'★':'☆'}</button></td>
+      <td>
+        <div class="hotel-row-title" title="${title.replace(/"/g,'&quot;')}">${title}${isNew?'<span class="hotel-row-new">Nuevo</span>':''}</div>
+      </td>
+      <td>${h.tipo||'—'}</td>
+      <td>${h.location_region||'—'}</td>
+      <td>${h.location||'—'}</td>
+      <td>${superficie}</td>
+      <td>${roomsDisplay}</td>
+      <td>${bedsDisplay}</td>
+      <td><span class="source-badge ${badgeClass}">${h.source||'Otro'}</span></td>
+      <td title="${h.date||''}">${fechaRel}</td>
+      <td class="hotel-row-price">${h.price||'Precio a consultar'}</td>
+      <td>
+        <div class="hotel-row-actions">
+          ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>`:''}
+          <button class="btn-tasacion" onclick="event.stopPropagation();openDetailPage(${i})">Ver análisis</button>
         </div>
-        <div class="card-title">${title}</div>
-        ${h.location?`<div class="card-location">📍 ${h.location}</div>`:''}
-        ${pillsHtml?`<div class="card-pills">${pillsHtml}</div>`:''}
-        ${desc?`<div class="card-desc">${desc}</div>`:''}
-        <div class="card-footer">
-          <div class="card-price">${h.price||'Precio a consultar'}</div>
-          <div style="display:flex;align-items:center;gap:0.5rem">
-            ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>`:''}
-            <button class="btn-tasacion" onclick="event.stopPropagation();openDetailPage(${i})">Ver análisis</button>
-          </div>
-        </div>
-      </div>
-    </div>`;
+      </td>
+    </tr>`;
   }).join('');
 
   if (mapVisible) refreshMap();
@@ -2425,23 +2659,973 @@ function isRecente(str, days) {
 
 function switchTab(tab) {
   const isH = tab === 'hoteles';
+  const isL = tab === 'licencias';
+  const isM = tab === 'mercado';
   if (!isH && mapVisible) {
     mapVisible = false;
     document.getElementById('map-section').style.display = 'none';
     document.getElementById('map-toggle').classList.remove('on');
   }
   document.getElementById('panel-hoteles').style.display  = isH ? 'block' : 'none';
-  document.getElementById('panel-mercado').style.display  = isH ? 'none'  : 'block';
+  document.getElementById('panel-licencias').style.display= isL ? 'block' : 'none';
+  document.getElementById('panel-mercado').style.display  = isM ? 'block' : 'none';
   document.getElementById('filter-section').style.display = isH ? 'block' : 'none';
   document.getElementById('hero-main').style.display      = isH ? 'flex'  : 'none';
   document.getElementById('tab-hoteles').classList.toggle('active', isH);
-  document.getElementById('tab-mercado').classList.toggle('active', !isH);
-  if (!isH && !window._marketRendered) {
+  document.getElementById('tab-licencias').classList.toggle('active', isL);
+  document.getElementById('tab-mercado').classList.toggle('active', isM);
+  if (isM && !window._marketRendered) {
     window._marketRendered = true;
     renderMarket();
-  } else if (!isH) {
+  } else if (isM) {
     renderAskingPrice();
   }
+  if (isL && !window._licLoaded) {
+    licCargarDatos();
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// PESTAÑA LICENCIAS — navegador del registro oficial completo
+// (independiente del motor de cruce del Excel: carga y filtra
+// licencias_completo.json por su cuenta, sin tocar esa lógica)
+// ══════════════════════════════════════════════════════════
+const LIC_POR_PAGINA = 100;
+const _LIC_PROVCOM = {
+  'malaga':'Andalucía','sevilla':'Andalucía','cadiz':'Andalucía','granada':'Andalucía','almeria':'Andalucía','cordoba':'Andalucía','huelva':'Andalucía','jaen':'Andalucía',
+  'huesca':'Aragón','teruel':'Aragón','zaragoza':'Aragón','asturias':'Asturias',
+  'illes balears':'Baleares',
+  'palmas las':'Canarias','santa cruz de tenerife':'Canarias','cantabria':'Cantabria',
+  'avila':'Castilla y León','burgos':'Castilla y León','leon':'Castilla y León','palencia':'Castilla y León','salamanca':'Castilla y León','segovia':'Castilla y León','soria':'Castilla y León','valladolid':'Castilla y León','zamora':'Castilla y León',
+  'albacete':'Castilla-La Mancha','ciudad real':'Castilla-La Mancha','cuenca':'Castilla-La Mancha','guadalajara':'Castilla-La Mancha','toledo':'Castilla-La Mancha',
+  'barcelona':'Cataluña','girona':'Cataluña','lleida':'Cataluña','tarragona':'Cataluña',
+  'alacant':'C. Valenciana','castello':'C. Valenciana','valencia':'C. Valenciana',
+  'badajoz':'Extremadura','caceres':'Extremadura',
+  'a coruna':'Galicia','lugo':'Galicia','ourense':'Galicia','pontevedra':'Galicia',
+  'madrid':'Madrid','murcia':'Murcia','navarra':'Navarra',
+  'araba alava':'País Vasco','bizkaia':'País Vasco','gipuzkoa':'País Vasco',
+  'la rioja':'La Rioja'
+};
+function _licNorm(s) {
+  return (s || '').toString().normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+function _licComunidadDe(prov) { return _LIC_PROVCOM[_licNorm(prov)] || ''; }
+
+window._licLoaded = false;
+window._licRaw = null;
+window._licCI = null;
+window._licFiltradas = null;
+window._licPagina = 1;
+let _licDebounceTimer = null;
+
+async function licCargarDatos() {
+  const statusEl = document.getElementById('lic-status');
+  const statusTitle = document.getElementById('lic-status-title');
+  const statusSub = document.getElementById('lic-status-sub');
+  statusEl.style.display = 'block';
+  document.getElementById('lic-table-wrap').style.display = 'none';
+  document.getElementById('lic-pagination').style.display = 'none';
+  try {
+    const r = await fetch('licencias_completo.json');
+    if (!r.ok) throw new Error('status ' + r.status);
+    const data = await r.json();
+    window._licRaw = data;
+    const ci = {};
+    data.columnas.forEach((c, i) => ci[c] = i);
+    window._licCI = ci;
+    window._licLoaded = true;
+    licPoblarFiltros();
+    licAplicarFiltros();
+    statusEl.style.display = 'none';
+    document.getElementById('lic-table-wrap').style.display = 'block';
+    document.getElementById('lic-pagination').style.display = 'flex';
+  } catch (e) {
+    // Fallback de prueba local: usamos la muestra de 30 licencias embebida
+    // para poder probar la ficha de detalle sin servidor ni fetch().
+    const data = LIC_FALLBACK_MUESTRA_30;
+    window._licRaw = data;
+    const ci = {};
+    data.columnas.forEach((c, i) => ci[c] = i);
+    window._licCI = ci;
+    window._licLoaded = true;
+    licPoblarFiltros();
+    licAplicarFiltros();
+    statusEl.style.display = 'none';
+    document.getElementById('lic-table-wrap').style.display = 'block';
+    document.getElementById('lic-pagination').style.display = 'flex';
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background:var(--surface);border-left:3px solid var(--gold);padding:0.8rem 1.1rem;font-size:0.75rem;color:var(--muted);margin-bottom:1rem';
+    banner.innerHTML = '<strong style=\"color:var(--text-mid)\">Modo de prueba local:</strong> no se pudo cargar licencias_completo.json (' + e.message + '), así que se muestran solo las 30 licencias de la muestra de prueba con su ficha de Catastro/Trivago/BORME/Contacto. En la web real (GitHub Pages) se cargan las 368.000 licencias completas.';
+    document.getElementById('lic-table-wrap').parentNode.insertBefore(banner, document.getElementById('lic-table-wrap'));
+  }
+}
+
+function licPoblarFiltros() {
+  const { filas } = window._licRaw;
+  const ci = window._licCI;
+  const provincias = [...new Set(filas.map(f => f[ci.provincia]).filter(Boolean))].sort();
+  const comunidades = [...new Set(provincias.map(_licComunidadDe).filter(Boolean))].sort();
+
+  const selProv = document.getElementById('lic-f-provincia');
+  provincias.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; selProv.appendChild(o); });
+  const selCom = document.getElementById('lic-f-comunidad');
+  comunidades.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; selCom.appendChild(o); });
+  licRepoblarMunicipios();
+
+  document.getElementById('lic-k-total').textContent = filas.length.toLocaleString('es-ES');
+  document.getElementById('lic-k-provincias').textContent = provincias.length;
+  document.getElementById('lic-k-municipios').textContent = new Set(filas.map(f => f[ci.municipio])).size.toLocaleString('es-ES');
+  updateLicFavBadge();
+}
+
+function _licMunicipiosVisibles() {
+  const { filas } = window._licRaw;
+  const ci = window._licCI;
+  const com = document.getElementById('lic-f-comunidad').value;
+  const prov = document.getElementById('lic-f-provincia').value;
+  let rows = filas;
+  if (prov) rows = rows.filter(f => f[ci.provincia] === prov);
+  else if (com) rows = rows.filter(f => _licComunidadDe(f[ci.provincia]) === com);
+  return [...new Set(rows.map(f => f[ci.municipio]).filter(Boolean))].sort();
+}
+
+function licRepoblarMunicipios() {
+  const selMuni = document.getElementById('lic-f-municipio');
+  const muniActual = selMuni.value;
+  const visibles = _licMunicipiosVisibles();
+  selMuni.innerHTML = '<option value="">Todos</option>';
+  visibles.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; selMuni.appendChild(o); });
+  if (visibles.includes(muniActual)) selMuni.value = muniActual;
+}
+
+function licOnProvinciaChange() {
+  licRepoblarMunicipios();
+  licOnFilterChange();
+}
+
+function licOnComunidadChange() {
+  const com = document.getElementById('lic-f-comunidad').value;
+  const selProv = document.getElementById('lic-f-provincia');
+  const provActual = selProv.value;
+  const { filas } = window._licRaw;
+  const ci = window._licCI;
+  const todas = [...new Set(filas.map(f => f[ci.provincia]).filter(Boolean))].sort();
+  const visibles = com ? todas.filter(p => _licComunidadDe(p) === com) : todas;
+  selProv.innerHTML = '<option value="">Todas</option>';
+  visibles.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; selProv.appendChild(o); });
+  if (visibles.includes(provActual)) selProv.value = provActual;
+  licRepoblarMunicipios();
+  licOnFilterChange();
+}
+
+function licOnSearchInput() { clearTimeout(_licDebounceTimer); _licDebounceTimer = setTimeout(licAplicarFiltros, 220); }
+function licOnFilterChange() { clearTimeout(_licDebounceTimer); _licDebounceTimer = setTimeout(licAplicarFiltros, 220); }
+
+function licLimpiarFiltros() {
+  document.getElementById('lic-search').value = '';
+  document.getElementById('lic-f-comunidad').value = '';
+  document.getElementById('lic-f-provincia').value = '';
+  licOnComunidadChange();
+  ['lic-f-municipio', 'lic-f-cp', 'lic-f-tipo', 'lic-f-categoria', 'lic-f-nombre', 'lic-f-direccion', 'lic-f-registro', 'lic-f-hab-min', 'lic-f-hab-max', 'lic-f-plazas-min', 'lic-f-plazas-max']
+    .forEach(id => document.getElementById(id).value = '');
+  licAplicarFiltros();
+}
+
+function licAplicarFiltros() {
+  if (!window._licLoaded) return;
+  const { filas } = window._licRaw;
+  const ci = window._licCI;
+  const q = _licNorm(document.getElementById('lic-search').value);
+  const fComunidad = document.getElementById('lic-f-comunidad').value;
+  const fProvincia = document.getElementById('lic-f-provincia').value;
+  const fMunicipio = document.getElementById('lic-f-municipio').value;
+  const fCp = document.getElementById('lic-f-cp').value.trim();
+  const fTipo = _licNorm(document.getElementById('lic-f-tipo').value);
+  const fCategoria = _licNorm(document.getElementById('lic-f-categoria').value);
+  const fNombre = _licNorm(document.getElementById('lic-f-nombre').value);
+  const fDireccion = _licNorm(document.getElementById('lic-f-direccion').value);
+  const fRegistro = _licNorm(document.getElementById('lic-f-registro').value);
+  const habMin = parseFloat(document.getElementById('lic-f-hab-min').value);
+  const habMax = parseFloat(document.getElementById('lic-f-hab-max').value);
+  const plazasMin = parseFloat(document.getElementById('lic-f-plazas-min').value);
+  const plazasMax = parseFloat(document.getElementById('lic-f-plazas-max').value);
+  const habActivo = !isNaN(habMin) || !isNaN(habMax);
+  const plazasActivo = !isNaN(plazasMin) || !isNaN(plazasMax);
+
+
+  const out = filas.filter(f => {
+    if (fProvincia && f[ci.provincia] !== fProvincia) return false;
+    if (fComunidad && _licComunidadDe(f[ci.provincia]) !== fComunidad) return false;
+    if (fMunicipio && f[ci.municipio] !== fMunicipio) return false;
+    if (fCp && !String(f[ci.cp] || '').startsWith(fCp)) return false;
+    if (fTipo && !_licNorm(f[ci.tipo]).includes(fTipo)) return false;
+    if (fCategoria && !_licNorm(f[ci.categoria]).includes(fCategoria)) return false;
+    if (fNombre && !_licNorm(f[ci.nombre]).includes(fNombre)) return false;
+    if (fDireccion && !_licNorm(f[ci.direccion]).includes(fDireccion)) return false;
+    if (fRegistro && !_licNorm(f[ci.registro]).includes(fRegistro)) return false;
+    if (habActivo) {
+      const h = parseFloat(f[ci.hab]);
+      if (isNaN(h)) return false;
+      if (!isNaN(habMin) && h < habMin) return false;
+      if (!isNaN(habMax) && h > habMax) return false;
+    }
+    if (plazasActivo) {
+      const p = parseFloat(f[ci.plazas]);
+      if (isNaN(p)) return false;
+      if (!isNaN(plazasMin) && p < plazasMin) return false;
+      if (!isNaN(plazasMax) && p > plazasMax) return false;
+    }
+    if (q) {
+      const hay = _licNorm(f[ci.nombre]) + ' ' + _licNorm(f[ci.municipio]) + ' ' + _licNorm(f[ci.direccion]) + ' ' + _licNorm(f[ci.registro]) + ' ' + _licNorm(f[ci.destino]);
+      if (!hay.includes(q)) return false;
+    }
+    if (licFavFilter && !isLicFav(licFavKey(f, ci))) return false;
+    return true;
+  });
+
+  window._licFiltradas = out;
+  window._licPagina = 1;
+  document.getElementById('lic-k-resultados').textContent = out.length.toLocaleString('es-ES');
+  document.getElementById('lic-result-count').textContent = out.length.toLocaleString('es-ES') + ' resultados';
+  licRenderPagina();
+}
+
+function licCambiarPagina(delta) {
+  const totalPaginas = Math.max(1, Math.ceil(window._licFiltradas.length / LIC_POR_PAGINA));
+  window._licPagina = Math.min(totalPaginas, Math.max(1, window._licPagina + delta));
+  licRenderPagina();
+  document.getElementById('lic-table-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+
+// ══ MUESTRA DE PRUEBA: Catastro + Trivago + BORME + Contacto (30 licencias) ══
+const LIC_MUESTRA_ENRIQUECIDA = {
+  "jameos playa|tias": {
+    "nombre": "Jameos Playa",
+    "municipio": "TIAS",
+    "catastro": {
+      "ref": "3908001FT3030N",
+      "confianza": "alta",
+      "nota": "Uso «Ocio y Hostelería», 42.846 m², parcela hotelera en Tías. Catastro no registra el nombre comercial; verificado por uso y superficie."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 311,
+      "fuente": "Página web del hotel",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": {
+      "estado": "encontrado",
+      "razon": "SEA SIDE HOTELS, S.L.",
+      "nota": "Fusión BORME-C-2011-29746 (16/09/2011): LOS JAMEOS PLAYA, S.L. y EL PATIO, S.A. absorbidas por SEA SIDE HOTELS, S.L. — coincide con el nombre actual del hotel, «Seaside Los Jameos»."
+    },
+    "contacto": null
+  },
+  "el emigrante|villanueva de la serena": {
+    "nombre": "EL EMIGRANTE",
+    "municipio": "VILLANUEVA DE LA SERENA",
+    "catastro": {
+      "ref": "7877023TJ5177N",
+      "confianza": "alta",
+      "nota": "CL CONCEPCIÓN 3 — coincidencia exacta de calle y número."
+    },
+    "trivago": {
+      "estado": "no-encontrado"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "bcl levante club spa|benidorm": {
+    "nombre": "BCL LEVANTE CLUB & SPA",
+    "municipio": "BENIDORM",
+    "catastro": {
+      "ref": "2499402YH5629N",
+      "confianza": "muy-alta",
+      "nota": "AV DR SEVERO OCHOA 3(B) — Catastro nombra la parcela literalmente «HOTEL LEVANTE CLUB»."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 211,
+      "fuente": "Página web del hotel (oferta fidelidad)",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": {
+      "estado": "encontrado",
+      "razon": "LEVANTE CLUB HOTELES, S.L.U.",
+      "nota": "Encontrado por búsqueda de título en BOE/BORME (Sección II)."
+    },
+    "contacto": null
+  },
+  "la trufa negra|mora de rubielos": {
+    "nombre": "LA TRUFA NEGRA",
+    "municipio": "MORA DE RUBIELOS",
+    "catastro": {
+      "ref": "1381254XK9518S",
+      "confianza": "media-alta",
+      "nota": "Catastro registra «AV IBAÑEZ MARTIN 26»; la licencia dice «10-14» — probable renumeración de calle. Verificado por nombre del negocio en Google Maps (mismas coordenadas)."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 163,
+      "fuente": "Booking.com",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "coral playa|chiclana de la frontera": {
+    "nombre": "CORAL PLAYA",
+    "municipio": "CHICLANA DE LA FRONTERA",
+    "catastro": {
+      "ref": "3782034QA5238S",
+      "confianza": "alta",
+      "nota": "CR BARROSA 179 — coincidencia exacta."
+    },
+    "trivago": {
+      "estado": "no-encontrado"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "eurohotel|castello de la plana castellon de la plana": {
+    "nombre": "EUROHOTEL",
+    "municipio": "CASTELLÓ DE LA PLANA/CASTELLÓN DE LA PLANA",
+    "catastro": {
+      "ref": "1908801YK5310N",
+      "confianza": "alta",
+      "nota": "CL PINTOR OLIET 9 — coincidencia exacta."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 66,
+      "fuente": "Super.com",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "el pelegrin|laredo": {
+    "nombre": "EL PELEGRIN",
+    "municipio": "LAREDO",
+    "catastro": {
+      "ref": "6461801VP6066S",
+      "confianza": "alta",
+      "nota": "Nombre de calle idéntico al del hotel; ficha de la parcela confirma unidades registradas en el nº25, igual que la licencia."
+    },
+    "trivago": {
+      "estado": "no-encontrado"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "sir victor hotel|barcelona": {
+    "nombre": "SiR Victor Hotel",
+    "municipio": "BARCELONA",
+    "catastro": {
+      "ref": "9933119DF2893D",
+      "confianza": "alta",
+      "nota": "CL ROSSELLO 265 — coincidencia exacta."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 335,
+      "fuente": "Super.com",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": {
+      "estado": "no-encontrado",
+      "nota": "Sin anuncios en Sección II del BORME (fusiones/disoluciones). No implica nada anómalo: la mayoría de sociedades nunca aparecen ahí."
+    },
+    "contacto": null
+  },
+  "casa ceremines|xerta": {
+    "nombre": "Casa Ceremines",
+    "municipio": "XERTA",
+    "catastro": {
+      "ref": "8715759BF8381D",
+      "confianza": "alta",
+      "nota": "CL STA TERESA 14 — coincidencia exacta."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 101,
+      "fuente": "Booking.com / Agoda / HolidayCheck",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "casa petronila|taramundi": {
+    "nombre": "Casa Petronila",
+    "municipio": "TARAMUNDI",
+    "catastro": {
+      "ref": "3429410PJ5032N",
+      "confianza": "media-alta",
+      "nota": "Opera hoy como «Hotel Petronila»; su ficha de Google coincide con la dirección de la licencia. Catastro registra el edificio por «CR VEGADEO 10(A)», probable esquina entre dos calles."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 72,
+      "fuente": "Super.com",
+      "fechas": "25-26 sept 2026"
+    },
+    "borme": null,
+    "contacto": {
+      "telefono": "985 64 68 74",
+      "web": "hotelpetronila.es"
+    }
+  },
+  "best tenerife|arona": {
+    "nombre": "Best Tenerife",
+    "municipio": "ARONA",
+    "catastro": {
+      "ref": "0048201CS3004N",
+      "confianza": "media-alta",
+      "nota": "AV ANTONIO DOMINGUEZ 6 — número y calle exactos; Catastro nombra el edificio «HT TENERIFE PRINCESS» (probable nombre anterior)."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 185,
+      "fuente": "Super.com",
+      "fechas": "16-22 nov 2026 (sin disponibilidad en fecha de referencia)"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "la val|jarque de la val": {
+    "nombre": "LA VAL",
+    "municipio": "JARQUE DE LA VAL",
+    "catastro": {
+      "ref": "6082203XL8058S",
+      "confianza": "alta",
+      "nota": "CL IGLESIA 32 — dentro del rango de la licencia (24-32)."
+    },
+    "trivago": {
+      "estado": "no-encontrado"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "nava real|navacerrada": {
+    "nombre": "NAVA REAL",
+    "municipio": "NAVACERRADA",
+    "catastro": {
+      "ref": "4594101VL1049S",
+      "confianza": "alta",
+      "nota": "CL HUERTAS 1 — coincidencia exacta."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 105,
+      "fuente": "Booking.com / Agoda / HolidayCheck",
+      "fechas": "21-22 nov 2026 (sin disponibilidad en fecha de referencia)"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "luna del valle|llanes": {
+    "nombre": "Luna del Valle",
+    "municipio": "LLANES",
+    "catastro": {
+      "ref": "3115104UP4131S",
+      "confianza": "muy-alta",
+      "nota": "Catastro nombra la parcela literalmente: «LG NUEVA 229 HOTEL LUNA DEL VALLE»."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 72,
+      "fuente": "Booking.com / Agoda / HolidayCheck",
+      "fechas": "21-22 nov 2026 (sin disponibilidad en fecha de referencia)"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "maestranza|ronda": {
+    "nombre": "MAESTRANZA",
+    "municipio": "RONDA",
+    "catastro": {
+      "ref": "6687520UF0668N",
+      "confianza": "alta",
+      "nota": "CL VIRGEN DE LA PAZ 24 — coincidencia exacta (corregido tras un primer intento por nombre de negocio que dio una coincidencia vecina errónea)."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 100,
+      "fuente": "Super.com",
+      "fechas": "21-22 nov 2026 (sin disponibilidad en fecha de referencia)"
+    },
+    "borme": {
+      "estado": "ambiguo",
+      "nota": "47 anuncios contienen «MAESTRANZA» en el título, pero ninguno corresponde a este hotel (aparecen p. ej. «CENTRO MÉDICO MAESTRANZA, S.A.», una clínica sin relación). Ejemplo real de que la búsqueda por palabra en el BORME da falsos positivos y necesita verificación cruzada — no se puede automatizar a ciegas."
+    },
+    "contacto": null
+  },
+  "hostal residencia urgell|balaguer": {
+    "nombre": "Hostal Residencia Urgell",
+    "municipio": "BALAGUER",
+    "catastro": {
+      "ref": null,
+      "confianza": "exacto",
+      "nota": "Coincidencia exacta de dirección en Google Maps + Catastro (pase rápido, sin verificación de ficha completa por parcela)."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 71,
+      "fuente": "trivago",
+      "fechas": "fecha de referencia"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "los canchos|buitrago del lozoya": {
+    "nombre": "LOS CANCHOS",
+    "municipio": "BUITRAGO DEL LOZOYA",
+    "catastro": {
+      "ref": null,
+      "confianza": "no-resuelto",
+      "nota": "Catastro no devolvió referencia para las coordenadas geocodificadas («PARA ESAS COORDENADAS NO HAY REFERENCIA DISPONIBLE»). Pendiente de revisar con más tiempo."
+    },
+    "trivago": {
+      "estado": "sin-disponibilidad"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "obal urban hotel|marbella": {
+    "nombre": "ÓBAL URBAN HOTEL",
+    "municipio": "MARBELLA",
+    "catastro": {
+      "ref": null,
+      "confianza": "exacto",
+      "nota": "Coincidencia exacta de dirección en Google Maps + Catastro."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 191,
+      "fuente": "trivago",
+      "fechas": "fecha de referencia"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "asturias|parres": {
+    "nombre": "Asturias",
+    "municipio": "PARRES",
+    "catastro": {
+      "ref": null,
+      "confianza": "discrepancia",
+      "nota": "Geocodificación de «Castañera, 42» con resultado dudoso — pendiente de confirmar con más tiempo."
+    },
+    "trivago": {
+      "estado": "sin-disponibilidad"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "gran via urban suites|alacant alicante": {
+    "nombre": "GRAN VIA URBAN SUITES",
+    "municipio": "ALACANT/ALICANTE",
+    "catastro": {
+      "ref": null,
+      "confianza": "matiz",
+      "nota": "Coincidencia razonable pero con algún matiz de numeración — no verificada con ficha completa de parcela."
+    },
+    "trivago": {
+      "estado": "sin-disponibilidad"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "fabrik|humanes de madrid": {
+    "nombre": "FABRIK",
+    "municipio": "HUMANES DE MADRID",
+    "catastro": {
+      "ref": null,
+      "confianza": "exacto",
+      "nota": "Coincidencia exacta de dirección en Google Maps + Catastro."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 275,
+      "fuente": "trivago",
+      "fechas": "19-20 sept 2026 (fecha alternativa sugerida por trivago)"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "hostal centro|barcelona": {
+    "nombre": "HOSTAL CENTRO",
+    "municipio": "BARCELONA",
+    "catastro": {
+      "ref": null,
+      "confianza": "exacto",
+      "nota": "Coincidencia exacta de dirección en Google Maps + Catastro."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 153,
+      "fuente": "trivago",
+      "fechas": "fecha de referencia"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "cigarral de caravantes|toledo": {
+    "nombre": "CIGARRAL DE CARAVANTES",
+    "municipio": "TOLEDO",
+    "catastro": {
+      "ref": null,
+      "confianza": "matiz",
+      "nota": "Coincidencia razonable, con algún matiz — no verificada con ficha completa de parcela."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 68,
+      "fuente": "trivago",
+      "fechas": "20-21 sept 2026 (fecha alternativa sugerida por trivago)"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "anhel|ferreries": {
+    "nombre": "ANHEL",
+    "municipio": "FERRERIES",
+    "catastro": {
+      "ref": null,
+      "confianza": "discrepancia",
+      "nota": "Discrepancia menor de dirección — pendiente de confirmar con más tiempo."
+    },
+    "trivago": {
+      "estado": "fecha-futura",
+      "nota": "9,4 de valoración; sin disponibilidad hasta 23-28 dic 2026."
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "don baco|paterna": {
+    "nombre": "DON BACO",
+    "municipio": "PATERNA",
+    "catastro": {
+      "ref": null,
+      "confianza": "no-resuelto",
+      "nota": "No se llegó a verificar en este pase rápido."
+    },
+    "trivago": {
+      "estado": "sin-disponibilidad"
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "hotel de torres|aller": {
+    "nombre": "Hotel De Torres",
+    "municipio": "ALLER",
+    "catastro": {
+      "ref": null,
+      "confianza": "no-resuelto",
+      "nota": "No se llegó a verificar en este pase rápido."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 50,
+      "fuente": "CHECK24 (como «Hotel Casa El Rapido»)",
+      "nota": "Trivago no reconoce «Hotel De Torres» como entidad propia; a 0,0 km de la dirección de la licencia aparece «Hotel Casa El Rapido», 2★ — probable cambio de nombre del mismo establecimiento. Se muestra con confianza media, pendiente de confirmar."
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "extremadura hotel|caceres": {
+    "nombre": "EXTREMADURA HOTEL",
+    "municipio": "CACERES",
+    "catastro": {
+      "ref": null,
+      "confianza": "discrepancia",
+      "nota": "Discrepancia menor — pendiente de confirmar con más tiempo."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 79,
+      "fuente": "CHECK24",
+      "fechas": "fecha de referencia"
+    },
+    "borme": null,
+    "contacto": {
+      "telefono": "927 62 96 39",
+      "web": "extremadurahotel.com"
+    }
+  },
+  "mino|castelldefels": {
+    "nombre": "Miño",
+    "municipio": "CASTELLDEFELS",
+    "catastro": {
+      "ref": null,
+      "confianza": "no-resuelto",
+      "nota": "«Passeig Pins 11» geocodifica de forma ambigua hacia Sant Feliu de Llobregat, no Castelldefels — no resuelto en este pase."
+    },
+    "trivago": {
+      "estado": "no-encontrado",
+      "nota": "Ni por nombre ni por nombre+dirección aparece en Trivago; solo hoteles de nombre parecido en otras provincias (Somiedo, Orense)."
+    },
+    "borme": null,
+    "contacto": null
+  },
+  "elba costa ballena|rota": {
+    "nombre": "ELBA COSTA BALLENA",
+    "municipio": "ROTA",
+    "catastro": {
+      "ref": null,
+      "confianza": "exacto",
+      "nota": "Coincidencia exacta de dirección en Google Maps + Catastro."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 101,
+      "fuente": "Página web del hotel (oferta fidelidad)",
+      "fechas": "fecha de referencia"
+    },
+    "borme": null,
+    "contacto": {
+      "telefono": "956 84 92 00",
+      "web": "hoteleselba.com"
+    }
+  },
+  "alcamino|santa cruz de bezana": {
+    "nombre": "ALCAMINO",
+    "municipio": "SANTA CRUZ DE BEZANA",
+    "catastro": {
+      "ref": null,
+      "confianza": "exacto",
+      "nota": "Coincidencia por nombre y municipio (como «Hotel Finca Alcamino»)."
+    },
+    "trivago": {
+      "estado": "precio",
+      "precio": 80,
+      "fuente": "CHECK24",
+      "fechas": "fecha de referencia"
+    },
+    "borme": null,
+    "contacto": null
+  }
+};
+// Fallback SOLO para pruebas locales (abriendo el .html a doble clic, sin servidor):
+// si falla el fetch() de licencias_completo.json (bloqueado por el navegador en file://),
+// se usa este subconjunto de 30 licencias para poder probar la ficha de detalle.
+const LIC_FALLBACK_MUESTRA_30 = {"columnas": ["destino", "provincia", "municipio", "tipo", "categoria", "registro", "nombre", "direccion", "cp", "hab", "plazas"], "filas": [["Lanzarote", "PALMAS (LAS)", "TIAS", "Hotel", "Cuatro Estrellas", "H-35-3-0000051", "Jameos Playa", "Playa De Los Pocillos,", "35000", 518, 1036], ["", "BADAJOZ", "VILLANUEVA DE LA SERENA", "Hotel", "1 Estrella", "", "EL EMIGRANTE", "CALLE CONCEPCIÓN, 3", "6700", 27, 48], ["Benidorm", "ALACANT", "BENIDORM", "HOTEL", "4 ESTRELLAS", "CV H01252 A", "BCL LEVANTE CLUB & SPA", "AVENIDA DR. SEVERO OCHOA (RINCÓN DE LOIX), 3B", "03503", 185, 372], ["", "TERUEL", "MORA DE RUBIELOS", "Hotel ****", "4estrellas", "H -TERUEL-07-003", "LA TRUFA NEGRA", "AVDA. IBAÑEZ MARTIN, 10-14", "44400", 39, 74], ["", "CÁDIZ", "CHICLANA DE LA FRONTERA", "Hotel", "3 Estrellas", "H/CA/01426", "CORAL PLAYA", "CARRETERA BARROSA Nº 179", "11130", 10, 14], ["", "CASTELLÓ", "CASTELLÓ DE LA PLANA/CASTELLÓN DE LA PLANA", "HOTEL", "4 ESTRELLAS", "CV H00645CS", "EUROHOTEL", "CALLE PINTOR OLIET, 9", "12006", 129, 260], ["", "CANTABRIA", "LAREDO", "ALOJAMIENTO EXTRAHOTELERO", "", "", "EL PELEGRIN", "EL PELEGRIN, 25", "", "", ""], ["Barcelona", "BARCELONA", "BARCELONA", "Hotels", "5 estrelles", "HB-004273", "SiR Victor Hotel", "Carrer ROSELLO 265", "08008", 91, 182], ["", "TARRAGONA", "XERTA", "Hotels", "3 estrelles", "HTE-000859", "Casa Ceremines", "Carrer Santa Teresa 14", "43592", 8, 16], ["", "ASTURIAS", "TARAMUNDI", "HOTEL", "2 ESTRELLAS", "", "Casa Petronila", "Pza. del Campo, Taramundi", "", "", 38], ["Tenerife", "SANTA CRUZ DE TENERIFE", "ARONA", "Hotel", "Cuatro Estrellas", "H-38-4-0000223", "Best Tenerife", "Avda. Antonio Dominguez, 6", "38660", 365, 696], ["", "TERUEL", "JARQUE DE LA VAL", "Hotel **", "2estrellas", "H -TERUEL-05-002", "LA VAL", "C/ LA IGLESIA, 24-32", "44169", 8, 16], ["", "MADRID", "NAVACERRADA", "HOTEL RURAL", "3-HOJA DE ROBLE", "TR-168", "NAVA REAL", "CALLE de las Huertas 1", "28491", "", ""], ["", "ASTURIAS", "LLANES", "HOTEL", "2 ESTRELLAS", "", "Luna del Valle", "Barrio La Nogalera, Nueva", "", "", 26], ["", "MÁLAGA", "RONDA", "Hotel", "4 Estrellas", "H/MA/01527", "MAESTRANZA", "CL VIRGEN DE LA PAZ 24", "29400", 70, 141], ["", "LLEIDA", "BALAGUER", "Hotels", "No aplica", "HL-000222", "Hostal Residencia Urgell", "Carrer Urgell 25", "25600", 18, 36], ["", "MADRID", "BUITRAGO DEL LOZOYA", "HOTEL", "2-HOTEL", "HM-4370", "LOS CANCHOS", "CALLE de la Villa 14", "28730", "", ""], ["", "MÁLAGA", "MARBELLA", "Hotel", "4 Estrellas", "H/MA/00088", "ÓBAL URBAN HOTEL", "CL RAMON Y CAJAL 3", "29600", 110, 241], ["", "ASTURIAS", "PARRES", "HOTEL", "2 ESTRELLAS", "", "Asturias", "Castañera, 42", "", "", 16], ["", "ALACANT", "ALACANT/ALICANTE", "HOTEL", "2 ESTRELLAS", "CV H01777 A", "GRAN VIA URBAN SUITES", "CALLE GRANJA ROCAMORA, 4", "03015", 15, 60], ["", "MADRID", "HUMANES DE MADRID", "HOTEL", "1-HOTEL", "HM-4503", "FABRIK", "CALLE de la Orquídea 13", "28970", "", ""], ["Barcelona", "BARCELONA", "BARCELONA", "Hotels", "No aplica", "HB-004152", "HOSTAL CENTRO", "Carrer de Balmes 83", "08008", 4, 8], ["", "TOLEDO", "TOLEDO", "Hoteles", "3 Estrellas", "", "CIGARRAL DE CARAVANTES", "CTRA. CIRCUNVALACIÓN, 2", "45001", "", 42], ["", "ILLES BALEARS", "FERRERIES", "HOTEL", "", "HC0037ME", "ANHEL", "C. FRED, 19", "", "5", "10"], ["", "VALÈNCIA", "PATERNA", "HOTEL", "1 ESTRELLA", "CV H01049 V", "DON BACO", "CALLE 29 ( LA CAÑADA), 46", "46182", 30, 51], ["", "ASTURIAS", "ALLER", "HOTEL", "2 ESTRELLAS", "", "Hotel De Torres", "Ctra. Gral., 85, Felechosa", "", "", 24], ["", "CÁCERES", "CACERES", "Hotel", "4 Estrellas", "", "EXTREMADURA HOTEL", "AVDA. VIRGEN DE GUADALUPE, 28", "10001", 152, 292], ["", "BARCELONA", "CASTELLDEFELS", "Hotels", "1 estrella", "HB-003405", "Miño", "Passeig Pins 11", "08860", 18, 36], ["", "CÁDIZ", "ROTA", "Hotel", "4 Estrellas", "H/CA/01197", "ELBA COSTA BALLENA", "AVENIDA CARLA DE ORLEANS, URB. COSTA BALLENA Nº S/N", "11520", 235, 472], ["", "CANTABRIA", "SANTA CRUZ DE BEZANA", "HOTEL", "", "", "ALCAMINO", "NAVALIAS, 10", "", "", ""]]};
+
+function _licNormClave(s) {
+  return (s || '').toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+}
+function _licClaveDe(nombre, municipio) { return _licNormClave(nombre) + '|' + _licNormClave(municipio); }
+function _licBuscarEnriquecido(f, ci) {
+  const clave = _licClaveDe(f[ci.nombre], f[ci.municipio]);
+  return LIC_MUESTRA_ENRIQUECIDA[clave] || null;
+}
+
+function _licPillConfianza(c) {
+  const map = {
+    'muy-alta': ['ok', 'Muy alta'], 'alta': ['ok', 'Alta'], 'media-alta': ['mid', 'Media-alta'],
+    'exacto': ['ok', 'Exacto'], 'matiz': ['mid', 'Con matiz'], 'discrepancia': ['mid', 'Discrepancia menor'],
+    'no-resuelto': ['bad', 'No resuelto']
+  };
+  const [cls, label] = map[c] || ['na', c || '—'];
+  return `<span class="licdet-pill ${cls}">${label}</span>`;
+}
+
+function licDetSwitchTab(tab) {
+  ['catastro','precios','societario','contacto'].forEach(t => {
+    document.getElementById('licdet-tab-btn-' + t).classList.toggle('active', t === tab);
+    document.getElementById('licdet-tab-content-' + t).style.display = (t === tab) ? 'block' : 'none';
+  });
+}
+
+function openLicDetail(idx) {
+  const f = window._licFiltradas[idx];
+  if (!f) return;
+  const ci = window._licCI;
+  const esc = s => (s === undefined || s === null ? '' : String(s)).replace(/</g, '&lt;');
+  const enr = _licBuscarEnriquecido(f, ci);
+
+  document.getElementById('panel-licencias').style.display = 'none';
+  document.getElementById('lic-detail-page').classList.add('open');
+  window.scrollTo(0, 0);
+
+  document.getElementById('licdet-title').textContent = f[ci.nombre] || 'Licencia sin nombre';
+  const metaParts = [f[ci.municipio], f[ci.provincia], f[ci.direccion]].filter(Boolean);
+  document.getElementById('licdet-meta').innerHTML = metaParts.map((p, i) =>
+    `<span>${esc(p)}</span>${i < metaParts.length - 1 ? '<span class="det-meta-sep">·</span>' : ''}`
+  ).join('');
+
+  document.getElementById('licdet-m-tipo').textContent = f[ci.tipo] || '—';
+  document.getElementById('licdet-m-cat').textContent = f[ci.categoria] || '—';
+  document.getElementById('licdet-m-hab').textContent = f[ci.hab] || '—';
+  document.getElementById('licdet-m-plazas').textContent = f[ci.plazas] || '—';
+  document.getElementById('licdet-m-cp').textContent = f[ci.cp] || '—';
+  document.getElementById('licdet-m-reg').textContent = f[ci.registro] || '—';
+  document.getElementById('licdet-sidebar-dir').innerHTML =
+    `${esc(f[ci.direccion]) || '—'}<br>${esc(f[ci.cp]) || ''} ${esc(f[ci.municipio]) || ''}<br>${esc(f[ci.provincia]) || ''}`;
+
+  document.getElementById('licdet-banner-noincluida').style.display = enr ? 'none' : 'block';
+
+  // ── Catastro ──
+  const catBody = document.getElementById('licdet-catastro-body');
+  if (enr && enr.catastro) {
+    const c = enr.catastro;
+    catBody.innerHTML = `
+      <div class="licdet-row"><span class="licdet-lbl">Referencia catastral</span><span style="font-family:monospace;font-weight:700">${esc(c.ref) || 'no capturada en este pase'}</span></div>
+      <div class="licdet-row"><span class="licdet-lbl">Confianza de la coincidencia</span>${_licPillConfianza(c.confianza)}</div>
+      <div style="margin-top:0.8rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(c.nota) || ''}</div>
+      <div style="margin-top:0.8rem;font-size:0.68rem;color:var(--muted)">Dato gratuito de la Sede Electrónica del Catastro. No incluye titular ni valor catastral (protegidos por la Ley del Catastro Inmobiliario).</div>
+    `;
+  } else {
+    catBody.innerHTML = `<div style="color:var(--muted);font-size:0.8rem">No incluido en la muestra de prueba.</div>`;
+  }
+
+  // ── Trivago ──
+  const preBody = document.getElementById('licdet-precios-body');
+  if (enr && enr.trivago) {
+    const t = enr.trivago;
+    if (t.estado === 'precio') {
+      preBody.innerHTML = `
+        <div style="display:flex;align-items:baseline;gap:0.6rem;margin-bottom:0.6rem">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:var(--green)">${t.precio} €</span>
+          <span style="font-size:0.75rem;color:var(--muted)">/ noche, precio más bajo encontrado</span>
+        </div>
+        <div class="licdet-row"><span class="licdet-lbl">Fuente</span><span>${esc(t.fuente) || '—'}</span></div>
+        <div class="licdet-row"><span class="licdet-lbl">Fechas usadas</span><span>${esc(t.fechas) || '—'}</span></div>
+        ${t.nota ? `<div style="margin-top:0.8rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(t.nota)}</div>` : ''}
+      `;
+    } else if (t.estado === 'sin-disponibilidad') {
+      preBody.innerHTML = `<span class="licdet-pill mid">Existe en Trivago</span><div style="margin-top:0.6rem;font-size:0.8rem;color:var(--text-mid)">Sin disponibilidad en la fecha de referencia ni fecha alternativa sugerida.</div>`;
+    } else if (t.estado === 'fecha-futura') {
+      preBody.innerHTML = `<span class="licdet-pill mid">Existe en Trivago</span><div style="margin-top:0.6rem;font-size:0.8rem;color:var(--text-mid)">${esc(t.nota) || 'Sin disponibilidad próxima.'}</div>`;
+    } else {
+      preBody.innerHTML = `<span class="licdet-pill bad">No está en Trivago</span><div style="margin-top:0.6rem;font-size:0.8rem;color:var(--text-mid)">${esc(t.nota) || 'Comprobado por nombre y por nombre+dirección — no tiene ficha propia en Trivago.'}</div>`;
+    }
+  } else {
+    preBody.innerHTML = `<div style="color:var(--muted);font-size:0.8rem">No incluido en la muestra de prueba.</div>`;
+  }
+
+  // ── BORME ──
+  const borBody = document.getElementById('licdet-societario-body');
+  if (enr && enr.borme) {
+    const b = enr.borme;
+    if (b.estado === 'encontrado') {
+      borBody.innerHTML = `<span class="licdet-pill ok">Razón social encontrada</span>
+        <div style="margin-top:0.6rem;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700">${esc(b.razon)}</div>
+        <div style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(b.nota) || ''}</div>`;
+    } else if (b.estado === 'ambiguo') {
+      borBody.innerHTML = `<span class="licdet-pill mid">Resultado ambiguo</span><div style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(b.nota) || ''}</div>`;
+    } else {
+      borBody.innerHTML = `<span class="licdet-pill na">Sin resultados</span><div style="margin-top:0.6rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(b.nota) || 'No aparece en la Sección II del BORME (fusiones, disoluciones, etc.).'}</div>`;
+    }
+  } else {
+    borBody.innerHTML = `<div style="color:var(--muted);font-size:0.8rem">No probado en esta muestra — el buscador del BORME solo cubre fusiones/disoluciones/escisiones, así que muchas sociedades pequeñas nunca aparecen ahí.</div>`;
+  }
+
+  // ── Contacto ──
+  const conBody = document.getElementById('licdet-contacto-body');
+  if (enr && enr.contacto) {
+    const c = enr.contacto;
+    conBody.innerHTML = `
+      <div class="licdet-row"><span class="licdet-lbl">Teléfono</span><span>${esc(c.telefono) || '—'}</span></div>
+      <div class="licdet-row"><span class="licdet-lbl">Web</span><span>${esc(c.web) || '—'}</span></div>
+      <div style="margin-top:0.8rem;font-size:0.68rem;color:var(--muted)">Capturado desde la ficha de Google Maps del establecimiento.</div>
+    `;
+  } else {
+    conBody.innerHTML = `<div style="color:var(--muted);font-size:0.8rem">No probado en esta muestra.</div>`;
+  }
+
+  licDetSwitchTab('catastro');
+}
+
+function closeLicDetail() {
+  document.getElementById('lic-detail-page').classList.remove('open');
+  document.getElementById('panel-licencias').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+
+// ── FAVORITOS DE LICENCIAS (clave propia: registro, o nombre+municipio+dirección) ──
+let licFavFilter = false;
+function licFavKey(f, ci) {
+  const reg = (f[ci.registro] || '').toString().trim();
+  if (reg) return 'reg:' + reg;
+  return 'nmd:' + _licNormClave(f[ci.nombre]) + '|' + _licNormClave(f[ci.municipio]) + '|' + _licNormClave(f[ci.direccion]);
+}
+function getLicFavs() {
+  try { return JSON.parse(localStorage.getItem('lic_favs') || '[]'); } catch(e) { return []; }
+}
+function saveLicFavs(arr) {
+  try { localStorage.setItem('lic_favs', JSON.stringify(arr)); } catch(e) {}
+}
+function isLicFav(key) { return getLicFavs().includes(key); }
+function toggleLicFav(key, btn) {
+  let favs = getLicFavs();
+  if (favs.includes(key)) {
+    favs = favs.filter(k => k !== key);
+    btn.classList.remove('saved');
+    btn.textContent = '☆';
+  } else {
+    favs.push(key);
+    btn.classList.add('saved');
+    btn.textContent = '★';
+  }
+  saveLicFavs(favs);
+  updateLicFavBadge();
+  if (licFavFilter) licAplicarFiltros();
+}
+function licToggleFavFilter() {
+  licFavFilter = !licFavFilter;
+  document.getElementById('lic-fav-toggle').classList.toggle('on', licFavFilter);
+  licAplicarFiltros();
+}
+function updateLicFavBadge() {
+  const n = getLicFavs().length;
+  const badge = document.getElementById('lic-fav-count-badge');
+  if (badge) badge.textContent = n > 0 ? `(${n})` : '';
+}
+
+function licRenderPagina() {
+  const ci = window._licCI;
+  const filtradas = window._licFiltradas || [];
+  const totalPaginas = Math.max(1, Math.ceil(filtradas.length / LIC_POR_PAGINA));
+  const pagina = window._licPagina;
+  const desde = (pagina - 1) * LIC_POR_PAGINA;
+  const pageRows = filtradas.slice(desde, desde + LIC_POR_PAGINA);
+  const tbody = document.getElementById('lic-tbody');
+  const esc = s => (s === undefined || s === null ? '' : String(s)).replace(/</g, '&lt;');
+  if (!pageRows.length) {
+    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;color:var(--muted);padding:2rem;white-space:normal">Sin resultados con estos filtros</td></tr>`;
+  } else {
+    tbody.innerHTML = pageRows.map((f, localIdx) => {
+      const com = _licComunidadDe(f[ci.provincia]);
+      const globalIdx = desde + localIdx;
+      const enr = _licBuscarEnriquecido(f, ci);
+      const badge = enr ? '<span class="lic-muestra-badge">Muestra</span>' : '';
+      const favKey = licFavKey(f, ci);
+      const favOn = isLicFav(favKey);
+      return `<tr onclick="openLicDetail(${globalIdx})">
+        <td><button class="hotel-row-fav${favOn ? ' saved' : ''}" onclick="event.stopPropagation();toggleLicFav('${favKey.replace(/'/g, "\\'")}',this)" title="Guardar">${favOn ? '★' : '☆'}</button></td>
+        <td title="${esc(f[ci.nombre])}">${esc(f[ci.nombre]) || '—'}${badge}</td>
+        <td title="${esc(f[ci.tipo])}">${esc(f[ci.tipo]) || '—'}</td>
+        <td title="${esc(f[ci.categoria])}">${esc(f[ci.categoria]) || '—'}</td>
+        <td>${esc(com) || '—'}</td>
+        <td>${esc(f[ci.provincia]) || '—'}</td>
+        <td>${esc(f[ci.municipio]) || '—'}</td>
+        <td title="${esc(f[ci.direccion])}">${esc(f[ci.direccion]) || '—'}</td>
+        <td>${esc(f[ci.cp]) || '—'}</td>
+        <td>${esc(f[ci.registro]) || '—'}</td>
+        <td>${esc(f[ci.hab]) || '—'}</td>
+        <td>${esc(f[ci.plazas]) || '—'}</td>
+      </tr>`;
+    }).join('');
+  }
+  document.getElementById('lic-page-info').textContent = `Página ${pagina} de ${totalPaginas} (${filtradas.length.toLocaleString('es-ES')} resultados)`;
+  const prevBtn = document.getElementById('lic-page-prev');
+  const nextBtn = document.getElementById('lic-page-next');
+  prevBtn.disabled = pagina <= 1;
+  nextBtn.disabled = pagina >= totalPaginas;
+  prevBtn.style.opacity = pagina <= 1 ? 0.4 : 1;
+  nextBtn.style.opacity = pagina >= totalPaginas ? 0.4 : 1;
 }
 
 const ZONE_DATA = [
@@ -4310,45 +5494,20 @@ function resetFilters() {
   dateFilter    = 'all';
   regionFilter  = 'todos';
   priceFilter   = 'all';
-  // Reset portal chips
-  document.querySelectorAll('#portal-bar .chip').forEach(c => c.classList.remove('on'));
-  const todosPortal = document.getElementById('chip-todos-portal');
-  if (todosPortal) todosPortal.classList.add('on');
-  // Reset region chips
-  document.querySelectorAll('#region-bar .chip').forEach(c => c.classList.remove('on'));
-  const todosRegion = document.getElementById('chip-todos-region');
-  if (todosRegion) todosRegion.classList.add('on');
-  // Reset fecha chips
-  document.querySelectorAll('[id^="df-"]').forEach(c => c.classList.remove('on'));
-  const dfAll = document.getElementById('df-all');
-  if (dfAll) dfAll.classList.add('on');
-  // Reset precio chips
-  document.querySelectorAll('[id^="pf-"]').forEach(c => c.classList.remove('on'));
-  const pfAll = document.getElementById('pf-all');
-  if (pfAll) pfAll.classList.add('on');
+  const portalSel = document.getElementById('portal-select');
+  if (portalSel) portalSel.value = 'todos';
+  const regionSel = document.getElementById('region-select');
+  if (regionSel) regionSel.value = 'todos';
+  const dateSel = document.getElementById('date-select');
+  if (dateSel) dateSel.value = 'all';
+  const priceSel = document.getElementById('price-select');
+  if (priceSel) priceSel.value = 'all';
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
   render();
 }
 
-function toggleFilterDropdown() {
-  const btn      = document.getElementById('filter-toggle-btn');
-  const dropdown = document.getElementById('filter-dropdown');
-  const isOpen   = dropdown.classList.contains('open');
-  dropdown.classList.toggle('open', !isOpen);
-  btn.classList.toggle('open', !isOpen);
-}
-
-// Cerrar dropdown al hacer clic fuera
-document.addEventListener('click', e => {
-  const btn = document.getElementById('filter-toggle-btn');
-  const dd  = document.getElementById('filter-dropdown');
-  if (dd && btn && !btn.contains(e.target) && !dd.contains(e.target)) {
-    dd.classList.remove('open');
-    btn.classList.remove('open');
-  }
-});
 
 
 // ══════════════════════════════════════════════════════════
