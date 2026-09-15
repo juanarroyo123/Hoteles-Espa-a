@@ -736,6 +736,21 @@ header{
           <option value="year">Último año</option>
         </select>
       </div>
+      <div class="lic-ffield">
+        <label for="tracking-select">Estado (seguimiento)</label>
+        <select id="tracking-select" onchange="setTrackingFilter(this.value)">
+          <option value="todos">Todos</option>
+          <option value="sin_revisar">Sin revisar</option>
+          <option value="no_interesante">No interesante</option>
+          <option value="interesante">Interesante</option>
+          <option value="contactado">Contactado</option>
+          <option value="contactado_2">Contactado (2ª vez)</option>
+          <option value="respondido">Respondido</option>
+          <option value="negociacion">En negociación</option>
+          <option value="descartado">Descartado</option>
+          <option value="comprado">Comprado</option>
+        </select>
+      </div>
     </div>
     <div class="filter-dropdown-footer">
       <span class="date-count" id="date-count"></span>
@@ -1226,6 +1241,25 @@ header{
       </div>
       <span id="ret-results-count" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);white-space:nowrap"></span>
       <button class="fav-btn" id="ret-fav-toggle" onclick="toggleRetFavFilter()">★ Favoritos <span id="ret-fav-count-badge"></span></button>
+    </div>
+    <div class="filter-panel-static">
+      <div class="lic-filters-grid">
+        <div class="lic-ffield">
+          <label for="ret-tracking-select">Estado (seguimiento)</label>
+          <select id="ret-tracking-select" onchange="setTrackingFilter(this.value)">
+            <option value="todos">Todos</option>
+            <option value="sin_revisar">Sin revisar</option>
+            <option value="no_interesante">No interesante</option>
+            <option value="interesante">Interesante</option>
+            <option value="contactado">Contactado</option>
+            <option value="contactado_2">Contactado (2ª vez)</option>
+            <option value="respondido">Respondido</option>
+            <option value="negociacion">En negociación</option>
+            <option value="descartado">Descartado</option>
+            <option value="comprado">Comprado</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
   <div style="overflow-x:auto">
@@ -2544,6 +2578,7 @@ let portalFilter  = 'todos';
 let dateFilter    = 'all';
 let regionFilter  = 'todos';
 let priceFilter   = 'all';
+let trackingFilter = 'todos';
 let mapVisible   = false;
 let mapInstance  = null;
 let mapMarkers   = [];
@@ -2636,6 +2671,20 @@ function setPriceFilter(range) {
   render();
 }
 
+// Filtro por Estado de la "Decisión de compra" (seguimiento). Es el mismo
+// filtro para Hoteles en venta y Retiradas -- ambas pestañas comparten el
+// mismo seguimiento por URL -- así que hay un select en cada una y los dos
+// se mantienen sincronizados.
+function setTrackingFilter(val) {
+  trackingFilter = val;
+  const sel1 = document.getElementById('tracking-select');
+  if (sel1) sel1.value = val;
+  const sel2 = document.getElementById('ret-tracking-select');
+  if (sel2) sel2.value = val;
+  render();
+  renderRetiradas();
+}
+
 function updateRegionChips() {
   const sel = document.getElementById('region-select');
   if (!sel) return;
@@ -2676,6 +2725,7 @@ function updateFilterCount() {
   if (dateFilter !== 'all') count++;
   if (regionFilter !== 'todos') count++;
   if (priceFilter !== 'all') count++;
+  if (trackingFilter !== 'todos') count++;
   const el = document.getElementById('filter-count');
   if (el) {
     if (count > 0) { el.textContent = count; el.classList.add('visible'); }
@@ -2725,6 +2775,9 @@ function getFiltered() {
       return true;
     });
   }
+  // Filtro por Estado de seguimiento (Decisión de compra)
+  if (trackingFilter !== 'todos')
+    list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
   const q = (document.getElementById('search')?.value||'').toLowerCase().trim();
   if (q)
     list = list.filter(h =>
@@ -5843,6 +5896,7 @@ function resetFilters() {
   dateFilter    = 'all';
   regionFilter  = 'todos';
   priceFilter   = 'all';
+  trackingFilter = 'todos';
   const portalSel = document.getElementById('portal-select');
   if (portalSel) portalSel.value = 'todos';
   const regionSel = document.getElementById('region-select');
@@ -5851,6 +5905,8 @@ function resetFilters() {
   if (dateSel) dateSel.value = 'all';
   const priceSel = document.getElementById('price-select');
   if (priceSel) priceSel.value = 'all';
+  const trackingSel = document.getElementById('tracking-select');
+  if (trackingSel) trackingSel.value = 'todos';
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
@@ -6760,6 +6816,8 @@ function renderRetiradas() {
   const q = (document.getElementById('ret-search')?.value || '').trim().toLowerCase();
   let list = [...arr];
   if (window._retFavFilter) list = list.filter(h => isFav(h.url));
+  if (trackingFilter !== 'todos')
+    list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
   if (q) {
     list = list.filter(h =>
       (h.title || '').toLowerCase().includes(q) ||
