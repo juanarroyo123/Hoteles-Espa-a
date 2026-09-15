@@ -26197,9 +26197,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "359 licencias de alojamiento en Valencia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -26229,9 +26229,9 @@
     "source": "Milanuncios",
     "tipo": "Albergue/Hostel",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 35000
   },
   {
@@ -26243,9 +26243,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 5,
+    "ausencias": 0,
     "rooms": 12
   },
   {
@@ -26403,9 +26403,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 700
   },
   {
@@ -26417,9 +26417,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 9,
+    "ausencias": 0,
     "rooms": 9,
     "m2": 766
   },
@@ -26464,9 +26464,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 6,
+    "ausencias": 0,
     "rooms": 3,
     "m2": 161
   },
@@ -26479,9 +26479,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 5000
   },
   {
@@ -26493,9 +26493,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 595
   },
   {
@@ -26507,9 +26507,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 930
   },
   {
@@ -26537,9 +26537,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 667
   },
   {
@@ -26551,9 +26551,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 330
   },
   {
@@ -26581,9 +26581,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 102
   },
   {
@@ -26628,9 +26628,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 172
   },
   {
@@ -26642,9 +26642,9 @@
     "source": "Milanuncios",
     "tipo": "Albergue/Hostel",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 1331
   },
   {
@@ -26656,9 +26656,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 600
   },
   {
@@ -26670,9 +26670,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 237
   },
   {
@@ -26684,9 +26684,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 650
   },
   {
@@ -26698,9 +26698,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 6,
+    "ausencias": 0,
     "m2": 703
   },
   {
@@ -26712,9 +26712,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 277
   },
   {
@@ -26742,9 +26742,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Asturias",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 937
   },
   {
@@ -26788,9 +26788,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 566
   },
   {
@@ -26802,9 +26802,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 650
   },
   {
@@ -26816,9 +26816,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Aragón",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 443
   },
   {
@@ -26830,9 +26830,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
-    "ausencias": 9,
+    "ausencias": 0,
     "m2": 560
   },
   {
@@ -26844,9 +26844,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
-    "ausencias": 9,
+    "ausencias": 0,
     "rooms": 4,
     "m2": 800
   },
@@ -26859,9 +26859,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "04/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 9
+    "ausencias": 0
   },
   {
     "title": "59 habitaciones Hotel en venta in Platja d'Aro with pool - â¬ 22,000,000",
@@ -27301,9 +27301,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "07/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Madrid",
-    "ausencias": 3,
+    "ausencias": 0,
     "m2": 200,
     "licencia_texto": "",
     "licencia_motivo": "1091 licencias de alojamiento en Madrid (ver hoja TODAS LAS LICENCIAS)"
@@ -27317,9 +27317,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "07/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Madrid",
-    "ausencias": 3,
+    "ausencias": 0,
     "m2": 270,
     "licencia_texto": "",
     "licencia_motivo": "1091 licencias de alojamiento en Madrid (ver hoja TODAS LAS LICENCIAS)"
@@ -27333,9 +27333,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "07/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 2500,
     "licencia_texto": "",
     "licencia_motivo": "54 licencias de alojamiento en Castelldefels (ver hoja TODAS LAS LICENCIAS)"
@@ -27639,9 +27639,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "Can Parera | HB-003986 | No aplica",
     "licencia_motivo": "nombre/descripción coincide con la licencia"
   },
@@ -27654,9 +27654,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "13 licencias de alojamiento en Terrassa (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27669,8 +27669,8 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
-    "ausencias": 4,
+    "estado": "Activo",
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "2 licencias de alojamiento en Albaida (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27683,9 +27683,9 @@
     "source": "Idealista",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "359 licencias de alojamiento en Valencia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27698,9 +27698,9 @@
     "source": "Idealista",
     "tipo": "Apartamento turístico",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "359 licencias de alojamiento en Valencia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27713,9 +27713,9 @@
     "source": "Idealista",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 500,
     "licencia_texto": "",
     "licencia_motivo": "359 licencias de alojamiento en Valencia (ver hoja TODAS LAS LICENCIAS)"
@@ -27729,9 +27729,9 @@
     "source": "Idealista",
     "tipo": "Apartahotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 500,
     "licencia_texto": "",
     "licencia_motivo": "359 licencias de alojamiento en València (ver hoja TODAS LAS LICENCIAS)"
@@ -27745,9 +27745,9 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "359 licencias de alojamiento en València (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27760,10 +27760,10 @@
     "source": "Idealista",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 7,
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 257
   },
   {
@@ -27775,10 +27775,10 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 13,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Local en Axarquía s/n, Los Olivos, Vélez-Malaga",
@@ -27789,10 +27789,10 @@
     "source": "Idealista",
     "tipo": "Hotel 3*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 26,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Hotel, spa en del Comendador, Alquería-Torrealquería, Alhaurín de la Torre",
@@ -27803,9 +27803,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Local en Plazuela de Barajas, 3, Torrox Pueblo, Torrox",
@@ -27816,9 +27816,9 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Local en Centro Histórico, Málaga",
@@ -27829,10 +27829,10 @@
     "source": "Idealista",
     "tipo": "Hotel boutique 4*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 16,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Local en Playa de los Náufragos, Torrevieja",
@@ -27843,9 +27843,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 223,
     "licencia_texto": "",
     "licencia_motivo": "276 licencias de alojamiento en Alicante (ver hoja TODAS LAS LICENCIAS)"
@@ -27859,10 +27859,10 @@
     "source": "Idealista",
     "tipo": "Albergue/Hostel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 21,
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 880,
     "licencia_texto": "",
     "licencia_motivo": "17 licencias de alojamiento en Orihuela (ver hoja TODAS LAS LICENCIAS)"
@@ -27876,10 +27876,10 @@
     "source": "Idealista",
     "tipo": "Hotel 1*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 25,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Local en rentabilidad en Plaza Músico Óscar Tordera Iñesta, Mercado, Alicante / Alacant",
@@ -27890,9 +27890,9 @@
     "source": "Idealista",
     "tipo": "Pensión",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "276 licencias de alojamiento en Alicante (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27905,9 +27905,9 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "NATURE SUITES PUIG CAMPANA | CV H01494 A | 3 ESTRELLAS",
     "licencia_motivo": "nombre/descripción coincide con la licencia"
   },
@@ -27920,9 +27920,9 @@
     "source": "Idealista",
     "tipo": "Apartahotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "276 licencias de alojamiento en Alicante (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27935,9 +27935,9 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "276 licencias de alojamiento en Alicante (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27950,10 +27950,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 4,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "40 licencias de alojamiento en Jávea (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27966,9 +27966,9 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "276 licencias de alojamiento en Alicante (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -27981,9 +27981,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 700,
     "licencia_texto": "",
     "licencia_motivo": "276 licencias de alojamiento en Alicante (ver hoja TODAS LAS LICENCIAS)"
@@ -27997,9 +27997,9 @@
     "source": "Idealista",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "26 licencias de alojamiento en Guardamar del Segura (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28012,9 +28012,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28027,10 +28027,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
     "rooms": 48,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "92 licencias de alojamiento en Murcia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28043,10 +28043,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
     "rooms": 26,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "COSTA II | H.MU.405 | 2 *",
     "licencia_motivo": "nº hab coincide (26, único en Mazarrón)"
   },
@@ -28059,9 +28059,9 @@
     "source": "Idealista",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "92 licencias de alojamiento en Murcia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28074,9 +28074,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Aragón",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 9000,
     "licencia_texto": "",
     "licencia_motivo": "78 licencias de alojamiento en Zaragoza (ver hoja TODAS LAS LICENCIAS)"
@@ -28090,8 +28090,8 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
-    "ausencias": 4,
+    "estado": "Activo",
+    "ausencias": 0,
     "licencia_texto": "SAN ANTONIO | 47/000178 | 2ª - 2 Estrellas",
     "licencia_motivo": "único alojamiento con licencia en Iscar"
   },
@@ -28104,10 +28104,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 24,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28120,9 +28120,9 @@
     "source": "Idealista",
     "tipo": "Hotel 3*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28135,9 +28135,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28150,9 +28150,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28165,10 +28165,10 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 23,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28181,10 +28181,10 @@
     "source": "Idealista",
     "tipo": "Hotel 3*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 30,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "249 licencias de alojamiento en Calvià (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28197,10 +28197,10 @@
     "source": "Idealista",
     "tipo": "Hotel 2*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 50,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "72 licencias de alojamiento en Llucmajor (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28213,10 +28213,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 85,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "115 licencias de alojamiento en Capdepera (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28229,9 +28229,9 @@
     "source": "Idealista",
     "tipo": "Hotel boutique 4*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28244,9 +28244,9 @@
     "source": "Idealista",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28259,9 +28259,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28274,10 +28274,10 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 20,
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 160000,
     "licencia_texto": "",
     "licencia_motivo": ""
@@ -28291,10 +28291,10 @@
     "source": "Idealista",
     "tipo": "Hotel 4*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 20,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -28307,8 +28307,8 @@
     "source": "Idealista",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
-    "ausencias": 4,
+    "estado": "Activo",
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "3 licencias de alojamiento en Icod de los Vinos (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28321,10 +28321,10 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 29,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "VELILLA | H/GR/00778 | 2 Estrellas",
     "licencia_motivo": "nº hab coincide (29, único en Almuñécar)"
   },
@@ -28337,9 +28337,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "212 licencias de alojamiento en Granada (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -28384,10 +28384,10 @@
     "source": "Milanuncios",
     "tipo": "Albergue/Hostel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "rooms": 30,
-    "ausencias": 3,
+    "ausencias": 0,
     "m2": 1000,
     "licencia_texto": "",
     "licencia_motivo": "101 licencias de alojamiento en Salamanca (ver hoja TODAS LAS LICENCIAS)"
@@ -28464,10 +28464,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 50,
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 2000
   },
   {
@@ -28479,10 +28479,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 9,
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 300
   },
   {
@@ -28527,9 +28527,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 140
   },
   {
@@ -28556,9 +28556,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 900,
     "licencia_texto": "",
     "licencia_motivo": ""
@@ -28588,10 +28588,10 @@
     "source": "Milanuncios",
     "tipo": "Resort",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "rooms": 330,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Cambrils",
@@ -28602,9 +28602,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel 4*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 2400
   },
   {
@@ -28616,10 +28616,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 2*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cantabria",
     "rooms": 9,
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 800
   },
   {
@@ -28631,9 +28631,9 @@
     "source": "Milanuncios",
     "tipo": "Apartahotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 4,
+    "ausencias": 0,
     "m2": 300,
     "licencia_texto": "",
     "licencia_motivo": "13 licencias de alojamiento en Sabadell (ver hoja TODAS LAS LICENCIAS)"
@@ -28647,9 +28647,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 1361
   },
   {
@@ -28661,9 +28661,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 1287
   },
   {
@@ -28691,9 +28691,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 250
   },
   {
@@ -28705,10 +28705,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 22,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Ciudad Rodrigo",
@@ -28736,9 +28736,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 945
   },
   {
@@ -28750,10 +28750,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "rooms": 22,
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 10100
   },
   {
@@ -28765,9 +28765,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Canarias",
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Hotel rural venta en Sant Jaume Domenys",
@@ -28795,10 +28795,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "rooms": 9,
-    "ausencias": 3,
+    "ausencias": 0,
     "m2": 1002,
     "licencia_texto": "",
     "licencia_motivo": ""
@@ -28845,9 +28845,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 766
   },
   {
@@ -28859,10 +28859,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "rooms": 7,
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 239
   },
   {
@@ -28907,9 +28907,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 39013
   },
   {
@@ -28921,9 +28921,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 573
   },
   {
@@ -28935,10 +28935,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 16,
-    "ausencias": 7
+    "ausencias": 0
   },
   {
     "title": "Estivella",
@@ -28949,9 +28949,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 293
   },
   {
@@ -28963,10 +28963,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "rooms": 25,
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 730
   },
   {
@@ -28978,9 +28978,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 1034
   },
   {
@@ -29008,10 +29008,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "rooms": 3,
-    "ausencias": 6,
+    "ausencias": 0,
     "m2": 126
   },
   {
@@ -29023,9 +29023,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 354
   },
   {
@@ -29037,9 +29037,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 276
   },
   {
@@ -29067,10 +29067,10 @@
     "source": "Milanuncios",
     "tipo": "Casa Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "rooms": 4,
-    "ausencias": 5,
+    "ausencias": 0,
     "m2": 579
   },
   {
@@ -29082,9 +29082,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 771
   },
   {
@@ -29096,10 +29096,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 6,
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 200
   },
   {
@@ -29111,9 +29111,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 998
   },
   {
@@ -29125,9 +29125,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 6,
+    "ausencias": 0,
     "m2": 1055
   },
   {
@@ -29155,9 +29155,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 6,
+    "ausencias": 0,
     "m2": 101
   },
   {
@@ -29169,9 +29169,9 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 7,
+    "ausencias": 0,
     "m2": 175
   },
   {
@@ -30205,10 +30205,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 115,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Vendo cinco grandes hoteles-clubs altern",
@@ -30252,9 +30252,9 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "17 licencias de alojamiento en Siguenza (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -30267,10 +30267,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Aragón",
     "m2": 460,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Sevilla Capital",
@@ -30281,10 +30281,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 1*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 600,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Manzanares",
@@ -30328,10 +30328,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 221,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Lanjarón",
@@ -30342,11 +30342,11 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 9,
     "m2": 766,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Almuñécar",
@@ -30357,10 +30357,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 350,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "San Asensio",
@@ -30371,10 +30371,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "La Rioja",
     "m2": 800,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Tejeda de Tiétar",
@@ -30385,10 +30385,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "m2": 80,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Benidoleig",
@@ -30399,10 +30399,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "m2": 612,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "León Capital",
@@ -30429,10 +30429,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 447,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Puebla de Lillo",
@@ -30443,10 +30443,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 80,
-    "ausencias": 6
+    "ausencias": 0
   },
   {
     "title": "Orihuela",
@@ -30571,10 +30571,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 3*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "m2": 1723,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "7 licencias de alojamiento en Villarrobledo (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -30587,10 +30587,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 14,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "CALPE | CV H01579 A | 2 ESTRELLAS",
     "licencia_motivo": "nº hab coincide (14, único en Calpe)"
   },
@@ -30619,9 +30619,9 @@
     "source": "Milanuncios",
     "tipo": "Apartahotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Madrid",
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Alicante / Alacant",
@@ -30632,10 +30632,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 3*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 38,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Cambrils",
@@ -30646,10 +30646,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 268,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Villalbilla",
@@ -30660,10 +30660,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Madrid",
     "m2": 4615,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Marbella",
@@ -30674,10 +30674,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 5*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 146,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -30690,10 +30690,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "m2": 57772,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "El Vendrell",
@@ -30704,10 +30704,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 5*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 80,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "La Puebla de Arganzón",
@@ -30718,10 +30718,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 30941,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Estepona",
@@ -30748,9 +30748,9 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Casabermeja",
@@ -30761,11 +30761,11 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 9,
     "m2": 800000,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Cartagena",
@@ -30776,10 +30776,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
     "m2": 81,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Barcelona Capital",
@@ -30790,10 +30790,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 150,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Calpe / Calp",
@@ -30804,11 +30804,11 @@
     "source": "Milanuncios",
     "tipo": "Hotel 2*",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 6,
     "m2": 350,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Gea de Albarracín",
@@ -30819,10 +30819,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Aragón",
     "m2": 540,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Roquetas de Mar",
@@ -30833,10 +30833,10 @@
     "source": "Milanuncios",
     "tipo": "Albergue/Hostel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 106,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "urbanización - Av Rosita Ferrer",
@@ -30847,10 +30847,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 78,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Los Realejos",
@@ -30861,10 +30861,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Canarias",
     "m2": 1284,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Granada Capital",
@@ -30875,11 +30875,11 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 4,
     "m2": 109,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Mutxamel",
@@ -30890,10 +30890,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "m2": 245,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Granada Capital",
@@ -30904,10 +30904,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 145,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Oropesa del Mar / Orpesa",
@@ -30918,11 +30918,11 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 2,
     "m2": 115,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "La Coma i la Pedra",
@@ -30933,10 +30933,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 465,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Sant Fruitós de Bages",
@@ -30979,11 +30979,11 @@
     "source": "Milanuncios",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 13,
     "m2": 1100,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Hotel Acosta Centro - C. Fray Alonso Ca",
@@ -30994,11 +30994,11 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "rooms": 1,
     "m2": 70,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Fuengirola",
@@ -31009,10 +31009,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 89,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "La Puebla de Arganzón",
@@ -31023,10 +31023,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "País Vasco",
     "m2": 33094,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Santa Coloma de Gramenet",
@@ -31053,10 +31053,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 600,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Carballo",
@@ -31084,10 +31084,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 450,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Vilanova d'Escornalbou",
@@ -31098,10 +31098,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 36000,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Cenes de la Vega",
@@ -31144,10 +31144,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "m2": 250,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Vejer de la Frontera",
@@ -31158,10 +31158,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 18000,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Estepona",
@@ -31172,11 +31172,11 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "rooms": 2,
     "m2": 80,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Huelva Capital",
@@ -31187,10 +31187,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 250,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Torrente de Cinca",
@@ -31201,10 +31201,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "m2": 1162,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Cambrils",
@@ -31215,10 +31215,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 125,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Almoradí",
@@ -31229,11 +31229,11 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "rooms": 3,
     "m2": 167,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "LA ESPERANZA - TF-24",
@@ -31244,11 +31244,11 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Canarias",
     "rooms": 7,
     "m2": 1000,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Santanyí",
@@ -31259,10 +31259,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "m2": 217,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Argamasilla de Alba",
@@ -31273,10 +31273,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "m2": 631,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Cacabelos",
@@ -31287,10 +31287,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Baleares",
     "m2": 190,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Pamplona / Iruña",
@@ -31301,10 +31301,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Navarra",
     "m2": 100,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Valle de Valdebezana",
@@ -31315,10 +31315,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 730,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Valencia de Don Juan",
@@ -31345,10 +31345,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel boutique",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 1089,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Juan XXIII - C. 02 Vistahermosa",
@@ -31359,10 +31359,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "m2": 1840,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Lanjarón",
@@ -31373,10 +31373,10 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 766,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Calpe / Calp",
@@ -31452,10 +31452,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 198,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Segovia Capital",
@@ -31466,10 +31466,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 407,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Bercianos del Páramo",
@@ -31496,11 +31496,11 @@
     "source": "Milanuncios",
     "tipo": "Hostal",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "rooms": 3,
     "m2": 1007,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Arroyo de la Luz",
@@ -31511,10 +31511,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "m2": 763,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Casar de Cáceres",
@@ -31525,10 +31525,10 @@
     "source": "Milanuncios",
     "tipo": "Albergue/Hostel",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "m2": 9200,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "Alicante / Alacant",
@@ -31539,10 +31539,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "08/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "m2": 179,
-    "ausencias": 5
+    "ausencias": 0
   },
   {
     "title": "El Campello",
@@ -31815,9 +31815,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Murcia",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "92 licencias de alojamiento en Murcia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -31830,10 +31830,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "m2": 550,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "HOSTAL RURAL PLAZA DE LOS CONSULES | s/n | 2 Estrellas",
     "licencia_motivo": "nombre/descripción coincide con la licencia"
   },
@@ -31846,10 +31846,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "rooms": 6,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "Palau Macelli | PG-000305 | Sense categoritzar",
     "licencia_motivo": "nº hab coincide (6, único en Empuriabrava)"
   },
@@ -31862,10 +31862,10 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "rooms": 9,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "Hostal Milana | HG-001705 | No aplica",
     "licencia_motivo": "nº hab coincide (9, único en Girona)"
   },
@@ -31878,9 +31878,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "34 licencias de alojamiento en Torroella de Montgrí (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -31893,8 +31893,8 @@
     "source": "Idealista",
     "tipo": "Apartahotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
-    "ausencias": 4,
+    "estado": "Activo",
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "14 licencias de alojamiento en El Vendrell (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -31907,9 +31907,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -31922,9 +31922,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "49 licencias de alojamiento en Cadiz (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -31937,9 +31937,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "rooms": 18,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "MURILLO ARROYO 'LAS DEHESAS' | s/n | 2 Estrellas",
     "licencia_motivo": "nº hab coincide (18, único en Navalvillar de Pela)"
   },
@@ -31952,11 +31952,11 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "rooms": 24,
     "m2": 7755,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "21 licencias de alojamiento en Badajoz (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -31969,10 +31969,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "m2": 4000,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "37 licencias de alojamiento en Caceres (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -31985,11 +31985,11 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "rooms": 17,
     "m2": 600,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "ARGENTINA | s/n | 2 Estrellas",
     "licencia_motivo": "nº hab coincide (17, único en Caceres)"
   },
@@ -32002,10 +32002,10 @@
     "source": "Idealista",
     "tipo": "Hotel Rural",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Madrid",
     "rooms": 11,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "SOLAIRE | s/n | 2 Estrellas",
     "licencia_motivo": "único alojamiento con licencia en Castañar de Ibor (nº hab compatible: 22 vs 11)"
   },
@@ -32018,9 +32018,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "37 licencias de alojamiento en Caceres (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32033,9 +32033,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32048,9 +32048,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "4 licencias de alojamiento en Bembibre (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32063,8 +32063,8 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
-    "ausencias": 4,
+    "estado": "Activo",
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "2 licencias de alojamiento en Riego de la Vega (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32077,9 +32077,9 @@
     "source": "Idealista",
     "tipo": "Pensión",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cantabria",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32092,11 +32092,11 @@
     "source": "Idealista",
     "tipo": "Apartamento turístico",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cantabria",
     "rooms": 2,
     "m2": 80,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "214 licencias de alojamiento en Santander (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32109,9 +32109,9 @@
     "source": "Idealista",
     "tipo": "Pensión",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "m2": 262,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32124,11 +32124,11 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Navarra",
     "rooms": 19,
     "m2": 1500,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "22 licencias de alojamiento en Corella (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32141,9 +32141,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Navarra",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32156,9 +32156,9 @@
     "source": "Idealista",
     "tipo": "Pensión",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "País Vasco",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "3 licencias de alojamiento en Lasarte-Oria (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32171,10 +32171,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "rooms": 32,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "ROOM | H-PO-001728 | 2 ESTRELLAS",
     "licencia_motivo": "nº hab aprox. (34 vs 32)"
   },
@@ -32187,9 +32187,9 @@
     "source": "Idealista",
     "tipo": "Albergue/Hostel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "45 licencias de alojamiento en Pontevedra (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32202,9 +32202,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "74 licencias de alojamiento en A Coruna (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32217,10 +32217,10 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "rooms": 6,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "61 licencias de alojamiento en Lugo (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32233,10 +32233,10 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "m2": 480,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "19 licencias de alojamiento en Albacete (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32249,9 +32249,9 @@
     "source": "Idealista",
     "tipo": "Casa Rural",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "48 licencias de alojamiento en Castellon (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32264,9 +32264,9 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "m2": 752,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "32 licencias de alojamiento en Oropesa del Mar (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32279,10 +32279,10 @@
     "source": "Idealista",
     "tipo": "Casa Rural",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "C. Valenciana",
     "m2": 327,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "48 licencias de alojamiento en Castellon (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32295,9 +32295,9 @@
     "source": "Idealista",
     "tipo": "Hostal",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Madrid",
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "4 licencias de alojamiento en Villacastin (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32310,8 +32310,8 @@
     "source": "Idealista",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
-    "ausencias": 4,
+    "estado": "Activo",
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32388,10 +32388,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "m2": 1800,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32404,10 +32404,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 100,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "8 licencias de alojamiento en Isla Cristina (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32420,10 +32420,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla y León",
     "m2": 1087,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
@@ -32452,10 +32452,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "m2": 863,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "3 licencias de alojamiento en El Bonillo (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32468,10 +32468,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 3*",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 1000,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "Plaza Miami | HT-000604 | 3 estrelles",
     "licencia_motivo": "nombre/descripción coincide con la licencia"
   },
@@ -32484,10 +32484,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Castilla-La Mancha",
     "m2": 736,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "13 licencias de alojamiento en Valdepeñas (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32500,10 +32500,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 2552,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "17 licencias de alojamiento en Peralada (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32516,10 +32516,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 477,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "5 licencias de alojamiento en Planoles (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32532,10 +32532,10 @@
     "source": "Milanuncios",
     "tipo": "Alojamiento (n.d.)",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Extremadura",
     "m2": 617,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "14 licencias de alojamiento en Plasencia (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32548,10 +32548,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel Rural",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Cataluña",
     "m2": 535,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "8 licencias de alojamiento en Sant Jaume Dels Domenys (ver hoja TODAS LAS LICENCIAS)"
   },
@@ -32564,10 +32564,10 @@
     "source": "Milanuncios",
     "tipo": "Hotel 4*",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Andalucía",
     "m2": 2460,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": "1 licencia de alojamiento en Villanueva de la Concepcion pero su nº de habitaciones o categoría no coincide (revisar a mano)"
   },
@@ -32580,11 +32580,11 @@
     "source": "Milanuncios",
     "tipo": "Hotel",
     "date": "10/09/2026",
-    "estado": "Retirado",
+    "estado": "Activo",
     "location_region": "Galicia",
     "rooms": 16,
     "m2": 1020,
-    "ausencias": 4,
+    "ausencias": 0,
     "licencia_texto": "",
     "licencia_motivo": ""
   },
