@@ -271,18 +271,30 @@ header{
 .hotel-table th,.hotel-table td{text-align:left !important;white-space:nowrap}
 .hotel-table th:first-child,.hotel-table td:first-child{width:2rem}
 .hotel-table th:last-child,.hotel-table td:last-child{text-align:right !important;max-width:none;overflow:visible;white-space:nowrap}
-.hotel-table th:nth-child(6),.hotel-table td:nth-child(6),
 .hotel-table th:nth-child(7),.hotel-table td:nth-child(7),
 .hotel-table th:nth-child(8),.hotel-table td:nth-child(8),
-.hotel-table th:nth-child(11),.hotel-table td:nth-child(11){text-align:right !important;font-variant-numeric:tabular-nums}
+.hotel-table th:nth-child(9),.hotel-table td:nth-child(9),
+.hotel-table th:nth-child(12),.hotel-table td:nth-child(12){text-align:right !important;font-variant-numeric:tabular-nums}
 .hotel-table td{font-size:0.82rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
 .hotel-table tr{animation:cardIn 0.3s ease both}
+/* Tabla de Retiradas: mismo aspecto que hotel-table pero con una columna
+   menos (sin "Camas"), así que las columnas numéricas caen en otra
+   posición -- se define aparte para no desalinear ninguna de las dos. */
+.hotel-table-ret th,.hotel-table-ret td{text-align:left !important;white-space:nowrap}
+.hotel-table-ret th:first-child,.hotel-table-ret td:first-child{width:2rem}
+.hotel-table-ret th:last-child,.hotel-table-ret td:last-child{text-align:right !important;max-width:none;overflow:visible;white-space:nowrap}
+.hotel-table-ret th:nth-child(7),.hotel-table-ret td:nth-child(7),
+.hotel-table-ret th:nth-child(8),.hotel-table-ret td:nth-child(8),
+.hotel-table-ret th:nth-child(11),.hotel-table-ret td:nth-child(11){text-align:right !important;font-variant-numeric:tabular-nums}
+.hotel-table-ret td{font-size:0.82rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.hotel-table-ret tr{animation:cardIn 0.3s ease both}
 .hotel-row-fav{width:1.6rem;height:1.6rem;border-radius:50%;border:none;background:transparent;color:var(--border-dark);cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:color 0.15s}
 .hotel-row-fav.saved,.hotel-row-fav:hover{color:var(--gold)}
 .hotel-row-title{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hotel-row-new{margin-left:0.5rem;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap}
 .track-badge{margin-left:0.5rem;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap;display:inline-block}
 .track-badge.track-prioridad{background:#2c2c2c;color:#fff}
+.track-estado-sin_revisar{background:var(--surface);color:var(--muted)}
 .track-estado-interesante{background:#fff4e0;color:#9a6700}
 .track-estado-contactado,.track-estado-contactado_2,.track-estado-respondido{background:#e3edfa;color:#1d5aa6}
 .track-estado-negociacion{background:#f1e6fa;color:#6b3fa0}
@@ -1161,6 +1173,7 @@ header{
         <tr>
           <th></th>
           <th>Nombre</th>
+          <th>Estado</th>
           <th>Tipología</th>
           <th>Comunidad</th>
           <th>Municipio</th>
@@ -1174,7 +1187,7 @@ header{
         </tr>
       </thead>
       <tbody class="grid" id="grid">
-        <tr><td colspan="12"><div class="empty"><div class="empty-title">Cargando anuncios...</div></div></td></tr>
+        <tr><td colspan="13"><div class="empty"><div class="empty-title">Cargando anuncios...</div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -1204,11 +1217,12 @@ header{
     </div>
   </div>
   <div style="overflow-x:auto">
-    <table class="zone-table hotel-table">
+    <table class="zone-table hotel-table-ret">
       <thead>
         <tr>
           <th></th>
           <th>Nombre</th>
+          <th>Estado</th>
           <th>Tipología</th>
           <th>Comunidad</th>
           <th>Municipio</th>
@@ -1221,7 +1235,7 @@ header{
         </tr>
       </thead>
       <tbody class="grid" id="grid-retiradas">
-        <tr><td colspan="11"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
+        <tr><td colspan="12"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -2711,7 +2725,7 @@ function render() {
   if (resCount) resCount.textContent = `${list.length} resultado${list.length!==1?'s':''}`;
 
   if (!list.length) {
-    grid.innerHTML = `<tr><td colspan="12"><div class="empty">
+    grid.innerHTML = `<tr><td colspan="13"><div class="empty">
       <div class="empty-title">Sin resultados</div>
       <div class="empty-sub">Prueba otro filtro o búsqueda</div>
     </div></td></tr>`;
@@ -2769,8 +2783,9 @@ function render() {
     return `<tr style="animation-delay:${delay}s">
       <td><button class="hotel-row-fav${isFav(h.url)?' saved':''}" onclick="event.stopPropagation();toggleFav('${url}',this)" title="Guardar">${isFav(h.url)?'★':'☆'}</button></td>
       <td>
-        <div class="hotel-row-title" title="${title.replace(/"/g,'&quot;')}">${title}${isNew?'<span class="hotel-row-new">Nuevo</span>':''}${trackingBadgeHtml(h.url)}</div>
+        <div class="hotel-row-title" title="${title.replace(/"/g,'&quot;')}">${title}${isNew?'<span class="hotel-row-new">Nuevo</span>':''}</div>
       </td>
+      <td>${trackingColumnHtml(h.url)}</td>
       <td>${h.tipo||'—'}</td>
       <td>${h.location_region||'—'}</td>
       <td>${h.location||'—'}</td>
@@ -6574,15 +6589,16 @@ function guardarDecision() {
   // El badge de la fila en la lista se refresca al volver (closeDetailPage),
   // que es cuando esa tabla vuelve a ser visible.
 }
-function trackingBadgeHtml(url) {
-  if (!url) return '';
+// Columna "Estado" propia en la tabla del listado: mostramos siempre algo
+// (incluido "Sin revisar", en gris neutro) en vez de dejar la celda vacía,
+// para ver de un vistazo en qué punto está cada anuncio sin entrar en él.
+function trackingColumnHtml(url) {
+  if (!url) return `<span class="track-badge track-estado-sin_revisar">Sin revisar</span>`;
   const t = getTracking(url);
-  let html = '';
-  if (t.estado && t.estado !== 'sin_revisar') {
-    const entry = HOTEL_TRACKING_ESTADOS.find(e => e[0] === t.estado);
-    const lbl = entry ? entry[1] : t.estado;
-    html += `<span class="track-badge track-estado-${t.estado}">${lbl}</span>`;
-  }
+  const estado = t.estado || 'sin_revisar';
+  const entry = HOTEL_TRACKING_ESTADOS.find(e => e[0] === estado);
+  const lbl = entry ? entry[1] : estado;
+  let html = `<span class="track-badge track-estado-${estado}">${lbl}</span>`;
   if (t.prioridad) html += `<span class="track-badge track-prioridad">P${t.prioridad}</span>`;
   return html;
 }
@@ -6628,7 +6644,7 @@ function renderRetiradas() {
 
   const body = document.getElementById('grid-retiradas');
   if (!list.length) {
-    body.innerHTML = `<tr><td colspan="11"><div class="empty">
+    body.innerHTML = `<tr><td colspan="12"><div class="empty">
       <div class="empty-title">Sin resultados</div>
       <div class="empty-sub">Prueba otro filtro o búsqueda</div>
     </div></td></tr>`;
@@ -6654,7 +6670,8 @@ function renderRetiradas() {
     const superficie = h.m2 ? `${h.m2} m²` : '—';
     return `<tr>
       <td><button class="hotel-row-fav${isFav(h.url) ? ' saved' : ''}" onclick="event.stopPropagation();toggleFav('${url}',this);renderRetiradas()" title="Guardar">${isFav(h.url) ? '★' : '☆'}</button></td>
-      <td><div class="hotel-row-title" title="${title.replace(/"/g, '&quot;')}">${title}${trackingBadgeHtml(h.url)}</div></td>
+      <td><div class="hotel-row-title" title="${title.replace(/"/g, '&quot;')}">${title}</div></td>
+      <td>${trackingColumnHtml(h.url)}</td>
       <td>${h.tipo || '—'}</td>
       <td>${h.location_region || '—'}</td>
       <td>${h.location || '—'}</td>
