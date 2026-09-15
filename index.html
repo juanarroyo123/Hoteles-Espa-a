@@ -1889,9 +1889,7 @@ async function construirCruceLicencias(columnasLicencias, filasLicencias) {
   // y montamos el preset de prioridad A NIVEL DE PROVINCIA. Se usa tanto
   // para pre-ordenar las filas como para rellenar la hoja INPUTS.
   // SIN prioridades predeterminadas: la columna PRIORIDAD de INPUTS sale en
-  // blanco y la rellenas tú (1/2/3 o vacío = Sin prioridad). El preset queda
-  // vacío a propósito.
-  const _provPreset = new Map();  // provincia (normalizada) -> prioridad (vacío)
+  // blanco y la rellenas tú (1/2/3 o vacío = Sin prioridad).
   const prioridadProv = h => 99;  // sin orden por prioridad hasta que edites INPUTS
 
   const _STOP = new Set(['hotel','hostal','hostales','pension','pensiones','pensi','venta','apartamentos',
@@ -2285,7 +2283,7 @@ async function descargarExcel() {
   HOTELES_RAW_PARA_EXCEL.forEach(h => { const prov = provResuelta(h); _provCount.set(prov, (_provCount.get(prov) || 0) + 1); });
   const _provRows = [...(_provCount.entries())]
     .sort((a, b) => b[1] - a[1])
-    .map(([prov, n]) => [prov, _provPreset.get(_normLic(prov)) || '', n]);
+    .map(([prov, n]) => [prov, '', n]);
 
   // Cabecera informativa + tabla bonita. OJO: la PROVINCIA va en la col A y la
   // PRIORIDAD en la col B, para que la VLOOKUP de OFERTAS (INPUTS!$A:$B) siga
