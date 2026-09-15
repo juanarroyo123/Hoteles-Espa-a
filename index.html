@@ -281,6 +281,13 @@ header{
 .hotel-row-fav.saved,.hotel-row-fav:hover{color:var(--gold)}
 .hotel-row-title{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--text);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hotel-row-new{margin-left:0.5rem;background:var(--green);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap}
+.track-badge{margin-left:0.5rem;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap;display:inline-block}
+.track-badge.track-prioridad{background:#2c2c2c;color:#fff}
+.track-estado-interesante{background:#fff4e0;color:#9a6700}
+.track-estado-contactado,.track-estado-contactado_2,.track-estado-respondido{background:#e3edfa;color:#1d5aa6}
+.track-estado-negociacion{background:#f1e6fa;color:#6b3fa0}
+.track-estado-descartado{background:#fbe7e7;color:#b23a3a}
+.track-estado-comprado{background:#e6f4ea;color:#1e7e34}
 .hotel-row-price{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--green)}
 .hotel-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:0.8rem}
 .hotel-table .card-link{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em}
@@ -372,6 +379,11 @@ header{
 .det-btn-primary:hover{background:var(--green-light)}
 .det-btn-secondary{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;width:100%;padding:0.7rem;background:transparent;color:var(--text-mid);border:1px solid var(--border-dark);font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;cursor:pointer;text-decoration:none;transition:all 0.15s;margin-bottom:0.5rem}
 .det-btn-secondary:hover{border-color:var(--green);color:var(--green)}
+.det-dec-field{margin-bottom:0.9rem}
+.det-dec-field label{display:block;font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:0.35rem}
+.det-dec-field select,.det-dec-field input,.det-dec-field textarea{width:100%;border:1px solid var(--border-dark);background:#fff;font-family:'Open Sans',sans-serif;font-size:0.8rem;color:var(--text);padding:0.5rem 0.6rem;box-sizing:border-box}
+.det-dec-field textarea{resize:vertical;min-height:5rem;font-family:inherit}
+.det-dec-field select:focus,.det-dec-field input:focus,.det-dec-field textarea:focus{outline:none;border-color:var(--green)}
 
 /* ══ EMPTY ═══════════════════════════════════════════════ */
 .empty{grid-column:1/-1;text-align:center;padding:5rem 2rem;background:#fff}
@@ -632,6 +644,7 @@ header{
   <!-- Pestañas dentro del header -->
   <div class="view-bar">
     <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
+    <button class="tab-btn" id="tab-retiradas" onclick="switchTab('retiradas')">Retiradas</button>
     <button class="tab-btn" id="tab-licencias" onclick="switchTab('licencias')">Licencias</button>
     <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
   </div>
@@ -1012,6 +1025,34 @@ header{
             <button class="det-btn-secondary" onclick="closeDetailPage()">← Volver al listado</button>
           </div>
         </div>
+        <!-- Decisión de compra / seguimiento -->
+        <div class="det-sidebar-card" id="det-dec-card">
+          <div class="det-sidebar-title">Decisión de compra</div>
+          <div class="det-sidebar-body">
+            <div class="det-dec-field">
+              <label for="det-dec-estado">Estado</label>
+              <select id="det-dec-estado">
+                <option value="sin_revisar">Sin revisar</option>
+                <option value="interesante">Interesante</option>
+                <option value="contactado">Contactado</option>
+                <option value="contactado_2">Contactado (2ª vez)</option>
+                <option value="respondido">Respondido</option>
+                <option value="negociacion">En negociación</option>
+                <option value="descartado">Descartado</option>
+                <option value="comprado">Comprado</option>
+              </select>
+            </div>
+            <div class="det-dec-field">
+              <label for="det-dec-prioridad">Prioridad (1–5)</label>
+              <input type="number" id="det-dec-prioridad" min="1" max="5" step="1" placeholder="—">
+            </div>
+            <div class="det-dec-field">
+              <label for="det-dec-notas">Notas internas</label>
+              <textarea id="det-dec-notas" placeholder="Llamadas, respuestas, condiciones negociadas..."></textarea>
+            </div>
+            <button class="det-btn-primary" id="det-dec-guardar" onclick="guardarDecision()" style="border:none;cursor:pointer">Guardar decisión</button>
+          </div>
+        </div>
         <!-- Licencia candidata -->
         <div class="det-sidebar-card" id="det-lic-card">
           <div class="det-sidebar-title">Licencia candidata</div>
@@ -1134,6 +1175,53 @@ header{
       </thead>
       <tbody class="grid" id="grid">
         <tr><td colspan="12"><div class="empty"><div class="empty-title">Cargando anuncios...</div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ PANEL RETIRADAS ════════════════════════════════════ -->
+<div id="panel-retiradas" style="display:none">
+  <div class="hero" id="hero-retiradas">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Histórico de comparables</div>
+      <div class="hero-title">Ofertas<br><span>retiradas</span></div>
+      <p class="hero-desc">Anuncios que dejaron de estar disponibles en los portales (vendidos, retirados o caducados). Se conservan como referencia de precios — y para que puedas seguir consultando los que marcaste como favoritos aunque ya no estén a la venta.</p>
+    </div>
+    <div class="kpi-bar" style="grid-template-columns:repeat(2,1fr)">
+      <div class="kpi-box"><div class="kpi-box-val" id="ret-k-total">—</div><div class="kpi-box-lbl">Retiradas registradas</div></div>
+      <div class="kpi-box"><div class="kpi-box-val" id="ret-k-favs">—</div><div class="kpi-box-lbl">De tus favoritos</div></div>
+    </div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-bar-single">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" id="ret-search" placeholder="Buscar ciudad, tipo de hotel..." oninput="renderRetiradas()">
+      </div>
+      <span id="ret-results-count" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);white-space:nowrap"></span>
+      <button class="fav-btn" id="ret-fav-toggle" onclick="toggleRetFavFilter()">★ Favoritos <span id="ret-fav-count-badge"></span></button>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="zone-table hotel-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nombre</th>
+          <th>Tipología</th>
+          <th>Comunidad</th>
+          <th>Municipio</th>
+          <th>Superficie</th>
+          <th>Habitaciones</th>
+          <th>Portal</th>
+          <th>Retirado el</th>
+          <th>Precio</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="grid" id="grid-retiradas">
+        <tr><td colspan="11"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -2681,7 +2769,7 @@ function render() {
     return `<tr style="animation-delay:${delay}s">
       <td><button class="hotel-row-fav${isFav(h.url)?' saved':''}" onclick="event.stopPropagation();toggleFav('${url}',this)" title="Guardar">${isFav(h.url)?'★':'☆'}</button></td>
       <td>
-        <div class="hotel-row-title" title="${title.replace(/"/g,'&quot;')}">${title}${isNew?'<span class="hotel-row-new">Nuevo</span>':''}</div>
+        <div class="hotel-row-title" title="${title.replace(/"/g,'&quot;')}">${title}${isNew?'<span class="hotel-row-new">Nuevo</span>':''}${trackingBadgeHtml(h.url)}</div>
       </td>
       <td>${h.tipo||'—'}</td>
       <td>${h.location_region||'—'}</td>
@@ -2735,6 +2823,7 @@ function esDeHoy(str) {
 
 function switchTab(tab) {
   const isH = tab === 'hoteles';
+  const isR = tab === 'retiradas';
   const isL = tab === 'licencias';
   const isM = tab === 'mercado';
   if (!isH && mapVisible) {
@@ -2742,12 +2831,14 @@ function switchTab(tab) {
     document.getElementById('map-section').style.display = 'none';
     document.getElementById('map-toggle').classList.remove('on');
   }
-  document.getElementById('panel-hoteles').style.display  = isH ? 'block' : 'none';
-  document.getElementById('panel-licencias').style.display= isL ? 'block' : 'none';
-  document.getElementById('panel-mercado').style.display  = isM ? 'block' : 'none';
-  document.getElementById('filter-section').style.display = isH ? 'block' : 'none';
-  document.getElementById('hero-main').style.display      = isH ? 'flex'  : 'none';
+  document.getElementById('panel-hoteles').style.display   = isH ? 'block' : 'none';
+  document.getElementById('panel-retiradas').style.display = isR ? 'block' : 'none';
+  document.getElementById('panel-licencias').style.display = isL ? 'block' : 'none';
+  document.getElementById('panel-mercado').style.display   = isM ? 'block' : 'none';
+  document.getElementById('filter-section').style.display  = isH ? 'block' : 'none';
+  document.getElementById('hero-main').style.display       = isH ? 'flex'  : 'none';
   document.getElementById('tab-hoteles').classList.toggle('active', isH);
+  document.getElementById('tab-retiradas').classList.toggle('active', isR);
   document.getElementById('tab-licencias').classList.toggle('active', isL);
   document.getElementById('tab-mercado').classList.toggle('active', isM);
   if (isM && !window._marketRendered) {
@@ -2759,6 +2850,7 @@ function switchTab(tab) {
   if (isL && !window._licLoaded) {
     licCargarDatos();
   }
+  if (isR) renderRetiradas();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -6387,13 +6479,16 @@ function saveFavs(arr) {
 function isFav(url) {
   return getFavs().includes(url);
 }
-// Quita de favoritos guardados los anuncios que el scraper ya no reconoce
-// como activos (se borraron del portal o llevan 3+ scrapeos sin aparecer y
-// se marcaron "Retirado"). Se ejecuta al cargar la página para que un
-// favorito nunca quede "fantasma" en la lista/contador.
+// Quita de favoritos guardados los anuncios que ya no existen NI como
+// activos NI como retirados (comparables) -- por ejemplo spam limpiado del
+// caché. Un favorito que pasa de "Hoteles en venta" a "Retiradas" se
+// conserva a propósito: el objetivo es justo poder seguir consultándolo en
+// la pestaña Retiradas aunque ya no esté a la venta. Se ejecuta al cargar
+// la página para que un favorito nunca quede "fantasma" en el contador.
 function limpiarFavsInactivos() {
   const favs = getFavs();
-  const activos = favs.filter(u => HOTELES_URLS.has(u));
+  const retiradosUrls = new Set((Array.isArray(RETIRADOS_HIST) ? RETIRADOS_HIST : []).map(h => h.url).filter(Boolean));
+  const activos = favs.filter(u => HOTELES_URLS.has(u) || retiradosUrls.has(u));
   if (activos.length !== favs.length) saveFavs(activos);
 }
 function toggleFav(url, btn) {
@@ -6423,6 +6518,161 @@ function updateFavBadge() {
   if (badge) badge.textContent = n > 0 ? `(${n})` : '';
 }
 
+// ══════════════════════════════════════════════════════
+// SEGUIMIENTO / DECISIÓN DE COMPRA — estado, prioridad y notas por
+// anuncio (activo o retirado), guardado en este navegador. Sustituye al
+// seguimiento manual que se hacía en columnas del Excel (Interesante,
+// Contactado, Contactado 2ª vez, Respondidos...) por un único estado +
+// prioridad + notas libres, editable desde la ficha de cada anuncio.
+// ══════════════════════════════════════════════════════
+const HOTEL_TRACKING_ESTADOS = [
+  ['sin_revisar', 'Sin revisar'],
+  ['interesante', 'Interesante'],
+  ['contactado', 'Contactado'],
+  ['contactado_2', 'Contactado (2ª vez)'],
+  ['respondido', 'Respondido'],
+  ['negociacion', 'En negociación'],
+  ['descartado', 'Descartado'],
+  ['comprado', 'Comprado'],
+];
+function getTrackingAll() {
+  try { return JSON.parse(localStorage.getItem('hotel_tracking') || '{}'); } catch (e) { return {}; }
+}
+function saveTrackingAll(obj) {
+  try { localStorage.setItem('hotel_tracking', JSON.stringify(obj)); } catch (e) {}
+}
+function getTracking(url) {
+  if (!url) return { estado: 'sin_revisar', prioridad: '', notas: '' };
+  const t = getTrackingAll()[url];
+  return t || { estado: 'sin_revisar', prioridad: '', notas: '' };
+}
+// Guarda el estado/prioridad/notas del anuncio actualmente abierto en la
+// ficha de detalle (window._detCurrentUrl, fijado por openDetailPage). Si
+// se deja todo en blanco/por defecto, se borra la entrada en vez de dejar
+// basura vacía en localStorage.
+function guardarDecision() {
+  const url = window._detCurrentUrl;
+  if (!url) return;
+  const all = getTrackingAll();
+  const estado = document.getElementById('det-dec-estado').value;
+  const prioridadRaw = document.getElementById('det-dec-prioridad').value;
+  let prioridad = '';
+  if (prioridadRaw) prioridad = Math.max(1, Math.min(5, parseInt(prioridadRaw, 10) || 1));
+  const notas = document.getElementById('det-dec-notas').value;
+  if (estado === 'sin_revisar' && !prioridad && !notas.trim()) {
+    delete all[url];
+  } else {
+    all[url] = { estado, prioridad, notas, actualizado: new Date().toISOString() };
+  }
+  saveTrackingAll(all);
+  const btn = document.getElementById('det-dec-guardar');
+  if (btn) {
+    const txt = btn.textContent;
+    btn.textContent = '✓ Guardado';
+    setTimeout(() => { btn.textContent = txt; }, 1600);
+  }
+  // El badge de la fila en la lista se refresca al volver (closeDetailPage),
+  // que es cuando esa tabla vuelve a ser visible.
+}
+function trackingBadgeHtml(url) {
+  if (!url) return '';
+  const t = getTracking(url);
+  let html = '';
+  if (t.estado && t.estado !== 'sin_revisar') {
+    const entry = HOTEL_TRACKING_ESTADOS.find(e => e[0] === t.estado);
+    const lbl = entry ? entry[1] : t.estado;
+    html += `<span class="track-badge track-estado-${t.estado}">${lbl}</span>`;
+  }
+  if (t.prioridad) html += `<span class="track-badge track-prioridad">P${t.prioridad}</span>`;
+  return html;
+}
+
+// ══════════════════════════════════════════════════════
+// PESTAÑA RETIRADAS — anuncios ya no disponibles, conservados como
+// comparables (histórico permanente, retirados_historico.json). Misma
+// idea que la hoja "RETIRADOS (comparables)" del Excel, pero navegable
+// aquí, con favoritos y seguimiento compartidos con "Hoteles en venta".
+// ══════════════════════════════════════════════════════
+function toggleRetFavFilter() {
+  window._retFavFilter = !window._retFavFilter;
+  const btn = document.getElementById('ret-fav-toggle');
+  if (btn) btn.classList.toggle('on', window._retFavFilter);
+  renderRetiradas();
+}
+function renderRetiradas() {
+  const arr = Array.isArray(RETIRADOS_HIST) ? RETIRADOS_HIST : [];
+  const kTotal = document.getElementById('ret-k-total');
+  const kFavs = document.getElementById('ret-k-favs');
+  if (kTotal) kTotal.textContent = arr.length.toLocaleString('es-ES');
+  if (kFavs) kFavs.textContent = arr.filter(h => isFav(h.url)).length.toLocaleString('es-ES');
+
+  const badge = document.getElementById('ret-fav-count-badge');
+  if (badge) { const n = arr.filter(h => isFav(h.url)).length; badge.textContent = n > 0 ? `(${n})` : ''; }
+
+  const q = (document.getElementById('ret-search')?.value || '').trim().toLowerCase();
+  let list = [...arr];
+  if (window._retFavFilter) list = list.filter(h => isFav(h.url));
+  if (q) {
+    list = list.filter(h =>
+      (h.title || '').toLowerCase().includes(q) ||
+      (h.location || '').toLowerCase().includes(q) ||
+      (h.location_region || '').toLowerCase().includes(q) ||
+      (h.tipo || '').toLowerCase().includes(q)
+    );
+  }
+  list.sort((a, b) => (parseDate(b.fecha_retirado) || 0) - (parseDate(a.fecha_retirado) || 0));
+  window._lastRenderedListRetiradas = list;
+
+  const cnt = document.getElementById('ret-results-count');
+  if (cnt) cnt.textContent = `${list.length} resultado${list.length !== 1 ? 's' : ''}`;
+
+  const body = document.getElementById('grid-retiradas');
+  if (!list.length) {
+    body.innerHTML = `<tr><td colspan="11"><div class="empty">
+      <div class="empty-title">Sin resultados</div>
+      <div class="empty-sub">Prueba otro filtro o búsqueda</div>
+    </div></td></tr>`;
+    return;
+  }
+
+  const BADGE = {
+    'idealista':'badge-idealista','fotocasa':'badge-fotocasa',
+    'thinkspain':'badge-thinkspain','kyero':'badge-kyero',
+    'globalhotels':'badge-globalhotels','hotels4sale':'badge-hotels4sale',
+    'viviun':'badge-viviun','buythathotel':'badge-buythathotel',
+    'tranio':'badge-tranio','spainhouses':'badge-spainhouses',
+    'greenacres':'badge-greenacres','habitaclia':'badge-habitaclia',
+    'milanuncios':'badge-milanuncios','negociostraspaso':'badge-negociostraspaso',
+  };
+
+  body.innerHTML = list.map((h, i) => {
+    const srcKey = (h.source || 'otro').toLowerCase().replace(/[^a-z]/g, '');
+    const badgeClass = BADGE[srcKey] || 'badge-otro';
+    const title = tasCleanTitle(h.title) || 'Hotel (retirado)';
+    const url = (h.url || '').replace(/'/g, "\\'");
+    const rooms = h.rooms || tasParseRooms(h.title, h.description, h.rooms);
+    const superficie = h.m2 ? `${h.m2} m²` : '—';
+    return `<tr>
+      <td><button class="hotel-row-fav${isFav(h.url) ? ' saved' : ''}" onclick="event.stopPropagation();toggleFav('${url}',this);renderRetiradas()" title="Guardar">${isFav(h.url) ? '★' : '☆'}</button></td>
+      <td><div class="hotel-row-title" title="${title.replace(/"/g, '&quot;')}">${title}${trackingBadgeHtml(h.url)}</div></td>
+      <td>${h.tipo || '—'}</td>
+      <td>${h.location_region || '—'}</td>
+      <td>${h.location || '—'}</td>
+      <td>${superficie}</td>
+      <td>${rooms || '—'}</td>
+      <td><span class="source-badge ${badgeClass}">${h.source || 'Otro'}</span></td>
+      <td>${h.fecha_retirado || '—'}</td>
+      <td class="hotel-row-price">${h.price || '—'}</td>
+      <td>
+        <div class="hotel-row-actions">
+          ${h.url ? `<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>` : ''}
+          <button class="btn-tasacion" onclick="event.stopPropagation();window._lastRenderedList=window._lastRenderedListRetiradas;openDetailPage(${i})">Ver análisis</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
 
 // ══════════════════════════════════════════════════════
 // DETAIL PAGE — página completa al hacer clic en "Ver análisis"
@@ -6431,6 +6681,13 @@ function openDetailPage(listIdx) {
   const list = window._lastRenderedList || HOTELES;
   const h = list[listIdx]; if (!h) return;
   const globalIdx = HOTELES.indexOf(h);
+
+  // Seguimiento / decisión de compra de ESTE anuncio (por URL)
+  window._detCurrentUrl = h.url || null;
+  const trk = getTracking(h.url);
+  document.getElementById('det-dec-estado').value = trk.estado || 'sin_revisar';
+  document.getElementById('det-dec-prioridad').value = trk.prioridad || '';
+  document.getElementById('det-dec-notas').value = trk.notas || '';
 
   const price = tasParsePrice(h.price);
   const rooms = tasParseRooms(h.title, h.description, h.rooms);
@@ -6442,8 +6699,11 @@ function openDetailPage(listIdx) {
   const ppm2 = (price && m2) ? Math.round(price / m2) : null;
   const title = tasCleanTitle(h.title) || 'Hotel en venta';
 
-  // Ocultar main, mostrar detail
+  // Ocultar main, mostrar detail — recordamos desde qué pestaña veníamos
+  // (Hoteles en venta o Retiradas) para volver ahí, no siempre a Hoteles.
+  window._detOriginTab = document.getElementById('panel-retiradas').style.display !== 'none' ? 'retiradas' : 'hoteles';
   document.getElementById('panel-hoteles').style.display = 'none';
+  document.getElementById('panel-retiradas').style.display = 'none';
   document.getElementById('panel-mercado').style.display = 'none';
   document.getElementById('filter-section').style.display = 'none';
   document.getElementById('hero-main').style.display = 'none';
@@ -6694,10 +6954,16 @@ function detSwitchTab(tab) {
 
 function closeDetailPage() {
   document.getElementById('detail-page').classList.remove('open');
-  const panel = document.getElementById('panel-hoteles');
-  panel.style.display = 'block';
-  document.getElementById('filter-section').style.display = 'block';
-  document.getElementById('hero-main').style.display = 'flex';
+  if (window._detOriginTab === 'retiradas') {
+    switchTab('retiradas'); // ya refresca la tabla (renderRetiradas) al entrar
+  } else {
+    document.getElementById('panel-hoteles').style.display = 'block';
+    document.getElementById('filter-section').style.display = 'block';
+    document.getElementById('hero-main').style.display = 'flex';
+    document.getElementById('tab-hoteles').classList.add('active');
+    document.getElementById('tab-retiradas').classList.remove('active');
+    render(); // refresca badges de estado/prioridad por si se han editado
+  }
   window.scrollTo(0, 0);
 }
 
