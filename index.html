@@ -295,6 +295,7 @@ header{
 .track-badge{margin-left:0.5rem;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap;display:inline-block}
 .track-badge.track-prioridad{background:#2c2c2c;color:#fff}
 .track-estado-sin_revisar{background:var(--surface);color:var(--muted)}
+.track-estado-no_interesante{background:#e8e4dc;color:#6b665c}
 .track-estado-interesante{background:#fff4e0;color:#9a6700}
 .track-estado-contactado,.track-estado-contactado_2,.track-estado-respondido{background:#e3edfa;color:#1d5aa6}
 .track-estado-negociacion{background:#f1e6fa;color:#6b3fa0}
@@ -1055,6 +1056,7 @@ header{
               <label for="det-dec-estado">Estado</label>
               <select id="det-dec-estado">
                 <option value="sin_revisar">Sin revisar</option>
+                <option value="no_interesante">No interesante</option>
                 <option value="interesante">Interesante</option>
                 <option value="contactado">Contactado</option>
                 <option value="contactado_2">Contactado (2ª vez)</option>
@@ -2736,6 +2738,16 @@ function getFiltered() {
     list = list.filter(h => favs.includes(h.url||''));
   }
   updateFilterCount();
+  // Orden por fecha: los más recientes primero (los de hoy, arriba del
+  // todo). Los que no tienen fecha reconocible se van al final, no delante.
+  list.sort((a, b) => {
+    const da = parseDate(a.date);
+    const db = parseDate(b.date);
+    if (da && db) return db - da;
+    if (da && !db) return -1;
+    if (!da && db) return 1;
+    return 0;
+  });
   return list;
 }
 
@@ -6661,6 +6673,7 @@ function actualizarEstadoManualUI(url) {
 // ══════════════════════════════════════════════════════
 const HOTEL_TRACKING_ESTADOS = [
   ['sin_revisar', 'Sin revisar'],
+  ['no_interesante', 'No interesante'],
   ['interesante', 'Interesante'],
   ['contactado', 'Contactado'],
   ['contactado_2', 'Contactado (2ª vez)'],
