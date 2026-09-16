@@ -88,35 +88,41 @@ header{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:2rem;
 }
-.login-logo{text-align:center;margin-bottom:0.4rem}
+.login-logo{text-align:center;margin-bottom:0.6rem}
 .login-logo .aop-wordmark{align-items:center}
-.login-logo .aop-allout{font-size:2rem}
-.login-logo .aop-cappartners{font-size:0.62rem;margin-top:0.3rem}
+.login-logo .aop-allout{font-size:2.1rem}
+.login-logo .aop-cappartners{font-size:0.68rem;letter-spacing:0.32em;font-weight:600;margin-top:0.35rem}
 .login-sub{
-  font-family:'Montserrat',sans-serif;font-size:0.68rem;letter-spacing:0.05em;
-  color:var(--muted);margin-top:0.7rem;text-align:center;
+  font-family:'Montserrat',sans-serif;font-size:0.7rem;letter-spacing:0.03em;
+  color:var(--muted);margin-top:0.8rem;text-align:center;
 }
 .login-card{
-  background:var(--card);border:1px solid var(--border);
-  padding:2rem 2.2rem;width:100%;max-width:360px;margin-top:2rem;
-  box-shadow:0 4px 24px rgba(26,92,69,0.06);
+  background:var(--card);border:1px solid var(--border);border-radius:8px;
+  padding:2.1rem 2.3rem;width:100%;max-width:360px;margin-top:2.2rem;
+  box-shadow:0 8px 28px rgba(26,92,69,0.08);
 }
-.login-field{margin-bottom:1.1rem}
+.login-field{margin-bottom:1.2rem}
 .login-field label{
-  display:block;font-family:'Montserrat',sans-serif;font-size:0.6rem;
-  letter-spacing:0.08em;text-transform:uppercase;color:var(--text-mid);
-  font-weight:600;margin-bottom:0.4rem;
+  display:block;font-family:'Montserrat',sans-serif;font-size:0.8rem;
+  letter-spacing:normal;text-transform:none;color:var(--text-mid);
+  font-weight:500;margin-bottom:0.45rem;
 }
 .login-field input{
-  width:100%;border:1px solid var(--border-dark);background:#fff;
+  width:100%;border:1px solid var(--border-dark);background:#fff;border-radius:5px;
   font-family:'Open Sans',sans-serif;font-size:0.85rem;color:var(--text);
-  padding:0.6rem 0.7rem;box-sizing:border-box;
+  padding:0.65rem 0.8rem;box-sizing:border-box;
 }
 .login-field input:focus{outline:none;border-color:var(--green)}
+.login-field input:-webkit-autofill,
+.login-field input:-webkit-autofill:hover,
+.login-field input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px #fff inset;
+  -webkit-text-fill-color:var(--text);
+}
 .login-btn{
-  width:100%;border:none;background:var(--green);color:#fff;cursor:pointer;
-  font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:700;
-  letter-spacing:0.08em;text-transform:uppercase;padding:0.75rem;margin-top:0.4rem;
+  width:100%;border:none;background:var(--green);color:#fff;cursor:pointer;border-radius:5px;
+  font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:600;
+  letter-spacing:normal;text-transform:none;padding:0.8rem;margin-top:0.5rem;
   transition:background 0.15s;
 }
 .login-btn:hover{background:var(--green-light)}
@@ -127,14 +133,15 @@ header{
 .login-error.show{display:block}
 
 /* Bloque de sesión en la cabecera (email + rol + salir) */
-.auth-status{display:flex;align-items:center;gap:0.7rem;font-family:'Montserrat',sans-serif;font-size:0.8rem;color:var(--text-mid);margin-right:1.6rem}
+.auth-status{display:flex;align-items:center;gap:0.7rem;font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--text);margin-right:1.6rem}
 .auth-role-badge{
+  font-family:'Montserrat',sans-serif;
   font-size:0.62rem;font-weight:700;letter-spacing:0.08em;padding:0.22rem 0.55rem;
   border-radius:2px;text-transform:uppercase;
 }
-.auth-role-badge.admin{background:#e6f4ea;color:#1e7e34}
+.auth-role-badge.admin{background:#e6f4ea;color:var(--green)}
 .auth-role-badge.viewer{background:var(--surface);color:var(--muted)}
-.auth-logout{color:var(--muted);text-decoration:underline;cursor:pointer;font-size:0.72rem}
+.auth-logout{color:var(--muted);text-decoration:underline;cursor:pointer;font-size:0.82rem;font-family:'Open Sans',sans-serif}
 .auth-logout:hover{color:var(--green)}
 .readonly-note{
   font-family:'Open Sans',sans-serif;font-size:0.72rem;color:var(--muted);
