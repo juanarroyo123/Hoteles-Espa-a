@@ -295,6 +295,7 @@ header{
 .track-badge{margin-left:0.5rem;font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;vertical-align:middle;white-space:nowrap;display:inline-block}
 .track-badge.track-prioridad{background:#2c2c2c;color:#fff}
 .track-estado-sin_revisar{background:var(--surface);color:var(--muted)}
+.track-estado-no_interesante{background:#e8e4dc;color:#6b665c}
 .track-estado-interesante{background:#fff4e0;color:#9a6700}
 .track-estado-contactado,.track-estado-contactado_2,.track-estado-respondido{background:#e3edfa;color:#1d5aa6}
 .track-estado-negociacion{background:#f1e6fa;color:#6b3fa0}
@@ -735,6 +736,21 @@ header{
           <option value="year">Último año</option>
         </select>
       </div>
+      <div class="lic-ffield">
+        <label for="tracking-select">Estado (seguimiento)</label>
+        <select id="tracking-select" onchange="setTrackingFilter(this.value)">
+          <option value="todos">Todos</option>
+          <option value="sin_revisar">Sin revisar</option>
+          <option value="no_interesante">No interesante</option>
+          <option value="interesante">Interesante</option>
+          <option value="contactado">Contactado</option>
+          <option value="contactado_2">Contactado (2ª vez)</option>
+          <option value="respondido">Respondido</option>
+          <option value="negociacion">En negociación</option>
+          <option value="descartado">Descartado</option>
+          <option value="comprado">Comprado</option>
+        </select>
+      </div>
     </div>
     <div class="filter-dropdown-footer">
       <span class="date-count" id="date-count"></span>
@@ -1037,6 +1053,16 @@ header{
             <button class="det-btn-secondary" onclick="closeDetailPage()">← Volver al listado</button>
           </div>
         </div>
+        <!-- Estado Activo/Retirado (manual) -->
+        <div class="det-sidebar-card" id="det-estado-card">
+          <div class="det-sidebar-title">Estado en la web</div>
+          <div class="det-sidebar-body">
+            <div id="det-estado-actual" style="font-size:0.76rem;color:var(--text-mid);line-height:1.5;margin-bottom:0.8rem">—</div>
+            <button class="det-btn-secondary" id="det-btn-marcar-retirado" onclick="accionEstadoManual('retirado')">Marcar como retirado</button>
+            <button class="det-btn-secondary" id="det-btn-reactivar" onclick="accionEstadoManual('activo')" style="display:none">Reactivar (a Hoteles en venta)</button>
+            <button class="det-btn-secondary" id="det-btn-quitar-ajuste" onclick="accionEstadoManual(null)" style="display:none;color:var(--muted)">Quitar ajuste manual</button>
+          </div>
+        </div>
         <!-- Decisión de compra / seguimiento -->
         <div class="det-sidebar-card" id="det-dec-card">
           <div class="det-sidebar-title">Decisión de compra</div>
@@ -1045,6 +1071,7 @@ header{
               <label for="det-dec-estado">Estado</label>
               <select id="det-dec-estado">
                 <option value="sin_revisar">Sin revisar</option>
+                <option value="no_interesante">No interesante</option>
                 <option value="interesante">Interesante</option>
                 <option value="contactado">Contactado</option>
                 <option value="contactado_2">Contactado (2ª vez)</option>
@@ -1214,6 +1241,25 @@ header{
       </div>
       <span id="ret-results-count" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);white-space:nowrap"></span>
       <button class="fav-btn" id="ret-fav-toggle" onclick="toggleRetFavFilter()">★ Favoritos <span id="ret-fav-count-badge"></span></button>
+    </div>
+    <div class="filter-panel-static">
+      <div class="lic-filters-grid">
+        <div class="lic-ffield">
+          <label for="ret-tracking-select">Estado (seguimiento)</label>
+          <select id="ret-tracking-select" onchange="setTrackingFilter(this.value)">
+            <option value="todos">Todos</option>
+            <option value="sin_revisar">Sin revisar</option>
+            <option value="no_interesante">No interesante</option>
+            <option value="interesante">Interesante</option>
+            <option value="contactado">Contactado</option>
+            <option value="contactado_2">Contactado (2ª vez)</option>
+            <option value="respondido">Respondido</option>
+            <option value="negociacion">En negociación</option>
+            <option value="descartado">Descartado</option>
+            <option value="comprado">Comprado</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
   <div style="overflow-x:auto">
@@ -1611,12 +1657,19 @@ const HOTELES = (function(raw) {
                 'terms of use','contact us','about us'];
   const HOTEL_KW = ['hotel','hostal','hostel','pensión','pension','aparthotel',
                     'posada','parador','fonda','casa rural','albergue','resort',
-                    'guesthouse','b&b','inn ','lodge','boutique',
+                    'guesthouse','b&b','inn ','lodge','boutique','alojamiento',
                     'apartamento turístico','apartamentos turísticos','edificio turístico'];
   return raw.filter(h => {
     const t = (h.title || '').toLowerCase();
     if (SPAM.some(s => t.includes(s))) return false;
-    if (!HOTEL_KW.some(k => t.includes(k))) return false;
+    // OJO: en Idealista y Milanuncios el TÍTULO suele ser genérico ("Local en
+    // Calle X"), no dice "hotel" aunque el anuncio sí lo sea — el propio
+    // scraper ya lo clasificó como hotel/hostal (campo "tipo") y suele
+    // decirlo en la descripción. Por eso miramos título + descripción + tipo
+    // juntos: mirar solo el título dejaba fuera a la mayoría de Idealista
+    // y a la mitad de Milanuncios aunque estuviesen "Activo".
+    const combinado = t + ' ' + (h.description || '').toLowerCase() + ' ' + (h.tipo || '').toLowerCase();
+    if (!HOTEL_KW.some(k => combinado.includes(k))) return false;
     // NUEVO: los anuncios "Retirado" ya NO se borran del cache (se guardan
     // para llevar el histórico, como tu Excel), así que hay que ocultarlos
     // aquí explícitamente para que no aparezcan en la web como disponibles.
@@ -2278,7 +2331,11 @@ async function descargarExcel() {
   // prioridad al final). Si luego cambias algo en INPUTS, la columna
   // Prioridad se actualizará sola, pero para reordenar filas hace falta
   // un clic en el filtro (te lo explico también en el propio Excel).
-  const datosOrdenados = [...HOTELES_RAW_PARA_EXCEL].sort(
+  // aplicarOverridesActivos: para que el Excel coincida con lo que se ve en
+  // la web, respeta los ajustes manuales de Activo/Retirado (ver
+  // marcarEstadoManual / botón "Marcar como retirado" o "Reactivar" de la
+  // ficha de cada anuncio).
+  const datosOrdenados = aplicarOverridesActivos(HOTELES_RAW_PARA_EXCEL, RETIRADOS_HIST).sort(
     (a, b) => prioridadProv(a) - prioridadProv(b)
   );
 
@@ -2474,7 +2531,7 @@ async function descargarExcel() {
   // acumulan aquí para comparar precios de activos que ya no están a la venta.
   const CAB_RET = ['Municipio / Zona','Provincia','Comunidad / Región','Tipología',
     'Hab.','Sup. (m²)','Precio (€)','€/hab.','Portal','Fecha retirada','Link','Descripción'];
-  const _retArr = Array.isArray(RETIRADOS_HIST) ? RETIRADOS_HIST : [];
+  const _retArr = aplicarOverridesRetirados(HOTELES_RAW_PARA_EXCEL, RETIRADOS_HIST);
   const filasRet = _retArr.map(h => {
     const precioNum = parseFloat(String(h.price||'').replace(/[^\d,]/g,'').replace(',','.')) || '';
     const habNum = h.rooms || '';
@@ -2521,6 +2578,7 @@ let portalFilter  = 'todos';
 let dateFilter    = 'all';
 let regionFilter  = 'todos';
 let priceFilter   = 'all';
+let trackingFilter = 'todos';
 let mapVisible   = false;
 let mapInstance  = null;
 let mapMarkers   = [];
@@ -2561,11 +2619,14 @@ function updatePortalChips() {
 }
 
 function updateStats() {
+    // getEffectiveActivos() en vez de HOTELES directamente: así los KPIs de
+    // arriba también reflejan los ajustes manuales de Activo/Retirado.
+    const activos = getEffectiveActivos();
     const hace7 = new Date(); hace7.setDate(hace7.getDate() - 7);
-  const nuevos7 = HOTELES.filter(h => { const d = parseDate(h.date); return d && d >= hace7; });
-    const portales = new Set(HOTELES.map(h => h.source).filter(Boolean));
+  const nuevos7 = activos.filter(h => { const d = parseDate(h.date); return d && d >= hace7; });
+    const portales = new Set(activos.map(h => h.source).filter(Boolean));
     const todayStr = new Date().toLocaleDateString('es-ES');
-  const hoyCount = HOTELES.filter(h => {
+  const hoyCount = activos.filter(h => {
     const d = parseDate(h.date);
     return d && d.toLocaleDateString('es-ES') === todayStr;
   });
@@ -2574,12 +2635,12 @@ function updateStats() {
   const hkNuevos   = document.getElementById('hk-nuevos');
   const hkPortales = document.getElementById('hk-portales');
   const hkHoy      = document.getElementById('hk-hoy');
-  if (hkTotal)    hkTotal.textContent    = HOTELES.length;
-  if (hkPortales) hkPortales.textContent = new Set(HOTELES.map(h => h.source).filter(Boolean)).size;
+  if (hkTotal)    hkTotal.textContent    = activos.length;
+  if (hkPortales) hkPortales.textContent = new Set(activos.map(h => h.source).filter(Boolean)).size;
   const hace7b = new Date(); hace7b.setDate(hace7b.getDate()-7);
-  if (hkNuevos) hkNuevos.textContent = HOTELES.filter(h=>{const d=parseDate(h.date);return d&&d>=hace7b;}).length;
+  if (hkNuevos) hkNuevos.textContent = activos.filter(h=>{const d=parseDate(h.date);return d&&d>=hace7b;}).length;
   const todayStrb = new Date().toLocaleDateString('es-ES');
-  if (hkHoy) hkHoy.textContent = HOTELES.filter(h=>{const d=parseDate(h.date);return d&&d.toLocaleDateString('es-ES')===todayStrb;}).length;
+  if (hkHoy) hkHoy.textContent = activos.filter(h=>{const d=parseDate(h.date);return d&&d.toLocaleDateString('es-ES')===todayStrb;}).length;
 }
 
 function setPortalFilter(portal) {
@@ -2608,6 +2669,20 @@ function setPriceFilter(range) {
   const sel = document.getElementById('price-select');
   if (sel) sel.value = range;
   render();
+}
+
+// Filtro por Estado de la "Decisión de compra" (seguimiento). Es el mismo
+// filtro para Hoteles en venta y Retiradas -- ambas pestañas comparten el
+// mismo seguimiento por URL -- así que hay un select en cada una y los dos
+// se mantienen sincronizados.
+function setTrackingFilter(val) {
+  trackingFilter = val;
+  const sel1 = document.getElementById('tracking-select');
+  if (sel1) sel1.value = val;
+  const sel2 = document.getElementById('ret-tracking-select');
+  if (sel2) sel2.value = val;
+  render();
+  renderRetiradas();
 }
 
 function updateRegionChips() {
@@ -2650,6 +2725,7 @@ function updateFilterCount() {
   if (dateFilter !== 'all') count++;
   if (regionFilter !== 'todos') count++;
   if (priceFilter !== 'all') count++;
+  if (trackingFilter !== 'todos') count++;
   const el = document.getElementById('filter-count');
   if (el) {
     if (count > 0) { el.textContent = count; el.classList.add('visible'); }
@@ -2667,7 +2743,7 @@ function parseDate(str) {
 }
 
 function getFiltered() {
-  let list = [...HOTELES];
+  let list = getEffectiveActivos();
   if (portalFilter !== 'todos')
     list = list.filter(h => (h.source||'').toLowerCase() === portalFilter.toLowerCase());
   if (dateFilter !== 'all') {
@@ -2699,6 +2775,9 @@ function getFiltered() {
       return true;
     });
   }
+  // Filtro por Estado de seguimiento (Decisión de compra)
+  if (trackingFilter !== 'todos')
+    list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
   const q = (document.getElementById('search')?.value||'').toLowerCase().trim();
   if (q)
     list = list.filter(h =>
@@ -2712,6 +2791,16 @@ function getFiltered() {
     list = list.filter(h => favs.includes(h.url||''));
   }
   updateFilterCount();
+  // Orden por fecha: los más recientes primero (los de hoy, arriba del
+  // todo). Los que no tienen fecha reconocible se van al final, no delante.
+  list.sort((a, b) => {
+    const da = parseDate(a.date);
+    const db = parseDate(b.date);
+    if (da && db) return db - da;
+    if (da && !db) return -1;
+    if (!da && db) return 1;
+    return 0;
+  });
   return list;
 }
 
@@ -5807,6 +5896,7 @@ function resetFilters() {
   dateFilter    = 'all';
   regionFilter  = 'todos';
   priceFilter   = 'all';
+  trackingFilter = 'todos';
   const portalSel = document.getElementById('portal-select');
   if (portalSel) portalSel.value = 'todos';
   const regionSel = document.getElementById('region-select');
@@ -5815,6 +5905,8 @@ function resetFilters() {
   if (dateSel) dateSel.value = 'all';
   const priceSel = document.getElementById('price-select');
   if (priceSel) priceSel.value = 'all';
+  const trackingSel = document.getElementById('tracking-select');
+  if (trackingSel) trackingSel.value = 'todos';
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
@@ -6534,6 +6626,101 @@ function updateFavBadge() {
 }
 
 // ══════════════════════════════════════════════════════
+// RETIRO / REACTIVACIÓN MANUAL — a veces se sabe que un anuncio ya se ha
+// vendido de verdad aunque el scraper todavía lo vea "Activo", o al revés,
+// que uno marcado "Retirado" sigue en venta (falso retirado por bloqueo del
+// portal). Esto permite mandarlo a mano a la otra pestaña desde su ficha, y
+// deshacerlo cuando se quiera. OJO: es un ajuste guardado SOLO EN ESTE
+// NAVEGADOR (igual que favoritos/seguimiento) — no toca hoteles_cache.json,
+// así que si se abre la web en otro navegador/dispositivo no se ve, y si se
+// quiere un cambio permanente en los datos reales hay que corregir el
+// caché (ver restaurar_activos.py).
+// ══════════════════════════════════════════════════════
+function getManualOverrides() {
+  try { return JSON.parse(localStorage.getItem('hotel_manual_estado') || '{}'); } catch (e) { return {}; }
+}
+function saveManualOverrides(obj) {
+  try { localStorage.setItem('hotel_manual_estado', JSON.stringify(obj)); } catch (e) {}
+}
+// valor: 'retirado' (forzar a Retiradas aunque el caché diga Activo),
+// 'activo' (forzar a Hoteles en venta aunque el caché diga Retirado), o
+// null/undefined para quitar el ajuste y volver a lo que diga el caché real.
+function setManualOverride(url, valor) {
+  if (!url) return;
+  const overrides = getManualOverrides();
+  if (valor) overrides[url] = valor; else delete overrides[url];
+  saveManualOverrides(overrides);
+}
+function getManualOverride(url) {
+  if (!url) return null;
+  return getManualOverrides()[url] || null;
+}
+// Aplica los ajustes manuales sobre una pareja (activos, retirados) — se usa
+// tanto para lo que se ve en pantalla (HOTELES / RETIRADOS_HIST) como para
+// el Excel (HOTELES_RAW_PARA_EXCEL / RETIRADOS_HIST), que son listas algo
+// distintas.
+function aplicarOverridesActivos(baseActivos, baseRetirados) {
+  const overrides = getManualOverrides();
+  const retiradosArr = Array.isArray(baseRetirados) ? baseRetirados : [];
+  let list = (baseActivos || []).filter(h => overrides[h.url] !== 'retirado');
+  const urlsReactivadas = Object.keys(overrides).filter(u => overrides[u] === 'activo');
+  if (urlsReactivadas.length) {
+    const presentes = new Set(list.map(h => h.url));
+    urlsReactivadas.forEach(u => {
+      if (presentes.has(u)) return;
+      const h = retiradosArr.find(r => r.url === u);
+      if (h) list.push(Object.assign({}, h, { _reactivadoManual: true }));
+    });
+  }
+  return list;
+}
+function aplicarOverridesRetirados(baseActivos, baseRetirados) {
+  const overrides = getManualOverrides();
+  const activosArr = Array.isArray(baseActivos) ? baseActivos : [];
+  let list = (Array.isArray(baseRetirados) ? baseRetirados : []).filter(h => overrides[h.url] !== 'activo');
+  const urlsRetiradasManual = Object.keys(overrides).filter(u => overrides[u] === 'retirado');
+  if (urlsRetiradasManual.length) {
+    const presentes = new Set(list.map(h => h.url));
+    urlsRetiradasManual.forEach(u => {
+      if (presentes.has(u)) return;
+      const h = activosArr.find(x => x.url === u);
+      if (h) list.push(Object.assign({}, h, { _retiradoManual: true }));
+    });
+  }
+  return list;
+}
+// Listas "efectivas" para lo que se ve en la web (usan HOTELES/RETIRADOS_HIST,
+// las mismas que ya usan render()/renderRetiradas()).
+function getEffectiveActivos() { return aplicarOverridesActivos(HOTELES, RETIRADOS_HIST); }
+function getEffectiveRetirados() { return aplicarOverridesRetirados(HOTELES, RETIRADOS_HIST); }
+// Botones de la ficha de detalle: cambia el ajuste manual de ESTE anuncio y
+// refresca todo lo que dependa de él.
+function accionEstadoManual(valor) {
+  const url = window._detCurrentUrl;
+  if (!url) return;
+  setManualOverride(url, valor);
+  actualizarEstadoManualUI(url);
+  updateStats();
+}
+function actualizarEstadoManualUI(url) {
+  const override = getManualOverride(url);
+  const realActivo = HOTELES_URLS.has(url);
+  const efectivoActivo = override ? (override === 'activo') : realActivo;
+  const btnRet = document.getElementById('det-btn-marcar-retirado');
+  const btnAct = document.getElementById('det-btn-reactivar');
+  const btnQuitar = document.getElementById('det-btn-quitar-ajuste');
+  const info = document.getElementById('det-estado-actual');
+  if (btnRet) btnRet.style.display = efectivoActivo ? '' : 'none';
+  if (btnAct) btnAct.style.display = efectivoActivo ? 'none' : '';
+  if (btnQuitar) btnQuitar.style.display = override ? '' : 'none';
+  if (info) {
+    if (override === 'retirado') info.textContent = 'Marcado a mano como retirado (aunque el scraping lo vea activo). Se ve en la pestaña Retiradas.';
+    else if (override === 'activo') info.textContent = 'Reactivado a mano (aunque el scraping lo vea retirado). Se ve en Hoteles en venta.';
+    else info.textContent = efectivoActivo ? 'Activo según el último scraping.' : 'Retirado según el último scraping.';
+  }
+}
+
+// ══════════════════════════════════════════════════════
 // SEGUIMIENTO / DECISIÓN DE COMPRA — estado, prioridad y notas por
 // anuncio (activo o retirado), guardado en este navegador. Sustituye al
 // seguimiento manual que se hacía en columnas del Excel (Interesante,
@@ -6542,6 +6729,7 @@ function updateFavBadge() {
 // ══════════════════════════════════════════════════════
 const HOTEL_TRACKING_ESTADOS = [
   ['sin_revisar', 'Sin revisar'],
+  ['no_interesante', 'No interesante'],
   ['interesante', 'Interesante'],
   ['contactado', 'Contactado'],
   ['contactado_2', 'Contactado (2ª vez)'],
@@ -6616,7 +6804,7 @@ function toggleRetFavFilter() {
   renderRetiradas();
 }
 function renderRetiradas() {
-  const arr = Array.isArray(RETIRADOS_HIST) ? RETIRADOS_HIST : [];
+  const arr = getEffectiveRetirados();
   const kTotal = document.getElementById('ret-k-total');
   const kFavs = document.getElementById('ret-k-favs');
   if (kTotal) kTotal.textContent = arr.length.toLocaleString('es-ES');
@@ -6628,6 +6816,8 @@ function renderRetiradas() {
   const q = (document.getElementById('ret-search')?.value || '').trim().toLowerCase();
   let list = [...arr];
   if (window._retFavFilter) list = list.filter(h => isFav(h.url));
+  if (trackingFilter !== 'todos')
+    list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
   if (q) {
     list = list.filter(h =>
       (h.title || '').toLowerCase().includes(q) ||
@@ -6705,6 +6895,7 @@ function openDetailPage(listIdx) {
   document.getElementById('det-dec-estado').value = trk.estado || 'sin_revisar';
   document.getElementById('det-dec-prioridad').value = trk.prioridad || '';
   document.getElementById('det-dec-notas').value = trk.notas || '';
+  actualizarEstadoManualUI(h.url);
 
   const price = tasParsePrice(h.price);
   const rooms = tasParseRooms(h.title, h.description, h.rooms);

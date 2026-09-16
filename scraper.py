@@ -899,7 +899,7 @@ def scrape_lucasfox(driver):
 # ══════════════════════════════════════════════════════
 # sistema de baja
 # ══════════════════════════════════════════════════════
-def limpiar_bajas(cache, urls_encontradas):
+def limpiar_bajas(cache, urls_encontradas, portales_fallidos=None):
     """
     ANTES: los anuncios que llevaban 3+ ejecuciones sin aparecer se
     BORRABAN del todo (se perdía el histórico).
@@ -909,11 +909,26 @@ def limpiar_bajas(cache, urls_encontradas):
     puedes ver qué ha desaparecido de la oferta sin perder el dato.
     Si un anuncio "Retirado" vuelve a aparecer en un scraping posterior
     (algunos portales reactivan anuncios), vuelve a "Activo" solo.
+
+    portales_fallidos: nombres de 'source' (ej. {'Idealista'}) para los que
+    ESTA ejecución no ha conseguido resultados de verdad (bloqueo de IP,
+    captcha, caída del portal...). Un anuncio de uno de estos portales que
+    no aparece hoy NO suma ausencia: no es que se haya vendido o retirado,
+    es que no hemos podido comprobarlo. Sin esto, un portal bloqueado 3
+    días seguidos (p.ej. Idealista tras varios días desde la misma IP)
+    marcaba como "Retirado" TODOS sus anuncios de golpe, aunque siguieran
+    perfectamente activos -- visto en producción: 82/82 de Idealista y
+    139/350 de Milanuncios acabaron así.
     """
+    portales_fallidos = portales_fallidos or set()
     marcados_retirado = 0
     reactivados = 0
+    protegidos = 0
     for url, item in cache.items():
         if url not in urls_encontradas:
+            if item.get('source') in portales_fallidos:
+                protegidos += 1
+                continue
             ausencias = item.get('ausencias', 0) + 1
             item['ausencias'] = ausencias
             if ausencias >= 3 and item.get('estado') != 'Retirado':
@@ -928,6 +943,8 @@ def limpiar_bajas(cache, urls_encontradas):
         print(f'  Marcados como Retirado: {marcados_retirado} anuncios (3+ ejecuciones sin aparecer).')
     if reactivados:
         print(f'  Reactivados (volvieron a aparecer): {reactivados} anuncios.')
+    if protegidos:
+        print(f'  Protegidos de baja por fallo/bloqueo del portal esta ejecucion: {protegidos} anuncios (no se les cuenta ausencia).')
     return cache
 
 # ══════════════════════════════════════════════════════
@@ -2908,8 +2925,34 @@ if __name__ == '__main__':
     if precio_fix:
         print(f'  Precios basura saneados: {precio_fix} anuncios.')
 
+    # ── Detectar portales que han fallado ESTA ejecución (bloqueo de IP,
+    # captcha, caída, cambio de maquetación...) para no penalizar a sus
+    # anuncios como si se hubiesen retirado de verdad. Si un portal que
+    # tenía bastantes anuncios en cache no ha encontrado NINGUNO hoy, lo
+    # tratamos como fallo de ejecución, no como que todo se vendió de
+    # golpe. Es deliberadamente conservador (mejor no marcar una baja real
+    # unos días de más, que marcar de baja en masa anuncios que siguen
+    # activos por un bloqueo puntual del portal).
+    fuentes_cache = {}
+    for item in cache.values():
+        src = item.get('source', '')
+        if src:
+            fuentes_cache[src] = fuentes_cache.get(src, 0) + 1
+    fuentes_hoy = {}
+    for item in found_listings:
+        src = item.get('source', '')
+        if src:
+            fuentes_hoy[src] = fuentes_hoy.get(src, 0) + 1
+    UMBRAL_MIN_CACHE = 5
+    portales_fallidos = {
+        fuente for fuente, n_cache in fuentes_cache.items()
+        if n_cache >= UMBRAL_MIN_CACHE and fuentes_hoy.get(fuente, 0) == 0
+    }
+    if portales_fallidos:
+        print(f'  ⚠️ Portales sin ningun resultado hoy (tratados como fallo, no como bajas reales): {sorted(portales_fallidos)}')
+
     print('\nRevisando bajas...')
-    cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas)
+    cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas, portales_fallidos)
     save_cache(cache_nuevo)
     print(f'Cache guardado: {len(cache_nuevo)} totales ({nuevos} nuevos).')
 
