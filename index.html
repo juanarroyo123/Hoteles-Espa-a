@@ -799,9 +799,15 @@ header{
         </select>
       </div>
       <div class="lic-ffield">
-        <label for="region-select">Región / Comunidad autónoma</label>
+        <label for="region-select">Comunidad</label>
         <select id="region-select" onchange="setRegionFilter(this.value)">
           <option value="todos">Todas</option>
+        </select>
+      </div>
+      <div class="lic-ffield">
+        <label for="municipio-select">Municipio</label>
+        <select id="municipio-select" onchange="setMunicipioFilter(this.value)">
+          <option value="todos">Todos</option>
         </select>
       </div>
       <div class="lic-ffield">
@@ -841,6 +847,18 @@ header{
           <option value="negociacion">En negociación</option>
           <option value="descartado">Descartado</option>
           <option value="comprado">Comprado</option>
+        </select>
+      </div>
+      <div class="lic-ffield">
+        <label for="priority-select">Prioridad</label>
+        <select id="priority-select" onchange="setPriorityFilter(this.value)">
+          <option value="todos">Todas</option>
+          <option value="1">Prioridad 1</option>
+          <option value="2">Prioridad 2</option>
+          <option value="3">Prioridad 3</option>
+          <option value="4">Prioridad 4</option>
+          <option value="5">Prioridad 5</option>
+          <option value="sin_prioridad">Sin prioridad</option>
         </select>
       </div>
     </div>
@@ -1350,6 +1368,30 @@ header{
             <option value="negociacion">En negociación</option>
             <option value="descartado">Descartado</option>
             <option value="comprado">Comprado</option>
+          </select>
+        </div>
+        <div class="lic-ffield">
+          <label for="ret-priority-select">Prioridad</label>
+          <select id="ret-priority-select" onchange="setPriorityFilter(this.value)">
+            <option value="todos">Todas</option>
+            <option value="1">Prioridad 1</option>
+            <option value="2">Prioridad 2</option>
+            <option value="3">Prioridad 3</option>
+            <option value="4">Prioridad 4</option>
+            <option value="5">Prioridad 5</option>
+            <option value="sin_prioridad">Sin prioridad</option>
+          </select>
+        </div>
+        <div class="lic-ffield">
+          <label for="ret-region-select">Comunidad</label>
+          <select id="ret-region-select" onchange="setRegionFilter(this.value)">
+            <option value="todos">Todas</option>
+          </select>
+        </div>
+        <div class="lic-ffield">
+          <label for="ret-municipio-select">Municipio</label>
+          <select id="ret-municipio-select" onchange="setMunicipioFilter(this.value)">
+            <option value="todos">Todos</option>
           </select>
         </div>
       </div>
@@ -2739,6 +2781,8 @@ let dateFilter    = 'all';
 let regionFilter  = 'todos';
 let priceFilter   = 'all';
 let trackingFilter = 'todos';
+let priorityFilter = 'todos';
+let municipioFilter = 'todos';
 let mapVisible   = false;
 let mapInstance  = null;
 let mapMarkers   = [];
@@ -2748,6 +2792,7 @@ function init() {
   updateStats();
   updatePortalChips();
   updateRegionChips();
+  updateMunicipioChips();
   limpiarFavsInactivos();
   updateFavBadge();
   _importarFavoritosMicrozonasSiToca();
@@ -2817,11 +2862,39 @@ function setDateFilter(df) {
   render();
 }
 
+// Filtro por Comunidad autónoma -- mismo filtro para Hoteles en venta y
+// Retiradas, con los dos selects sincronizados entre sí.
 function setRegionFilter(region) {
   regionFilter = region;
-  const sel = document.getElementById('region-select');
-  if (sel) sel.value = region;
+  const sel1 = document.getElementById('region-select');
+  if (sel1) sel1.value = region;
+  const sel2 = document.getElementById('ret-region-select');
+  if (sel2) sel2.value = region;
   render();
+  renderRetiradas();
+}
+
+function matchesRegionFilter(h) {
+  if (regionFilter === 'todos') return true;
+  if (regionFilter === 'sin-region') return !h.location_region || h.location_region === '?';
+  return (h.location_region || '') === regionFilter;
+}
+
+// Filtro por Municipio -- igual que el de Comunidad: mismo filtro para
+// Hoteles en venta y Retiradas, con los dos selects sincronizados.
+function setMunicipioFilter(val) {
+  municipioFilter = val;
+  const sel1 = document.getElementById('municipio-select');
+  if (sel1) sel1.value = val;
+  const sel2 = document.getElementById('ret-municipio-select');
+  if (sel2) sel2.value = val;
+  render();
+  renderRetiradas();
+}
+
+function matchesMunicipioFilter(h) {
+  if (municipioFilter === 'todos') return true;
+  return (h.location || '').trim() === municipioFilter;
 }
 
 function setPriceFilter(range) {
@@ -2845,25 +2918,69 @@ function setTrackingFilter(val) {
   renderRetiradas();
 }
 
+// Filtro por Prioridad (1-5) de la "Decisión de compra" -- igual que el de
+// Estado: mismo filtro para Hoteles en venta y Retiradas, con los dos
+// selects sincronizados entre sí.
+function setPriorityFilter(val) {
+  priorityFilter = val;
+  const sel1 = document.getElementById('priority-select');
+  if (sel1) sel1.value = val;
+  const sel2 = document.getElementById('ret-priority-select');
+  if (sel2) sel2.value = val;
+  render();
+  renderRetiradas();
+}
+
+function matchesPriorityFilter(url) {
+  if (priorityFilter === 'todos') return true;
+  const p = getTracking(url).prioridad;
+  if (priorityFilter === 'sin_prioridad') return !p;
+  return String(p) === priorityFilter;
+}
+
 function updateRegionChips() {
-  const sel = document.getElementById('region-select');
-  if (!sel) return;
-  // Obtener regiones únicas ordenadas alfabéticamente, excluyendo '?'
-  const regions = [...new Set(HOTELES.map(h => h.location_region).filter(r => r && r !== '?'))].sort();
-  regions.forEach(reg => {
-    const opt = document.createElement('option');
-    opt.value = reg;
-    opt.textContent = reg;
-    sel.appendChild(opt);
+  const sels = [document.getElementById('region-select'), document.getElementById('ret-region-select')].filter(Boolean);
+  if (!sels.length) return;
+  // Comunidades de activos + retiradas, para que el filtro sirva en ambas pestañas
+  const todosHoteles = [...HOTELES, ...RETIRADOS_HIST];
+  const regions = [...new Set(todosHoteles.map(h => h.location_region).filter(r => r && r !== '?'))].sort();
+  const sinRegion = todosHoteles.filter(h => !h.location_region || h.location_region === '?').length;
+  sels.forEach(sel => {
+    regions.forEach(reg => {
+      const opt = document.createElement('option');
+      opt.value = reg;
+      opt.textContent = reg;
+      sel.appendChild(opt);
+    });
+    if (sinRegion > 0) {
+      const opt = document.createElement('option');
+      opt.value = 'sin-region';
+      opt.textContent = 'Sin región';
+      sel.appendChild(opt);
+    }
   });
-  // Añadir "Sin región" al final si hay hoteles sin región
-  const sinRegion = HOTELES.filter(h => !h.location_region || h.location_region === '?').length;
-  if (sinRegion > 0) {
-    const opt = document.createElement('option');
-    opt.value = 'sin-region';
-    opt.textContent = 'Sin región';
-    sel.appendChild(opt);
-  }
+}
+
+// Municipios que no son un municipio real (marcadores genéricos que a veces
+// devuelve algún portal en vez de la localidad concreta del anuncio).
+const MUNICIPIO_PLACEHOLDERS = new Set(['españa', 'portugal']);
+
+function updateMunicipioChips() {
+  const sels = [document.getElementById('municipio-select'), document.getElementById('ret-municipio-select')].filter(Boolean);
+  if (!sels.length) return;
+  const todosHoteles = [...HOTELES, ...RETIRADOS_HIST];
+  const municipios = [...new Set(
+    todosHoteles.map(h => (h.location || '').trim())
+      .filter(m => m && !MUNICIPIO_PLACEHOLDERS.has(m.toLowerCase()))
+  )].sort((a, b) => a.localeCompare(b, 'es'));
+  sels.forEach(sel => {
+    municipios.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m;
+      sel.appendChild(opt);
+    });
+  });
 }
 
 // Parsear precio de un hotel → valor en miles de € o null si es a consultar
@@ -2886,6 +3003,8 @@ function updateFilterCount() {
   if (regionFilter !== 'todos') count++;
   if (priceFilter !== 'all') count++;
   if (trackingFilter !== 'todos') count++;
+  if (priorityFilter !== 'todos') count++;
+  if (municipioFilter !== 'todos') count++;
   const el = document.getElementById('filter-count');
   if (el) {
     if (count > 0) { el.textContent = count; el.classList.add('visible'); }
@@ -2914,13 +3033,16 @@ function getFiltered() {
       list = list.filter(h => { const d = parseDate(h.date); return d && d >= cutoff; });
     }
   }
-  // Filtro región
+  // Filtro comunidad
   if (regionFilter !== 'todos') {
     if (regionFilter === 'sin-region')
       list = list.filter(h => !h.location_region || h.location_region === '?');
     else
       list = list.filter(h => (h.location_region||'') === regionFilter);
   }
+  // Filtro municipio
+  if (municipioFilter !== 'todos')
+    list = list.filter(h => matchesMunicipioFilter(h));
   // Filtro precio
   if (priceFilter !== 'all') {
     list = list.filter(h => {
@@ -2938,6 +3060,9 @@ function getFiltered() {
   // Filtro por Estado de seguimiento (Decisión de compra)
   if (trackingFilter !== 'todos')
     list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
+  // Filtro por Prioridad (1-5) de la Decisión de compra
+  if (priorityFilter !== 'todos')
+    list = list.filter(h => matchesPriorityFilter(h.url));
   const q = (document.getElementById('search')?.value||'').toLowerCase().trim();
   if (q)
     list = list.filter(h =>
@@ -6055,22 +6180,37 @@ function resetFilters() {
   portalFilter  = 'todos';
   dateFilter    = 'all';
   regionFilter  = 'todos';
+  municipioFilter = 'todos';
   priceFilter   = 'all';
   trackingFilter = 'todos';
+  priorityFilter = 'todos';
   const portalSel = document.getElementById('portal-select');
   if (portalSel) portalSel.value = 'todos';
   const regionSel = document.getElementById('region-select');
   if (regionSel) regionSel.value = 'todos';
+  const retRegionSel = document.getElementById('ret-region-select');
+  if (retRegionSel) retRegionSel.value = 'todos';
+  const municipioSel = document.getElementById('municipio-select');
+  if (municipioSel) municipioSel.value = 'todos';
+  const retMunicipioSel = document.getElementById('ret-municipio-select');
+  if (retMunicipioSel) retMunicipioSel.value = 'todos';
   const dateSel = document.getElementById('date-select');
   if (dateSel) dateSel.value = 'all';
   const priceSel = document.getElementById('price-select');
   if (priceSel) priceSel.value = 'all';
   const trackingSel = document.getElementById('tracking-select');
   if (trackingSel) trackingSel.value = 'todos';
+  const prioritySel = document.getElementById('priority-select');
+  if (prioritySel) prioritySel.value = 'todos';
+  const retPrioritySel = document.getElementById('ret-priority-select');
+  if (retPrioritySel) retPrioritySel.value = 'todos';
+  const retTrackingSel = document.getElementById('ret-tracking-select');
+  if (retTrackingSel) retTrackingSel.value = 'todos';
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
   render();
+  renderRetiradas();
 }
 
 
@@ -6980,6 +7120,12 @@ function renderRetiradas() {
   if (window._retFavFilter) list = list.filter(h => isFav(h.url));
   if (trackingFilter !== 'todos')
     list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
+  if (priorityFilter !== 'todos')
+    list = list.filter(h => matchesPriorityFilter(h.url));
+  if (regionFilter !== 'todos')
+    list = list.filter(h => matchesRegionFilter(h));
+  if (municipioFilter !== 'todos')
+    list = list.filter(h => matchesMunicipioFilter(h));
   if (q) {
     list = list.filter(h =>
       (h.title || '').toLowerCase().includes(q) ||
