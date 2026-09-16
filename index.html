@@ -2863,13 +2863,17 @@ function setDateFilter(df) {
 }
 
 // Filtro por Comunidad autónoma -- mismo filtro para Hoteles en venta y
-// Retiradas, con los dos selects sincronizados entre sí.
+// Retiradas, con los dos selects sincronizados entre sí. Al cambiar de
+// comunidad, el filtro de Municipio se recalcula para mostrar solo los
+// municipios que existen dentro de esa comunidad (si eliges Galicia, en
+// Municipio solo deben aparecer los municipios de anuncios de Galicia).
 function setRegionFilter(region) {
   regionFilter = region;
   const sel1 = document.getElementById('region-select');
   if (sel1) sel1.value = region;
   const sel2 = document.getElementById('ret-region-select');
   if (sel2) sel2.value = region;
+  updateMunicipioChips();
   render();
   renderRetiradas();
 }
@@ -2961,26 +2965,40 @@ function updateRegionChips() {
   });
 }
 
-// Municipios que no son un municipio real (marcadores genéricos que a veces
-// devuelve algún portal en vez de la localidad concreta del anuncio).
-const MUNICIPIO_PLACEHOLDERS = new Set(['españa', 'portugal']);
-
+// El desplegable de Municipio depende de la Comunidad elegida: si hay una
+// comunidad seleccionada, solo se listan los municipios que existen dentro
+// de esa comunidad (los mismos valores que se ven en la columna Municipio
+// de la tabla para esas filas -- incluida "España" si es lo que trae ese
+// anuncio, tal cual sale en la tabla). Si la comunidad es "Sin región" (el
+// "—" de la tabla), se listan los municipios de los anuncios sin comunidad
+// detectada. Con "Todas" se listan los municipios de todos los anuncios.
 function updateMunicipioChips() {
   const sels = [document.getElementById('municipio-select'), document.getElementById('ret-municipio-select')].filter(Boolean);
   if (!sels.length) return;
   const todosHoteles = [...HOTELES, ...RETIRADOS_HIST];
+  const base = todosHoteles.filter(h => matchesRegionFilter(h));
   const municipios = [...new Set(
-    todosHoteles.map(h => (h.location || '').trim())
-      .filter(m => m && !MUNICIPIO_PLACEHOLDERS.has(m.toLowerCase()))
+    base.map(h => (h.location || '').trim()).filter(Boolean)
   )].sort((a, b) => a.localeCompare(b, 'es'));
+
   sels.forEach(sel => {
+    const prevVal = sel.value;
+    sel.innerHTML = '<option value="todos">Todos</option>';
     municipios.forEach(m => {
       const opt = document.createElement('option');
       opt.value = m;
       opt.textContent = m;
       sel.appendChild(opt);
     });
+    sel.value = municipios.includes(prevVal) ? prevVal : 'todos';
   });
+
+  // Si el municipio que estaba activo ya no existe en la comunidad elegida,
+  // se limpia el filtro para no dejarlo "colgado" filtrando por un valor
+  // que ya no aparece en el desplegable.
+  if (municipioFilter !== 'todos' && !municipios.includes(municipioFilter)) {
+    municipioFilter = 'todos';
+  }
 }
 
 // Parsear precio de un hotel → valor en miles de € o null si es a consultar
@@ -6209,6 +6227,8 @@ function resetFilters() {
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
+  // Repoblar Municipio con la lista completa (ya no hay comunidad seleccionada)
+  updateMunicipioChips();
   render();
   renderRetiradas();
 }
