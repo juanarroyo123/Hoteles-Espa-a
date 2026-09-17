@@ -444,6 +444,7 @@ header{
 .det-metric:hover .det-edit-ico,.det-card-header:hover .det-edit-ico{opacity:0.65}
 .det-edit-ico:hover{color:var(--green);opacity:1!important}
 .det-metric-edit-input{width:100%;border:1px solid var(--green);border-radius:2px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--text);padding:0.1rem 0.3rem;box-sizing:border-box}
+.det-metric-edit-input.det-metric-edit-input-sm{font-family:'Open Sans',sans-serif;font-size:0.68rem;font-weight:400;color:var(--muted);padding:0.05rem 0.25rem;margin-top:0.3rem}
 .det-metric-edit-select{width:100%;border:1px solid var(--green);border-radius:2px;font-family:'Open Sans',sans-serif;font-size:0.82rem;color:var(--text);padding:0.35rem 0.4rem;box-sizing:border-box;background:#fff}
 .det-edit-actions{margin-top:0.5rem;display:flex;gap:0.9rem}
 .det-edit-actions a{font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;text-decoration:underline;cursor:pointer}
@@ -1051,8 +1052,8 @@ header{
         <div class="det-section-title">Datos del activo</div>
         <div class="det-metrics" id="det-metrics">
           <div class="det-metric"><div class="det-metric-lbl"><span>Precio anunciado</span><span class="det-edit-ico" id="det-edit-ico-precio" onclick="iniciarEdicionMetric('precio')" title="Editar precio">✎</span></div><div class="det-metric-val" id="det-m-precio">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div><div class="det-metric-sub" id="det-m-hab-sub" style="display:none" onclick="iniciarEdicionMetric('habitaciones')"></div></div>
-          <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-cat">—</div><div class="det-metric-sub" id="det-m-tipo">—</div></div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div><div class="det-metric-sub" id="det-m-hab-sub" style="display:none" onclick="iniciarEdicionMetric('apartamentos')"></div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Superficie</span><span class="det-edit-ico" id="det-edit-ico-superficie" onclick="iniciarEdicionMetric('superficie')" title="Editar superficie">✎</span></div><div class="det-metric-val" id="det-m-m2">—</div></div>
           <div class="det-metric"><div class="det-metric-lbl">€ / habitación</div><div class="det-metric-val" id="det-m-pph">—</div></div>
           <div class="det-metric"><div class="det-metric-lbl">€ / m²</div><div class="det-metric-val" id="det-m-ppm2">—</div></div>
@@ -7345,6 +7346,15 @@ function getEffectiveTipo(h) {
   if (m && m.tipologia) return m.tipologia;
   return h.tipo || '';
 }
+// Nº de apartamentos/unidades para tipologías tipo "Apartamentos...": es un
+// dato independiente de las habitaciones (se puede corregir a mano por
+// separado), pero mientras no se haya corregido a mano se parte del mismo
+// número de habitaciones como valor de partida razonable.
+function getEffectiveApartamentos(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.apartamentos) return m.apartamentos;
+  return getEffectiveRooms(h);
+}
 function getEffectiveDescripcion(h) {
   const m = getManualDatos(h.url);
   if (m && m.descripcion) return m.descripcion;
@@ -7365,7 +7375,7 @@ function restaurarDatosOriginales() {
   if (!esAdmin()) return; // por si se reactiva el enlace desde fuera (consola, etc.)
   const url = window._detCurrentUrl;
   if (!url) return;
-  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, habitaciones, superficie, tipología, categoría o descripción corregidos a mano.')) return;
+  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, habitaciones, apartamentos, superficie, tipología, categoría o descripción corregidos a mano.')) return;
   const all = getManualDatosAll();
   delete all[url];
   saveManualDatosAll(all);
@@ -7382,9 +7392,10 @@ function restaurarDatosOriginales() {
 // ══════════════════════════════════════════════════════
 window._detEditing = null;
 const DET_METRIC_EDIT_CONFIG = {
-  precio:       { elId: 'det-m-precio', key: 'precio',       get: h => getEffectivePrecioNum(h) },
-  habitaciones: { elId: 'det-m-hab',    key: 'habitaciones', get: h => getEffectiveRooms(h) },
-  superficie:   { elId: 'det-m-m2',     key: 'superficie',   get: h => getEffectiveM2(h) },
+  precio:       { elId: 'det-m-precio',   key: 'precio',       get: h => getEffectivePrecioNum(h) },
+  habitaciones: { elId: 'det-m-hab',      key: 'habitaciones', get: h => getEffectiveRooms(h) },
+  superficie:   { elId: 'det-m-m2',       key: 'superficie',   get: h => getEffectiveM2(h) },
+  apartamentos: { elId: 'det-m-hab-sub',  key: 'apartamentos', get: h => getEffectiveApartamentos(h), small: true },
 };
 function iniciarEdicionMetric(field) {
   if (!esAdmin()) return;
@@ -7394,8 +7405,8 @@ function iniciarEdicionMetric(field) {
   const el = document.getElementById(cfg.elId);
   if (!el) return;
   const valorActual = cfg.get(h) || '';
-  el.innerHTML = `<input type="number" class="det-metric-edit-input" id="det-metric-edit-input" min="0" step="1" value="${valorActual}">`;
-  if (field === 'habitaciones') { const sub = document.getElementById('det-m-hab-sub'); if (sub) sub.style.display = 'none'; }
+  const claseExtra = cfg.small ? ' det-metric-edit-input-sm' : '';
+  el.innerHTML = `<input type="number" class="det-metric-edit-input${claseExtra}" id="det-metric-edit-input" min="0" step="1" value="${valorActual}">`;
   window._detEditing = { field };
   const input = document.getElementById('det-metric-edit-input');
   input.focus(); input.select();
@@ -7434,8 +7445,8 @@ function iniciarEdicionCategoria() {
   const tipoOpts = TIPOLOGIA_OPCIONES.map(([v, l]) =>
     `<option value="${v.replace(/"/g, '&quot;')}" ${tipoActual === v ? 'selected' : ''}>${l}</option>`).join('');
   wrap.innerHTML = `
-    <select class="det-metric-edit-select" id="det-edit-estrellas"><option value="">Sin categoría</option>${estrellasOpts}</select>
-    <select class="det-metric-edit-select" id="det-edit-tipologia" style="margin-top:0.4rem"><option value="">Sin tipología</option>${tipoOpts}</select>
+    <select class="det-metric-edit-select" id="det-edit-tipologia"><option value="">Sin tipología</option>${tipoOpts}</select>
+    <select class="det-metric-edit-select" id="det-edit-estrellas" style="margin-top:0.4rem"><option value="">Sin categoría</option>${estrellasOpts}</select>
     <div class="det-edit-actions">
       <a class="save" onclick="guardarEdicionCategoria()">Guardar</a>
       <a class="cancel" onclick="window._detEditing=null;refrescarFichaActual()">Cancelar</a>
@@ -7734,7 +7745,7 @@ function openDetailPage(listIdx) {
   // siempre vuelve a su estructura base antes de rellenar valores, para
   // que det-m-cat / det-m-tipo existan pase lo que pase.
   const catWrap = document.getElementById('det-metric-cat-wrap');
-  if (catWrap) catWrap.innerHTML = '<div class="det-metric-val" id="det-m-cat">—</div><div class="det-metric-sub" id="det-m-tipo">—</div>';
+  if (catWrap) catWrap.innerHTML = '<div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div>';
   renderFotosManuales(h.url);
   aplicarPermisosFicha();
 
@@ -7778,26 +7789,47 @@ function openDetailPage(listIdx) {
   he.className = 'det-metric-val' + (rooms ? '' : ' unknown');
   he.textContent = rooms ? (rooms + ' hab') : 'No indicado';
 
-  // Para apartamentos (sueltos o edificio completo), ese mismo número de
-  // "habitaciones" normalmente cuenta unidades/apartamentos, no dormitorios
-  // de un único hotel -- se repite en pequeño debajo con esa aclaración.
+  // Para apartamentos (sueltos o edificio completo), debajo de "Habitaciones"
+  // se muestra el nº de apartamentos/unidades -- es un dato independiente,
+  // corregible a mano por separado de las habitaciones (getEffectiveApartamentos).
   const habSub = document.getElementById('det-m-hab-sub');
   if (habSub) {
-    const esApartamento = !!rooms && TIPOLOGIAS_APARTAMENTO.has(tipoEfectivo);
-    habSub.style.display = esApartamento ? '' : 'none';
-    habSub.textContent = esApartamento ? `${rooms} apartamentos` : '';
-    // Para el admin, este numerito de abajo es otra entrada más para editar
-    // las habitaciones (además del lápiz de arriba) -- para el viewer sigue
-    // siendo solo texto informativo, sin pinta de que se pueda tocar.
-    habSub.classList.toggle('editable', esApartamento && esAdmin());
+    const esApartamento = TIPOLOGIAS_APARTAMENTO.has(tipoEfectivo);
+    const apartamentos = esApartamento ? getEffectiveApartamentos(h) : null;
+    const admin = esAdmin();
+    if (esApartamento && apartamentos) {
+      habSub.style.display = '';
+      habSub.textContent = `${apartamentos} apartamentos`;
+    } else if (esApartamento && admin) {
+      // Sin valor todavía: dejamos algo clicable para que el admin lo añada.
+      habSub.style.display = '';
+      habSub.textContent = 'Añadir nº de apartamentos';
+    } else {
+      habSub.style.display = 'none';
+      habSub.textContent = '';
+    }
+    // Para el admin, este numerito de abajo es su propia entrada para editar
+    // el nº de apartamentos (independiente del lápiz de habitaciones de
+    // arriba) -- para el viewer sigue siendo solo texto informativo.
+    habSub.classList.toggle('editable', esApartamento && admin);
+  }
+
+  // Categoría / Tipología: la tipología es ahora el valor principal (grande)
+  // de la tarjeta y la categoría (estrellas) el dato secundario en pequeño
+  // debajo -- los ids det-m-cat/det-m-tipo mantienen siempre el mismo
+  // contenido (estrellas / tipología respectivamente), solo cambia su estilo
+  // y posición en el HTML (ver skeleton de arriba y el reset de catWrap).
+  const tpe = document.getElementById('det-m-tipo');
+  if (tpe) {
+    tpe.className = 'det-metric-val' + (tipoEfectivo ? '' : ' unknown');
+    tpe.textContent = tipoEfectivo || 'Tipología no indicada';
   }
 
   const ce = document.getElementById('det-m-cat');
-  ce.className = 'det-metric-val' + (stars ? '' : ' unknown');
-  ce.textContent = stars ? ('★'.repeat(stars) + ' ' + stars + '★') : 'No indicada';
-
-  const tpe = document.getElementById('det-m-tipo');
-  if (tpe) tpe.textContent = tipoEfectivo || 'Tipología no indicada';
+  if (ce) {
+    ce.className = 'det-metric-sub';
+    ce.textContent = stars ? ('★'.repeat(stars) + ' ' + stars + '★') : 'Sin categoría';
+  }
 
   document.getElementById('det-m-m2').textContent = m2 ? (m2.toLocaleString('es-ES') + ' m²') : '—';
   document.getElementById('det-m-pph').textContent = pph ? tasFormatEuros(pph) : '—';
