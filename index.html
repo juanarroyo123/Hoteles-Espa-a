@@ -1049,7 +1049,7 @@ header{
         <div class="det-section-title">Datos del activo</div>
         <div class="det-metrics" id="det-metrics">
           <div class="det-metric"><div class="det-metric-lbl"><span>Precio anunciado</span><span class="det-edit-ico" id="det-edit-ico-precio" onclick="iniciarEdicionMetric('precio')" title="Editar precio">✎</span></div><div class="det-metric-val" id="det-m-precio">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div><div class="det-metric-sub" id="det-m-hab-sub" style="display:none"></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-cat">—</div><div class="det-metric-sub" id="det-m-tipo">—</div></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Superficie</span><span class="det-edit-ico" id="det-edit-ico-superficie" onclick="iniciarEdicionMetric('superficie')" title="Editar superficie">✎</span></div><div class="det-metric-val" id="det-m-m2">—</div></div>
           <div class="det-metric"><div class="det-metric-lbl">€ / habitación</div><div class="det-metric-val" id="det-m-pph">—</div></div>
@@ -1073,7 +1073,7 @@ header{
             <span>Descripción del anuncio</span>
             <span class="det-edit-ico" id="det-edit-ico-desc" onclick="iniciarEdicionDescripcion()" title="Editar descripción">✎</span>
           </div>
-          <div class="det-card-body" id="det-desc" style="font-size:0.85rem;line-height:1.75;color:var(--text-mid)"></div>
+          <div class="det-card-body" id="det-desc" style="font-size:0.85rem;line-height:1.75;color:var(--text-mid);white-space:pre-line"></div>
         </div>
         <!-- Análisis -->
         <div id="det-analysis-section">
@@ -7389,6 +7389,7 @@ function iniciarEdicionMetric(field) {
   if (!el) return;
   const valorActual = cfg.get(h) || '';
   el.innerHTML = `<input type="number" class="det-metric-edit-input" id="det-metric-edit-input" min="0" step="1" value="${valorActual}">`;
+  if (field === 'habitaciones') { const sub = document.getElementById('det-m-hab-sub'); if (sub) sub.style.display = 'none'; }
   window._detEditing = { field };
   const input = document.getElementById('det-metric-edit-input');
   input.focus(); input.select();
@@ -7770,6 +7771,16 @@ function openDetailPage(listIdx) {
   const he = document.getElementById('det-m-hab');
   he.className = 'det-metric-val' + (rooms ? '' : ' unknown');
   he.textContent = rooms ? (rooms + ' hab') : 'No indicado';
+
+  // Para apartamentos (sueltos o edificio completo), ese mismo número de
+  // "habitaciones" normalmente cuenta unidades/apartamentos, no dormitorios
+  // de un único hotel -- se repite en pequeño debajo con esa aclaración.
+  const habSub = document.getElementById('det-m-hab-sub');
+  if (habSub) {
+    const esApartamento = !!rooms && (tipoEfectivo === 'Apartamento' || tipoEfectivo === 'Apartamentos (edificio)');
+    habSub.style.display = esApartamento ? '' : 'none';
+    habSub.textContent = esApartamento ? `${rooms} apartamentos` : '';
+  }
 
   const ce = document.getElementById('det-m-cat');
   ce.className = 'det-metric-val' + (stars ? '' : ' unknown');
