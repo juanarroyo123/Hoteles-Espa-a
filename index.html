@@ -455,6 +455,11 @@ header{
 .det-card{background:#fff;border:0.5px solid var(--border);margin-bottom:1.2rem;overflow:hidden}
 .det-card-header{padding:0.8rem 1.2rem;background:var(--surface);border-bottom:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);font-weight:700}
 .det-card-body{padding:1.2rem 1.4rem}
+#det-desc.det-desc-collapsed{max-height:9.5rem;overflow:hidden;position:relative}
+#det-desc.det-desc-collapsed::after{content:'';position:absolute;left:0;right:0;bottom:0;height:2.8rem;background:linear-gradient(to bottom, rgba(255,255,255,0), #fff)}
+.det-desc-toggle-wrap{padding:0 1.4rem 1.1rem;margin-top:-0.4rem}
+.det-desc-toggle{font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;color:var(--green);text-decoration:underline;cursor:pointer}
+.det-desc-toggle:hover{color:var(--text)}
 .det-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.4rem}
 .det-tab{font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;padding:0.6rem 1rem;border:none;background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;white-space:nowrap}
 .det-tab.active{color:var(--green);border-bottom-color:var(--green)}
@@ -1084,7 +1089,10 @@ header{
             <span>Descripción del anuncio</span>
             <span class="det-edit-ico" id="det-edit-ico-desc" onclick="iniciarEdicionDescripcion()" title="Editar descripción">✎</span>
           </div>
-          <div class="det-card-body" id="det-desc" style="font-size:0.85rem;line-height:1.75;color:var(--text-mid);white-space:pre-line"></div>
+          <div class="det-card-body" id="det-desc" style="font-size:0.85rem;line-height:1.75;color:var(--text-mid);white-space:pre-line;transition:max-height 0.25s ease"></div>
+          <div class="det-desc-toggle-wrap" id="det-desc-toggle-wrap" style="display:none">
+            <a class="det-desc-toggle" id="det-desc-toggle" onclick="toggleDescripcionLarga()">Leer más ▾</a>
+          </div>
         </div>
         <!-- Análisis -->
         <div id="det-analysis-section">
@@ -7490,6 +7498,11 @@ function iniciarEdicionDescripcion() {
   const h = window._detCurrentHotel; if (!h) return;
   const el = document.getElementById('det-desc');
   if (!el) return;
+  // Quitamos el colapso de "Leer más" (si lo había) para que el textarea de
+  // edición no quede recortado por el max-height del modo colapsado.
+  el.classList.remove('det-desc-collapsed');
+  const toggleWrap = document.getElementById('det-desc-toggle-wrap');
+  if (toggleWrap) toggleWrap.style.display = 'none';
   const actual = getEffectiveDescripcion(h) || '';
   el.innerHTML = `<textarea class="det-desc-edit-textarea" id="det-desc-edit-textarea"></textarea>
     <div class="det-edit-actions">
@@ -7500,6 +7513,21 @@ function iniciarEdicionDescripcion() {
   ta.value = actual; // por textContent/value, nunca por HTML, para no interpretar el texto del anuncio
   ta.focus();
   window._detEditing = { field: 'descripcion' };
+}
+// Expande/colapsa la descripción larga (enlace "Leer más" / "Leer menos").
+function toggleDescripcionLarga() {
+  const descEl = document.getElementById('det-desc');
+  const toggleLink = document.getElementById('det-desc-toggle');
+  if (!descEl) return;
+  const estaColapsada = descEl.classList.contains('det-desc-collapsed');
+  if (estaColapsada) {
+    descEl.classList.remove('det-desc-collapsed');
+    if (toggleLink) toggleLink.textContent = 'Leer menos ▴';
+  } else {
+    descEl.classList.add('det-desc-collapsed');
+    if (toggleLink) toggleLink.textContent = 'Leer más ▾';
+    descEl.scrollIntoView({ block: 'nearest' });
+  }
 }
 function guardarEdicionDescripcion() {
   if (!window._detEditing || window._detEditing.field !== 'descripcion') return;
@@ -7905,13 +7933,30 @@ function openDetailPage(listIdx) {
     }
   }
 
-  // Descripción (o corregida/añadida a mano, ver getEffectiveDescripcion)
+  // Descripción (o corregida/añadida a mano, ver getEffectiveDescripcion).
+  // Si el texto es largo se colapsa a unas pocas líneas con un enlace
+  // "Leer más" debajo (como en los portales profesionales), para que una
+  // descripción larguísima no se coma toda la ficha.
   const descEl = document.getElementById('det-desc');
   const descCard = document.getElementById('det-desc-card');
+  const descToggleWrap = document.getElementById('det-desc-toggle-wrap');
+  const descToggleLink = document.getElementById('det-desc-toggle');
   const descripcionEfectiva = getEffectiveDescripcion(h);
+  descEl.classList.remove('det-desc-collapsed');
+  if (descToggleWrap) descToggleWrap.style.display = 'none';
+  if (descToggleLink) descToggleLink.textContent = 'Leer más ▾';
   if (descripcionEfectiva && descripcionEfectiva.length > 20) {
     descEl.textContent = descripcionEfectiva;
     descCard.style.display = 'block';
+    // Colapsamos y medimos si de verdad sobra texto (scrollHeight > alto
+    // colapsado): solo entonces dejamos visible el enlace de "Leer más".
+    descEl.classList.add('det-desc-collapsed');
+    const sobraTexto = descEl.scrollHeight > descEl.clientHeight + 4;
+    if (sobraTexto && descToggleWrap) {
+      descToggleWrap.style.display = 'block';
+    } else {
+      descEl.classList.remove('det-desc-collapsed');
+    }
   } else if (esAdmin()) {
     // El admin ve la tarjeta igualmente aunque no haya descripción, para
     // poder añadir una a mano con el lápiz de la cabecera.
