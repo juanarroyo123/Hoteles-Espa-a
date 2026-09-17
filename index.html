@@ -363,6 +363,7 @@ header{
 .track-badge.track-prioridad{background:#2c2c2c;color:#fff}
 .track-estado-sin_revisar{background:var(--surface);color:var(--muted)}
 .track-estado-no_interesante{background:#e8e4dc;color:#6b665c}
+.track-estado-repetido{background:#f5e1e6;color:#a3416b}
 .track-estado-interesante{background:#fff4e0;color:#9a6700}
 .track-estado-contactado,.track-estado-contactado_2,.track-estado-respondido{background:#e3edfa;color:#1d5aa6}
 .track-estado-negociacion{background:#f1e6fa;color:#6b3fa0}
@@ -490,6 +491,12 @@ header{
 .foto-lightbox{display:none;position:fixed;inset:0;background:rgba(10,8,6,0.85);z-index:9500;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
 .foto-lightbox.open{display:flex;animation:fadeInOverlay 0.2s ease}
 .foto-lightbox img{max-width:100%;max-height:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.foto-lightbox-nav{position:fixed;top:50%;transform:translateY(-50%);width:2.6rem;height:2.6rem;border:none;border-radius:50%;background:rgba(20,20,20,0.55);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;z-index:9501}
+.foto-lightbox-nav:hover{background:rgba(20,20,20,0.85)}
+.foto-lightbox-nav.prev{left:1rem}
+.foto-lightbox-nav.next{right:1rem}
+.foto-lightbox-nav[disabled]{display:none}
+.foto-lightbox-count{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);color:#fff;font-family:'Open Sans',sans-serif;font-size:0.72rem;letter-spacing:0.04em;background:rgba(20,20,20,0.55);padding:0.25rem 0.7rem;border-radius:20px}
 
 /* ══ EMPTY ═══════════════════════════════════════════════ */
 .empty{grid-column:1/-1;text-align:center;padding:5rem 2rem;background:#fff}
@@ -866,6 +873,7 @@ header{
           <option value="todos">Todos</option>
           <option value="sin_revisar">Sin revisar</option>
           <option value="no_interesante">No interesante</option>
+          <option value="repetido">Repetido / duplicado</option>
           <option value="interesante">Interesante</option>
           <option value="contactado">Contactado</option>
           <option value="contactado_2">Contactado (2ª vez)</option>
@@ -1055,7 +1063,7 @@ header{
           <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div><div class="det-metric-sub" id="det-m-hab-sub" style="display:none" onclick="iniciarEdicionMetric('apartamentos')"></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Superficie</span><span class="det-edit-ico" id="det-edit-ico-superficie" onclick="iniciarEdicionMetric('superficie')" title="Editar superficie">✎</span></div><div class="det-metric-val" id="det-m-m2">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl">€ / habitación</div><div class="det-metric-val" id="det-m-pph">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl">€ / habitación</div><div class="det-metric-val" id="det-m-pph">—</div><div class="det-metric-sub" id="det-m-pph-sub" style="display:none"></div></div>
           <div class="det-metric"><div class="det-metric-lbl">€ / m²</div><div class="det-metric-val" id="det-m-ppm2">—</div></div>
         </div>
         <div id="det-restaurar-datos-wrap" style="text-align:right;margin:-1.2rem 0 1.2rem;display:none">
@@ -1224,6 +1232,7 @@ header{
               <select id="det-dec-estado">
                 <option value="sin_revisar">Sin revisar</option>
                 <option value="no_interesante">No interesante</option>
+                <option value="repetido">Repetido / duplicado</option>
                 <option value="interesante">Interesante</option>
                 <option value="contactado">Contactado</option>
                 <option value="contactado_2">Contactado (2ª vez)</option>
@@ -1275,7 +1284,10 @@ header{
 
 <!-- Lightbox para ver en grande las fotos manuales de un anuncio -->
 <div class="foto-lightbox" id="foto-lightbox" onclick="cerrarFotoLightbox()">
+  <button type="button" class="foto-lightbox-nav prev" id="foto-lightbox-prev" title="Foto anterior" onclick="event.stopPropagation();fotoLightboxMover(-1)">‹</button>
   <img id="foto-lightbox-img" src="" alt="Foto ampliada">
+  <button type="button" class="foto-lightbox-nav next" id="foto-lightbox-next" title="Foto siguiente" onclick="event.stopPropagation();fotoLightboxMover(1)">›</button>
+  <div class="foto-lightbox-count" id="foto-lightbox-count"></div>
 </div>
 
 <!-- ══ FICHA DE LICENCIA (muestra de prueba, 30 hoteles) ══════════ -->
@@ -1406,6 +1418,7 @@ header{
             <option value="todos">Todos</option>
             <option value="sin_revisar">Sin revisar</option>
             <option value="no_interesante">No interesante</option>
+            <option value="repetido">Repetido / duplicado</option>
             <option value="interesante">Interesante</option>
             <option value="contactado">Contactado</option>
             <option value="contactado_2">Contactado (2ª vez)</option>
@@ -7211,6 +7224,7 @@ function actualizarEstadoManualUI(url) {
 const HOTEL_TRACKING_ESTADOS = [
   ['sin_revisar', 'Sin revisar'],
   ['no_interesante', 'No interesante'],
+  ['repetido', 'Repetido / duplicado'],
   ['interesante', 'Interesante'],
   ['contactado', 'Contactado'],
   ['contactado_2', 'Contactado (2ª vez)'],
@@ -7602,22 +7616,50 @@ function renderFotosManuales(url) {
   if (!grid) return;
   const fotos = getFotosManuales(url);
   const admin = esAdmin();
+  // Guardamos la lista de fotos actual (sus dataUrl) para poder pasar de una
+  // a otra con las flechitas del lightbox sin tener que volver a leer el DOM.
+  window._detFotosActuales = fotos.map(f => f.dataUrl);
   if (!fotos.length) {
     grid.innerHTML = `<div class="det-photo-empty">Sin fotos añadidas a mano todavía.</div>`;
   } else {
-    grid.innerHTML = fotos.map(f => `
+    grid.innerHTML = fotos.map((f, i) => `
       <div class="det-photo-item">
-        <img src="${f.dataUrl}" alt="Foto del anuncio" onclick="abrirFotoLightbox(this.src)">
+        <img src="${f.dataUrl}" alt="Foto del anuncio" onclick="abrirFotoLightbox(${i})">
         ${admin ? `<button class="det-photo-del" title="Eliminar foto" onclick="event.stopPropagation();eliminarFotoManual('${f.id}')">×</button>` : ''}
       </div>`).join('');
   }
 }
-function abrirFotoLightbox(src) {
+// Lightbox con navegación entre fotos (flechitas ‹ › sin salir de la foto
+// ampliada, más las flechas del teclado) -- window._lbIndex es la posición
+// actual dentro de window._detFotosActuales.
+window._lbIndex = 0;
+function abrirFotoLightbox(idx) {
   const lb = document.getElementById('foto-lightbox');
   const img = document.getElementById('foto-lightbox-img');
-  if (!lb || !img) return;
-  img.src = src;
+  const fotos = window._detFotosActuales || [];
+  if (!lb || !img || !fotos.length) return;
+  window._lbIndex = Math.max(0, Math.min(idx, fotos.length - 1));
+  img.src = fotos[window._lbIndex];
   lb.classList.add('open');
+  actualizarFotoLightboxNav();
+}
+function fotoLightboxMover(delta) {
+  const fotos = window._detFotosActuales || [];
+  if (!fotos.length) return;
+  window._lbIndex = (window._lbIndex + delta + fotos.length) % fotos.length;
+  const img = document.getElementById('foto-lightbox-img');
+  if (img) img.src = fotos[window._lbIndex];
+  actualizarFotoLightboxNav();
+}
+function actualizarFotoLightboxNav() {
+  const fotos = window._detFotosActuales || [];
+  const prev = document.getElementById('foto-lightbox-prev');
+  const next = document.getElementById('foto-lightbox-next');
+  const count = document.getElementById('foto-lightbox-count');
+  const varias = fotos.length > 1;
+  if (prev) prev.disabled = !varias;
+  if (next) next.disabled = !varias;
+  if (count) count.textContent = varias ? `${window._lbIndex + 1} / ${fotos.length}` : '';
 }
 function cerrarFotoLightbox() {
   const lb = document.getElementById('foto-lightbox');
@@ -7625,6 +7667,16 @@ function cerrarFotoLightbox() {
   if (lb) lb.classList.remove('open');
   if (img) img.src = '';
 }
+// Flechas del teclado ← → para pasar de foto mientras el lightbox está
+// abierto, y Escape para cerrarlo (Escape ya lo maneja el navegador con
+// otros overlays, pero aquí lo hacemos explícito por si acaso).
+document.addEventListener('keydown', e => {
+  const lb = document.getElementById('foto-lightbox');
+  if (!lb || !lb.classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') { e.preventDefault(); fotoLightboxMover(-1); }
+  else if (e.key === 'ArrowRight') { e.preventDefault(); fotoLightboxMover(1); }
+  else if (e.key === 'Escape') { e.preventDefault(); cerrarFotoLightbox(); }
+});
 
 // ══════════════════════════════════════════════════════
 // PESTAÑA RETIRADAS — anuncios ya no disponibles, conservados como
@@ -7758,6 +7810,12 @@ function openDetailPage(listIdx) {
   const bench = TAS_BENCHMARKS[region] || TAS_BENCHMARKS['Otras'];
   const pph = (price && rooms) ? Math.round(price / rooms) : null;
   const ppm2 = (price && m2) ? Math.round(price / m2) : null;
+  // Para tipologías de apartamentos, además de €/habitación también interesa
+  // €/apartamento (precio entre el nº de apartamentos, que puede ser
+  // distinto del nº de habitaciones si se ha corregido a mano por separado).
+  const esApartamento = TIPOLOGIAS_APARTAMENTO.has(tipoEfectivo);
+  const apartamentos = esApartamento ? getEffectiveApartamentos(h) : null;
+  const papt = (price && apartamentos) ? Math.round(price / apartamentos) : null;
   const title = tasCleanTitle(h.title) || 'Hotel en venta';
 
   // Ocultar main, mostrar detail — recordamos desde qué pestaña veníamos
@@ -7794,8 +7852,6 @@ function openDetailPage(listIdx) {
   // corregible a mano por separado de las habitaciones (getEffectiveApartamentos).
   const habSub = document.getElementById('det-m-hab-sub');
   if (habSub) {
-    const esApartamento = TIPOLOGIAS_APARTAMENTO.has(tipoEfectivo);
-    const apartamentos = esApartamento ? getEffectiveApartamentos(h) : null;
     const admin = esAdmin();
     if (esApartamento && apartamentos) {
       habSub.style.display = '';
@@ -7834,6 +7890,20 @@ function openDetailPage(listIdx) {
   document.getElementById('det-m-m2').textContent = m2 ? (m2.toLocaleString('es-ES') + ' m²') : '—';
   document.getElementById('det-m-pph').textContent = pph ? tasFormatEuros(pph) : '—';
   document.getElementById('det-m-ppm2').textContent = ppm2 ? (tasFormatEuros(ppm2) + '/m²') : '—';
+
+  // Para apartamentos, además del €/habitación se muestra debajo el
+  // €/apartamento (precio entre el nº de apartamentos efectivo) -- es un
+  // dato calculado, igual que €/habitación o €/m², no se edita a mano.
+  const pphSub = document.getElementById('det-m-pph-sub');
+  if (pphSub) {
+    if (esApartamento && papt) {
+      pphSub.style.display = '';
+      pphSub.textContent = `${tasFormatEuros(papt)} / apartamento`;
+    } else {
+      pphSub.style.display = 'none';
+      pphSub.textContent = '';
+    }
+  }
 
   // Descripción (o corregida/añadida a mano, ver getEffectiveDescripcion)
   const descEl = document.getElementById('det-desc');
