@@ -434,10 +434,20 @@ header{
 .det-section-title{font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--green);font-weight:700;margin-bottom:0.9rem;padding-bottom:0.5rem;border-bottom:1px solid var(--border)}
 .det-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:1.8rem}
 .det-metric{background:#fff;padding:1rem 1.2rem}
-.det-metric-lbl{font-family:'Montserrat',sans-serif;font-size:0.54rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.3rem;font-weight:600}
+.det-metric-lbl{font-family:'Montserrat',sans-serif;font-size:0.54rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.3rem;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:0.4rem}
 .det-metric-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--text);line-height:1}
 .det-metric-val.unknown{font-size:0.85rem;color:var(--muted);font-family:'Open Sans',sans-serif;padding-top:0.3rem}
 .det-metric-sub{font-family:'Open Sans',sans-serif;font-size:0.68rem;color:var(--muted);margin-top:0.3rem}
+.det-edit-ico{font-size:0.72rem;color:var(--muted);cursor:pointer;opacity:0;transition:opacity 0.15s,color 0.15s;flex-shrink:0}
+.det-metric:hover .det-edit-ico,.det-card-header:hover .det-edit-ico{opacity:0.65}
+.det-edit-ico:hover{color:var(--green);opacity:1!important}
+.det-metric-edit-input{width:100%;border:1px solid var(--green);border-radius:2px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--text);padding:0.1rem 0.3rem;box-sizing:border-box}
+.det-metric-edit-select{width:100%;border:1px solid var(--green);border-radius:2px;font-family:'Open Sans',sans-serif;font-size:0.82rem;color:var(--text);padding:0.35rem 0.4rem;box-sizing:border-box;background:#fff}
+.det-edit-actions{margin-top:0.5rem;display:flex;gap:0.9rem}
+.det-edit-actions a{font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;text-decoration:underline;cursor:pointer}
+.det-edit-actions a.save{color:var(--green)}
+.det-edit-actions a.cancel{color:var(--muted)}
+.det-desc-edit-textarea{width:100%;min-height:9rem;font-family:'Open Sans',sans-serif;font-size:0.85rem;line-height:1.6;color:var(--text);border:1px solid var(--green);border-radius:2px;padding:0.7rem;box-sizing:border-box;resize:vertical}
 .det-card{background:#fff;border:0.5px solid var(--border);margin-bottom:1.2rem;overflow:hidden}
 .det-card-header{padding:0.8rem 1.2rem;background:var(--surface);border-bottom:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);font-weight:700}
 .det-card-body{padding:1.2rem 1.4rem}
@@ -1038,12 +1048,15 @@ header{
         <!-- Datos del activo -->
         <div class="det-section-title">Datos del activo</div>
         <div class="det-metrics" id="det-metrics">
-          <div class="det-metric"><div class="det-metric-lbl">Precio anunciado</div><div class="det-metric-val" id="det-m-precio">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl">Habitaciones</div><div class="det-metric-val" id="det-m-hab">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl">Categoría / Tipología</div><div class="det-metric-val" id="det-m-cat">—</div><div class="det-metric-sub" id="det-m-tipo">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl">Superficie</div><div class="det-metric-val" id="det-m-m2">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Precio anunciado</span><span class="det-edit-ico" id="det-edit-ico-precio" onclick="iniciarEdicionMetric('precio')" title="Editar precio">✎</span></div><div class="det-metric-val" id="det-m-precio">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-cat">—</div><div class="det-metric-sub" id="det-m-tipo">—</div></div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Superficie</span><span class="det-edit-ico" id="det-edit-ico-superficie" onclick="iniciarEdicionMetric('superficie')" title="Editar superficie">✎</span></div><div class="det-metric-val" id="det-m-m2">—</div></div>
           <div class="det-metric"><div class="det-metric-lbl">€ / habitación</div><div class="det-metric-val" id="det-m-pph">—</div></div>
           <div class="det-metric"><div class="det-metric-lbl">€ / m²</div><div class="det-metric-val" id="det-m-ppm2">—</div></div>
+        </div>
+        <div id="det-restaurar-datos-wrap" style="text-align:right;margin:-1.2rem 0 1.2rem;display:none">
+          <a href="#" id="det-restaurar-datos-link" onclick="restaurarDatosOriginales();return false;" style="font-size:0.68rem;color:var(--muted);text-decoration:underline">↺ Restaurar datos originales del anuncio</a>
         </div>
         <!-- Fotos manuales del anuncio -->
         <div class="det-card" id="det-fotos-card">
@@ -1052,12 +1065,14 @@ header{
             <div class="det-photo-grid" id="det-photo-grid"></div>
             <input type="file" id="det-photo-input" accept="image/*" multiple style="display:none" onchange="onFotosSeleccionadas(event)">
             <button class="det-btn-secondary" id="det-photo-add-btn" onclick="document.getElementById('det-photo-input').click()" style="width:auto;display:inline-flex;padding:0.55rem 1rem">+ Añadir foto</button>
-            <div class="readonly-note" id="det-fotos-readonly-note">Solo lectura — inicia sesión como admin para añadir o eliminar fotos.</div>
           </div>
         </div>
         <!-- Descripción -->
         <div class="det-card" id="det-desc-card">
-          <div class="det-card-header">Descripción del anuncio</div>
+          <div class="det-card-header" style="display:flex;align-items:center;justify-content:space-between">
+            <span>Descripción del anuncio</span>
+            <span class="det-edit-ico" id="det-edit-ico-desc" onclick="iniciarEdicionDescripcion()" title="Editar descripción">✎</span>
+          </div>
           <div class="det-card-body" id="det-desc" style="font-size:0.85rem;line-height:1.75;color:var(--text-mid)"></div>
         </div>
         <!-- Análisis -->
@@ -1194,68 +1209,6 @@ header{
             <button class="det-btn-secondary" id="det-btn-marcar-retirado" onclick="accionEstadoManual('retirado')">Marcar como retirado</button>
             <button class="det-btn-secondary" id="det-btn-reactivar" onclick="accionEstadoManual('activo')" style="display:none">Reactivar (a Hoteles en venta)</button>
             <button class="det-btn-secondary" id="det-btn-quitar-ajuste" onclick="accionEstadoManual(null)" style="display:none;color:var(--muted)">Quitar ajuste manual</button>
-          </div>
-        </div>
-        <!-- Editar datos del anuncio (precio, habitaciones, superficie, tipología, categoría) -->
-        <div class="det-sidebar-card" id="det-datos-card">
-          <div class="det-sidebar-title">Editar datos del anuncio</div>
-          <div class="det-sidebar-body">
-            <div class="readonly-note" id="det-datos-readonly-note">Solo lectura — inicia sesión como admin para modificar.</div>
-            <div class="det-dec-field">
-              <label for="det-datos-precio">Precio (€)</label>
-              <input type="number" id="det-datos-precio" min="0" step="1" placeholder="Sin modificar">
-            </div>
-            <div class="det-dec-field">
-              <label for="det-datos-habitaciones">Habitaciones</label>
-              <input type="number" id="det-datos-habitaciones" min="0" step="1" placeholder="Sin modificar">
-            </div>
-            <div class="det-dec-field">
-              <label for="det-datos-superficie">Superficie (m²)</label>
-              <input type="number" id="det-datos-superficie" min="0" step="1" placeholder="Sin modificar">
-            </div>
-            <div class="det-dec-field">
-              <label for="det-datos-tipologia">Tipología</label>
-              <select id="det-datos-tipologia">
-                <option value="">Sin modificar (usar la detectada)</option>
-                <optgroup label="Hotelero">
-                  <option value="Hotel">Hotel</option>
-                  <option value="Hostal">Hostal</option>
-                  <option value="Apartahotel">Apartahotel</option>
-                  <option value="Hotel rural">Hotel rural</option>
-                  <option value="Casa rural">Casa rural</option>
-                  <option value="Albergue">Albergue</option>
-                  <option value="Pensión">Pensión</option>
-                </optgroup>
-                <optgroup label="Otros inmuebles">
-                  <option value="Local comercial">Local comercial</option>
-                  <option value="Terreno">Terreno</option>
-                  <option value="Garaje">Garaje</option>
-                  <option value="Apartamento">Apartamento</option>
-                  <option value="Apartamentos (edificio)">Apartamentos (edificio)</option>
-                  <option value="Casa individual">Casa individual</option>
-                  <option value="Edificio">Edificio</option>
-                  <option value="Nave industrial">Nave industrial</option>
-                  <option value="Oficina">Oficina</option>
-                </optgroup>
-                <optgroup label="Estado del inmueble">
-                  <option value="Abandonado">Abandonado</option>
-                  <option value="En ruinas">En ruinas</option>
-                </optgroup>
-              </select>
-            </div>
-            <div class="det-dec-field">
-              <label for="det-datos-estrellas">Categoría (estrellas)</label>
-              <select id="det-datos-estrellas">
-                <option value="">Sin modificar (usar la detectada)</option>
-                <option value="1">1 estrella</option>
-                <option value="2">2 estrellas</option>
-                <option value="3">3 estrellas</option>
-                <option value="4">4 estrellas</option>
-                <option value="5">5 estrellas</option>
-              </select>
-            </div>
-            <button class="det-btn-primary" id="det-datos-guardar" onclick="guardarDatosManuales()" style="border:none;cursor:pointer">Guardar cambios</button>
-            <button class="det-btn-secondary" id="det-datos-restaurar" onclick="restaurarDatosOriginales()">Restaurar datos originales</button>
           </div>
         </div>
         <!-- Decisión de compra / seguimiento -->
@@ -2947,20 +2900,33 @@ function entrarALaWeb() {
 function aplicarPermisosFicha() {
   const admin = esAdmin();
   ['det-dec-estado', 'det-dec-prioridad', 'det-dec-notas', 'det-dec-guardar',
-   'det-btn-marcar-retirado', 'det-btn-reactivar', 'det-btn-quitar-ajuste',
-   'det-datos-precio', 'det-datos-habitaciones', 'det-datos-superficie',
-   'det-datos-tipologia', 'det-datos-estrellas', 'det-datos-guardar', 'det-datos-restaurar'].forEach(id => {
+   'det-btn-marcar-retirado', 'det-btn-reactivar', 'det-btn-quitar-ajuste'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.disabled = !admin;
   });
   const nota = document.getElementById('det-readonly-note');
   if (nota) nota.classList.toggle('show', !admin);
-  const notaDatos = document.getElementById('det-datos-readonly-note');
-  if (notaDatos) notaDatos.classList.toggle('show', !admin);
+  // Edición de datos del anuncio (precio/habitaciones/superficie/categoría/
+  // tipología/descripción) y fotos manuales: para un viewer esto no debe
+  // ni notarse que existe -- ni lápices, ni botón de añadir foto, ni notas
+  // de "solo lectura". Solo se ve la información del anuncio, igual que
+  // siempre. Para el admin, los lápices son la única entrada a la edición
+  // (no hay ya un formulario aparte en la barra lateral).
+  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
-  const notaFotos = document.getElementById('det-fotos-readonly-note');
-  if (notaFotos) notaFotos.classList.toggle('show', !admin);
+  actualizarRestaurarDatosLink();
+}
+// El enlace "Restaurar datos originales" solo tiene sentido para el admin
+// y solo si hay algo que restaurar (si no, se oculta para no ensuciar la
+// ficha con un enlace que no hace nada).
+function actualizarRestaurarDatosLink() {
+  const wrap = document.getElementById('det-restaurar-datos-wrap');
+  if (!wrap) return;
+  const url = window._detCurrentUrl;
+  const tieneOverride = esAdmin() && url && !!getManualDatos(url);
+  wrap.style.display = tieneOverride ? 'block' : 'none';
 }
 
 let portalFilter  = 'todos';
@@ -7317,6 +7283,18 @@ function trackingColumnHtml(url) {
 // mundo (no solo en este navegador), hay que arreglarlo en el origen
 // (scraper) o en el propio caché.
 // ══════════════════════════════════════════════════════
+// Lista de tipologías del desplegable de edición: además de los tipos
+// hoteleros habituales, incluye otros inmuebles que a veces se cuelan en
+// los portales bajo "hotel" (locales, terrenos, garajes, edificios...) y
+// el estado del inmueble cuando aplica (abandonado / en ruinas).
+const TIPOLOGIA_OPCIONES = [
+  ['Hotel', 'Hotel'], ['Hostal', 'Hostal'], ['Apartahotel', 'Apartahotel'],
+  ['Hotel rural', 'Hotel rural'], ['Casa rural', 'Casa rural'], ['Albergue', 'Albergue'], ['Pensión', 'Pensión'],
+  ['Local comercial', 'Local comercial'], ['Terreno', 'Terreno'], ['Garaje', 'Garaje'],
+  ['Apartamento', 'Apartamento'], ['Apartamentos (edificio)', 'Apartamentos (edificio)'],
+  ['Casa individual', 'Casa individual'], ['Edificio', 'Edificio'], ['Nave industrial', 'Nave industrial'], ['Oficina', 'Oficina'],
+  ['Abandonado', 'Abandonado'], ['En ruinas', 'En ruinas'],
+];
 function getManualDatosAll() {
   try { return JSON.parse(localStorage.getItem('hotel_manual_datos') || '{}'); } catch (e) { return {}; }
 }
@@ -7361,68 +7339,150 @@ function getEffectiveTipo(h) {
   if (m && m.tipologia) return m.tipologia;
   return h.tipo || '';
 }
-// Rellena el formulario de edición de la ficha con lo que haya guardado a
-// mano para este anuncio (vacío si no hay ajuste en ese campo concreto,
-// para no confundir "no modificado" con "puesto a 0").
-function cargarDatosManualesUI(url) {
-  const m = getManualDatos(url) || {};
-  const precioEl = document.getElementById('det-datos-precio');
-  const habEl = document.getElementById('det-datos-habitaciones');
-  const supEl = document.getElementById('det-datos-superficie');
-  const tipoEl = document.getElementById('det-datos-tipologia');
-  const estEl = document.getElementById('det-datos-estrellas');
-  if (precioEl) precioEl.value = m.precio || '';
-  if (habEl) habEl.value = m.habitaciones || '';
-  if (supEl) supEl.value = m.superficie || '';
-  if (tipoEl) tipoEl.value = m.tipologia || '';
-  if (estEl) estEl.value = m.estrellas || '';
+function getEffectiveDescripcion(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.descripcion) return m.descripcion;
+  return h.description || '';
 }
-function guardarDatosManuales() {
-  if (!esAdmin()) return; // por si se reactiva el botón desde fuera (consola, etc.)
+// Vuelve a abrir la ficha del anuncio que se está editando ahora mismo,
+// para refrescar métricas/análisis con los valores efectivos recién
+// guardados (o para descartar limpiamente un campo que se dejó a medio
+// editar). Es lo mismo que si se cerrara y volviera a abrir el anuncio.
+function refrescarFichaActual() {
   const url = window._detCurrentUrl;
   if (!url) return;
-  const all = getManualDatosAll();
-  const precioRaw = document.getElementById('det-datos-precio').value;
-  const habRaw = document.getElementById('det-datos-habitaciones').value;
-  const supRaw = document.getElementById('det-datos-superficie').value;
-  const tipologia = document.getElementById('det-datos-tipologia').value;
-  const estrellasRaw = document.getElementById('det-datos-estrellas').value;
-  const datos = {};
-  if (precioRaw) datos.precio = Math.max(0, parseInt(precioRaw, 10) || 0);
-  if (habRaw) datos.habitaciones = Math.max(0, parseInt(habRaw, 10) || 0);
-  if (supRaw) datos.superficie = Math.max(0, parseInt(supRaw, 10) || 0);
-  if (tipologia) datos.tipologia = tipologia;
-  if (estrellasRaw) datos.estrellas = Math.max(1, Math.min(5, parseInt(estrellasRaw, 10) || 1));
-  if (Object.keys(datos).length === 0) {
-    delete all[url];
-  } else {
-    datos.actualizado = new Date().toISOString();
-    all[url] = datos;
-  }
-  saveManualDatosAll(all);
-  const btn = document.getElementById('det-datos-guardar');
-  if (btn) {
-    const txt = btn.textContent;
-    btn.textContent = '✓ Guardado';
-    setTimeout(() => { btn.textContent = txt; }, 1600);
-  }
-  // Refresca la ficha (métricas, análisis, etc.) con los valores efectivos
-  // recién guardados, sin perder de vista en qué anuncio estamos.
   const list = window._lastRenderedList || HOTELES;
   const idx = list.findIndex(x => x.url === url);
   if (idx >= 0) openDetailPage(idx);
 }
 function restaurarDatosOriginales() {
-  if (!esAdmin()) return;
+  if (!esAdmin()) return; // por si se reactiva el enlace desde fuera (consola, etc.)
   const url = window._detCurrentUrl;
   if (!url) return;
-  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán los valores corregidos a mano (precio, habitaciones, superficie, tipología, categoría).')) return;
+  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, habitaciones, superficie, tipología, categoría o descripción corregidos a mano.')) return;
   const all = getManualDatosAll();
   delete all[url];
   saveManualDatosAll(all);
-  const list = window._lastRenderedList || HOTELES;
-  const idx = list.findIndex(x => x.url === url);
-  if (idx >= 0) openDetailPage(idx);
+  window._detEditing = null;
+  refrescarFichaActual();
+}
+
+// ══════════════════════════════════════════════════════
+// EDICIÓN EN LÍNEA DE LOS DATOS DEL ANUNCIO — en vez de un formulario
+// aparte en la barra lateral, cada dato editable (precio, habitaciones,
+// superficie, categoría/tipología, descripción) se edita haciendo clic en
+// su propio lápiz ✎, directamente sobre el número o el texto tal cual se
+// ve en la ficha. Solo un campo se edita a la vez (window._detEditing).
+// ══════════════════════════════════════════════════════
+window._detEditing = null;
+const DET_METRIC_EDIT_CONFIG = {
+  precio:       { elId: 'det-m-precio', key: 'precio',       get: h => getEffectivePrecioNum(h) },
+  habitaciones: { elId: 'det-m-hab',    key: 'habitaciones', get: h => getEffectiveRooms(h) },
+  superficie:   { elId: 'det-m-m2',     key: 'superficie',   get: h => getEffectiveM2(h) },
+};
+function iniciarEdicionMetric(field) {
+  if (!esAdmin()) return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const cfg = DET_METRIC_EDIT_CONFIG[field];
+  if (!cfg) return;
+  const el = document.getElementById(cfg.elId);
+  if (!el) return;
+  const valorActual = cfg.get(h) || '';
+  el.innerHTML = `<input type="number" class="det-metric-edit-input" id="det-metric-edit-input" min="0" step="1" value="${valorActual}">`;
+  window._detEditing = { field };
+  const input = document.getElementById('det-metric-edit-input');
+  input.focus(); input.select();
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+    else if (e.key === 'Escape') { e.preventDefault(); window._detEditing = null; refrescarFichaActual(); }
+  });
+  input.addEventListener('blur', () => guardarEdicionMetric(field));
+}
+function guardarEdicionMetric(field) {
+  if (!window._detEditing || window._detEditing.field !== field) return;
+  const cfg = DET_METRIC_EDIT_CONFIG[field];
+  const input = document.getElementById('det-metric-edit-input');
+  if (!cfg || !input) return;
+  const url = window._detCurrentUrl;
+  const raw = input.value;
+  const all = getManualDatosAll();
+  const datos = all[url] || {};
+  if (raw === '') delete datos[cfg.key];
+  else datos[cfg.key] = Math.max(0, parseInt(raw, 10) || 0);
+  if (Object.keys(datos).length === 0) delete all[url];
+  else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
+  saveManualDatosAll(all);
+  window._detEditing = null;
+  refrescarFichaActual();
+}
+function iniciarEdicionCategoria() {
+  if (!esAdmin()) return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const wrap = document.getElementById('det-metric-cat-wrap');
+  if (!wrap) return;
+  const estrellasActual = getEffectiveStars(h) || '';
+  const tipoActual = getEffectiveTipo(h) || '';
+  const estrellasOpts = [1, 2, 3, 4, 5].map(n =>
+    `<option value="${n}" ${String(estrellasActual) === String(n) ? 'selected' : ''}>${n} estrella${n > 1 ? 's' : ''}</option>`).join('');
+  const tipoOpts = TIPOLOGIA_OPCIONES.map(([v, l]) =>
+    `<option value="${v.replace(/"/g, '&quot;')}" ${tipoActual === v ? 'selected' : ''}>${l}</option>`).join('');
+  wrap.innerHTML = `
+    <select class="det-metric-edit-select" id="det-edit-estrellas"><option value="">Sin categoría</option>${estrellasOpts}</select>
+    <select class="det-metric-edit-select" id="det-edit-tipologia" style="margin-top:0.4rem"><option value="">Sin tipología</option>${tipoOpts}</select>
+    <div class="det-edit-actions">
+      <a class="save" onclick="guardarEdicionCategoria()">Guardar</a>
+      <a class="cancel" onclick="window._detEditing=null;refrescarFichaActual()">Cancelar</a>
+    </div>`;
+  window._detEditing = { field: 'categoria' };
+}
+function guardarEdicionCategoria() {
+  if (!window._detEditing || window._detEditing.field !== 'categoria') return;
+  const url = window._detCurrentUrl;
+  const estSel = document.getElementById('det-edit-estrellas');
+  const tipoSel = document.getElementById('det-edit-tipologia');
+  if (!estSel || !tipoSel) return;
+  const all = getManualDatosAll();
+  const datos = all[url] || {};
+  if (estSel.value) datos.estrellas = Math.max(1, Math.min(5, parseInt(estSel.value, 10) || 1));
+  else delete datos.estrellas;
+  if (tipoSel.value) datos.tipologia = tipoSel.value;
+  else delete datos.tipologia;
+  if (Object.keys(datos).length === 0) delete all[url];
+  else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
+  saveManualDatosAll(all);
+  window._detEditing = null;
+  refrescarFichaActual();
+}
+function iniciarEdicionDescripcion() {
+  if (!esAdmin()) return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const el = document.getElementById('det-desc');
+  if (!el) return;
+  const actual = getEffectiveDescripcion(h) || '';
+  el.innerHTML = `<textarea class="det-desc-edit-textarea" id="det-desc-edit-textarea"></textarea>
+    <div class="det-edit-actions">
+      <a class="save" onclick="guardarEdicionDescripcion()">Guardar</a>
+      <a class="cancel" onclick="window._detEditing=null;refrescarFichaActual()">Cancelar</a>
+    </div>`;
+  const ta = document.getElementById('det-desc-edit-textarea');
+  ta.value = actual; // por textContent/value, nunca por HTML, para no interpretar el texto del anuncio
+  ta.focus();
+  window._detEditing = { field: 'descripcion' };
+}
+function guardarEdicionDescripcion() {
+  if (!window._detEditing || window._detEditing.field !== 'descripcion') return;
+  const url = window._detCurrentUrl;
+  const ta = document.getElementById('det-desc-edit-textarea');
+  if (!ta) return;
+  const val = ta.value.trim();
+  const all = getManualDatosAll();
+  const datos = all[url] || {};
+  if (val) datos.descripcion = val; else delete datos.descripcion;
+  if (Object.keys(datos).length === 0) delete all[url];
+  else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
+  saveManualDatosAll(all);
+  window._detEditing = null;
+  refrescarFichaActual();
 }
 
 // ══════════════════════════════════════════════════════
@@ -7655,12 +7715,19 @@ function openDetailPage(listIdx) {
 
   // Seguimiento / decisión de compra de ESTE anuncio (por URL)
   window._detCurrentUrl = h.url || null;
+  window._detCurrentHotel = h;
+  window._detEditing = null; // al (re)abrir la ficha, ningún campo queda "a medio editar"
   const trk = getTracking(h.url);
   document.getElementById('det-dec-estado').value = trk.estado || 'sin_revisar';
   document.getElementById('det-dec-prioridad').value = trk.prioridad || '';
   document.getElementById('det-dec-notas').value = trk.notas || '';
   actualizarEstadoManualUI(h.url);
-  cargarDatosManualesUI(h.url);
+  // La edición en línea de Categoría/Tipología sustituye temporalmente el
+  // contenido de este contenedor por dos <select>; nos aseguramos de que
+  // siempre vuelve a su estructura base antes de rellenar valores, para
+  // que det-m-cat / det-m-tipo existan pase lo que pase.
+  const catWrap = document.getElementById('det-metric-cat-wrap');
+  if (catWrap) catWrap.innerHTML = '<div class="det-metric-val" id="det-m-cat">—</div><div class="det-metric-sub" id="det-m-tipo">—</div>';
   renderFotosManuales(h.url);
   aplicarPermisosFicha();
 
@@ -7715,13 +7782,20 @@ function openDetailPage(listIdx) {
   document.getElementById('det-m-pph').textContent = pph ? tasFormatEuros(pph) : '—';
   document.getElementById('det-m-ppm2').textContent = ppm2 ? (tasFormatEuros(ppm2) + '/m²') : '—';
 
-  // Descripción
+  // Descripción (o corregida/añadida a mano, ver getEffectiveDescripcion)
   const descEl = document.getElementById('det-desc');
-  if (h.description && h.description.length > 20) {
-    descEl.textContent = h.description;
-    document.getElementById('det-desc-card').style.display = 'block';
+  const descCard = document.getElementById('det-desc-card');
+  const descripcionEfectiva = getEffectiveDescripcion(h);
+  if (descripcionEfectiva && descripcionEfectiva.length > 20) {
+    descEl.textContent = descripcionEfectiva;
+    descCard.style.display = 'block';
+  } else if (esAdmin()) {
+    // El admin ve la tarjeta igualmente aunque no haya descripción, para
+    // poder añadir una a mano con el lápiz de la cabecera.
+    descEl.innerHTML = '<span style="color:var(--muted);font-style:italic">Sin descripción — haz clic en ✎ para añadir una.</span>';
+    descCard.style.display = 'block';
   } else {
-    document.getElementById('det-desc-card').style.display = 'none';
+    descCard.style.display = 'none';
   }
 
   // Info sidebar
