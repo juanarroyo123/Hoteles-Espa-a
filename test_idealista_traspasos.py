@@ -17,7 +17,7 @@ import scraper
 scraper.found_listings.clear()
 scraper.seen_urls.clear()
 
-driver = scraper.init_driver()
+driver = scraper.init_driver_stealth()
 try:
     scraper.scrape_idealista_traspasos(driver)
 finally:
