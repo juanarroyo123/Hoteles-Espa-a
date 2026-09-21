@@ -369,6 +369,10 @@ header{
 .track-estado-negociacion{background:#f1e6fa;color:#6b3fa0}
 .track-estado-descartado{background:#fbe7e7;color:#b23a3a}
 .track-estado-comprado{background:#e6f4ea;color:#1e7e34}
+.op-badge{font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;white-space:nowrap;display:inline-block}
+.op-badge-venta{background:var(--surface);color:var(--muted)}
+.op-badge-gestion{background:#e3edfa;color:#1d5aa6}
+.op-badge-traspaso{background:#fff4e0;color:#9a6700}
 .hotel-row-price{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--green)}
 .hotel-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:0.8rem}
 .hotel-table .card-link{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em}
@@ -900,6 +904,15 @@ header{
           <option value="sin_prioridad">Sin prioridad</option>
         </select>
       </div>
+      <div class="lic-ffield">
+        <label for="operacion-select">Operación</label>
+        <select id="operacion-select" onchange="setOperacionFilter(this.value)">
+          <option value="todos">Todas</option>
+          <option value="venta">Venta</option>
+          <option value="gestion">Contrato de gestión</option>
+          <option value="traspaso">Traspaso</option>
+        </select>
+      </div>
     </div>
     <div class="filter-dropdown-footer">
       <span class="date-count" id="date-count"></span>
@@ -1065,6 +1078,7 @@ header{
         <div class="det-section-title">Datos del activo</div>
         <div class="det-metrics" id="det-metrics">
           <div class="det-metric"><div class="det-metric-lbl"><span>Precio anunciado</span><span class="det-edit-ico" id="det-edit-ico-precio" onclick="iniciarEdicionMetric('precio')" title="Editar precio">✎</span></div><div class="det-metric-val" id="det-m-precio">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Operación</span><span class="det-edit-ico" id="det-edit-ico-operacion" onclick="iniciarEdicionOperacion()" title="Editar tipo de operación">✎</span></div><div class="det-metric-val" id="det-m-operacion">—</div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div><div class="det-metric-sub" id="det-m-hab-sub" style="display:none" onclick="iniciarEdicionMetric('apartamentos')"></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Superficie</span><span class="det-edit-ico" id="det-edit-ico-superficie" onclick="iniciarEdicionMetric('superficie')" title="Editar superficie">✎</span></div><div class="det-metric-val" id="det-m-m2">—</div></div>
@@ -1378,6 +1392,7 @@ header{
           <th>Nombre</th>
           <th>Estado</th>
           <th>Tipología</th>
+          <th>Operación</th>
           <th>Comunidad</th>
           <th>Municipio</th>
           <th>Superficie</th>
@@ -1390,7 +1405,7 @@ header{
         </tr>
       </thead>
       <tbody class="grid" id="grid">
-        <tr><td colspan="13"><div class="empty"><div class="empty-title">Cargando anuncios...</div></div></td></tr>
+        <tr><td colspan="14"><div class="empty"><div class="empty-title">Cargando anuncios...</div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -1449,6 +1464,15 @@ header{
           </select>
         </div>
         <div class="lic-ffield">
+          <label for="ret-operacion-select">Operación</label>
+          <select id="ret-operacion-select" onchange="setOperacionFilter(this.value)">
+            <option value="todos">Todas</option>
+            <option value="venta">Venta</option>
+            <option value="gestion">Contrato de gestión</option>
+            <option value="traspaso">Traspaso</option>
+          </select>
+        </div>
+        <div class="lic-ffield">
           <label for="ret-region-select">Comunidad</label>
           <select id="ret-region-select" onchange="setRegionFilter(this.value)">
             <option value="todos">Todas</option>
@@ -1471,6 +1495,7 @@ header{
           <th>Nombre</th>
           <th>Estado</th>
           <th>Tipología</th>
+          <th>Operación</th>
           <th>Comunidad</th>
           <th>Municipio</th>
           <th>Superficie</th>
@@ -1482,7 +1507,7 @@ header{
         </tr>
       </thead>
       <tbody class="grid" id="grid-retiradas">
-        <tr><td colspan="12"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
+        <tr><td colspan="13"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -2936,7 +2961,7 @@ function aplicarPermisosFicha() {
   // de "solo lectura". Solo se ve la información del anuncio, igual que
   // siempre. Para el admin, los lápices son la única entrada a la edición
   // (no hay ya un formulario aparte en la barra lateral).
-  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc']
+  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion']
     .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
@@ -2960,6 +2985,7 @@ let priceFilter   = 'all';
 let trackingFilter = 'todos';
 let priorityFilter = 'todos';
 let municipioFilter = 'todos';
+let operacionFilter = 'todos';
 let mapVisible   = false;
 let mapInstance  = null;
 let mapMarkers   = [];
@@ -3111,6 +3137,18 @@ function setPriorityFilter(val) {
   render();
   renderRetiradas();
 }
+// Filtro por Operación (Venta / Contrato de gestión / Traspaso) -- igual que
+// el de Estado y Prioridad: mismo filtro para Hoteles en venta y Retiradas,
+// con los dos selects sincronizados entre sí.
+function setOperacionFilter(val) {
+  operacionFilter = val;
+  const sel1 = document.getElementById('operacion-select');
+  if (sel1) sel1.value = val;
+  const sel2 = document.getElementById('ret-operacion-select');
+  if (sel2) sel2.value = val;
+  render();
+  renderRetiradas();
+}
 
 function matchesPriorityFilter(url) {
   if (priorityFilter === 'todos') return true;
@@ -3207,6 +3245,7 @@ function updateFilterCount() {
   if (trackingFilter !== 'todos') count++;
   if (priorityFilter !== 'todos') count++;
   if (municipioFilter !== 'todos') count++;
+  if (operacionFilter !== 'todos') count++;
   const el = document.getElementById('filter-count');
   if (el) {
     if (count > 0) { el.textContent = count; el.classList.add('visible'); }
@@ -3261,6 +3300,9 @@ function getFiltered() {
   // Filtro por Prioridad (1-5) de la Decisión de compra
   if (priorityFilter !== 'todos')
     list = list.filter(h => matchesPriorityFilter(h.url));
+  // Filtro por Operación (Venta / Contrato de gestión / Traspaso)
+  if (operacionFilter !== 'todos')
+    list = list.filter(h => getEffectiveOperacion(h) === operacionFilter);
   const q = (document.getElementById('search')?.value||'').toLowerCase().trim();
   if (q)
     list = list.filter(h =>
@@ -3297,7 +3339,7 @@ function render() {
   if (resCount) resCount.textContent = `${list.length} resultado${list.length!==1?'s':''}`;
 
   if (!list.length) {
-    grid.innerHTML = `<tr><td colspan="13"><div class="empty">
+    grid.innerHTML = `<tr><td colspan="14"><div class="empty">
       <div class="empty-title">Sin resultados</div>
       <div class="empty-sub">Prueba otro filtro o búsqueda</div>
     </div></td></tr>`;
@@ -3360,6 +3402,7 @@ function render() {
       </td>
       <td>${trackingColumnHtml(h.url)}</td>
       <td>${getEffectiveTipo(h)||'—'}</td>
+      <td>${operacionBadgeHtml(h)}</td>
       <td>${getComunidadEfectiva(h)||'—'}</td>
       <td>${h.location||'—'}</td>
       <td>${superficie}</td>
@@ -6383,6 +6426,7 @@ function resetFilters() {
   priceFilter   = 'all';
   trackingFilter = 'todos';
   priorityFilter = 'todos';
+  operacionFilter = 'todos';
   const portalSel = document.getElementById('portal-select');
   if (portalSel) portalSel.value = 'todos';
   const regionSel = document.getElementById('region-select');
@@ -6405,6 +6449,10 @@ function resetFilters() {
   if (retPrioritySel) retPrioritySel.value = 'todos';
   const retTrackingSel = document.getElementById('ret-tracking-select');
   if (retTrackingSel) retTrackingSel.value = 'todos';
+  const operacionSel = document.getElementById('operacion-select');
+  if (operacionSel) operacionSel.value = 'todos';
+  const retOperacionSel = document.getElementById('ret-operacion-select');
+  if (retOperacionSel) retOperacionSel.value = 'todos';
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
@@ -7294,6 +7342,14 @@ function trackingColumnHtml(url) {
   if (t.prioridad) html += `<span class="track-badge track-prioridad">P${t.prioridad}</span>`;
   return html;
 }
+// Columna "Operación" en la tabla del listado: Venta / Contrato de gestión /
+// Traspaso (ver detectarOperacion/getEffectiveOperacion más abajo).
+const OPERACION_BADGE_CLASS = { venta: 'op-badge-venta', gestion: 'op-badge-gestion', traspaso: 'op-badge-traspaso' };
+function operacionBadgeHtml(h) {
+  const valor = getEffectiveOperacion(h);
+  const cls = OPERACION_BADGE_CLASS[valor] || 'op-badge-venta';
+  return `<span class="op-badge ${cls}">${operacionLabel(valor)}</span>`;
+}
 
 // ══════════════════════════════════════════════════════
 // DATOS MANUALES DEL ANUNCIO — permite a un admin corregir a mano el
@@ -7381,6 +7437,63 @@ function getEffectiveDescripcion(h) {
   const m = getManualDatos(h.url);
   if (m && m.descripcion) return m.descripcion;
   return h.description || '';
+}
+// ══════════════════════════════════════════════════════
+// OPERACIÓN — distingue si el anuncio es una VENTA del activo (lo normal:
+// se compra el edificio/negocio) de los casos en los que en realidad se
+// ofrece un CONTRATO DE GESTIÓN/ARRENDAMIENTO (el propietario sigue siendo
+// el dueño, solo se cede la explotación) o un TRASPASO (se vende el
+// negocio en marcha, no el inmueble). Se detecta automáticamente buscando
+// frases características en el título/descripción del scraping -- el texto
+// de estos portales es muy variado y libre, así que solo se marca algo
+// distinto de "Venta" cuando hay una frase clara e inequívoca; en caso de
+// duda se deja como Venta (que es lo que es la inmensa mayoría de anuncios)
+// y el admin puede corregirlo a mano igual que categoría o tipología si el
+// texto real dice otra cosa.
+// ══════════════════════════════════════════════════════
+const OPERACION_OPCIONES = [
+  ['venta', 'Venta'],
+  ['gestion', 'Contrato de gestión'],
+  ['traspaso', 'Traspaso'],
+];
+const OPERACION_PATRONES_TRASPASO = [
+  /\ben\s+traspaso\b/i,
+  /\btraspaso\s+(del|de)\s+(negocio|hostal|hotel|hostel|establecimiento)\b/i,
+  /\bventa\s+o\s+traspaso\b/i,
+  /\btraspaso\s+o\s+venta\b/i,
+  /\bse\s+traspasa\b/i,
+];
+// NOTA: se dejan fuera a propósito frases como "management contract" o
+// "lease agreement" a secas, o "contrato de alquiler" sin más contexto --
+// en la práctica casi siempre describen un contrato YA EXISTENTE que trae
+// el hotel (p.ej. "se vende con un contrato de gestión en vigor"), no el
+// tipo de operación que se ofrece, y marcarlas daría falsos positivos sobre
+// anuncios que en realidad son una venta normal del activo.
+const OPERACION_PATRONES_GESTION = [
+  /\bcontrato\s+de\s+gesti[oó]n\b/i,
+  /\bcontrato\s+de\s+arrendamiento\b/i,
+  /\ben\s+r[eé]gimen\s+de\s+alquiler\b/i,
+  /\bse\s+alquila\b/i,
+  /\balquiler\s+de\s+hotel\b/i,
+  /\bse\s+busca\s+(un\s+)?(gestor|operador)\b/i,
+  /\boperador\s+hotelero\s+busca\b/i,
+  /\bse\s+cede\s+en\s+explotaci[oó]n\b/i,
+  /\bcesi[oó]n\s+de\s+explotaci[oó]n\b/i,
+];
+function detectarOperacion(h) {
+  const texto = `${(h && h.title) || ''} ${(h && h.description) || ''}`;
+  for (const re of OPERACION_PATRONES_TRASPASO) if (re.test(texto)) return 'traspaso';
+  for (const re of OPERACION_PATRONES_GESTION) if (re.test(texto)) return 'gestion';
+  return 'venta';
+}
+function getEffectiveOperacion(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.operacion) return m.operacion;
+  return detectarOperacion(h);
+}
+function operacionLabel(valor) {
+  const entry = OPERACION_OPCIONES.find(o => o[0] === valor);
+  return entry ? entry[1] : 'Venta';
 }
 // Vuelve a abrir la ficha del anuncio que se está editando ahora mismo,
 // para refrescar métricas/análisis con los valores efectivos recién
@@ -7487,6 +7600,43 @@ function guardarEdicionCategoria() {
   else delete datos.estrellas;
   if (tipoSel.value) datos.tipologia = tipoSel.value;
   else delete datos.tipologia;
+  if (Object.keys(datos).length === 0) delete all[url];
+  else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
+  saveManualDatosAll(all);
+  window._detEditing = null;
+  refrescarFichaActual();
+}
+// Edición de "Operación" (Venta / Contrato de gestión / Traspaso): un único
+// desplegable, mismo patrón que categoría/tipología pero con un solo campo.
+function iniciarEdicionOperacion() {
+  if (!esAdmin()) return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const el = document.getElementById('det-m-operacion');
+  if (!el) return;
+  const actual = getEffectiveOperacion(h);
+  const opts = OPERACION_OPCIONES.map(([v, l]) =>
+    `<option value="${v}" ${actual === v ? 'selected' : ''}>${l}</option>`).join('');
+  el.innerHTML = `
+    <select class="det-metric-edit-select" id="det-edit-operacion">${opts}</select>
+    <div class="det-edit-actions">
+      <a class="save" onclick="guardarEdicionOperacion()">Guardar</a>
+      <a class="cancel" onclick="window._detEditing=null;refrescarFichaActual()">Cancelar</a>
+    </div>`;
+  window._detEditing = { field: 'operacion' };
+}
+function guardarEdicionOperacion() {
+  if (!window._detEditing || window._detEditing.field !== 'operacion') return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const url = window._detCurrentUrl;
+  const sel = document.getElementById('det-edit-operacion');
+  if (!sel) return;
+  const all = getManualDatosAll();
+  const datos = all[url] || {};
+  // Si coincide con lo que detectaríamos automáticamente del texto del
+  // anuncio, no hace falta guardar un override -- igual que el resto de
+  // campos, solo se guarda lo que de verdad se ha corregido a mano.
+  if (sel.value === detectarOperacion(h)) delete datos.operacion;
+  else datos.operacion = sel.value;
   if (Object.keys(datos).length === 0) delete all[url];
   else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
   saveManualDatosAll(all);
@@ -7803,6 +7953,8 @@ function renderRetiradas() {
     list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
   if (priorityFilter !== 'todos')
     list = list.filter(h => matchesPriorityFilter(h.url));
+  if (operacionFilter !== 'todos')
+    list = list.filter(h => getEffectiveOperacion(h) === operacionFilter);
   if (regionFilter !== 'todos')
     list = list.filter(h => matchesRegionFilter(h));
   if (municipioFilter !== 'todos')
@@ -7823,7 +7975,7 @@ function renderRetiradas() {
 
   const body = document.getElementById('grid-retiradas');
   if (!list.length) {
-    body.innerHTML = `<tr><td colspan="12"><div class="empty">
+    body.innerHTML = `<tr><td colspan="13"><div class="empty">
       <div class="empty-title">Sin resultados</div>
       <div class="empty-sub">Prueba otro filtro o búsqueda</div>
     </div></td></tr>`;
@@ -7853,6 +8005,7 @@ function renderRetiradas() {
       <td><div class="hotel-row-title" title="${title.replace(/"/g, '&quot;')}">${title}</div></td>
       <td>${trackingColumnHtml(h.url)}</td>
       <td>${getEffectiveTipo(h) || '—'}</td>
+      <td>${operacionBadgeHtml(h)}</td>
       <td>${getComunidadEfectiva(h) || '—'}</td>
       <td>${h.location || '—'}</td>
       <td>${superficie}</td>
@@ -7938,6 +8091,14 @@ function openDetailPage(listIdx) {
   const pe = document.getElementById('det-m-precio');
   pe.className = 'det-metric-val' + (price ? '' : ' unknown');
   pe.textContent = price ? tasFormatEuros(price) : 'A consultar';
+
+  // Operación (Venta / Contrato de gestión / Traspaso) -- ver
+  // getEffectiveOperacion/detectarOperacion más arriba.
+  const opEl = document.getElementById('det-m-operacion');
+  if (opEl) {
+    opEl.className = 'det-metric-val';
+    opEl.textContent = operacionLabel(getEffectiveOperacion(h));
+  }
 
   const he = document.getElementById('det-m-hab');
   he.className = 'det-metric-val' + (rooms ? '' : ' unknown');
