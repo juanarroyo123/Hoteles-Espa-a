@@ -3599,6 +3599,9 @@ if __name__ == '__main__':
         try: scrape_idealista(driver4)
         except Exception as e: print(f'Error Idealista: {e}')
 
+        try: scrape_idealista_traspasos(driver4)
+        except Exception as e: print(f'Error Idealista (traspasos): {e}')
+
         try: scrape_milanuncios(driver4)
         except Exception as e: print(f'Error Milanuncios: {e}')
     finally:
