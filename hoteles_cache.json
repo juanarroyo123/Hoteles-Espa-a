@@ -38826,7 +38826,8 @@
   "ausencias": 0,
   "m2": 451,
   "licencia_texto": "",
-  "licencia_motivo": ""
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso"
  },
  {
   "title": "Madrid Capital",
@@ -39147,7 +39148,7 @@
   "date": "04/09/2026",
   "estado": "Retirado",
   "location_region": "Madrid",
-  "ausencias": 5,
+  "ausencias": 0,
   "m2": 532,
   "licencia_texto": "",
   "licencia_motivo": "9 licencias de alojamiento en La Bañeza (ver hoja TODAS LAS LICENCIAS)"
@@ -39196,7 +39197,7 @@
   "date": "04/09/2026",
   "estado": "Activo",
   "location_region": "Cataluña",
-  "ausencias": 1,
+  "ausencias": 0,
   "m2": 1178,
   "licencia_texto": "",
   "licencia_motivo": "3 licencias de alojamiento en Les Borges Blanques (ver hoja TODAS LAS LICENCIAS)"
@@ -41671,7 +41672,7 @@
   "estado": "Retirado",
   "location_region": "Canarias",
   "rooms": 7,
-  "ausencias": 7,
+  "ausencias": 0,
   "m2": 400,
   "licencia_texto": "",
   "licencia_motivo": ""
@@ -41736,7 +41737,7 @@
   "estado": "Retirado",
   "location_region": "Andalucía",
   "rooms": 16,
-  "ausencias": 3,
+  "ausencias": 0,
   "licencia_texto": "HOTEL RESTAURANTE PAYBER | H/JA/00640 | 2 Estrellas",
   "licencia_motivo": "nº hab aprox. (14 vs 16)"
  },
@@ -41865,7 +41866,7 @@
   "date": "08/09/2026",
   "estado": "Retirado",
   "location_region": "Galicia",
-  "ausencias": 4,
+  "ausencias": 0,
   "m2": 500,
   "licencia_texto": "",
   "licencia_motivo": ""
@@ -41898,7 +41899,7 @@
   "date": "08/09/2026",
   "estado": "Retirado",
   "location_region": "Galicia",
-  "ausencias": 5,
+  "ausencias": 0,
   "m2": 771,
   "licencia_texto": "FINCA BUENVINO | H/HU/00513 | Única",
   "licencia_motivo": "único alojamiento con licencia en Los Marines"
@@ -43184,7 +43185,7 @@
   "location_region": "Andalucía",
   "rooms": 9,
   "m2": 766,
-  "ausencias": 4,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "13 licencias de alojamiento en Lanjaron (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -43296,7 +43297,7 @@
   "estado": "Retirado",
   "location_region": "Castilla y León",
   "m2": 80,
-  "ausencias": 5,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "9 licencias de alojamiento en Puebla de Lillo (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -43312,7 +43313,7 @@
   "estado": "Retirado",
   "location_region": "C. Valenciana",
   "m2": 230,
-  "ausencias": 3,
+  "ausencias": 0,
   "licencia_texto": "HOSTAL ARNEVA | CV H01461 A | HOSTAL",
   "licencia_motivo": "nombre/descripción coincide con la licencia"
  },
@@ -44381,7 +44382,7 @@
   "estado": "Activo",
   "location_region": "Cataluña",
   "m2": 780,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "3 licencias de alojamiento en Santa Maria de Besora (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -46845,7 +46846,7 @@
   "estado": "Activo",
   "location_region": "Andalucía",
   "m2": 208,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "ALGARROBEÑA | H/MA/01533 | Única",
   "licencia_motivo": "único alojamiento con licencia en Algarrobo"
  },
@@ -47893,7 +47894,7 @@
   "estado": "Activo",
   "location_region": "Cataluña",
   "m2": 800,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "3 licencias de alojamiento en Gaia (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -48023,7 +48024,7 @@
   "location_region": "Madrid",
   "rooms": 2,
   "m2": 50,
-  "ausencias": 3,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "1092 licencias de alojamiento en Madrid (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -48799,7 +48800,7 @@
   "estado": "Retirado",
   "location_region": "Cataluña",
   "m2": 1000,
-  "ausencias": 4,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": ""
  },
@@ -49719,7 +49720,7 @@
   "date": "17/09/2026",
   "estado": "Retirado",
   "location_region": "Cataluña",
-  "ausencias": 3,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "767 licencias de alojamiento en Barcelona (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -49815,7 +49816,7 @@
   "estado": "Retirado",
   "location_region": "Galicia",
   "m2": 474,
-  "ausencias": 3,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": ""
  },
@@ -50615,7 +50616,7 @@
   "estado": "Activo",
   "location_region": "Madrid",
   "m2": 7000,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "LOS HUEROS | HM-4092 | 1-HOTEL",
   "licencia_motivo": "único alojamiento con licencia en Villalbilla"
  },
@@ -58582,5 +58583,163 @@
   "location_region": "Galicia",
   "rooms": 5,
   "ausencias": 0
+ },
+ {
+  "title": "sierra norte de madrid",
+  "price": "100.000 €",
+  "location": "La Cabrera",
+  "description": "sierra norte de madrid 100.000 € La Cabrera (Madrid) 800 m² 125,00 €/m² CE: A Interesados concertar visita. No llamo por telefono, Estoy cansado de cotillas, aburridos y mareantes. Traspaso hostal/restaurante a profesionales del gremio, ideal para negocio familiar o amigos. Hostal/Restaurante, 800m2",
+  "url": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/sierra-norte-de-madrid-603362476.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "operacion_detectada": "traspaso",
+  "estado": "Activo",
+  "location_region": "Madrid",
+  "m2": 800
+ },
+ {
+  "title": "Venta de Hotel en Benidorm",
+  "price": "8.000.000 €",
+  "location": "Benidorm",
+  "description": "Venta de Hotel en Benidorm 8.000.000 € Benidorm (Alicante) 3000 m² 2.666,67 €/m² Presentamos una excelente oportunidad para adquirir un hotel de 3 estrellas en Benidorm, 66 habitaciones, restaurante para 120comensales, en pleno funcionamiento, estratégicamente ubicado en el centro de Benidorm, uno d",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-benidorm-alicante/venta-de-hotel-en-benidorm-579057887.htm",
+  "source": "Milanuncios",
+  "tipo": "Hotel 3*",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "C. Valenciana",
+  "rooms": 66,
+  "m2": 3000
+ },
+ {
+  "title": "Cistierna",
+  "price": "100.000 €",
+  "location": "Cistierna",
+  "description": "8 Cistierna 100.000 € Cistierna (León) 466 m² 214,59 €/m² Ref: P008751. Edificio completo para rehabilitar (tejado en buen estado), situado en la calle Pedro Fernandez Valladares, en Cistierna, distribuido en: Planta baja: local destinado a cafe-bar con cocina y baños. \"Bar Central antiguo\". Planta ",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-cistierna-leon/cistierna-604310421.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Castilla y León",
+  "m2": 466
+ },
+ {
+  "title": "Cortegana",
+  "price": "400.000 €",
+  "location": "Cortegana",
+  "description": "76 Cortegana 400.000 € Cortegana (Huelva) 580 m² 689,66 €/m² Ref: HU1879. Presentamos esta excelente oportunidad de inversión: un hostal y vivienda ubicados en la encantadora localidad de Cortegana. Con una superficie total construida de 580 m2 y útil de 510 m2, este establecimiento se encuentra en ",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-cortegana-huelva/cortegana-597539726.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "m2": 580
+ },
+ {
+  "title": "Granada Capital",
+  "price": "410.000 €",
+  "location": "Granada",
+  "description": "3 Granada Capital 410.000 € Granada (Granada) 102 m² 4.019,61 €/m² Ref: k0221. Local Comercial en Cuesta Gomérez - Oportunidad de INVERSIÓN Turística. ¡Descubre esta magnífica oportunidad comercial en uno de los enclaves más privilegiados de Granada! Te presentamos un local de 102 m2 construidos sit",
+  "url": "https://www.milanuncios.com/venta-de-locales-comerciales-en-granada-granada/granada-capital-609404715.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "m2": 102
+ },
+ {
+  "title": "Conil de la Frontera",
+  "price": "290.000 €",
+  "location": "Conil de la Frontera",
+  "description": "11 Conil de la Frontera 290.000 € Conil de la Frontera (Cádiz) 400 m² 725,00 €/m² Ref: 13453868. ¡Oportunidad única en Conil! Se vende una nave con derecho de vuelo en un solar de 400m2, situada a pie de la carretera nacional 340, en una zona de alta demanda comercial. Este inmueble, ubicado en un c",
+  "url": "https://www.milanuncios.com/venta-de-locales-comerciales-en-conil-de-la-frontera-cadiz/conil-de-la-frontera-561390750.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "m2": 400
+ },
+ {
+  "title": "Granada Capital",
+  "price": "470.000 €",
+  "location": "Granada",
+  "description": "3 Granada Capital 470.000 € Granada (Granada) 102 m² 4.607,84 €/m² Ref: 4948-k0221. Local en PLAZA NUEVA, con 102 m² construidos, 2 estancias, 1 aseos, buen estado, planta Baja, gastos de comunidad/mes de 55 €. Local Comercial en Cuesta Gomérez - Oportunidad de INVERSIÓN Turística. ¡Descubre esta ma",
+  "url": "https://www.milanuncios.com/venta-de-locales-comerciales-en-granada-granada/granada-capital-603107744.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "m2": 102
+ },
+ {
+  "title": "La Puebla de Montalbán",
+  "price": "359.000 €",
+  "location": "La Puebla de Montalban",
+  "description": "59 La Puebla de Montalbán 359.000 € La Puebla de Montalban (Toledo) 7 dorm. 5 baños 700 m² Ref: 012455. LA PUEBLA DE MONTALBÁN - INMEJORABLE ZONA GRUPO SUPERCASA VENDE excelente edificio de vivienda y locales comerciales en ESQUINA en LA PLAZA MAYOR DEL PUEBLO que se compone de 1 vivienda, 10 locale",
+  "url": "https://www.milanuncios.com/venta-de-casas-en-la-puebla-de-montalban-toledo/la-puebla-de-montalban-480930831.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Castilla-La Mancha",
+  "m2": 700
+ },
+ {
+  "title": "Salobreña",
+  "price": "600.000 €",
+  "location": "Salobreña",
+  "description": "51 Salobreña 600.000 € Salobreña (Granada) 554 m² 1.083,03 €/m² Ref: NAHNG14313. SE VENDE HOSTAL SAN JOSE EN SALOBREÑA _GRANADA ¿Estás pensando en un negocio de alta rentabilidad en unos de los pueblos más bonitos de la Costa Tropical granadina? ¡Entonces esta es tu oportunidad! Ponemos a la venta l",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-salobrena-granada/salobrena-541447645.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "m2": 554
+ },
+ {
+  "title": "Maçanet de Cabrenys",
+  "price": "980.000 €",
+  "location": "Maçanet de Cabrenys",
+  "description": "18 Maçanet de Cabrenys 980.000 € Maçanet de Cabrenys (Girona) 6 dorm. 4 baños 350 m² Ref: 1294. Descubre esta encantadora casa rústica, una masía en venta ubicada en Maçanet de Cabrenys, ideal para quienes buscan un refugio en plena naturaleza. Hoy en dia Restaurante i Hostal. Con una superficie con",
+  "url": "https://www.milanuncios.com/venta-de-casas-en-macanet-de-cabrenys-girona/macanet-de-cabrenys-614110383.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Cataluña",
+  "m2": 350
+ },
+ {
+  "title": "Vilamarxant",
+  "price": "400.000 €",
+  "location": "Vilamarxant",
+  "description": "33 Vilamarxant 400.000 € Villamarchante/Vilamarxant (Valencia) 5 dorm. 2 baños 440 m² Ref: IV-27. Se vende amplio chalet de 440 m² construidos sobre una parcela de 6.000 m² de terreno de labranza en activo, ubicado en un entorno natural y tranquilo a pocos minutos del núcleo urbano de Vilamarxant. U",
+  "url": "https://www.milanuncios.com/venta-de-casas-en-villamarchante|vilamarxant-valencia/vilamarxant-547289004.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "C. Valenciana",
+  "m2": 440
+ },
+ {
+  "title": "Morantinos",
+  "price": "1.000.000 €",
+  "location": "Moratinos",
+  "description": "12 Morantinos 1.000.000 € Moratinos (Palencia) 689 m² 1.451,38 €/m² Ref: HOT0001. Presentamos un establecimiento hotelero con una ubicación estratégica en pleno Camino de Santiago Francés, uno de los itinerarios de peregrinación y turismo experiencial más importantes de Europa. Situado en Palencia, ",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-moratinos-palencia/morantinos-604601003.htm",
+  "source": "Milanuncios",
+  "tipo": "Hotel",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Galicia",
+  "m2": 689
  }
 ]
