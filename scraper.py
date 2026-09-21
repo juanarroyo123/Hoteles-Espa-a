@@ -1576,9 +1576,51 @@ def scrape_oirealestate(driver):
 # ══════════════════════════════════════════════════════
 # 5. NEGOCIOSENVENTA — hoteles en venta España
 # ══════════════════════════════════════════════════════
+# Ficha individual de NegociosEnVenta -- REUTILIZADA por scrape_negociosenventa()
+# y scrape_negociosenventa_traspasos(). CONFIRMADO con una ficha real
+# (hotel-en-el-camino-de-santiago-en-burgos-8175): la descripcion que se
+# saca del LISTADO (container.find('p') en la tarjeta de busqueda) es solo
+# un resumen corto de 1-2 frases -- la descripcion COMPLETA (habitaciones,
+# servicios, cifras del negocio, ubicacion...) esta en la ficha individual,
+# en el <p> que viene justo despues de <span class="titleInfo">Informacion
+# sobre este anuncio</span>. Las FOTOS reales de la galeria tampoco estan
+# en el listado (que solo trae la foto de portada) -- estan en la ficha,
+# en los <a data-lightbox="advert-image-..."><img src="/img/original/
+# {ID}_....webp"></a> del carrusel. Es HTML servido tal cual (confirmado
+# con un fetch() de verdad -- no hace falta Selenium/JS para verlo), asi
+# que basta con 'requests' normal, mas rapido que abrir el navegador otra vez.
+def enriquecer_ficha_nv(url_ficha, session):
+    try:
+        r = session.get(url_ficha, timeout=15)
+        if r.status_code != 200:
+            return None, []
+        r.encoding = 'utf-8'
+        soup = BeautifulSoup(r.text, 'lxml')
+        titulo_info = soup.find('span', class_='titleInfo')
+        desc_el = titulo_info.find_next_sibling('p') if titulo_info else None
+        descripcion = clean_desc(desc_el) if desc_el else None
+        fotos = []
+        for a in soup.select('a[data-lightbox]'):
+            src = a.get('href') or ''
+            if not src:
+                img = a.find('img')
+                src = img.get('src') if img else ''
+            if src and not src.startswith('http'):
+                src = 'https://www.negociosenventa.es' + src
+            if src and src.startswith('http') and src not in fotos:
+                fotos.append(src)
+        return descripcion, fotos
+    except Exception as e:
+        print(f'  NegociosEnVenta ficha KO {url_ficha[-45:]}: {e}')
+        return None, []
+
+
 def scrape_negociosenventa(driver):
     print('\n→ NegociosEnVenta...')
+    import requests as req_mod
     BASE = 'https://www.negociosenventa.es'
+    session = req_mod.Session()
+    session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36'})
     pages = [f'{BASE}/venta/hosteleria/hoteles', f'{BASE}/venta/hosteleria/hoteles?page=2']
     total_nv = 0
     seen_nv = set()
@@ -1617,8 +1659,18 @@ def scrape_negociosenventa(driver):
                         if precio_txt and precio_txt != '1€' and precio_txt != '1 €':
                             price = precio_txt
                         break
-                added = add_listing({'title':title,'price':price,'location':loc,
-                    'description':description,'url':href,'source':'NegociosEnVenta','date':TODAY})
+                # Visitamos la ficha real para sacar la descripcion completa y las
+                # fotos de la galeria (ver enriquecer_ficha_nv) -- lo que trae el
+                # listado es solo un resumen corto y la foto de portada.
+                item_nv = {'title':title,'price':price,'location':loc,
+                    'description':description,'url':href,'source':'NegociosEnVenta','date':TODAY}
+                desc_completa, fotos = enriquecer_ficha_nv(href, session)
+                if desc_completa and len(desc_completa) > len(description):
+                    item_nv['description'] = desc_completa
+                if fotos:
+                    item_nv['fotos_url'] = fotos
+                time.sleep(random.uniform(0.4, 0.9))
+                added = add_listing(item_nv)
                 if added: total_nv += 1
         except Exception as e:
             print(f'  Error {page_url}: {e}')
@@ -1652,7 +1704,10 @@ def scrape_negociosenventa(driver):
 # intentar adivinarlo por texto.
 def scrape_negociosenventa_traspasos(driver):
     print('\n→ NegociosEnVenta (traspasos)...')
+    import requests as req_mod
     BASE = 'https://www.negociosenventa.es'
+    session = req_mod.Session()
+    session.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36'})
     CATEGORIAS = [
         f'{BASE}/traspaso/hosteleria/hoteles',
         f'{BASE}/traspaso/hosteleria/hostales-pensiones',
@@ -1706,12 +1761,21 @@ def scrape_negociosenventa_traspasos(driver):
                             if precio_txt and precio_txt != '1€' and precio_txt != '1 €':
                                 price = precio_txt
                             break
-                    added = add_listing({
+                    # Igual que en scrape_negociosenventa(): la ficha real trae la
+                    # descripcion completa y las fotos de la galeria.
+                    item_nvt = {
                         'title': title, 'price': price, 'location': loc,
                         'description': description, 'url': href,
                         'source': 'NegociosEnVenta', 'date': TODAY,
                         'operacion_detectada': 'traspaso',
-                    })
+                    }
+                    desc_completa, fotos = enriquecer_ficha_nv(href, session)
+                    if desc_completa and len(desc_completa) > len(description):
+                        item_nvt['description'] = desc_completa
+                    if fotos:
+                        item_nvt['fotos_url'] = fotos
+                    time.sleep(random.uniform(0.4, 0.9))
+                    added = add_listing(item_nvt)
                     if added:
                         total_nvt += 1
                 print(f'    p{pagina}: {nuevos_pagina} fichas nuevas')
