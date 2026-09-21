@@ -41883,7 +41883,7 @@
   "estado": "Retirado",
   "location_region": "Galicia",
   "rooms": 4,
-  "ausencias": 5,
+  "ausencias": 0,
   "m2": 579,
   "licencia_texto": "INDUSTRIAL | 24/000107 | Categoría única",
   "licencia_motivo": "nº hab aprox. (5 vs 4)"
@@ -43135,7 +43135,7 @@
   "estado": "Activo",
   "location_region": "Castilla-La Mancha",
   "m2": 667,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "11 licencias de alojamiento en Manzanares (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -49896,7 +49896,7 @@
   "estado": "Activo",
   "location_region": "Asturias",
   "m2": 937,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": ""
  },
@@ -58681,7 +58681,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Andalucía",
-  "m2": 102
+  "m2": 102,
+  "ausencias": 0
  },
  {
   "title": "La Puebla de Montalbán",
@@ -58764,7 +58765,8 @@
   "operacion_detectada": "traspaso",
   "estado": "Activo",
   "location_region": "Castilla y León",
-  "m2": 600
+  "m2": 600,
+  "ausencias": 0
  },
  {
   "title": "Casserres",
@@ -58778,7 +58780,8 @@
   "operacion_detectada": "traspaso",
   "estado": "Activo",
   "location_region": "Cataluña",
-  "m2": 80000
+  "m2": 80000,
+  "ausencias": 0
  },
  {
   "title": "Alicante / Alacant",
@@ -58792,7 +58795,8 @@
   "operacion_detectada": "traspaso",
   "estado": "Activo",
   "location_region": "C. Valenciana",
-  "m2": 1000
+  "m2": 1000,
+  "ausencias": 0
  },
  {
   "title": "Santa Fe",
@@ -58806,7 +58810,8 @@
   "estado": "Activo",
   "location_region": "Andalucía",
   "rooms": 3,
-  "m2": 403
+  "m2": 403,
+  "ausencias": 0
  },
  {
   "title": "Malpica de Bergantiños",
@@ -58819,7 +58824,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Galicia",
-  "m2": 296
+  "m2": 296,
+  "ausencias": 0
  },
  {
   "title": "L'Hospitalet de Llobregat",
@@ -58833,5 +58839,31 @@
   "estado": "Activo",
   "location_region": "Cataluña",
   "m2": 1055
+ },
+ {
+  "title": "Los Gallardos",
+  "price": "415.000 €",
+  "location": "Los Gallardos",
+  "description": "31 Los Gallardos 415.000 € Los Gallardos (Almería) 180 m² 2.305,56 €/m² Ref: 00431. ACOGEDOR HOSTAL RESTAURANTE COMPUESTO DE RESTAURANTE ,RECEPCCION,COCINA ,ALMACEN GRAN SALON PARA COMIDAS CHIMENEA NORUEGA,AIRE ACONDICIONADO ASEOS,TERRAZA Y PATIO EL HOSTAL TIENE NUEVE HABITACIONES CON SUS BAÑOS PRIV",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-los-gallardos-almeria/los-gallardos-513131502.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "m2": 180
+ },
+ {
+  "title": "Bordeta - Carrer Hostal de la Bordeta",
+  "price": "98.500 €",
+  "location": "Lerida",
+  "description": "5 Bordeta - Carrer Hostal de la Bordeta 98.500 € Lleida / Lerida (Lleida) 126 m² 781,75 €/m² CE: B Venta de local en la bordeta lleida, posibilidad de alquilar a 550€ mensuales. Dispone de lavabo, luz, agua y alarma dado de alta. Iluminación Led y recién pintado, capacidad para 7 coches 4,20mt de al",
+  "url": "https://www.milanuncios.com/venta-de-locales-comerciales-en-lleida-|-lerida-lleida/bordeta-carrer-hostal-de-la-bordeta-501116211.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Cataluña",
+  "m2": 126
  }
 ]
