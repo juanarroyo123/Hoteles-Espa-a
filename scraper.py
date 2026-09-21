@@ -3120,10 +3120,7 @@ def scrape_idealista_traspasos(driver):
     )
 
     # Igual que en scrape_idealista(): clasifica el tipo de negocio solo para
-    # ponerlo bonito en la ficha. AQUI NO se usa como filtro de exclusion --
-    # la categoria "con-alojamiento" de Idealista ya garantiza que son
-    # negocios de alojamiento turistico, asi que no descartamos ningun anuncio
-    # por no encajar en una etiqueta concreta (a diferencia de scrape_idealista).
+    # ponerlo bonito en la ficha (esto NO filtra nada).
     def tip_hotel_label(t):
         tl = (t or '').lower()
         if re.search(r'apartahotel|aparthotel|apart-hotel', tl): return 'Apartahotel'
@@ -3137,6 +3134,45 @@ def scrape_idealista_traspasos(driver):
         if re.search(r'casa rural|casa de hu[ee]spedes|hospeder|\bposada\b|\bfonda\b|\bparador\b|b\s*&\s*b|bed and breakfast', tl): return 'Casa rural / B&B'
         if re.search(r'habitacion|dormitorio|hu[ee]spedes|alojamiento tur|uso hotelero|turismo rural|\bresort\b|plazas', tl): return 'Alojamiento turistico'
         return 'Alojamiento turistico'
+
+    # FILTRO DE RELEVANCIA -- comprobado con un test real: la categoria
+    # "con-alojamiento" de Idealista para este link multi-ubicacion NO
+    # garantiza que sea alojamiento turistico de verdad -- de 46 anuncios de
+    # prueba, ~15 eran agencias inmobiliarias, restaurantes sueltos, tiendas,
+    # talleres de bicis, excursiones en quad/buggy, naves industriales...
+    # etiquetados igualmente como "Hotel" o "Negocio de alojamiento" (parece
+    # que quien publica el anuncio puede marcar varias categorias a la vez, y
+    # el titulo que da Idealista junta todas: "Hotel, agencia inmobiliaria...").
+    # Asi que aqui SI hace falta un filtro, distinto del tip_hotel() estricto
+    # de scrape_idealista() (que exige una palabra concreta de tipo de hotel):
+    # aqui basta con que aparezca CUALQUIER palabra de alojamiento en el texto,
+    # salvo que tambien haya una señal clara de que es otro negocio (en ese
+    # caso la señal ajena manda, aunque el titulo diga "Hotel").
+    RE_ALOJAMIENTO = re.compile(
+        r'\bhotel\b|hostal|\bhostel\b|alojamiento|pensi[oo]n|albergue|posada|'
+        r'aparthotel|apart-hotel|casa rural|turismo rural|habitaci[oo]n|hu[ee]sped|'
+        r'coliving|\bresort\b|bed\s*and\s*breakfast|\bb\s*&\s*b\b|'
+        r'vivienda.{0,15}tur[ii]stic|\bvft\b|\bhut\b|licencia tur[ii]stica|'
+        r'cabañ|glamping|apartamentos? tur[ii]stic',
+        re.I)
+    RE_NO_ALOJAMIENTO = re.compile(
+        r'inmobiliaria|hamburgueser|telecomunicaciones|lampister|\bquads?\b|'
+        r'\bbuggys?\b|\bnave\b|peluquer|\btaller\b|gimnasio|discoteca|'
+        r'\boficina\b|bicicletas|restaurante chino|tienda de|\bclub\b',
+        re.I)
+    def es_alojamiento_real(title, description):
+        texto = f'{title} {description}'
+        if RE_NO_ALOJAMIENTO.search(texto):
+            return False
+        if RE_ALOJAMIENTO.search(texto):
+            return True
+        # Sin ninguna palabra de alojamiento (ni de negocio ajeno): si la
+        # descripcion es sustancial y no dice nada de alojamiento, mejor no
+        # darlo por bueno. Si esta vacia/muy corta no hay forma de saberlo,
+        # lo dejamos pasar (no descartar solo por falta de texto).
+        if description and len(description.strip()) > 30:
+            return False
+        return True
 
     def extraer_localizacion(title):
         partes = [p.strip() for p in title.split(',')]
@@ -3183,6 +3219,8 @@ def scrape_idealista_traspasos(driver):
                 price = clean(price_el.get_text()) if price_el else 'Precio a consultar'
                 desc_el = info.find('p', class_='ellipsis') or info.find(class_=re.compile(r'item-description'))
                 description = clean(desc_el.get_text()) if desc_el else ''
+                if not es_alojamiento_real(title, description):
+                    continue
                 tip = tip_hotel_label(title + ' ' + description)
                 loc = extraer_localizacion(title)
                 added = add_listing({
