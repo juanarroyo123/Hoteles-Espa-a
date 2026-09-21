@@ -3108,6 +3108,108 @@ def scrape_idealista(driver):
 
     print(f'  Idealista TOTAL: {total_id}')
 
+def scrape_idealista_traspasos(driver):
+    print('\n→ Idealista Traspasos (URL multi-ubicacion, todas las provincias en 1 busqueda)...')
+    BASE = 'https://www.idealista.com'
+    URL_BASE = (
+        'https://www.idealista.com/multi/traspasos/'
+        'a0U,a5h,aDY,aHC,aJ8,aR8,aWx,aaa,adF,ae7,ahe,ajh,alO,aoT,avI,b01,b82,'
+        'bDF,bRu,bUk,bbT,bd4,beY,blF,bp3,bvS,byV,c5g,c6H,cBl,cEx,cHG,cJ2,cK5,'
+        'cQJ,cXW,cgE,cjc,cll,cvf,cxz,d6y,d70,dGZ,dNy,dOx,dUe,dfE,dnm,dxM,dzV/'
+        'con-alojamiento/'
+    )
+
+    # Igual que en scrape_idealista(): clasifica el tipo de negocio solo para
+    # ponerlo bonito en la ficha. AQUI NO se usa como filtro de exclusion --
+    # la categoria "con-alojamiento" de Idealista ya garantiza que son
+    # negocios de alojamiento turistico, asi que no descartamos ningun anuncio
+    # por no encajar en una etiqueta concreta (a diferencia de scrape_idealista).
+    def tip_hotel_label(t):
+        tl = (t or '').lower()
+        if re.search(r'apartahotel|aparthotel|apart-hotel', tl): return 'Apartahotel'
+        if re.search(r'hotel\s*rural', tl): return 'Hotel Rural'
+        if re.search(r'\bboutique\b', tl): return 'Hotel boutique'
+        if re.search(r'balneario', tl): return 'Balneario'
+        if re.search(r'\bhostal\b', tl): return 'Hostal'
+        if re.search(r'\bhotel\b|hotelero|complejo hotelero', tl): return 'Hotel'
+        if re.search(r'\bpensi[oo]n\b|\bpensión\b', tl): return 'Pension'
+        if re.search(r'albergue|\bhostel\b', tl): return 'Albergue'
+        if re.search(r'casa rural|casa de hu[ee]spedes|hospeder|\bposada\b|\bfonda\b|\bparador\b|b\s*&\s*b|bed and breakfast', tl): return 'Casa rural / B&B'
+        if re.search(r'habitacion|dormitorio|hu[ee]spedes|alojamiento tur|uso hotelero|turismo rural|\bresort\b|plazas', tl): return 'Alojamiento turistico'
+        return 'Alojamiento turistico'
+
+    def extraer_localizacion(title):
+        partes = [p.strip() for p in title.split(',')]
+        if len(partes) >= 2:
+            return partes[-1]
+        m = re.search(r'\ben\s+(.+)$', title, re.IGNORECASE)
+        if m: return m.group(1).strip()
+        return 'España'
+
+    total_idt = 0
+    seen_idt = set()
+
+    try:
+        get_page(driver, BASE, wait=2)
+    except: pass
+
+    pagina = 1
+    while pagina <= 20:
+        url = URL_BASE if pagina == 1 else f'{URL_BASE}pagina-{pagina}.htm'
+        try:
+            html = get_page(driver, url, wait=6)
+            if html and ('data-element-id' not in html) and any(b in html.lower() for b in
+                    ['uso indebido', 'acceso se ha bloqueado', 'has sido bloqueado', 'datadome', 'geo.captcha']):
+                print(f'  ⚠️ Idealista ha bloqueado la IP (Traspasos, pagina {pagina}) - paro aqui.')
+                break
+            if not html:
+                break
+            soup = BeautifulSoup(html, 'lxml')
+            articles = soup.find_all('article', attrs={'data-element-id': True})
+            if not articles:
+                break
+            enc = 0
+            for art in articles:
+                item_id = art.get('data-element-id', '')
+                if not item_id: continue
+                href = f'{BASE}/inmueble/{item_id}/'
+                if href in seen_idt or href in seen_urls: continue
+                seen_idt.add(href)
+                info = art.find(class_='item-info-container') or art
+                a = info.find('a', class_='item-link')
+                title = clean(a.get('title', '')) if a else ''
+                if not title or len(title) < 8: continue
+                price_el = info.find(class_='item-price')
+                price = clean(price_el.get_text()) if price_el else 'Precio a consultar'
+                desc_el = info.find('p', class_='ellipsis') or info.find(class_=re.compile(r'item-description'))
+                description = clean(desc_el.get_text()) if desc_el else ''
+                tip = tip_hotel_label(title + ' ' + description)
+                loc = extraer_localizacion(title)
+                added = add_listing({
+                    'title': title,
+                    'price': price,
+                    'location': loc,
+                    'description': description,
+                    'url': href,
+                    'source': 'Idealista',
+                    'tipo': tip,
+                    'operacion_detectada': 'traspaso',
+                    'date': TODAY
+                })
+                if added: enc += 1; total_idt += 1
+            print(f'  Idealista Traspasos pagina {pagina}: {enc} nuevos | Total IDT: {total_idt}')
+            siguiente = soup.select_one('.pagination li.next a')
+            if not siguiente:
+                break
+            pagina += 1
+            time.sleep(random.uniform(8, 14))
+        except Exception as e:
+            print(f'  Error Idealista Traspasos pagina {pagina}: {e}')
+            break
+
+    print(f'  Idealista Traspasos TOTAL: {total_idt}')
+
+
 # ══════════════════════════════════════════════
 # ECOURBANIZACIÓN — hoteles/hostales/apartamentos turísticos en venta y en
 # TRASPASO (Granada y alrededores). Sitio WordPress + plugin Estatik, sin
