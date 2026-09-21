@@ -1077,8 +1077,7 @@ header{
         <!-- Datos del activo -->
         <div class="det-section-title">Datos del activo</div>
         <div class="det-metrics" id="det-metrics">
-          <div class="det-metric"><div class="det-metric-lbl"><span>Precio anunciado</span><span class="det-edit-ico" id="det-edit-ico-precio" onclick="iniciarEdicionMetric('precio')" title="Editar precio">✎</span></div><div class="det-metric-val" id="det-m-precio">—</div></div>
-          <div class="det-metric"><div class="det-metric-lbl"><span>Operación</span><span class="det-edit-ico" id="det-edit-ico-operacion" onclick="iniciarEdicionOperacion()" title="Editar tipo de operación">✎</span></div><div class="det-metric-val" id="det-m-operacion">—</div></div>
+          <div class="det-metric"><div class="det-metric-lbl"><span>Precio anunciado</span><span class="det-edit-ico" id="det-edit-ico-precio" onclick="iniciarEdicionMetric('precio')" title="Editar precio">✎</span></div><div class="det-metric-val" id="det-m-precio">—</div><div class="det-metric-sub" id="det-m-alquiler-sub" style="display:none" onclick="iniciarEdicionMetric('alquiler')"></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Habitaciones</span><span class="det-edit-ico" id="det-edit-ico-habitaciones" onclick="iniciarEdicionMetric('habitaciones')" title="Editar habitaciones">✎</span></div><div class="det-metric-val" id="det-m-hab">—</div><div class="det-metric-sub" id="det-m-hab-sub" style="display:none" onclick="iniciarEdicionMetric('apartamentos')"></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Categoría / Tipología</span><span class="det-edit-ico" id="det-edit-ico-cat" onclick="iniciarEdicionCategoria()" title="Editar categoría / tipología">✎</span></div><div id="det-metric-cat-wrap"><div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div></div></div>
           <div class="det-metric"><div class="det-metric-lbl"><span>Superficie</span><span class="det-edit-ico" id="det-edit-ico-superficie" onclick="iniciarEdicionMetric('superficie')" title="Editar superficie">✎</span></div><div class="det-metric-val" id="det-m-m2">—</div></div>
@@ -2997,7 +2996,7 @@ function aplicarPermisosFicha() {
   // de "solo lectura". Solo se ve la información del anuncio, igual que
   // siempre. Para el admin, los lápices son la única entrada a la edición
   // (no hay ya un formulario aparte en la barra lateral).
-  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion', 'det-edit-ico-operacion-info', 'det-edit-ico-ubicacion']
+  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion-info', 'det-edit-ico-ubicacion']
     .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
@@ -7442,6 +7441,15 @@ function getEffectivePrecioStr(h, fallback) {
   if (m && m.precio) return tasFormatEuros(m.precio);
   return h.price || (fallback !== undefined ? fallback : 'Precio a consultar');
 }
+// Alquiler mensual del local -- solo aplica a anuncios de TRASPASO (el
+// comprador se queda con el contrato de alquiler existente, aparte de
+// pagar el traspaso en si). No lo trae ningun scraper todavia -- es un
+// dato que se añade a mano, igual que precio/habitaciones/superficie.
+function getEffectiveAlquiler(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.alquiler) return m.alquiler;
+  return null;
+}
 function getEffectiveRooms(h) {
   const m = getManualDatos(h.url);
   if (m && m.habitaciones) return m.habitaciones;
@@ -7580,7 +7588,7 @@ function restaurarDatosOriginales() {
   if (!esAdmin()) return; // por si se reactiva el enlace desde fuera (consola, etc.)
   const url = window._detCurrentUrl;
   if (!url) return;
-  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, habitaciones, apartamentos, superficie, tipología, categoría, municipio, comunidad o descripción corregidos a mano.')) return;
+  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, alquiler, habitaciones, apartamentos, superficie, tipología, categoría, municipio, comunidad o descripción corregidos a mano.')) return;
   const all = getManualDatosAll();
   delete all[url];
   saveManualDatosAll(all);
@@ -7601,6 +7609,7 @@ const DET_METRIC_EDIT_CONFIG = {
   habitaciones: { elId: 'det-m-hab',      key: 'habitaciones', get: h => getEffectiveRooms(h) },
   superficie:   { elId: 'det-m-m2',       key: 'superficie',   get: h => getEffectiveM2(h) },
   apartamentos: { elId: 'det-m-hab-sub',  key: 'apartamentos', get: h => getEffectiveApartamentos(h), small: true },
+  alquiler:     { elId: 'det-m-alquiler-sub', key: 'alquiler', get: h => getEffectiveAlquiler(h), small: true },
 };
 function iniciarEdicionMetric(field) {
   if (!esAdmin()) return;
@@ -8457,6 +8466,27 @@ function openDetailPage(listIdx) {
   const pe = document.getElementById('det-m-precio');
   pe.className = 'det-metric-val' + (price ? '' : ' unknown');
   pe.textContent = price ? tasFormatEuros(price) : 'A consultar';
+
+  // Alquiler mensual: solo tiene sentido en un Traspaso (el comprador se
+  // queda con el alquiler del local aparte de pagar el traspaso), asi que
+  // se muestra debajo del Precio anunciado unicamente en ese caso.
+  const alqSub = document.getElementById('det-m-alquiler-sub');
+  if (alqSub) {
+    const esTraspaso = getEffectiveOperacion(h) === 'traspaso';
+    const alquiler = getEffectiveAlquiler(h);
+    const adminAlq = esAdmin();
+    if (esTraspaso && alquiler) {
+      alqSub.style.display = '';
+      alqSub.textContent = `Alquiler mensual: ${tasFormatEuros(alquiler)}/mes`;
+    } else if (esTraspaso && adminAlq) {
+      alqSub.style.display = '';
+      alqSub.textContent = 'Añadir alquiler mensual';
+    } else {
+      alqSub.style.display = 'none';
+      alqSub.textContent = '';
+    }
+    alqSub.classList.toggle('editable', esTraspaso && adminAlq);
+  }
 
   // Operación (Venta / Contrato de gestión / Traspaso) -- ver
   // getEffectiveOperacion/detectarOperacion más arriba.
