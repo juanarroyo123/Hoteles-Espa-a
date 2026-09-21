@@ -3108,7 +3108,7 @@ def scrape_idealista(driver):
 
     print(f'  Idealista TOTAL: {total_id}')
 
-def scrape_idealista_traspasos(driver):
+def scrape_idealista_traspasos(driver, calentar=True):
     print('\n→ Idealista Traspasos (URL multi-ubicacion, todas las provincias en 1 busqueda)...')
     BASE = 'https://www.idealista.com'
     URL_BASE = (
@@ -3187,12 +3187,26 @@ def scrape_idealista_traspasos(driver):
 
     try:
         get_page(driver, BASE, wait=2)
-        # Pequeña espera humana antes de ir directo a la busqueda -- esta
-        # URL (multi-ubicacion) parece mas sensible al bloqueo de DataDome
-        # que las de scrape_idealista() (visto en pruebas reales: bloqueo
-        # intermitente incluso con el driver stealth).
         time.sleep(random.uniform(3, 6))
     except: pass
+
+    # CALENTAMIENTO -- en pruebas reales, entrar en frio directo a esta URL
+    # (multi-ubicacion) se bloqueaba mucho mas a menudo (3 de 4 intentos)
+    # que cuando el mismo driver ya habia visitado antes paginas normales de
+    # Idealista, como pasa en el pipeline completo (esta funcion corre justo
+    # despues de scrape_idealista(), que ya visita las 47 provincias -- ahi
+    # se llama con calentar=False porque ya viene calentado). Los scripts
+    # sueltos (activar_idealista_traspasos.py, test_idealista_traspasos.py)
+    # no pasan por scrape_idealista() antes, asi que aqui simulamos un poco
+    # de navegacion normal visitando unas pocas provincias antes de ir a la
+    # busqueda multi-ubicacion.
+    if calentar:
+        print('  Calentando sesion (visitando unas provincias normales antes)...')
+        for _prov in ['madrid-provincia', 'barcelona-provincia', 'valencia-provincia', 'sevilla-provincia']:
+            try:
+                get_page(driver, f'{BASE}/venta-locales/{_prov}/con-hotel/', wait=5)
+            except: pass
+            time.sleep(random.uniform(10, 16))
 
     pagina = 1
     while pagina <= 20:
@@ -3604,7 +3618,7 @@ if __name__ == '__main__':
         try: scrape_idealista(driver4)
         except Exception as e: print(f'Error Idealista: {e}')
 
-        try: scrape_idealista_traspasos(driver4)
+        try: scrape_idealista_traspasos(driver4, calentar=False)
         except Exception as e: print(f'Error Idealista (traspasos): {e}')
 
         try: scrape_milanuncios(driver4)
