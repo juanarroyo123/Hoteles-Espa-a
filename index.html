@@ -1294,6 +1294,7 @@ header{
           <div class="det-sidebar-title">Información del anuncio</div>
           <div class="det-sidebar-body" style="font-size:0.78rem;color:var(--text-mid)">
             <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Portal</span><span id="det-info-portal" style="font-weight:600">—</span></div>
+            <div class="det-info-row" style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.3rem">Operación<span class="det-edit-ico" id="det-edit-ico-operacion-info" onclick="iniciarEdicionOperacion('det-info-operacion')" title="Editar tipo de operación">✎</span></span><span id="det-info-operacion" style="text-align:right">—</span></div>
             <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Fecha</span><span id="det-info-fecha">—</span></div>
             <div class="det-info-row" style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.3rem">Comunidad<span class="det-edit-ico" id="det-edit-ico-ubicacion" onclick="iniciarEdicionUbicacion()" title="Editar municipio / comunidad">✎</span></span><span id="det-info-region" style="text-align:right">—</span></div>
             <div class="det-info-row" style="display:flex;justify-content:space-between;padding:0.4rem 0"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Municipio</span><span id="det-info-loc" style="text-align:right;max-width:180px">—</span></div>
@@ -2987,7 +2988,7 @@ function aplicarPermisosFicha() {
   // de "solo lectura". Solo se ve la información del anuncio, igual que
   // siempre. Para el admin, los lápices son la única entrada a la edición
   // (no hay ya un formulario aparte en la barra lateral).
-  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion', 'det-edit-ico-ubicacion']
+  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion', 'det-edit-ico-operacion-info', 'det-edit-ico-ubicacion']
     .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
@@ -7649,10 +7650,10 @@ function guardarEdicionCategoria() {
 }
 // Edición de "Operación" (Venta / Contrato de gestión / Traspaso): un único
 // desplegable, mismo patrón que categoría/tipología pero con un solo campo.
-function iniciarEdicionOperacion() {
+function iniciarEdicionOperacion(targetId) {
   if (!esAdmin()) return;
   const h = window._detCurrentHotel; if (!h) return;
-  const el = document.getElementById('det-m-operacion');
+  const el = document.getElementById(targetId || 'det-m-operacion');
   if (!el) return;
   const actual = getEffectiveOperacion(h);
   const opts = OPERACION_OPCIONES.map(([v, l]) =>
@@ -8328,6 +8329,8 @@ function openDetailPage(listIdx) {
 
   // Info sidebar
   document.getElementById('det-info-portal').textContent = h.source || '—';
+  const infoOpEl = document.getElementById('det-info-operacion');
+  if (infoOpEl) infoOpEl.textContent = operacionLabel(getEffectiveOperacion(h));
   document.getElementById('det-info-fecha').textContent = h.date || '—';
   document.getElementById('det-info-region').textContent = comunidadInfo || '—';
   document.getElementById('det-info-loc').textContent = municipioInfo || '—';
