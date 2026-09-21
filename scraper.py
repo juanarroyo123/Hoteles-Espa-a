@@ -185,6 +185,41 @@ def clean(s):
     s = unescape(s)
     return re.sub(r'\s+', ' ', s).strip()
 
+def clean_desc(elemento_o_texto):
+    """Como clean(), pero para DESCRIPCIONES: en vez de aplastar todo en
+    una sola linea, conserva los saltos de parrafo/linea REALES -- los que
+    vienen de <br>, </p>, </div>, </li> en el HTML original de la ficha, o
+    de un '\n' de verdad si ya nos llega como texto plano (p.ej. de un
+    JSON de la propia web) -- para que se lea completo y con los mismos
+    puntos y aparte que en el anuncio de verdad.
+    Recibe el elemento de BeautifulSoup TAL CUAL (sin haberle sacado ya el
+    texto con get_text()) para no perder donde estaban los saltos de
+    bloque; el resto de etiquetas en linea (negrita, enlaces...) se quitan
+    sin cortar la frase en trozos sueltos.
+    """
+    if not elemento_o_texto: return ''
+    s = str(elemento_o_texto)
+    s = re.sub(r'<br\b[^>]*>', '\n', s, flags=re.I)
+    s = re.sub(r'</p\s*>', '\n\n', s, flags=re.I)
+    s = re.sub(r'</div\s*>', '\n', s, flags=re.I)
+    s = re.sub(r'</li\s*>', '\n', s, flags=re.I)
+    s = re.sub(r'<[^>]+>', '', s)
+    s = unescape(s)
+    lineas = [re.sub(r'[ \t]+', ' ', l).strip() for l in s.split('\n')]
+    out = []
+    en_blanco = False
+    for l in lineas:
+        if l == '':
+            if not en_blanco and out:
+                out.append('')
+            en_blanco = True
+        else:
+            out.append(l)
+            en_blanco = False
+    while out and out[-1] == '':
+        out.pop()
+    return '\n'.join(out)
+
 def parsear_fecha(texto):
     if not texto: return TODAY
     t = texto.lower().strip()
@@ -821,7 +856,7 @@ def scrape_thinkspain(driver):
                             precio = extraer_precio_ts(name)  # fallback: el regex de siempre
 
                         listing = {'title': titulo, 'price': precio, 'location': loc,
-                                   'description': clean(prod.get('description', '')),
+                                   'description': clean_desc(prod.get('description', '')),
                                    'url': url_a, 'source': 'ThinkSpain'}
                         if isinstance(stats.get('beds'), (int, float)) and stats['beds'] > 0:
                             listing['rooms'] = int(stats['beds'])
@@ -1397,7 +1432,7 @@ def scrape_oirealestate(driver):
 
                     # Descripción
                     desc_el = soup2.find('div', class_=re.compile(r'desc|content|text|body', re.I))
-                    description = clean(desc_el.get_text())[:1500] if desc_el else ''
+                    description = clean_desc(desc_el) if desc_el else ''
 
                     added = add_listing({
                         'title': title,
@@ -2643,9 +2678,10 @@ def scrape_hotelsevende(driver):
                     strong = prev.find('strong')
                     if strong: loc = clean(strong.get_text())
 
-            # Descripción — párrafos
+            # Descripción — párrafos (cada <p> real se conserva como su propio párrafo,
+            # igual que se ve en la ficha de verdad, en vez de pegarlo todo seguido)
             paras = soup.find_all('p')
-            description = ' '.join(clean(p.get_text()) for p in paras if len(p.get_text().strip()) > 40)[:1500]
+            description = '\n\n'.join(clean_desc(p) for p in paras if len(p.get_text().strip()) > 40)
 
             added = add_listing({
                 'title': title,
@@ -2766,6 +2802,109 @@ def scrape_idealista(driver):
 
     print(f'  Idealista TOTAL: {total_id}')
 
+# ══════════════════════════════════════════════
+# ECOURBANIZACIÓN — hoteles/hostales/apartamentos turísticos en venta y en
+# TRASPASO (Granada y alrededores). Sitio WordPress + plugin Estatik, sin
+# proteccion anti-bot -- se puede leer directo con requests, como Oi Real
+# Estate / HotelSeVende. Visita la ficha real de cada anuncio (como esos
+# dos), asi que la descripcion sale completa y con parrafos de verdad.
+# ══════════════════════════════════════════════
+def scrape_ecourbanizacion(driver):
+    print('\n→ EcoUrbanización...')
+    HEADERS_EU = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+    }
+    BASE = 'https://www.ecourbanizacion.com/property-category/hostal-hotel/'
+    session = req_mod.Session()
+
+    # ── PASO 1: recorrer el listado paginado y recopilar las URLs de ficha ──
+    urls_listado = []
+    vistos_listado = set()
+    for pagina in range(1, 11):
+        url = BASE if pagina == 1 else f'{BASE}?paged={pagina}'
+        try:
+            r = session.get(url, headers=HEADERS_EU, timeout=15)
+            if r.status_code != 200:
+                print(f'  EcoUrbanización p{pagina}: status {r.status_code}, parando')
+                break
+            soup = BeautifulSoup(r.text, 'lxml')
+            cards = soup.find_all('div', class_='es-listing')
+            if not cards:
+                print(f'  EcoUrbanización p{pagina}: sin anuncios, fin')
+                break
+            nuevos_pagina = 0
+            for card in cards:
+                a = card.find('a', href=re.compile(r'/property/'))
+                if not a:
+                    continue
+                href = a.get('href', '').split('?')[0].rstrip('/')
+                if not href or href in vistos_listado:
+                    continue
+                vistos_listado.add(href)
+                urls_listado.append(href)
+                nuevos_pagina += 1
+            print(f'  EcoUrbanización p{pagina}: {nuevos_pagina} fichas nuevas')
+            time.sleep(random.uniform(1.5, 3))
+        except Exception as e:
+            print(f'  EcoUrbanización error listado p{pagina}: {e}')
+            break
+
+    print(f'  EcoUrbanización: {len(urls_listado)} fichas en el listado.')
+
+    # ── PASO 2: entrar en cada ficha y sacar título/precio/descripción completa ──
+    total_eu = 0
+    for href in urls_listado:
+        if href in seen_urls:
+            continue
+        try:
+            r = session.get(href, headers=HEADERS_EU, timeout=15)
+            if r.status_code != 200:
+                continue
+            soup = BeautifulSoup(r.text, 'lxml')
+
+            h1 = soup.find('h1', class_=re.compile(r'property-title'))
+            title = clean(h1.get_text()) if h1 else ''
+            if not title or len(title) < 8:
+                continue
+
+            price_el = soup.find(class_='es-price')
+            price = clean(price_el.get_text()) if price_el else 'Precio a consultar'
+            if not re.search(r'\d', price):
+                price = 'Precio a consultar'
+
+            desc_el = soup.find(class_=re.compile(r'es-property-field--post_content'))
+            desc_val = desc_el.find(class_=re.compile(r'es-property-field__value')) if desc_el else None
+            description = clean_desc(desc_val) if desc_val else ''
+
+            # OJO: aquí NO se aplica el filtro _parece_hotel() -- a diferencia
+            # de Hispacasas (donde una URL de "hoteles" devolvía fincas/chalets
+            # por un bug del propio portal), esta categoría de EcoUrbanización
+            # (hostal-hotel) sí está bien filtrada por el sitio, y muchos títulos
+            # de apartamentos turísticos no llevan la palabra "hotel"/"hostal" ni
+            # coinciden con los acentos exactos de HOTEL_KEYWORDS (p.ej. el sitio
+            # escribe "turisticos" sin tilde) -- aplicar el filtro aquí descartaría
+            # anuncios válidos por error.
+
+            added = add_listing({
+                'title': title,
+                'price': price,
+                'location': 'España',
+                'description': description,
+                'url': href,
+                'source': 'EcoUrbanización',
+                'date': TODAY,
+            })
+            if added:
+                total_eu += 1
+                print(f'  ✅ {title[:60]}')
+            time.sleep(random.uniform(1, 2))
+        except Exception as e:
+            print(f'  EcoUrbanización error ficha {href}: {e}')
+            continue
+
+    print(f'  EcoUrbanización TOTAL: {total_eu}')
+
 if __name__ == '__main__':
     print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
@@ -2846,6 +2985,9 @@ if __name__ == '__main__':
     try: scrape_engelvoelkers(None)
     except Exception as e: print(f'Error Engel Volkers: {e}')
 
+    try: scrape_ecourbanizacion(None)
+    except Exception as e: print(f'Error EcoUrbanizacion: {e}')
+
     print('\nNavegador cerrado.')
 
     # Merge con cache
@@ -2859,7 +3001,13 @@ if __name__ == '__main__':
             nuevos += 1
         else:
             cache_nuevo[url_key]['price']       = item.get('price', cache_nuevo[url_key].get('price',''))
-            cache_nuevo[url_key]['description'] = item.get('description', cache_nuevo[url_key].get('description',''))
+            _desc_nueva = item.get('description') or ''
+            _desc_vieja = cache_nuevo[url_key].get('description') or ''
+            # No pisar una descripcion ya guardada con una vacia por un
+            # fallo puntual del scraping de hoy -- nos quedamos con la
+            # mas larga de las dos (normalmente la nueva, salvo que hoy
+            # haya venido mas corta o vacia).
+            cache_nuevo[url_key]['description'] = _desc_nueva if len(_desc_nueva) >= len(_desc_vieja) else _desc_vieja
             cache_nuevo[url_key]['tipo']        = item.get('tipo', cache_nuevo[url_key].get('tipo',''))
             cache_nuevo[url_key]['ausencias']   = 0
             # Refrescar datos estructurados (m2/habitaciones/camas/banos) con lo
