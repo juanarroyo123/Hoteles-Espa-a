@@ -202,7 +202,17 @@ def clean_desc(elemento_o_texto):
     s = re.sub(r'<br\b[^>]*>', '\n', s, flags=re.I)
     s = re.sub(r'</p\s*>', '\n\n', s, flags=re.I)
     s = re.sub(r'</div\s*>', '\n', s, flags=re.I)
+    # Titulos (Inmo Olaya usa <h3>/<h5> como subtitulos dentro de la
+    # propia descripcion, p.ej. 'HOTEL BOUTIQUE - ACTIVO CONSOLIDADO') --
+    # los tratamos como un parrafo aparte, igual que un </p>.
+    s = re.sub(r'</h[1-6]\s*>', '\n\n', s, flags=re.I)
+    # Listas (<ul><li>...): cada <li> se convierte en una linea con guion
+    # delante, para que no queden pegadas unas a otras -- CONFIRMADO que
+    # hace falta con las listas de caracteristicas reales de Inmo Olaya
+    # ('Reforma integral: 2017', '6 habitaciones: 4 dobles + 2 suites'...).
+    s = re.sub(r'<li\b[^>]*>', '- ', s, flags=re.I)
     s = re.sub(r'</li\s*>', '\n', s, flags=re.I)
+    s = re.sub(r'</(?:ul|ol)\s*>', '\n', s, flags=re.I)
     s = re.sub(r'<[^>]+>', '', s)
     s = unescape(s)
     lineas = [re.sub(r'[ \t]+', ' ', l).strip() for l in s.split('\n')]
@@ -547,13 +557,33 @@ _REGION_MAP = {
     'aguilas':'Murcia','jumilla':'Murcia','los alcazares':'Murcia',
     'la manga':'Murcia','vera':'Murcia',
     'logrono':'La Rioja','la rioja':'La Rioja','rioja':'La Rioja',
+    # Nombres cortos que colisionan con una comarca/pedania de OTRA
+    # comunidad -- confirmado con datos reales de Inmo Olaya: 'vera'
+    # (pueblo de Almeria/Murcia) aparece tambien dentro de 'La Vera'
+    # (comarca de Caceres, Extremadura); 'santiago' (Galicia) aparece
+    # dentro de 'Santiago de la Ribera' (pedania de Murcia); y 'san
+    # sebastian' (Pais Vasco) aparece dentro de 'San Sebastian de la
+    # Gomera' (Canarias). Al ser mas largas que esas claves genericas,
+    # infer_region() ya las revisa antes (ordena por longitud).
+    'la vera':'Extremadura','santiago de la ribera':'Murcia',
+    'san sebastian de la gomera':'Canarias',
 }
 
 def infer_region(texto):
-    """Infiere la comunidad autónoma a partir de cualquier texto de ubicación."""
+    """Infiere la comunidad autónoma a partir de cualquier texto de ubicación.
+
+    IMPORTANTE (bug real encontrado probando Inmo Olaya, 21/09/2026): antes
+    se comprobaba "key in t" (subcadena suelta), lo que hacia que un
+    municipio corto quedara escondido DENTRO de otra palabra sin ninguna
+    relacion -- p.ej. 'Villafames' contiene literalmente 'ames' (clave de
+    un pueblo de Galicia) y se colaba como "Galicia" en vez de caer, ya
+    en el titulo/descripcion, en Castellon/C. Valenciana. Ahora se exige
+    que la clave aparezca como palabra(s) completa(s) (limites \\b), no
+    como fragmento de otra palabra.
+    """
     t = _norm(texto or '')
     for key in sorted(_REGION_MAP.keys(), key=len, reverse=True):
-        if key in t:
+        if re.search(r'\b' + re.escape(key) + r'\b', t):
             return _REGION_MAP[key]
     return None
 
@@ -638,7 +668,7 @@ def add_listing(item):
     seen_urls.add(url)
     item['url']         = url
     item['title']       = item['title'][:120]
-    item['description'] = item.get('description','')[:1500]
+    item['description'] = item.get('description','')[:3000]
     # Tipología (columna "Tipología" en tu Excel) — igual para todos los
     # portales, sea cual sea el que lo haya encontrado.
     item['tipo'] = clasificar_tipo(item.get('title',''), item.get('description',''))
@@ -776,6 +806,79 @@ def scrape_thinkspain(driver):
         m = re.search(r'([\d][\d.,]+)\s*€', name)
         if m: return m.group(1) + ' €'
         return 'Precio a consultar'
+
+    def enriquecer_ficha_ts(url_ficha):
+        # CONFIRMADO con la ficha real (property/9383731): la descripcion
+        # del listado (el 'description' del JSON-LD ItemList) viene
+        # TRUNCADA por el propio ThinkSpain -- acaba literal en '...'. La
+        # descripcion COMPLETA solo esta en la ficha individual, dentro de
+        # <p class="property-description"> (contenedor #property-description).
+        # OJO: le pasamos el elemento de BeautifulSoup TAL CUAL a clean_desc(),
+        # nunca su .get_text() -- clean_desc necesita ver los <br><br> reales
+        # del HTML para poder reconstruir los puntos y aparte; si le llega ya
+        # como texto plano, todo el parrafo queda pegado en una sola linea.
+        # Fotos: viven en el slider principal (div.twc__property--slider-
+        # primary img) -- la primera imagen trae 'src' real, las siguientes
+        # son lazy-load y el src real esta en 'data-src' (el 'src' que tienen
+        # puesto de entrada es un gif placeholder en base64). Confirmado con
+        # la ficha real -- no hay ninguna galeria mas grande escondida en JSON.
+        try:
+            r = session.get(url_ficha, timeout=15)
+            if r.status_code != 200:
+                return None, []
+            r.encoding = 'utf-8'
+            soup_ficha = BeautifulSoup(r.text, 'lxml')
+            desc_el = soup_ficha.find('p', class_='property-description')
+            descripcion = clean_desc(desc_el) if desc_el else None
+
+            # ThinkSpain es un portal en ingles, pero cada ficha tiene un
+            # selector de idioma (arriba de la descripcion) que carga la
+            # traduccion via un endpoint propio de la web -- confirmado
+            # viendo la peticion real que dispara ese desplegable:
+            #   GET /load-property-description?id=<ID>&requestedLanguage=es&preview=0
+            # con la cabecera 'X-Requested-With: XMLHttpRequest' (sin ella
+            # devuelve un 404 en HTML en vez del JSON). No hace falta sesion
+            # ni login -- confirmado que funciona igual sin cookies. El <ID>
+            # es el mismo numero que ya llevamos en la URL de la ficha
+            # (.../property-for-sale/9383731 -> id=9383731). Pedimos la
+            # version en español para que TODAS las descripciones de
+            # ThinkSpain queden en español como el resto de la web, en vez
+            # de mezclado con ingles.
+            m_id = re.search(r'/property-for-sale/(\d+)', url_ficha)
+            if m_id:
+                try:
+                    r_es = session.get(
+                        'https://www.thinkspain.com/load-property-description',
+                        params={'id': m_id.group(1), 'requestedLanguage': 'es', 'preview': '0'},
+                        headers={'X-Requested-With': 'XMLHttpRequest'},
+                        timeout=15,
+                    )
+                    if r_es.status_code == 200:
+                        data_es = r_es.json()
+                        if data_es.get('success') and data_es.get('content'):
+                            soup_es = BeautifulSoup(data_es['content'], 'lxml')
+                            desc_es_el = soup_es.find('p', class_='property-description')
+                            desc_es = clean_desc(desc_es_el) if desc_es_el else clean_desc(data_es['content'])
+                            # Solo la usamos si de verdad trajo texto -- si no,
+                            # mejor quedarnos con la version en ingles que ya
+                            # teniamos que dejar el anuncio en blanco.
+                            if desc_es and len(desc_es) > 20:
+                                descripcion = desc_es
+                except Exception as e:
+                    print(f'  ThinkSpain traduccion KO {url_ficha[-45:]}: {e}')
+
+            fotos = []
+            for img in soup_ficha.select('div.twc__property--slider-primary img'):
+                src = img.get('src') or ''
+                if not src or src.startswith('data:'):
+                    src = img.get('data-src') or ''
+                if src and src.startswith('http') and src not in fotos:
+                    fotos.append(src)
+            return descripcion, fotos
+        except Exception as e:
+            print(f'  ThinkSpain ficha KO {url_ficha[-45:]}: {e}')
+            return None, []
+
     seen_ts = set()
     total_ts = 0
     for base_url in BASE_URLS:
@@ -864,6 +967,16 @@ def scrape_thinkspain(driver):
                             listing['bathrooms'] = int(stats['baths'])
                         if isinstance(stats.get('buildSqm'), (int, float)) and stats['buildSqm'] > 0:
                             listing['m2'] = int(stats['buildSqm'])
+
+                        # Visitamos la ficha real para sacar la descripcion
+                        # COMPLETA (la del listado viene truncada por el propio
+                        # ThinkSpain) y las fotos de la galeria.
+                        desc_completa, fotos_ts = enriquecer_ficha_ts(url_a)
+                        if desc_completa and len(desc_completa) > len(listing['description']):
+                            listing['description'] = desc_completa
+                        if fotos_ts:
+                            listing['fotos_url'] = fotos_ts
+                        time.sleep(0.25)
 
                         added = add_listing(listing)
                         if added: enc += 1
@@ -2905,6 +3018,165 @@ def scrape_ecourbanizacion(driver):
 
     print(f'  EcoUrbanización TOTAL: {total_eu}')
 
+
+def scrape_inmoolaya(driver):
+    print('\n→ Inmo Olaya...')
+    HEADERS_IO = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept-Language': 'es-ES,es;q=0.9',
+    }
+    session = req_mod.Session()
+
+    # Tipos de propiedad de Inmo Olaya que son hoteleros/alojamiento (sacados
+    # del propio desplegable "tp[]" de su buscador) -- deliberadamente no
+    # metemos ningun filtro de "st[]" (estado: Venta/Traspaso/Alquiler/Venta
+    # en rentabilidad) para traer TODO -- Venta y Traspaso incluidos -- y que
+    # sea la deteccion de Operacion del front (detectarOperacion, por texto
+    # del titulo/descripcion) la que distinga uno de otro, igual que con el
+    # resto de portales.
+    TIPOS_HOTEL_IO = [16, 52, 53, 54, 55, 56, 57, 59, 15, 63, 12, 70, 46, 60, 61, 45, 64, 44]
+    tipos_qs = '&'.join(f'tp%5B%5D={t}' for t in TIPOS_HOTEL_IO)
+    BASE = f'https://inmoolaya.com/propiedades/?{tipos_qs}'
+
+    # ── PASO 1: recorrer el listado paginado y recopilar las URLs de ficha ──
+    # CONFIRMADO con el sitio real: la paginacion no es "pagina 1,2,3..." si
+    # no un desplazamiento de 12 en 12 empezando en el elemento 1 -- la
+    # pagina 1 no lleva parametro, la 2 es &p=13, la 3 &p=25, etc. (12
+    # anuncios por pagina). Paramos cuando una pagina no trae ninguna ficha
+    # nueva dos veces seguidas, igual que en ThinkSpain.
+    urls_listado = []
+    vistos_listado = set()
+    paginas_vacias = 0
+    for pagina in range(1, 60):
+        offset = (pagina - 1) * 12 + 1
+        url = BASE if pagina == 1 else f'{BASE}&p={offset}'
+        try:
+            r = session.get(url, headers=HEADERS_IO, timeout=15)
+            if r.status_code != 200:
+                print(f'  Inmo Olaya p{pagina}: status {r.status_code}, parando')
+                break
+            soup = BeautifulSoup(r.text, 'lxml')
+            # OJO: la clase 'property' tambien la usa <body> (body class="es
+            # properties interior") -- por eso se descarta explicitamente, y
+            # solo cuentan los divs que de verdad envuelven un link a una
+            # ficha (/propiedad/<id>/...).
+            cards = [c for c in soup.find_all(class_='property')
+                     if c.name != 'body' and c.find('a', href=re.compile(r'/propiedad/\d+'))]
+            nuevos_pagina = 0
+            for card in cards:
+                a = card.find('a', href=re.compile(r'/propiedad/\d+'))
+                href = a.get('href', '').split('?')[0].rstrip('/')
+                # Los links del listado son RELATIVOS (empiezan por
+                # "/propiedad/..."), a diferencia de otros portales -- si no
+                # se completan con el dominio, requests.get() peta con
+                # "Invalid URL: No scheme supplied" al pedir la ficha.
+                if href and not href.startswith('http'):
+                    href = 'https://inmoolaya.com' + href
+                if not href or href in vistos_listado:
+                    continue
+                vistos_listado.add(href)
+                urls_listado.append(href)
+                nuevos_pagina += 1
+            print(f'  Inmo Olaya p{pagina}: {nuevos_pagina} fichas nuevas')
+            if nuevos_pagina == 0:
+                paginas_vacias += 1
+                if paginas_vacias >= 2:
+                    break
+            else:
+                paginas_vacias = 0
+            time.sleep(random.uniform(1, 2))
+        except Exception as e:
+            print(f'  Inmo Olaya error listado p{pagina}: {e}')
+            break
+
+    print(f'  Inmo Olaya: {len(urls_listado)} fichas en el listado.')
+
+    # ── PASO 2: entrar en cada ficha y sacar título/precio/ubicación/descripción/fotos ──
+    total_io = 0
+    for href in urls_listado:
+        if href in seen_urls:
+            continue
+        try:
+            r = session.get(href, headers=HEADERS_IO, timeout=15)
+            if r.status_code != 200:
+                continue
+            soup = BeautifulSoup(r.text, 'lxml')
+
+            h1 = soup.find('h1', class_='prop-title')
+            title = clean(h1.get_text()) if h1 else ''
+            if not title or len(title) < 8:
+                continue
+
+            # El precio y la ubicacion viven juntos en el mismo bloque de
+            # cabecera (.property-title) -- CONFIRMADO que ese bloque NO se
+            # repite en ningun otro sitio de la pagina (a diferencia de la
+            # clase 'property' de las tarjetas del listado, que si aparece
+            # repetida en carruseles de "propiedades relacionadas").
+            cabecera = soup.find(class_='property-title')
+
+            precio_el = cabecera.find(class_='precio') if cabecera else None
+            precio_txt = clean(precio_el.get_text()) if precio_el else ''
+            # En traspasos el bloque trae tambien "Alquiler actual: X€" debajo
+            # del precio del traspaso -- nos quedamos solo con la primera
+            # cifra (el precio del traspaso/venta en si).
+            m_precio = re.search(r'[\d.,]+\s*€', precio_txt)
+            price = m_precio.group(0) if m_precio else 'Precio a consultar'
+
+            # Ubicacion: h4 con formato "Municipio · Provincia" -- usamos solo
+            # el municipio (antes del "·") y dejamos que infer_region() (ya
+            # usado por add_listing para TODOS los portales) saque la
+            # comunidad autónoma a partir de él, igual que con el resto de
+            # fuentes -- la segunda mitad a veces es la provincia y a veces
+            # coincide con el nombre de la comunidad, así que no es fiable
+            # usarla directamente como comunidad.
+            h4 = cabecera.find('h4') if cabecera else None
+            location = ''
+            if h4:
+                partes = clean(h4.get_text()).split('·')
+                location = partes[0].strip() if partes else ''
+
+            desc_el = soup.find(class_='property-description')
+            description = clean_desc(desc_el) if desc_el else ''
+
+            # Fotos: la galeria completa (.galery-full) trae un <a> por foto
+            # apuntando a la version en alta resolucion (_xl.jpg) -- excepto
+            # el icono del certificado energetico (energia.png), que no es
+            # una foto del inmueble y hay que descartar.
+            fotos = []
+            galeria = soup.find(class_='galery-full')
+            if galeria:
+                for a in galeria.find_all('a', href=True):
+                    src = a['href']
+                    if not src or 'energia' in src:
+                        continue
+                    if not src.startswith('http'):
+                        src = 'https://inmoolaya.com' + src
+                    if src not in fotos:
+                        fotos.append(src)
+
+            listing = {
+                'title': title,
+                'price': price,
+                'location': location or 'España',
+                'description': description,
+                'url': href,
+                'source': 'Inmo Olaya',
+                'date': TODAY,
+            }
+            if fotos:
+                listing['fotos_url'] = fotos
+
+            added = add_listing(listing)
+            if added:
+                total_io += 1
+                print(f'  ✅ {title[:60]}')
+            time.sleep(random.uniform(1, 2))
+        except Exception as e:
+            print(f'  Inmo Olaya error ficha {href}: {e}')
+            continue
+
+    print(f'  Inmo Olaya TOTAL: {total_io}')
+
 if __name__ == '__main__':
     print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
@@ -2988,6 +3260,9 @@ if __name__ == '__main__':
     try: scrape_ecourbanizacion(None)
     except Exception as e: print(f'Error EcoUrbanizacion: {e}')
 
+    try: scrape_inmoolaya(None)
+    except Exception as e: print(f'Error Inmo Olaya: {e}')
+
     print('\nNavegador cerrado.')
 
     # Merge con cache
@@ -3014,7 +3289,7 @@ if __name__ == '__main__':
             # scrapeado HOY. Antes no se copiaban aqui, asi que los anuncios ya
             # cacheados nunca cogian m2/hab aunque mejorasemos el scraper -> por
             # eso salian con m2 solo los NUEVOS. Ahora se actualizan siempre.
-            for _k in ('rooms', 'm2', 'beds', 'bathrooms'):
+            for _k in ('rooms', 'm2', 'beds', 'bathrooms', 'fotos_url'):
                 if item.get(_k):
                     cache_nuevo[url_key][_k] = item[_k]
 
