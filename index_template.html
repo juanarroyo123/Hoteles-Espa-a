@@ -1097,6 +1097,15 @@ header{
             <button class="det-btn-secondary" id="det-photo-add-btn" onclick="document.getElementById('det-photo-input').click()" style="width:auto;display:inline-flex;padding:0.55rem 1rem">+ Añadir foto</button>
           </div>
         </div>
+        <!-- Documentos adjuntos del anuncio (PDFs que nos manden los contactos: dossier, planos, cuentas...) -->
+        <div class="det-card" id="det-docs-card">
+          <div class="det-card-header">Documentos adjuntos</div>
+          <div class="det-card-body">
+            <div id="det-docs-list"></div>
+            <input type="file" id="det-doc-input" accept="application/pdf,.pdf" multiple style="display:none" onchange="onDocumentosSeleccionados(event)">
+            <button class="det-btn-secondary" id="det-doc-add-btn" onclick="document.getElementById('det-doc-input').click()" style="width:auto;display:inline-flex;padding:0.55rem 1rem">+ Añadir PDF</button>
+          </div>
+        </div>
         <!-- Descripción -->
         <div class="det-card" id="det-desc-card">
           <div class="det-card-header" style="display:flex;align-items:center;justify-content:space-between">
@@ -2992,6 +3001,8 @@ function aplicarPermisosFicha() {
     .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
+  const addDocBtn = document.getElementById('det-doc-add-btn');
+  if (addDocBtn) addDocBtn.style.display = admin ? 'inline-flex' : 'none';
   actualizarRestaurarDatosLink();
 }
 // El enlace "Restaurar datos originales" solo tiene sentido para el admin
@@ -7485,11 +7496,21 @@ const OPERACION_OPCIONES = [
 ];
 const OPERACION_PATRONES_TRASPASO = [
   /\ben\s+traspaso\b/i,
-  /\btraspaso\s+(del|de)\s+(negocio|hostal|hotel|hostel|establecimiento)\b/i,
+  // Lista de sustantivos ampliada (21/09/2026, revisando EcoUrbanizacion
+  // real): "traspaso de negocio" tambien se escribe "traspaso de
+  // apartamentos/estudios/edificios/locales" -- con la lista antigua se
+  // quedaban 13 de 29 anuncios de EcoUrbanizacion sin detectar (saliendo
+  // como Venta en vez de Traspaso).
+  /\btraspaso\s+(del|de)\s+(negocio|hostal|hotel|hostel|establecimiento|apartamentos?|estudios?|edificios?|locales?|unidades?)\b/i,
   /\bventa\s+o\s+traspaso\b/i,
   /\btraspaso\s+o\s+venta\b/i,
-  /\bse\s+traspasa\b/i,
+  // "se traspasa" (un negocio) o "se traspasan" (varios apartamentos,
+  // estudios...) -- antes solo cubria el singular.
+  /\bse\s+traspasan?\b/i,
   /\bel\s+traspaso\s+es\s+de\b/i,
+  // "Traspaso: 200.000€ ..." al principio de una linea -- formato de
+  // precio propio de EcoUrbanizacion para sus anuncios de traspaso.
+  /^\s*traspaso\s*:/im,
 ];
 // NOTA: se dejan fuera a propósito frases como "management contract" o
 // "lease agreement" a secas, o "contrato de alquiler" sin más contexto --
@@ -7531,6 +7552,13 @@ function detectarOperacion(h) {
 function getEffectiveOperacion(h) {
   const m = getManualDatos(h.url);
   if (m && m.operacion) return m.operacion;
+  // Algunos scrapers YA SABEN con certeza que un anuncio es un traspaso
+  // o una gestion porque viene de una categoria especifica del propio
+  // portal (p.ej. NegociosEnVenta /traspaso/...), no de adivinarlo por
+  // texto -- si el dato lo trae marcado, nos fiamos de eso antes de
+  // intentar detectarlo por patrones (que puede fallar si el anuncio no
+  // usa ninguna de las frases tipicas de OPERACION_PATRONES_TRASPASO).
+  if (h && h.operacion_detectada) return h.operacion_detectada;
   return detectarOperacion(h);
 }
 function operacionLabel(valor) {
@@ -7674,10 +7702,17 @@ function guardarEdicionOperacion() {
   if (!sel) return;
   const all = getManualDatosAll();
   const datos = all[url] || {};
-  // Si coincide con lo que detectaríamos automáticamente del texto del
-  // anuncio, no hace falta guardar un override -- igual que el resto de
-  // campos, solo se guarda lo que de verdad se ha corregido a mano.
-  if (sel.value === detectarOperacion(h)) delete datos.operacion;
+  // Si coincide con lo que saldria automaticamente sin override (ya sea
+  // por operacion_detectada del scraper, o si no hay eso, por el texto
+  // via detectarOperacion), no hace falta guardar un override -- igual
+  // que el resto de campos, solo se guarda lo que de verdad se ha
+  // corregido a mano. OJO: antes esto comparaba solo contra
+  // detectarOperacion(h) sin mirar operacion_detectada, asi que si el
+  // scraper ya forzaba 'traspaso' por estructura, elegir 'Venta' (que SI
+  // coincidia con detectarOperacion por texto) borraba el override y el
+  // campo volvia a Traspaso solo -- bug real, corregido aqui.
+  const automatico = (h && h.operacion_detectada) ? h.operacion_detectada : detectarOperacion(h);
+  if (sel.value === automatico) delete datos.operacion;
   else datos.operacion = sel.value;
   if (Object.keys(datos).length === 0) delete all[url];
   else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
@@ -7929,6 +7964,204 @@ function comprimirImagen(file) {
     reader.readAsDataURL(file);
   });
 }
+// ══════════════════════════════════════════════════════
+// Documentos adjuntos (PDFs) por anuncio -- mismo patron que las fotos
+// manuales de arriba: se guardan en IndexedDB (no en localStorage, que
+// tiene muy poco espacio) con clave = url del anuncio. Son SOLO del
+// navegador donde se suben (no viajan al scraper ni a hoteles_cache.json,
+// igual que las fotos manuales) -- pensado para dossiers/planos/cuentas
+// que nos manden los contactos por email y queramos tener a mano en la
+// ficha sin salir de la web.
+// ══════════════════════════════════════════════════════
+const DOCS_MAX_POR_ANUNCIO = 8;
+const DOCS_MAX_TAMANO_MB = 20; // a partir de aqui solo avisamos, no bloqueamos
+const DOCS_DB_NOMBRE = 'hotel_monitor_docs_db';
+const DOCS_DB_VERSION = 1;
+const DOCS_DB_STORE = 'documentos_por_anuncio';
+let _docsDbPromise = null;
+function abrirDocsDB() {
+  if (!window.indexedDB) return Promise.reject(new Error('IndexedDB no disponible en este navegador'));
+  if (_docsDbPromise) return _docsDbPromise;
+  _docsDbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open(DOCS_DB_NOMBRE, DOCS_DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(DOCS_DB_STORE)) {
+        db.createObjectStore(DOCS_DB_STORE); // clave = url del anuncio, valor = array de documentos
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return _docsDbPromise;
+}
+function docsDbGet(url) {
+  return abrirDocsDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(DOCS_DB_STORE, 'readonly');
+    const req = tx.objectStore(DOCS_DB_STORE).get(url);
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  }));
+}
+function docsDbSet(url, docsArray) {
+  return abrirDocsDB().then(db => new Promise((resolve, reject) => {
+    const tx = db.transaction(DOCS_DB_STORE, 'readwrite');
+    const store = tx.objectStore(DOCS_DB_STORE);
+    if (docsArray && docsArray.length) store.put(docsArray, url);
+    else store.delete(url); // sin documentos -> no dejamos una entrada vacia
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error);
+  }));
+}
+async function getDocumentosManuales(url) {
+  if (!url) return [];
+  try { return await docsDbGet(url); } catch (e) { console.error('Error leyendo documentos de IndexedDB', e); return []; }
+}
+async function guardarDocumentosManuales(url, docsArray) {
+  try { await docsDbSet(url, docsArray); return true; }
+  catch (e) { console.error('Error guardando documentos en IndexedDB', e); return false; }
+}
+function leerArchivoComoDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('No se pudo leer el archivo'));
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+function _escHtmlDocs(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+// Convierte el dataURL guardado (base64) en un Blob -- asi "Ver"/"Descargar"
+// no dependen de navegar directamente a una URL data: gigante (algunos
+// navegadores la bloquean o la truncan), sino de un blob: URL normal.
+function _docDataUrlABlob(dataUrl) {
+  const partes = dataUrl.split(',');
+  const bin = atob(partes[1] || '');
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: 'application/pdf' });
+}
+function abrirDocumentoPDF(docId) {
+  const docs = window._detDocsActuales || [];
+  const d = docs.find(x => x.id === docId);
+  if (!d) return;
+  try {
+    const blobUrl = URL.createObjectURL(_docDataUrlABlob(d.dataUrl));
+    window.open(blobUrl, '_blank');
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+  } catch (e) {
+    console.error('No se pudo abrir el PDF', e);
+    alert('No se pudo abrir el documento.');
+  }
+}
+function descargarDocumentoPDF(docId) {
+  const docs = window._detDocsActuales || [];
+  const d = docs.find(x => x.id === docId);
+  if (!d) return;
+  try {
+    const blobUrl = URL.createObjectURL(_docDataUrlABlob(d.dataUrl));
+    const a = document.createElement('a');
+    a.href = blobUrl; a.download = d.nombre || 'documento.pdf';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+  } catch (e) {
+    console.error('No se pudo descargar el PDF', e);
+    alert('No se pudo descargar el documento.');
+  }
+}
+async function onDocumentosSeleccionados(ev) {
+  if (!esAdmin()) return;
+  const url = window._detCurrentUrl;
+  const files = Array.from((ev && ev.target && ev.target.files) || []);
+  if (ev && ev.target) ev.target.value = ''; // permite volver a elegir el mismo archivo mas tarde
+  if (!url || !files.length) return;
+  const actuales = (await getDocumentosManuales(url)).slice();
+  for (const file of files) {
+    if (actuales.length >= DOCS_MAX_POR_ANUNCIO) {
+      alert(`Maximo ${DOCS_MAX_POR_ANUNCIO} documentos por anuncio.`);
+      break;
+    }
+    const esPdf = file.type === 'application/pdf' || /\.pdf$/i.test(file.name || '');
+    if (!esPdf) { alert(`"${file.name}" no es un PDF, se ha ignorado.`); continue; }
+    if (file.size > DOCS_MAX_TAMANO_MB * 1024 * 1024) {
+      const mb = (file.size / 1024 / 1024).toFixed(1);
+      if (!confirm(`"${file.name}" pesa ${mb} MB (mas de ${DOCS_MAX_TAMANO_MB} MB). ¿Guardarlo igualmente?`)) continue;
+    }
+    try {
+      const dataUrl = await leerArchivoComoDataURL(file);
+      actuales.push({ id: Date.now() + '_' + Math.random().toString(36).slice(2, 8), nombre: file.name, dataUrl, tamano: file.size, addedAt: new Date().toISOString() });
+    } catch (e) {
+      console.error('Error al leer el PDF', e);
+      alert(`No se pudo leer "${file.name}".`);
+    }
+  }
+  const ok = await guardarDocumentosManuales(url, actuales);
+  if (!ok) {
+    alert('No se ha podido guardar el documento: no hay espacio suficiente en el navegador.');
+  }
+  renderDocumentosManuales(url);
+}
+async function eliminarDocumentoManual(docId) {
+  if (!esAdmin()) return;
+  const url = window._detCurrentUrl;
+  if (!url) return;
+  if (!confirm('¿Eliminar este documento?')) return;
+  const actuales = (await getDocumentosManuales(url)).filter(d => d.id !== docId);
+  await guardarDocumentosManuales(url, actuales);
+  renderDocumentosManuales(url);
+}
+async function renderDocumentosManuales(url) {
+  const list = document.getElementById('det-docs-list');
+  if (!list) return;
+  // Documentos PUBLICADOS de verdad (adjuntar_pdf.py), visibles para
+  // cualquiera que entre a la web -- viven en el propio dato del anuncio,
+  // igual que las fotos automaticas del scraper (h.fotos_url).
+  const h = window._detCurrentHotel;
+  const autoDocs = (h && h.url === url && Array.isArray(h.documentos)) ? h.documentos : [];
+  // Documentos SOLO PARA TI, guardados en este navegador (IndexedDB) --
+  // pensados para un vistazo rapido sin tener que pasar por git.
+  const manuales = await getDocumentosManuales(url);
+  // Si mientras esperabamos a IndexedDB el admin ya se fue a otro anuncio,
+  // no pintamos documentos que ya no corresponden a la ficha abierta.
+  if (window._detCurrentUrl !== url) return;
+  window._detDocsActuales = manuales;
+  const admin = esAdmin();
+  if (!autoDocs.length && !manuales.length) {
+    list.innerHTML = `<div class="det-photo-empty">Sin documentos todavia.</div>`;
+    return;
+  }
+  // Los publicados van primero (son los "de verdad", visibles para todos) y
+  // no se pueden borrar desde aqui -- igual que las fotos automaticas, se
+  // gestionan corriendo adjuntar_pdf.py de nuevo, no se pueden borrar desde
+  // aqui.
+  let html = autoDocs.map(d => `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:0.6rem;padding:0.55rem 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:0.5rem;overflow:hidden">
+          <span style="font-size:1.1rem;flex-shrink:0">📄</span>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.82rem" title="${_escHtmlDocs(d.nombre)}">${_escHtmlDocs(d.nombre || 'documento.pdf')}</span>
+          <span style="font-size:0.58rem;font-family:'Montserrat',sans-serif;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:0.1rem 0.35rem;flex-shrink:0">Publicado</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.7rem;flex-shrink:0">
+          <a href="${d.archivo}" target="_blank" rel="noopener" style="font-size:0.7rem;color:var(--green);text-decoration:underline">Ver</a>
+          <a href="${d.archivo}" download style="font-size:0.7rem;color:var(--muted);text-decoration:underline">Descargar</a>
+        </div>
+      </div>`).join('');
+  html += manuales.map(d => `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:0.6rem;padding:0.55rem 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:0.5rem;overflow:hidden">
+          <span style="font-size:1.1rem;flex-shrink:0">📄</span>
+          <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.82rem" title="${_escHtmlDocs(d.nombre)}">${_escHtmlDocs(d.nombre || 'documento.pdf')}</span>
+          <span style="font-size:0.58rem;font-family:'Montserrat',sans-serif;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);border:1px solid var(--border);border-radius:3px;padding:0.1rem 0.35rem;flex-shrink:0" title="Solo lo ves tu, en este navegador">Solo tu</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.7rem;flex-shrink:0">
+          <a href="#" onclick="abrirDocumentoPDF('${d.id}');return false;" style="font-size:0.7rem;color:var(--green);text-decoration:underline">Ver</a>
+          <a href="#" onclick="descargarDocumentoPDF('${d.id}');return false;" style="font-size:0.7rem;color:var(--muted);text-decoration:underline">Descargar</a>
+          ${admin ? `<button title="Eliminar documento" onclick="eliminarDocumentoManual('${d.id}')" style="border:none;background:none;color:var(--muted);cursor:pointer;font-size:1rem;line-height:1;padding:0">×</button>` : ''}
+        </div>
+      </div>`).join('');
+  list.innerHTML = html;
+}
 async function onFotosSeleccionadas(ev) {
   if (!esAdmin()) return;
   const url = window._detCurrentUrl;
@@ -8173,6 +8406,7 @@ function openDetailPage(listIdx) {
   const catWrap = document.getElementById('det-metric-cat-wrap');
   if (catWrap) catWrap.innerHTML = '<div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div>';
   renderFotosManuales(h.url);
+  renderDocumentosManuales(h.url);
   aplicarPermisosFicha();
 
   const price = getEffectivePrecioNum(h);

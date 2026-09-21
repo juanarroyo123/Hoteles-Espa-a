@@ -1626,6 +1626,109 @@ def scrape_negociosenventa(driver):
 
 
 # ══════════════════════════════════════════════════════
+# 5b. NEGOCIOSENVENTA -- TRASPASOS (hoteles + hostales-pensiones)
+# ══════════════════════════════════════════════════════
+# NUEVO, 21/09/2026 -- scrape_negociosenventa() de arriba solo mira la
+# seccion "/venta/hosteleria/hoteles" del portal; el propio Juan detecto
+# que la seccion "/traspaso/hosteleria/..." (traspaso de negocio, no venta
+# del inmueble) NO se estaba mirando nunca. Es el MISMO sitio y la MISMA
+# plantilla de tarjeta (h2.listviewtitle, span.textintro, span.numPrice),
+# solo cambia la categoria de la URL -- reutilizamos el parseo tal cual.
+#
+# A diferencia de la funcion de venta (que asume fijo 2 paginas), aqui no
+# sabemos de antemano cuantas paginas trae cada categoria de traspaso, asi
+# que paginamos de verdad con ?page=N y paramos cuando dos paginas seguidas
+# no traen ninguna ficha que no hubieramos visto ya EN ESTA MISMA pasada
+# (igual que en Inmo Olaya) -- ojo, distinto de "ya estaba en cache de
+# antes", que pararia de forma incorrecta si un dia no hay anuncios nuevos
+# pero el portal sigue teniendo mas paginas con anuncios antiguos.
+#
+# IMPORTANTE -- Operacion: estos anuncios SON traspaso por definicion
+# (vienen de la categoria /traspaso/ del portal), pero el texto del propio
+# anuncio no siempre contiene una de las frases que detectarOperacion()
+# busca en el frontend (ver index_template.html) -- por eso aqui marcamos
+# 'operacion_detectada':'traspaso' explicitamente en cada item, y
+# getEffectiveOperacion() en el frontend se fia de ese dato antes de
+# intentar adivinarlo por texto.
+def scrape_negociosenventa_traspasos(driver):
+    print('\n→ NegociosEnVenta (traspasos)...')
+    BASE = 'https://www.negociosenventa.es'
+    CATEGORIAS = [
+        f'{BASE}/traspaso/hosteleria/hoteles',
+        f'{BASE}/traspaso/hosteleria/hostales-pensiones',
+    ]
+    total_nvt = 0
+    seen_nvt = set()
+    for categoria_url in CATEGORIAS:
+        print(f'  Categoria: {categoria_url}')
+        paginas_vacias = 0
+        for pagina in range(1, 30):
+            page_url = categoria_url if pagina == 1 else f'{categoria_url}?page={pagina}'
+            try:
+                html = get_page(driver, page_url, wait=4)
+                if not html:
+                    print(f'    p{pagina}: sin respuesta, parando esta categoria')
+                    break
+                soup = BeautifulSoup(html, 'lxml')
+                h2s = soup.find_all('h2', class_='listviewtitle')
+                nuevos_pagina = 0
+                for h in h2s:
+                    a = h.find('a', href=True)
+                    if not a:
+                        continue
+                    href = a.get('href', '')
+                    if not href.startswith('http'):
+                        href = BASE + href
+                    href = href.split('?')[0].rstrip('/')
+                    if not href or href in seen_nvt:
+                        continue
+                    seen_nvt.add(href)
+                    nuevos_pagina += 1
+                    if href in seen_urls:
+                        continue  # ya lo teniamos de antes (otra fuente o pasada anterior)
+                    title = clean(h.get_text())
+                    if not title or len(title) < 5:
+                        continue
+                    container = h.parent  # div.newslisttext
+                    loc_el = container.find('span', class_='textintro') if container else None
+                    loc = clean(loc_el.get_text()) if loc_el else 'España'
+                    desc_el = container.find('p') if container else None
+                    description = clean(desc_el.get_text()) if desc_el else ''
+                    price = 'Precio a consultar'
+                    el = h
+                    for _ in range(8):
+                        el = el.parent
+                        if not el:
+                            break
+                        p = el.find('span', class_='numPrice')
+                        if p:
+                            precio_txt = clean(p.get_text())
+                            if precio_txt and precio_txt != '1€' and precio_txt != '1 €':
+                                price = precio_txt
+                            break
+                    added = add_listing({
+                        'title': title, 'price': price, 'location': loc,
+                        'description': description, 'url': href,
+                        'source': 'NegociosEnVenta', 'date': TODAY,
+                        'operacion_detectada': 'traspaso',
+                    })
+                    if added:
+                        total_nvt += 1
+                print(f'    p{pagina}: {nuevos_pagina} fichas nuevas')
+                if nuevos_pagina == 0:
+                    paginas_vacias += 1
+                    if paginas_vacias >= 2:
+                        break
+                else:
+                    paginas_vacias = 0
+                time.sleep(random.uniform(1, 2))
+            except Exception as e:
+                print(f'    Error {page_url}: {e}')
+                break
+    print(f'  NegociosEnVenta (traspasos) TOTAL: {total_nvt}')
+
+
+# ══════════════════════════════════════════════════════
 # 6. ENGEL & VÖLKERS — hoteles en venta España
 # ══════════════════════════════════════════════════════
 def scrape_engelvoelkers(driver):
@@ -1847,11 +1950,16 @@ def scrape_hispacasas(driver):
 #    lo más probable es que necesite el mismo tipo de arreglo que
 #    Idealista (o directamente no sea viable sin proxies residenciales).
 # ══════════════════════════════════════════════════════
-def scrape_milanuncios(driver_stealth):
+def scrape_milanuncios(driver_stealth, fuentes_override=None):
     print('\n→ Milanuncios (nacional, modo suave)...')
     BASE = 'https://www.milanuncios.com'
+    # fuentes_override: SOLO para pruebas sueltas (ver
+    # test_milanuncios_traspasos.py) -- permite mirar una unica fuente en
+    # vez de las 5 de siempre, para no tener que esperar al barrido
+    # completo solo para comprobar un cambio puntual. La pasada normal
+    # (produccion) no pasa este argumento, asi que sigue mirando las 5.
     # Fuentes NACIONALES (todos los hoteles en venta/traspaso, no por ciudad)
-    FUENTES = [
+    FUENTES = fuentes_override if fuentes_override else [
         BASE + '/traspasos-de-hostales-y-hoteles/',
         BASE + '/anuncios/?s=hotel+en+venta',
         BASE + '/anuncios/?s=traspaso+hotel+hostal',
@@ -1860,6 +1968,15 @@ def scrape_milanuncios(driver_stealth):
     ]
     SPAM = re.compile(r'buscamos|compramos|gesti[oo]n de venta|grupo inversor|\binversor\b|invertir|'
                       r'financiaci|se alquila|\balquiler\b|habitaci[oo]n en|se necesita|\bempleo\b|'
+                      r'camarer|recepcionist|reforma|se ofrece|dispongo de activos|activos y empresas|toda espa|cartera de', re.I)
+    # NUEVO: para la categoria DEDICADA de traspasos (FUENTES[0]) no se
+    # filtra por 'alquiler'/'se alquila' -- un anuncio de traspaso casi
+    # siempre menciona el alquiler actual del local (renta mensual, etc.),
+    # eso es normal en un traspaso, no es ruido de un anuncio de puro
+    # alquiler como en las otras 4 fuentes (busquedas mezcladas). Con el
+    # filtro viejo se estaban descartando la mayoria de traspasos reales.
+    SPAM_TRASPASOS = re.compile(r'buscamos|compramos|gesti[oo]n de venta|grupo inversor|\binversor\b|invertir|'
+                      r'financiaci|habitaci[oo]n en|se necesita|\bempleo\b|'
                       r'camarer|recepcionist|reforma|se ofrece|dispongo de activos|activos y empresas|toda espa|cartera de', re.I)
     KEEP = re.compile(r'hotel|hostal|hostel|pensi[oo]n|albergue|apartahotel|casa rural|alojamiento', re.I)
     def pnum(s): s=re.sub(r'[^\d]','',s or ''); return int(s) if s else 0
@@ -1877,6 +1994,7 @@ def scrape_milanuncios(driver_stealth):
 
     for fuente in FUENTES:
         sin_nuevos = 0
+        spam_activo = SPAM_TRASPASOS if fuente == FUENTES[0] else SPAM
         for pagina in range(1, 41):        # hasta 40 páginas por fuente
             sep = '&' if '?' in fuente else '?'
             url = fuente if pagina == 1 else f'{fuente}{sep}pagina={pagina}'
@@ -1907,13 +2025,13 @@ def scrape_milanuncios(driver_stealth):
                     titulo = clean(t_el.get_text()) if t_el else ''
                     texto = clean(card.get_text(' '))
                     blob = titulo + ' ' + texto
-                    if not KEEP.search(blob) or SPAM.search(blob): continue
+                    if not KEEP.search(blob) or spam_activo.search(blob): continue
                     pe = next((e for e in card.find_all(True) if not e.find_all() and '€' in e.get_text()), None)
                     precio = clean(pe.get_text()) if pe else ''
                     if pnum(precio) < 30000: continue
                     mm = re.search(r'([A-Za-zÀ-ÿ\.\-\' ]+?)\s*\(([A-Za-zÀ-ÿ\.\-\' ]+?)\)', texto)
                     loc = mm.group(1).strip() if mm else 'España'
-                    added = add_listing({
+                    item_ma = {
                         'title': titulo or 'Hotel en venta',
                         'price': precio or 'Precio a consultar',
                         'location': loc,
@@ -1922,7 +2040,18 @@ def scrape_milanuncios(driver_stealth):
                         'source': 'Milanuncios',
                         'tipo': tipo_ma(blob),
                         'date': TODAY
-                    })
+                    }
+                    # La primera fuente es la categoria dedicada de
+                    # traspasos del propio Milanuncios -- todo lo que
+                    # salga de ahi ES traspaso por definicion, aunque el
+                    # anuncio en si no use la palabra (confirmado: de 462
+                    # anuncios ya en cache solo 4 dicen "traspaso" en el
+                    # texto). Las otras 4 fuentes son busquedas mixtas
+                    # (venta+traspaso revueltos) y siguen dependiendo de
+                    # detectarOperacion() como hasta ahora.
+                    if fuente == FUENTES[0]:
+                        item_ma['operacion_detectada'] = 'traspaso'
+                    added = add_listing(item_ma)
                     if added: enc += 1; total_ma += 1
                 if enc > 0:
                     print(f'  {url[-35:]} p{pagina}: {enc} | Total MA: {total_ma}')
@@ -2999,7 +3128,7 @@ def scrape_ecourbanizacion(driver):
             # escribe "turisticos" sin tilde) -- aplicar el filtro aquí descartaría
             # anuncios válidos por error.
 
-            added = add_listing({
+            item_eu = {
                 'title': title,
                 'price': price,
                 'location': 'España',
@@ -3007,7 +3136,19 @@ def scrape_ecourbanizacion(driver):
                 'url': href,
                 'source': 'EcoUrbanización',
                 'date': TODAY,
-            })
+            }
+            # Esta categoria mezcla venta y traspaso (ver cabecera de la
+            # funcion) -- probado con datos reales: incluso mejorando los
+            # patrones de texto del frontend, 8 de 29 traspasos seguian sin
+            # detectarse por lo variado que es el texto de cada anuncio
+            # ("Traspaso 3 Edificios...", "...Granada centro Traspaso"...).
+            # Aqui, en cambio, SABEMOS que absolutamente todo anuncio de esta
+            # categoria es Venta o Traspaso y nada mas -- asi que basta con
+            # mirar si aparece 'traspas' en cualquier forma (traspaso,
+            # traspasa, traspasan...) en el titulo o la descripcion.
+            if re.search(r'traspas', title + ' ' + description, re.I):
+                item_eu['operacion_detectada'] = 'traspaso'
+            added = add_listing(item_eu)
             if added:
                 total_eu += 1
                 print(f'  ✅ {title[:60]}')
@@ -3118,7 +3259,12 @@ def scrape_inmoolaya(driver):
             precio_txt = clean(precio_el.get_text()) if precio_el else ''
             # En traspasos el bloque trae tambien "Alquiler actual: X€" debajo
             # del precio del traspaso -- nos quedamos solo con la primera
-            # cifra (el precio del traspaso/venta en si).
+            # cifra (el precio del traspaso/venta en si). Esa misma frase nos
+            # sirve tambien para saber CON CERTEZA que es un traspaso (no
+            # aparece nunca en una venta normal) -- mas fiable que depender
+            # de que el texto del anuncio use alguna de las frases de
+            # OPERACION_PATRONES_TRASPASO en el frontend.
+            es_traspaso_io = bool(re.search(r'alquiler\s+actual', precio_txt, re.I))
             m_precio = re.search(r'[\d.,]+\s*€', precio_txt)
             price = m_precio.group(0) if m_precio else 'Precio a consultar'
 
@@ -3165,6 +3311,8 @@ def scrape_inmoolaya(driver):
             }
             if fotos:
                 listing['fotos_url'] = fotos
+            if es_traspaso_io:
+                listing['operacion_detectada'] = 'traspaso'
 
             added = add_listing(listing)
             if added:
@@ -3210,6 +3358,9 @@ if __name__ == '__main__':
     try:
         try: scrape_negociosenventa(driver3)
         except Exception as e: print(f'Error NegociosEnVenta: {e}')
+
+        try: scrape_negociosenventa_traspasos(driver3)
+        except Exception as e: print(f'Error NegociosEnVenta (traspasos): {e}')
 
         try: scrape_hotelsevende(driver3)
         except Exception as e: print(f'Error HotelSeVende: {e}')
@@ -3289,7 +3440,7 @@ if __name__ == '__main__':
             # scrapeado HOY. Antes no se copiaban aqui, asi que los anuncios ya
             # cacheados nunca cogian m2/hab aunque mejorasemos el scraper -> por
             # eso salian con m2 solo los NUEVOS. Ahora se actualizan siempre.
-            for _k in ('rooms', 'm2', 'beds', 'bathrooms', 'fotos_url'):
+            for _k in ('rooms', 'm2', 'beds', 'bathrooms', 'fotos_url', 'operacion_detectada'):
                 if item.get(_k):
                     cache_nuevo[url_key][_k] = item[_k]
 
