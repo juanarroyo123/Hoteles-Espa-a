@@ -48832,7 +48832,7 @@
   "estado": "Retirado",
   "location_region": "Asturias",
   "m2": 384,
-  "ausencias": 4,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": ""
  },
@@ -50254,7 +50254,7 @@
   "location_region": "Castilla-La Mancha",
   "rooms": 10,
   "m2": 361,
-  "ausencias": 1,
+  "ausencias": 0,
   "licencia_texto": "",
   "licencia_motivo": "62 licencias de alojamiento en Cuenca (ver hoja TODAS LAS LICENCIAS)"
  },
@@ -58596,7 +58596,8 @@
   "operacion_detectada": "traspaso",
   "estado": "Activo",
   "location_region": "Madrid",
-  "m2": 800
+  "m2": 800,
+  "ausencias": 0
  },
  {
   "title": "Venta de Hotel en Benidorm",
@@ -58610,7 +58611,8 @@
   "estado": "Activo",
   "location_region": "C. Valenciana",
   "rooms": 66,
-  "m2": 3000
+  "m2": 3000,
+  "ausencias": 0
  },
  {
   "title": "Cistierna",
@@ -58623,7 +58625,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Castilla y León",
-  "m2": 466
+  "m2": 466,
+  "ausencias": 0
  },
  {
   "title": "Cortegana",
@@ -58636,7 +58639,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Andalucía",
-  "m2": 580
+  "m2": 580,
+  "ausencias": 0
  },
  {
   "title": "Granada Capital",
@@ -58649,7 +58653,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Andalucía",
-  "m2": 102
+  "m2": 102,
+  "ausencias": 0
  },
  {
   "title": "Conil de la Frontera",
@@ -58662,7 +58667,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Andalucía",
-  "m2": 400
+  "m2": 400,
+  "ausencias": 0
  },
  {
   "title": "Granada Capital",
@@ -58688,7 +58694,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Castilla-La Mancha",
-  "m2": 700
+  "m2": 700,
+  "ausencias": 0
  },
  {
   "title": "Salobreña",
@@ -58701,7 +58708,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Andalucía",
-  "m2": 554
+  "m2": 554,
+  "ausencias": 0
  },
  {
   "title": "Maçanet de Cabrenys",
@@ -58714,7 +58722,8 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Cataluña",
-  "m2": 350
+  "m2": 350,
+  "ausencias": 0
  },
  {
   "title": "Vilamarxant",
@@ -58740,6 +58749,89 @@
   "date": "21/09/2026",
   "estado": "Activo",
   "location_region": "Galicia",
-  "m2": 689
+  "m2": 689,
+  "ausencias": 0
+ },
+ {
+  "title": "Benavides de Orbigo - Av. del Órbigo",
+  "price": "399.000 €",
+  "location": "Benavides de Orbigo",
+  "description": "9 Benavides de Orbigo - Av. del Órbigo 399.000 € Benavides de Orbigo (León) 600 m² 665,00 €/m² CE: E Vendo por jubilación, edificio completo destinado íntegramente a Hostal de 2 estrellas, en la localidad de Benavides de Órbigo, provincia de León. Consta de planta baja destinada a bar totalmente equ",
+  "url": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/benavides-de-orbigo-av-del-orbigo-489428082.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal 2*",
+  "date": "21/09/2026",
+  "operacion_detectada": "traspaso",
+  "estado": "Activo",
+  "location_region": "Castilla y León",
+  "m2": 600
+ },
+ {
+  "title": "Casserres",
+  "price": "600.000 €",
+  "location": "Casserres",
+  "description": "10 Casserres 600.000 € Casserres (Barcelona) 80000 m² 7,50 €/m² CE: G Ref: 7939809. REF: 7939809 Traspaso de complejo histórico con restaurante, casa de colonias y proyecto hotelero en el Berguedà Inmo Olaya ofrece en traspaso un complejo histórico singular en la comarca del Berguedà, provincia de B",
+  "url": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/casserres-585692629.htm",
+  "source": "Milanuncios",
+  "tipo": "Hotel",
+  "date": "21/09/2026",
+  "operacion_detectada": "traspaso",
+  "estado": "Activo",
+  "location_region": "Cataluña",
+  "m2": 80000
+ },
+ {
+  "title": "Alicante / Alacant",
+  "price": "280.000 €",
+  "location": "Alacant",
+  "description": "5 Alicante / Alacant 280.000 € Alicante/Alacant (Alicante) 1000 m² 280,00 €/m² Ref: Fer07. Hostal en zona de Babel con licencia en vigor el alquiler es 1.700€ y todos los servicios y medidas de seguridad, alarma, sistema contra incendios, circuito cerrado de cámaras en exterior y en todas las zonas ",
+  "url": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/alicante-alacant-601391864.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "operacion_detectada": "traspaso",
+  "estado": "Activo",
+  "location_region": "C. Valenciana",
+  "m2": 1000
+ },
+ {
+  "title": "Santa Fe",
+  "price": "420.000 €",
+  "location": "Santafe",
+  "description": "95 Santa Fe 420.000 € Santa Fe/Santafe (Granada) 403 m² 1.042,18 €/m² Ref: SV110. Sale a la venta este magnifico Hostal a pie de la Autovia A-92 de Santa Fe. Esta distribuido en dos plantas: Planta Primera: - Piso adecuado para los propietarios distribuido en Salón, salita, Cocina, 3 Dormitorios, Ba",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-santa-fe|santafe-granada/santa-fe-536214520.htm",
+  "source": "Milanuncios",
+  "tipo": "Hostal",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Andalucía",
+  "rooms": 3,
+  "m2": 403
+ },
+ {
+  "title": "Malpica de Bergantiños",
+  "price": "155.500 €",
+  "location": "Malpica de Bergantiños",
+  "description": "31 Malpica de Bergantiños 155.500 € Malpica de Bergantiños (A Coruña) 9 dorm. 3 baños 296 m² Ref: 059092023. ¡¡¡¡¡BAJADA DE PRECIO!!!!!! Se vende Vivienda en A Camuza, Malpica de Bergantiños. Se vende vivienda unifamiliar en Malpica de Bergantiños, se trata de una construcción situada a 500 m de la ",
+  "url": "https://www.milanuncios.com/venta-de-casas-en-malpica-de-bergantinos-la_coruna/malpica-de-bergantinos-495397254.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Galicia",
+  "m2": 296
+ },
+ {
+  "title": "L'Hospitalet de Llobregat",
+  "price": "2.995.000 €",
+  "location": "L' Hospitalet de Llobregat",
+  "description": "69 L'Hospitalet de Llobregat 2.995.000 € L' Hospitalet de Llobregat (Barcelona) 1055 m² 2.838,86 €/m² CE: E Ref: BCN-INV-014065. Edificio comercial en Collblanc de más de 1.000m² con 3 terrazas en las plantas superiores. Las dos últimas plantas tienen uso residencial, el resto tienen uso comercial. ",
+  "url": "https://www.milanuncios.com/venta-de-edificios-en-l'-hospitalet-de-llobregat-barcelona/l-hospitalet-de-llobregat-533478861.htm",
+  "source": "Milanuncios",
+  "tipo": "Alojamiento (n.d.)",
+  "date": "21/09/2026",
+  "estado": "Activo",
+  "location_region": "Cataluña",
+  "m2": 1055
  }
 ]
