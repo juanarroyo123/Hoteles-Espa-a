@@ -3187,6 +3187,11 @@ def scrape_idealista_traspasos(driver):
 
     try:
         get_page(driver, BASE, wait=2)
+        # Pequeña espera humana antes de ir directo a la busqueda -- esta
+        # URL (multi-ubicacion) parece mas sensible al bloqueo de DataDome
+        # que las de scrape_idealista() (visto en pruebas reales: bloqueo
+        # intermitente incluso con el driver stealth).
+        time.sleep(random.uniform(3, 6))
     except: pass
 
     pagina = 1
