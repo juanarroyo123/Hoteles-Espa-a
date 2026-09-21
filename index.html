@@ -446,7 +446,7 @@ header{
 .det-metric-sub.editable{cursor:pointer}
 .det-metric-sub.editable:hover{color:var(--green);text-decoration:underline}
 .det-edit-ico{font-size:0.72rem;color:var(--muted);cursor:pointer;opacity:0;transition:opacity 0.15s,color 0.15s;flex-shrink:0}
-.det-metric:hover .det-edit-ico,.det-card-header:hover .det-edit-ico{opacity:0.65}
+.det-metric:hover .det-edit-ico,.det-card-header:hover .det-edit-ico,.det-info-row:hover .det-edit-ico{opacity:0.65}
 .det-edit-ico:hover{color:var(--green);opacity:1!important}
 .det-metric-edit-input{width:100%;border:1px solid var(--green);border-radius:2px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--text);padding:0.1rem 0.3rem;box-sizing:border-box}
 .det-metric-edit-input.det-metric-edit-input-sm{font-family:'Open Sans',sans-serif;font-size:0.68rem;font-weight:400;color:var(--muted);padding:0.05rem 0.25rem;margin-top:0.3rem}
@@ -1295,8 +1295,8 @@ header{
           <div class="det-sidebar-body" style="font-size:0.78rem;color:var(--text-mid)">
             <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Portal</span><span id="det-info-portal" style="font-weight:600">—</span></div>
             <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Fecha</span><span id="det-info-fecha">—</span></div>
-            <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Región</span><span id="det-info-region">—</span></div>
-            <div style="display:flex;justify-content:space-between;padding:0.4rem 0"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Ubicación</span><span id="det-info-loc" style="text-align:right;max-width:180px">—</span></div>
+            <div class="det-info-row" style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.3rem">Comunidad<span class="det-edit-ico" id="det-edit-ico-ubicacion" onclick="iniciarEdicionUbicacion()" title="Editar municipio / comunidad">✎</span></span><span id="det-info-region" style="text-align:right">—</span></div>
+            <div class="det-info-row" style="display:flex;justify-content:space-between;padding:0.4rem 0"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Municipio</span><span id="det-info-loc" style="text-align:right;max-width:180px">—</span></div>
           </div>
         </div>
       </div>
@@ -2025,6 +2025,13 @@ const _REG_CODE2COM = {
   '46':'C. Valenciana','47':'Castilla y León','48':'País Vasco','49':'Castilla y León','50':'Aragón',
   '51':'Ceuta','52':'Melilla'
 };
+// Lista fija de Comunidades para el desplegable de edición manual de
+// Municipio/Comunidad en la ficha (ver iniciarEdicionUbicacion más abajo) --
+// las mismas 19 que puede devolver _REG_CODE2COM, más Portugal/España que
+// también puede devolver getComunidadEfectiva como último recurso.
+const COMUNIDADES_OPCIONES = [...new Set(Object.values(_REG_CODE2COM))]
+  .sort((a, b) => a.localeCompare(b, 'es'))
+  .concat(['Portugal', 'España']);
 // Comarcas/costas/zonas turísticas conocidas que no son un municipio oficial
 // del INE (p.ej. "Corralejo" es un núcleo de La Oliva, Fuerteventura) ->
 // Comunidad autónoma directa.
@@ -2076,14 +2083,33 @@ function inferirComunidadDesdeMunicipio(location) {
   return '';
 }
 
+// Municipio "efectivo" de un anuncio -- el que ha corregido a mano el admin
+// (por eso empieza mirando hotel_manual_datos), si no el que trae el scraper
+// tal cual. Mismo patrón que getEffectivePrecioNum/getEffectiveRooms, etc.
+function getEffectiveMunicipio(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.municipio) return m.municipio;
+  return h.location || '';
+}
+
 // Comunidad "efectiva" de un anuncio para mostrar en la tabla y para el
-// filtro de Comunidad: la que ya trae el scraper si la tiene; si no, la
-// inferida a partir del municipio (p.ej. "El Vendrell" -> Cataluña); si
-// tampoco eso funciona pero se sabe que es de Portugal o de España en
-// general (sin municipio identificable), se muestra "Portugal"/"España" en
-// vez de dejarlo en blanco. Solo se queda "Sin región" cuando de verdad no
-// hay ninguna pista de dónde está.
+// filtro de Comunidad: si el admin la ha corregido a mano, esa; si no, la
+// que ya trae el scraper si la tiene; si no, la inferida a partir del
+// municipio (p.ej. "El Vendrell" -> Cataluña) -- usando el municipio ya
+// corregido a mano si también se corrigió, para que la comunidad se
+// reajuste sola; si tampoco eso funciona pero se sabe que es de Portugal o
+// de España en general (sin municipio identificable), se muestra
+// "Portugal"/"España" en vez de dejarlo en blanco. Solo se queda "Sin
+// región" cuando de verdad no hay ninguna pista de dónde está.
 function getComunidadEfectiva(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.comunidad) return m.comunidad;
+  if (m && m.municipio) {
+    const inferidaDeCorregido = inferirComunidadDesdeMunicipio(m.municipio);
+    if (inferidaDeCorregido) return inferidaDeCorregido;
+    if (h.location_region && h.location_region !== '?') return h.location_region;
+    return '';
+  }
   if (h.location_region && h.location_region !== '?') return h.location_region;
   const inferida = inferirComunidadDesdeMunicipio(h.location);
   if (inferida) return inferida;
@@ -2961,7 +2987,7 @@ function aplicarPermisosFicha() {
   // de "solo lectura". Solo se ve la información del anuncio, igual que
   // siempre. Para el admin, los lápices son la única entrada a la edición
   // (no hay ya un formulario aparte en la barra lateral).
-  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion']
+  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion', 'det-edit-ico-ubicacion']
     .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
@@ -3101,7 +3127,7 @@ function setMunicipioFilter(val) {
 
 function matchesMunicipioFilter(h) {
   if (municipioFilter === 'todos') return true;
-  return (h.location || '').trim() === municipioFilter;
+  return getEffectiveMunicipio(h).trim() === municipioFilter;
 }
 
 function setPriceFilter(range) {
@@ -3196,7 +3222,7 @@ function updateMunicipioChips() {
   const todosHoteles = [...HOTELES, ...RETIRADOS_HIST];
   const base = todosHoteles.filter(h => matchesRegionFilter(h));
   const municipios = [...new Set(
-    base.map(h => (h.location || '').trim()).filter(Boolean)
+    base.map(h => getEffectiveMunicipio(h).trim()).filter(Boolean)
   )].sort((a, b) => a.localeCompare(b, 'es'));
 
   sels.forEach(sel => {
@@ -3307,7 +3333,7 @@ function getFiltered() {
   if (q)
     list = list.filter(h =>
       (h.title||'').toLowerCase().includes(q) ||
-      (h.location||'').toLowerCase().includes(q) ||
+      getEffectiveMunicipio(h).toLowerCase().includes(q) ||
       (h.description||'').toLowerCase().includes(q)
     );
   // Filtro favoritos
@@ -3404,7 +3430,7 @@ function render() {
       <td>${getEffectiveTipo(h)||'—'}</td>
       <td>${operacionBadgeHtml(h)}</td>
       <td>${getComunidadEfectiva(h)||'—'}</td>
-      <td>${h.location||'—'}</td>
+      <td>${getEffectiveMunicipio(h)||'—'}</td>
       <td>${superficie}</td>
       <td>${roomsDisplay}</td>
       <td>${bedsDisplay}</td>
@@ -7525,7 +7551,7 @@ function restaurarDatosOriginales() {
   if (!esAdmin()) return; // por si se reactiva el enlace desde fuera (consola, etc.)
   const url = window._detCurrentUrl;
   if (!url) return;
-  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, habitaciones, apartamentos, superficie, tipología, categoría o descripción corregidos a mano.')) return;
+  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, habitaciones, apartamentos, superficie, tipología, categoría, municipio, comunidad o descripción corregidos a mano.')) return;
   const all = getManualDatosAll();
   delete all[url];
   saveManualDatosAll(all);
@@ -7652,6 +7678,74 @@ function guardarEdicionOperacion() {
   // campos, solo se guarda lo que de verdad se ha corregido a mano.
   if (sel.value === detectarOperacion(h)) delete datos.operacion;
   else datos.operacion = sel.value;
+  if (Object.keys(datos).length === 0) delete all[url];
+  else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
+  saveManualDatosAll(all);
+  window._detEditing = null;
+  refrescarFichaActual();
+}
+// Edición de "Municipio" y "Comunidad" -- viven juntos en la tarjeta
+// "Información del anuncio" de la barra lateral (det-info-region /
+// det-info-loc). Un único lápiz abre los dos campos a la vez: un desplegable
+// para Comunidad y un campo de texto para Municipio. Al escribir el
+// municipio, la comunidad se reajusta sola con inferirComunidadDesdeMunicipio
+// (misma tabla oficial INE que usa toda la web) -- salvo que el admin ya
+// haya tocado el desplegable de Comunidad a mano en esta misma edición, en
+// cuyo caso se respeta lo que haya elegido y ya no se le pisa.
+function iniciarEdicionUbicacion() {
+  if (!esAdmin()) return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const regionEl = document.getElementById('det-info-region');
+  const locEl = document.getElementById('det-info-loc');
+  if (!regionEl || !locEl) return;
+  const municipioActual = getEffectiveMunicipio(h);
+  const comunidadActual = getComunidadEfectiva(h);
+  const opts = COMUNIDADES_OPCIONES.map(c =>
+    `<option value="${c}" ${comunidadActual === c ? 'selected' : ''}>${c}</option>`).join('');
+  regionEl.innerHTML = `<select class="det-metric-edit-select" id="det-edit-comunidad" style="text-align:left;font-size:0.72rem;padding:0.2rem 0.3rem" onchange="window._detUbicComunidadManual=true">
+      <option value="">Sin especificar</option>${opts}
+    </select>`;
+  locEl.innerHTML = `<input type="text" id="det-edit-municipio"
+      style="width:100%;text-align:right;border:1px solid var(--green);border-radius:2px;font-family:'Open Sans',sans-serif;font-size:0.78rem;color:var(--text);padding:0.15rem 0.3rem;box-sizing:border-box"
+      value="${(municipioActual || '').replace(/"/g, '&quot;')}" oninput="onEditMunicipioInput()">
+    <div class="det-edit-actions" style="justify-content:flex-end;margin-top:0.4rem">
+      <a class="save" onclick="guardarEdicionUbicacion()">Guardar</a>
+      <a class="cancel" onclick="window._detEditing=null;refrescarFichaActual()">Cancelar</a>
+    </div>`;
+  window._detUbicComunidadManual = false;
+  window._detEditing = { field: 'ubicacion' };
+}
+function onEditMunicipioInput() {
+  if (window._detUbicComunidadManual) return; // el admin ya ha elegido comunidad a mano -- no se le pisa
+  const inp = document.getElementById('det-edit-municipio');
+  const sel = document.getElementById('det-edit-comunidad');
+  if (!inp || !sel) return;
+  const inferida = inferirComunidadDesdeMunicipio(inp.value);
+  if (inferida) sel.value = inferida;
+}
+function guardarEdicionUbicacion() {
+  if (!window._detEditing || window._detEditing.field !== 'ubicacion') return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const url = window._detCurrentUrl;
+  const inpMuni = document.getElementById('det-edit-municipio');
+  const selCom = document.getElementById('det-edit-comunidad');
+  if (!inpMuni || !selCom) return;
+  const nuevoMunicipio = inpMuni.value.trim();
+  const nuevaComunidad = selCom.value;
+  const all = getManualDatosAll();
+  const datos = all[url] || {};
+  // Municipio: solo se guarda si de verdad es distinto del que trae el
+  // scraper -- mismo criterio de "no guardar de más" que el resto de campos.
+  if (nuevoMunicipio && nuevoMunicipio !== (h.location || '').trim()) datos.municipio = nuevoMunicipio;
+  else delete datos.municipio;
+  // Comunidad: solo se guarda si no coincide con la que saldría sola para el
+  // municipio ya guardado (para no duplicar en localStorage lo que ya se
+  // puede recalcular automáticamente).
+  const autoDetectada = datos.municipio
+    ? (inferirComunidadDesdeMunicipio(datos.municipio) || (h.location_region && h.location_region !== '?' ? h.location_region : ''))
+    : ((h.location_region && h.location_region !== '?') ? h.location_region : (inferirComunidadDesdeMunicipio(h.location) || ''));
+  if (nuevaComunidad && nuevaComunidad !== autoDetectada) datos.comunidad = nuevaComunidad;
+  else delete datos.comunidad;
   if (Object.keys(datos).length === 0) delete all[url];
   else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
   saveManualDatosAll(all);
@@ -7992,7 +8086,7 @@ function renderRetiradas() {
   if (q) {
     list = list.filter(h =>
       (h.title || '').toLowerCase().includes(q) ||
-      (h.location || '').toLowerCase().includes(q) ||
+      getEffectiveMunicipio(h).toLowerCase().includes(q) ||
       getComunidadEfectiva(h).toLowerCase().includes(q) ||
       (h.tipo || '').toLowerCase().includes(q)
     );
@@ -8037,7 +8131,7 @@ function renderRetiradas() {
       <td>${getEffectiveTipo(h) || '—'}</td>
       <td>${operacionBadgeHtml(h)}</td>
       <td>${getComunidadEfectiva(h) || '—'}</td>
-      <td>${h.location || '—'}</td>
+      <td>${getEffectiveMunicipio(h) || '—'}</td>
       <td>${superficie}</td>
       <td>${rooms || '—'}</td>
       <td><span class="source-badge ${badgeClass}">${h.source || 'Otro'}</span></td>
@@ -8085,6 +8179,13 @@ function openDetailPage(listIdx) {
   const stars = getEffectiveStars(h);
   const tipoEfectivo = getEffectiveTipo(h);
   const region = tasGetRegion(h.location, h.location_region);
+  // Municipio/Comunidad "de verdad" para mostrar en la ficha (con la
+  // corrección manual del admin si la hay) -- distintos de "region" de
+  // arriba, que es solo un agrupado más basto (con "Otras" de comodín) que
+  // usan los benchmarks de rentabilidad/INE y no debe tocarse para no
+  // desajustar esos cálculos.
+  const municipioInfo = getEffectiveMunicipio(h);
+  const comunidadInfo = getComunidadEfectiva(h);
   const m2 = getEffectiveM2(h);
   const bench = TAS_BENCHMARKS[region] || TAS_BENCHMARKS['Otras'];
   const pph = (price && rooms) ? Math.round(price / rooms) : null;
@@ -8111,7 +8212,7 @@ function openDetailPage(listIdx) {
 
   // Header
   document.getElementById('det-title').textContent = title;
-  const metaParts = [h.location, region, h.source, h.date].filter(Boolean);
+  const metaParts = [municipioInfo, comunidadInfo, h.source, h.date].filter(Boolean);
   document.getElementById('det-meta').innerHTML = metaParts.map((p, i) =>
     `<span>${p}</span>${i < metaParts.length - 1 ? '<span class="det-meta-sep">·</span>' : ''}`
   ).join('');
@@ -8228,8 +8329,8 @@ function openDetailPage(listIdx) {
   // Info sidebar
   document.getElementById('det-info-portal').textContent = h.source || '—';
   document.getElementById('det-info-fecha').textContent = h.date || '—';
-  document.getElementById('det-info-region').textContent = region || '—';
-  document.getElementById('det-info-loc').textContent = h.location || '—';
+  document.getElementById('det-info-region').textContent = comunidadInfo || '—';
+  document.getElementById('det-info-loc').textContent = municipioInfo || '—';
 
   const hasData = price && rooms;
   document.getElementById('det-analysis-section').style.display = hasData ? 'block' : 'none';
