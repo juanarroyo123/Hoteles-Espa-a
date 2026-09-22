@@ -3112,6 +3112,21 @@ function setDateFilter(df) {
   render();
 }
 
+// Los filtros de esta seccion son compartidos entre "Hoteles en venta" y
+// "Retiradas" (por eso sincronizan los dos <select>), pero repintar SIEMPRE
+// las dos tablas en cada cambio de filtro es trabajo desperdiciado: con miles
+// de anuncios en cada una, repintar la que no se esta viendo se nota como
+// lentitud real (p.ej. al cambiar de "En venta" a "Traspaso"). Solo hace
+// falta repintar la pestana visible ahora mismo -- la otra se repinta sola,
+// ya al dia, en cuanto el usuario entra en ella (switchTab ya la refresca).
+function renderPanelVisible() {
+  if (document.getElementById('panel-retiradas').style.display !== 'none') {
+    renderRetiradas();
+  } else {
+    render();
+  }
+}
+
 // Filtro por Comunidad autónoma -- mismo filtro para Hoteles en venta y
 // Retiradas, con los dos selects sincronizados entre sí. Al cambiar de
 // comunidad, el filtro de Municipio se recalcula para mostrar solo los
@@ -3124,8 +3139,7 @@ function setRegionFilter(region) {
   const sel2 = document.getElementById('ret-region-select');
   if (sel2) sel2.value = region;
   updateMunicipioChips();
-  render();
-  renderRetiradas();
+  renderPanelVisible();
 }
 
 function matchesRegionFilter(h) {
@@ -3142,8 +3156,7 @@ function setMunicipioFilter(val) {
   if (sel1) sel1.value = val;
   const sel2 = document.getElementById('ret-municipio-select');
   if (sel2) sel2.value = val;
-  render();
-  renderRetiradas();
+  renderPanelVisible();
 }
 
 function matchesMunicipioFilter(h) {
@@ -3168,8 +3181,7 @@ function setTrackingFilter(val) {
   if (sel1) sel1.value = val;
   const sel2 = document.getElementById('ret-tracking-select');
   if (sel2) sel2.value = val;
-  render();
-  renderRetiradas();
+  renderPanelVisible();
 }
 
 // Filtro por Prioridad (1-5) de la "Decisión de compra" -- igual que el de
@@ -3181,8 +3193,7 @@ function setPriorityFilter(val) {
   if (sel1) sel1.value = val;
   const sel2 = document.getElementById('ret-priority-select');
   if (sel2) sel2.value = val;
-  render();
-  renderRetiradas();
+  renderPanelVisible();
 }
 // Filtro por Operación (Venta / Contrato de gestión / Traspaso) -- igual que
 // el de Estado y Prioridad: mismo filtro para Hoteles en venta y Retiradas,
@@ -3193,8 +3204,7 @@ function setOperacionFilter(val) {
   if (sel1) sel1.value = val;
   const sel2 = document.getElementById('ret-operacion-select');
   if (sel2) sel2.value = val;
-  render();
-  renderRetiradas();
+  renderPanelVisible();
 }
 
 function matchesPriorityFilter(url) {
@@ -6533,8 +6543,7 @@ function resetFilters() {
   if (search) search.value = '';
   // Repoblar Municipio con la lista completa (ya no hay comunidad seleccionada)
   updateMunicipioChips();
-  render();
-  renderRetiradas();
+  renderPanelVisible();
 }
 
 
