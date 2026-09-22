@@ -3,7 +3,7 @@
 Hotel Monitor — Scraper local con cache acumulativo
 Portales activos: ThinkSpain, Lucas Fox
 """
-import json, re, time, os, subprocess, random, unicodedata, shutil
+import json, re, time, os, subprocess, random, sys, unicodedata, shutil
 from datetime import date, datetime, timedelta
 from html import unescape
 
@@ -3549,6 +3549,47 @@ def scrape_inmoolaya(driver):
     print(f'  Inmo Olaya TOTAL: {total_io}')
 
 if __name__ == '__main__':
+    # ── Log en fichero, ADEMAS de la pantalla -- para poder ver como va
+    # (o que ha fallado) una ejecucion que ha corrido sola, por ejemplo la
+    # tarea diaria de Windows a las 10h, donde a veces no hay forma comoda
+    # de ver la ventana en directo. Cada ejecucion escribe su propio
+    # fichero con fecha y hora en la carpeta logs/ (se crea si no existe),
+    # y se borran los mas viejos para no acumular sin limite. No afecta a
+    # nada mas -- por pantalla se sigue viendo exactamente igual que antes.
+    class _Tee:
+        def __init__(self, *streams):
+            self.streams = streams
+        def write(self, data):
+            for s in self.streams:
+                try:
+                    s.write(data)
+                    s.flush()
+                except Exception:
+                    pass
+        def flush(self):
+            for s in self.streams:
+                try:
+                    s.flush()
+                except Exception:
+                    pass
+    try:
+        _LOGS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'logs')
+        os.makedirs(_LOGS_DIR, exist_ok=True)
+        _log_path = os.path.join(_LOGS_DIR, f'scraper_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.log')
+        _log_file = open(_log_path, 'w', encoding='utf-8', buffering=1)
+        sys.stdout = _Tee(sys.__stdout__, _log_file)
+        sys.stderr = _Tee(sys.__stderr__, _log_file)
+        # Solo guardamos los ultimos 20 logs -- borramos los mas antiguos.
+        _logs_viejos = sorted(
+            (f for f in os.listdir(_LOGS_DIR) if f.startswith('scraper_') and f.endswith('.log')),
+        )
+        for _f in _logs_viejos[:-20]:
+            try: os.remove(os.path.join(_LOGS_DIR, _f))
+            except Exception: pass
+        print(f'(Este log tambien se esta guardando en: {_log_path})\n')
+    except Exception as _e:
+        print(f'Aviso: no se pudo crear el log en fichero ({_e}), continuo solo con pantalla.')
+
     print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
     cache = load_cache()
