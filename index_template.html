@@ -1305,7 +1305,8 @@ header{
             <div class="det-info-row" style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.3rem">Operación<span class="det-edit-ico" id="det-edit-ico-operacion-info" onclick="iniciarEdicionOperacion('det-info-operacion')" title="Editar tipo de operación">✎</span></span><span id="det-info-operacion" style="text-align:right">—</span></div>
             <div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Fecha</span><span id="det-info-fecha">—</span></div>
             <div class="det-info-row" style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.3rem">Comunidad<span class="det-edit-ico" id="det-edit-ico-ubicacion" onclick="iniciarEdicionUbicacion()" title="Editar municipio / comunidad">✎</span></span><span id="det-info-region" style="text-align:right">—</span></div>
-            <div class="det-info-row" style="display:flex;justify-content:space-between;padding:0.4rem 0"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Municipio</span><span id="det-info-loc" style="text-align:right;max-width:180px">—</span></div>
+            <div class="det-info-row" style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em">Municipio</span><span id="det-info-loc" style="text-align:right;max-width:180px">—</span></div>
+            <div class="det-info-row" style="display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0"><span style="color:var(--muted);font-family:'Montserrat',sans-serif;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:flex;align-items:center;gap:0.3rem">Dirección<span class="det-edit-ico" id="det-edit-ico-direccion" onclick="iniciarEdicionDireccion()" title="Añadir/editar la calle y número exactos">✎</span></span><span id="det-info-direccion" style="text-align:right;max-width:180px">—</span></div>
           </div>
         </div>
       </div>
@@ -2099,6 +2100,15 @@ function getEffectiveMunicipio(h) {
   const m = getManualDatos(h.url);
   if (m && m.municipio) return m.municipio;
   return h.location || '';
+}
+
+// Direccion exacta (calle y numero) -- dato que NO trae ningun scraper,
+// se añade siempre a mano por el admin cuando hace falta mas precision
+// que el municipio (p.ej. para geolocalizar bien un activo concreto).
+function getEffectiveDireccion(h) {
+  const m = getManualDatos(h.url);
+  if (m && m.direccion) return m.direccion;
+  return '';
 }
 
 // Comunidad "efectiva" de un anuncio para mostrar en la tabla y para el
@@ -2996,7 +3006,7 @@ function aplicarPermisosFicha() {
   // de "solo lectura". Solo se ve la información del anuncio, igual que
   // siempre. Para el admin, los lápices son la única entrada a la edición
   // (no hay ya un formulario aparte en la barra lateral).
-  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion-info', 'det-edit-ico-ubicacion']
+  ['det-edit-ico-precio', 'det-edit-ico-habitaciones', 'det-edit-ico-cat', 'det-edit-ico-superficie', 'det-edit-ico-desc', 'det-edit-ico-operacion-info', 'det-edit-ico-ubicacion', 'det-edit-ico-direccion']
     .forEach(id => { const el = document.getElementById(id); if (el) el.style.display = admin ? '' : 'none'; });
   const addBtn = document.getElementById('det-photo-add-btn');
   if (addBtn) addBtn.style.display = admin ? 'inline-flex' : 'none';
@@ -7588,7 +7598,7 @@ function restaurarDatosOriginales() {
   if (!esAdmin()) return; // por si se reactiva el enlace desde fuera (consola, etc.)
   const url = window._detCurrentUrl;
   if (!url) return;
-  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, alquiler, habitaciones, apartamentos, superficie, tipología, categoría, municipio, comunidad o descripción corregidos a mano.')) return;
+  if (!confirm('¿Restaurar los datos originales del scraping para este anuncio? Se perderán el precio, alquiler, habitaciones, apartamentos, superficie, tipología, categoría, municipio, comunidad, dirección o descripción corregidos a mano.')) return;
   const all = getManualDatosAll();
   delete all[url];
   saveManualDatosAll(all);
@@ -7791,6 +7801,42 @@ function guardarEdicionUbicacion() {
     : ((h.location_region && h.location_region !== '?') ? h.location_region : (inferirComunidadDesdeMunicipio(h.location) || ''));
   if (nuevaComunidad && nuevaComunidad !== autoDetectada) datos.comunidad = nuevaComunidad;
   else delete datos.comunidad;
+  if (Object.keys(datos).length === 0) delete all[url];
+  else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
+  saveManualDatosAll(all);
+  window._detEditing = null;
+  refrescarFichaActual();
+}
+// Direccion exacta (calle y numero) -- edicion simple de un solo campo de
+// texto libre, igual de sencilla que el resto de campos con lapiz propio.
+function iniciarEdicionDireccion() {
+  if (!esAdmin()) return;
+  const h = window._detCurrentHotel; if (!h) return;
+  const el = document.getElementById('det-info-direccion');
+  if (!el) return;
+  const actual = getEffectiveDireccion(h);
+  el.innerHTML = `<input type="text" id="det-edit-direccion" placeholder="Calle y número"
+      style="width:100%;text-align:right;border:1px solid var(--green);border-radius:2px;font-family:'Open Sans',sans-serif;font-size:0.78rem;color:var(--text);padding:0.15rem 0.3rem;box-sizing:border-box"
+      value="${(actual || '').replace(/"/g, '&quot;')}">`;
+  window._detEditing = { field: 'direccion' };
+  const input = document.getElementById('det-edit-direccion');
+  input.focus(); input.select();
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+    else if (e.key === 'Escape') { e.preventDefault(); window._detEditing = null; refrescarFichaActual(); }
+  });
+  input.addEventListener('blur', () => guardarEdicionDireccion());
+}
+function guardarEdicionDireccion() {
+  if (!window._detEditing || window._detEditing.field !== 'direccion') return;
+  const input = document.getElementById('det-edit-direccion');
+  if (!input) return;
+  const url = window._detCurrentUrl;
+  const nueva = input.value.trim();
+  const all = getManualDatosAll();
+  const datos = all[url] || {};
+  if (nueva) datos.direccion = nueva;
+  else delete datos.direccion;
   if (Object.keys(datos).length === 0) delete all[url];
   else { datos.actualizado = new Date().toISOString(); all[url] = datos; }
   saveManualDatosAll(all);
@@ -8598,6 +8644,8 @@ function openDetailPage(listIdx) {
   document.getElementById('det-info-fecha').textContent = h.date || '—';
   document.getElementById('det-info-region').textContent = comunidadInfo || '—';
   document.getElementById('det-info-loc').textContent = municipioInfo || '—';
+  const direccionInfoEl = document.getElementById('det-info-direccion');
+  if (direccionInfoEl) direccionInfoEl.textContent = getEffectiveDireccion(h) || '—';
 
   const hasData = price && rooms;
   document.getElementById('det-analysis-section').style.display = hasData ? 'block' : 'none';
