@@ -4354,6 +4354,7 @@ function licDetSwitchTab(tab) {
 function openLicDetail(idx) {
   const f = window._licFiltradas[idx];
   if (!f) return;
+  window._licDetCurrentIdx = idx;
   const ci = window._licCI;
   const esc = s => (s === undefined || s === null ? '' : String(s)).replace(/</g, '&lt;');
   const enr = _licBuscarEnriquecido(f, ci);
@@ -4458,6 +4459,7 @@ function openLicDetail(idx) {
     ventaBody.innerHTML = anunciosVenta.map((h, i) => {
       const precio = (h.price && h.price !== 'Precio a consultar') ? esc(h.price) : 'A consultar';
       const sep = i < anunciosVenta.length - 1 ? 'margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border)' : '';
+      const idxAnalisis = HOTELES.indexOf(h);
       return `
         <div style="${sep}">
           <div style="display:flex;align-items:baseline;gap:0.6rem;margin-bottom:0.6rem;flex-wrap:wrap">
@@ -4468,7 +4470,10 @@ function openLicDetail(idx) {
           <div class="licdet-row"><span class="licdet-lbl">Habitaciones (anuncio)</span><span>${h.rooms || '—'}</span></div>
           <div class="licdet-row"><span class="licdet-lbl">Superficie (anuncio)</span><span>${h.m2 ? h.m2 + ' m²' : '—'}</span></div>
           ${h.description ? `<div style="margin-top:0.7rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(h.description).slice(0, 320)}${h.description.length > 320 ? '…' : ''}</div>` : ''}
-          ${h.url ? `<div style="margin-top:0.8rem"><a href="${h.url}" target="_blank" style="font-size:0.78rem;color:var(--green);font-weight:600">Ver anuncio original →</a></div>` : ''}
+          <div style="margin-top:0.8rem;display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center">
+            ${h.url ? `<a href="${h.url}" target="_blank" style="font-size:0.78rem;color:var(--green);font-weight:600">Ver anuncio original →</a>` : ''}
+            ${idxAnalisis >= 0 ? `<a href="#" onclick="event.preventDefault();abrirAnalisisDesdeLicencia(${idxAnalisis})" style="font-size:0.78rem;color:var(--text-mid);font-weight:600">Ver nuestro análisis →</a>` : ''}
+          </div>
         </div>`;
     }).join('') + `
         <div style="margin-top:1rem;font-size:0.68rem;color:var(--muted)">Cruce automático por municipio + nº de habitaciones/nombre (mismo criterio que la columna "Licencia cruzada" del Excel). Puede haber falsos negativos si el anuncio no da datos suficientes.</div>`;
@@ -4484,6 +4489,29 @@ function closeLicDetail() {
   document.getElementById('lic-detail-page').classList.remove('open');
   document.getElementById('panel-licencias').style.display = 'block';
   window.scrollTo(0, 0);
+}
+
+// Desde la pestana "En venta" de una ficha de licencia, si el anuncio
+// cruzado es uno de los que ya tenemos en Hotel Monitor (con fotos,
+// descripcion, seguimiento, etc.), este boton lleva directamente a
+// nuestra propia ficha de analisis de ese anuncio -- sin esto, el unico
+// enlace disponible era "Ver anuncio original" (al portal externo), que
+// no tiene ni nuestras fotos ni nuestro analisis ni el seguimiento.
+function abrirAnalisisDesdeLicencia(idx) {
+  const h = HOTELES[idx];
+  if (!h) return;
+  window._lastRenderedList = HOTELES;
+  const _tabOrigen = document.getElementById('tab-licencias').classList.contains('active') ? 'licencias' : 'mercado';
+  const _volverALic = (typeof window._licDetCurrentIdx === 'number') ? window._licDetCurrentIdx : null;
+  document.getElementById('lic-detail-page').classList.remove('open');
+  openDetailPage(idx);
+  // openDetailPage() de por si SIEMPRE recalcula window._detOriginTab (mirando si
+  // veniamos de Retiradas) -- por eso estas tres variables se fijan DESPUES de
+  // llamarlo, para que no nos las pise y "Volver al listado" no acabe llevando
+  // a Hoteles en venta en vez de a la ficha de la licencia de la que veniamos.
+  window._detOriginTab = 'mercado';
+  window._detOriginTabName = _tabOrigen;
+  window._detReturnLicIdx = _volverALic;
 }
 
 
@@ -8852,6 +8880,15 @@ function closeDetailPage() {
   document.getElementById('detail-page').classList.remove('open');
   if (window._detOriginTab === 'retiradas') {
     switchTab('retiradas'); // ya refresca la tabla (renderRetiradas) al entrar
+  } else if (window._detOriginTab === 'mercado') {
+    // Veniamos de la ficha de una licencia (pestana Licencias o Estudio de
+    // mercado) a traves de "Ver nuestro analisis" -- volvemos a esa misma
+    // pestana y, si sabemos que licencia se estaba viendo, reabrimos
+    // tambien su ficha en vez de dejar al usuario en el listado suelto.
+    const licIdx = window._detReturnLicIdx;
+    switchTab(window._detOriginTabName || 'mercado');
+    window._detOriginTab = null;
+    if (licIdx !== null && licIdx !== undefined) openLicDetail(licIdx);
   } else {
     document.getElementById('panel-hoteles').style.display = 'block';
     document.getElementById('filter-section').style.display = 'block';
