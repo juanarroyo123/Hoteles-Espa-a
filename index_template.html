@@ -335,25 +335,62 @@ header{
 .map-info{padding:0.7rem 2rem;font-size:0.72rem;color:var(--muted);background:var(--surface);border-top:1px solid var(--border)}
 
 /* ══ GRID (tabla de hoteles) ═══════════════════════════════ */
-.hotel-table th,.hotel-table td{text-align:left !important;white-space:nowrap}
-.hotel-table th:first-child,.hotel-table td:first-child{width:2rem}
-.hotel-table th:last-child,.hotel-table td:last-child{text-align:right !important;max-width:none;overflow:visible;white-space:nowrap}
+/* table-layout:fixed obliga a que la FILA ENTERA nunca sea mas ancha que
+   la pantalla -- con layout automatico (por defecto), 14 columnas con
+   contenido sin saltos de linea se estiran mas alla del contenedor y
+   obligan a desplazarse hacia el lado para ver el resto (p.ej. el boton
+   "Ver analisis" se quedaba fuera de la pantalla). Con fixed, las
+   columnas se reparten un 100% fijo -- se apinan si hace falta, pero la
+   tabla nunca se sale del ancho de la pantalla. */
+.hotel-table{table-layout:fixed}
+.hotel-table th,.hotel-table td{text-align:left !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hotel-table th:nth-child(1),.hotel-table td:nth-child(1){width:2.2%}
+.hotel-table th:nth-child(2),.hotel-table td:nth-child(2){width:15%}
+.hotel-table th:nth-child(3),.hotel-table td:nth-child(3){width:8%}
+.hotel-table th:nth-child(4),.hotel-table td:nth-child(4){width:8%}
+.hotel-table th:nth-child(5),.hotel-table td:nth-child(5){width:6%}
+.hotel-table th:nth-child(6),.hotel-table td:nth-child(6){width:7%}
+.hotel-table th:nth-child(7),.hotel-table td:nth-child(7){width:8%}
+.hotel-table th:nth-child(8),.hotel-table td:nth-child(8){width:6%}
+.hotel-table th:nth-child(9),.hotel-table td:nth-child(9){width:5.5%}
+.hotel-table th:nth-child(10),.hotel-table td:nth-child(10){width:5.5%}
+.hotel-table th:nth-child(11),.hotel-table td:nth-child(11){width:8%}
+.hotel-table th:nth-child(12),.hotel-table td:nth-child(12){width:5.5%}
+.hotel-table th:nth-child(13),.hotel-table td:nth-child(13){width:7.3%}
+.hotel-table th:nth-child(14),.hotel-table td:nth-child(14){width:8%}
+.hotel-table th:last-child,.hotel-table td:last-child{text-align:right !important;overflow:visible}
 .hotel-table th:nth-child(7),.hotel-table td:nth-child(7),
 .hotel-table th:nth-child(8),.hotel-table td:nth-child(8),
 .hotel-table th:nth-child(9),.hotel-table td:nth-child(9),
 .hotel-table th:nth-child(12),.hotel-table td:nth-child(12){text-align:right !important;font-variant-numeric:tabular-nums}
-.hotel-table td{font-size:0.82rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.hotel-table td{font-size:0.82rem}
 .hotel-table tr{animation:cardIn 0.3s ease both}
 /* Tabla de Retiradas: mismo aspecto que hotel-table pero con una columna
    menos (sin "Camas"), así que las columnas numéricas caen en otra
    posición -- se define aparte para no desalinear ninguna de las dos. */
-.hotel-table-ret th,.hotel-table-ret td{text-align:left !important;white-space:nowrap}
-.hotel-table-ret th:first-child,.hotel-table-ret td:first-child{width:2rem}
-.hotel-table-ret th:last-child,.hotel-table-ret td:last-child{text-align:right !important;max-width:none;overflow:visible;white-space:nowrap}
+/* Mismo motivo que en .hotel-table: table-layout:fixed para que la fila
+   nunca supere el ancho de la pantalla (13 columnas en vez de 14, sin
+   "Camas"). */
+.hotel-table-ret{table-layout:fixed}
+.hotel-table-ret th,.hotel-table-ret td{text-align:left !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hotel-table-ret th:nth-child(1),.hotel-table-ret td:nth-child(1){width:2.4%}
+.hotel-table-ret th:nth-child(2),.hotel-table-ret td:nth-child(2){width:16%}
+.hotel-table-ret th:nth-child(3),.hotel-table-ret td:nth-child(3){width:9%}
+.hotel-table-ret th:nth-child(4),.hotel-table-ret td:nth-child(4){width:9%}
+.hotel-table-ret th:nth-child(5),.hotel-table-ret td:nth-child(5){width:7%}
+.hotel-table-ret th:nth-child(6),.hotel-table-ret td:nth-child(6){width:8%}
+.hotel-table-ret th:nth-child(7),.hotel-table-ret td:nth-child(7){width:9%}
+.hotel-table-ret th:nth-child(8),.hotel-table-ret td:nth-child(8){width:7%}
+.hotel-table-ret th:nth-child(9),.hotel-table-ret td:nth-child(9){width:6.5%}
+.hotel-table-ret th:nth-child(10),.hotel-table-ret td:nth-child(10){width:9%}
+.hotel-table-ret th:nth-child(11),.hotel-table-ret td:nth-child(11){width:6.5%}
+.hotel-table-ret th:nth-child(12),.hotel-table-ret td:nth-child(12){width:8%}
+.hotel-table-ret th:nth-child(13),.hotel-table-ret td:nth-child(13){width:9%}
+.hotel-table-ret th:last-child,.hotel-table-ret td:last-child{text-align:right !important;overflow:visible}
 .hotel-table-ret th:nth-child(7),.hotel-table-ret td:nth-child(7),
 .hotel-table-ret th:nth-child(8),.hotel-table-ret td:nth-child(8),
 .hotel-table-ret th:nth-child(11),.hotel-table-ret td:nth-child(11){text-align:right !important;font-variant-numeric:tabular-nums}
-.hotel-table-ret td{font-size:0.82rem;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+.hotel-table-ret td{font-size:0.82rem}
 .hotel-table-ret tr{animation:cardIn 0.3s ease both}
 .hotel-row-fav{width:1.6rem;height:1.6rem;border-radius:50%;border:none;background:transparent;color:var(--border-dark);cursor:pointer;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:color 0.15s}
 .hotel-row-fav.saved,.hotel-row-fav:hover{color:var(--gold)}
@@ -374,7 +411,7 @@ header{
 .op-badge-gestion{background:#e3edfa;color:#1d5aa6}
 .op-badge-traspaso{background:#fff4e0;color:#9a6700}
 .hotel-row-price{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--green)}
-.hotel-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:0.8rem}
+.hotel-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem;flex-wrap:wrap}
 .hotel-table .card-link{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em}
 .hotel-table .btn-tasacion{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em;padding:0.3rem 0.65rem}
 
