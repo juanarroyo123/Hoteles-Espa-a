@@ -63,6 +63,10 @@ def subir_github():
         # todavia la primera vez que se usa este script).
         if os.path.isdir(os.path.join(BASE_DIR, 'documentos')):
             subprocess.run(['git', 'add', 'documentos'], check=True)
+        # Fotos y videos de anuncios anadidos a mano con agregar_manual.py
+        # (anuncios que llegan directamente, ej. por WhatsApp, sin portal).
+        if os.path.isdir(os.path.join(BASE_DIR, 'fotos_manuales')):
+            subprocess.run(['git', 'add', 'fotos_manuales'], check=True)
         result = subprocess.run(['git', 'diff', '--cached', '--quiet'], capture_output=True)
         if result.returncode != 0:
             subprocess.run(['git', 'commit', '-m', f'Regenerar web ({TODAY})'], check=True)

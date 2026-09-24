@@ -534,6 +534,9 @@ header{
 .det-photo-del{position:absolute;top:0.25rem;right:0.25rem;width:1.4rem;height:1.4rem;border:none;border-radius:50%;background:rgba(20,20,20,0.65);color:#fff;font-size:0.85rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s}
 .det-photo-del:hover{background:#c0392b}
 .det-photo-empty{grid-column:1/-1;font-size:0.78rem;color:var(--muted);padding:0.4rem 0}
+.det-video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.8rem}
+.det-video-item{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--border)}
+.det-video-item video{width:100%;display:block;background:#000;max-height:260px}
 .foto-lightbox{display:none;position:fixed;inset:0;background:rgba(10,8,6,0.85);z-index:9500;align-items:center;justify-content:center;padding:2rem;cursor:zoom-out}
 .foto-lightbox.open{display:flex;animation:fadeInOverlay 0.2s ease}
 .foto-lightbox img{max-width:100%;max-height:100%;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
@@ -543,6 +546,19 @@ header{
 .foto-lightbox-nav.next{right:1rem}
 .foto-lightbox-nav[disabled]{display:none}
 .foto-lightbox-count{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);color:#fff;font-family:'Open Sans',sans-serif;font-size:0.72rem;letter-spacing:0.04em;background:rgba(20,20,20,0.55);padding:0.25rem 0.7rem;border-radius:20px}
+.na-modal{display:none;position:fixed;inset:0;background:rgba(10,8,6,0.75);z-index:9600;align-items:flex-start;justify-content:center;padding:3rem 1.2rem;overflow-y:auto}
+.na-modal.open{display:flex;animation:fadeInOverlay 0.2s ease}
+.na-modal-box{background:#fff;max-width:640px;width:100%;margin:auto}
+.na-modal-header{padding:1.1rem 1.4rem;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.na-modal-header h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin:0;font-weight:700}
+.na-modal-close{border:none;background:none;font-size:1.4rem;line-height:1;cursor:pointer;color:var(--muted)}
+.na-modal-body{padding:1.3rem 1.4rem;max-height:70vh;overflow-y:auto}
+.na-modal-footer{padding:1rem 1.4rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.na-row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.na-status{font-size:0.75rem;color:var(--muted);line-height:1.5;margin-top:0.4rem}
+.na-status.err{color:#c0392b}
+.na-status.ok{color:var(--green);font-weight:600}
+@media (max-width:520px){.na-row2{grid-template-columns:1fr}}
 
 /* ══ EMPTY ═══════════════════════════════════════════════ */
 .empty{grid-column:1/-1;text-align:center;padding:5rem 2rem;background:#fff}
@@ -864,6 +880,7 @@ header{
       <button class="fav-btn" id="fav-toggle" onclick="toggleFavFilter()">★ Favoritos <span id="fav-count-badge"></span></button>
       <button class="map-btn" id="map-toggle" onclick="toggleMap()" style="margin-left:0">🗺 Ver mapa</button>
       <button class="map-btn" id="excel-toggle" onclick="descargarExcel()" style="margin-left:0">⬇ Descargar Excel</button>
+      <button class="map-btn" id="btn-nuevo-anuncio" onclick="abrirModalNuevoAnuncio()" style="margin-left:0;display:none">+ Nuevo anuncio</button>
   </div>
   <div class="filter-panel-static">
     <div class="lic-filters-grid">
@@ -1133,6 +1150,15 @@ header{
             <button class="det-btn-secondary" id="det-photo-add-btn" onclick="document.getElementById('det-photo-input').click()" style="width:auto;display:inline-flex;padding:0.55rem 1rem">+ Añadir foto</button>
           </div>
         </div>
+        <!-- Videos del anuncio (publicados de verdad, ej. anuncios que nos llegan
+             directamente por WhatsApp sin pasar por ningun portal -- se anaden
+             con agregar_manual.py, igual que las fotos automaticas del scraper) -->
+        <div class="det-card" id="det-videos-card" style="display:none">
+          <div class="det-card-header">Vídeos del anuncio</div>
+          <div class="det-card-body">
+            <div class="det-video-grid" id="det-video-grid"></div>
+          </div>
+        </div>
         <!-- Documentos adjuntos del anuncio (PDFs que nos manden los contactos: dossier, planos, cuentas...) -->
         <div class="det-card" id="det-docs-card">
           <div class="det-card-header">Documentos adjuntos</div>
@@ -1357,6 +1383,87 @@ header{
   <img id="foto-lightbox-img" src="" alt="Foto ampliada">
   <button type="button" class="foto-lightbox-nav next" id="foto-lightbox-next" title="Foto siguiente" onclick="event.stopPropagation();fotoLightboxMover(1)">›</button>
   <div class="foto-lightbox-count" id="foto-lightbox-count"></div>
+</div>
+
+<!-- Modal para publicar, desde la propia web, un anuncio que llega
+     directamente (WhatsApp, email...) sin pasar por ningun portal. Usa el
+     token de GitHub guardado en este navegador para subirlo de verdad al
+     repositorio (hoteles_cache.json + index.html + fotos/videos) en un
+     solo commit -- se ve para todo el mundo en 1-2 minutos, en cuanto
+     GitHub Pages lo despliega. -->
+<div class="na-modal" id="na-modal">
+  <div class="na-modal-box">
+    <div class="na-modal-header">
+      <h3>Nuevo anuncio (a mano)</h3>
+      <button type="button" class="na-modal-close" onclick="cerrarModalNuevoAnuncio()">&times;</button>
+    </div>
+    <div class="na-modal-body">
+      <div class="det-dec-field">
+        <label for="na-titulo">Nombre del anuncio</label>
+        <input type="text" id="na-titulo" placeholder="Ej. Pension 11 habitaciones, C/ Eusebio Sempere, Alicante">
+      </div>
+      <div class="na-row2">
+        <div class="det-dec-field">
+          <label for="na-tipo">Tipo de alojamiento</label>
+          <input type="text" id="na-tipo" list="na-tipo-lista" placeholder="Hotel, Pension...">
+          <datalist id="na-tipo-lista">
+            <option value="Hotel"><option value="Hotel boutique"><option value="Hostal">
+            <option value="Pensión"><option value="Casa de huéspedes"><option value="Apartahotel">
+            <option value="Resort"><option value="Casa Rural"><option value="Albergue/Hostel">
+          </datalist>
+        </div>
+        <div class="det-dec-field">
+          <label for="na-operacion">Operación</label>
+          <select id="na-operacion">
+            <option value="venta">Venta</option>
+            <option value="traspaso">Traspaso</option>
+            <option value="gestion">Contrato de gestión</option>
+          </select>
+        </div>
+      </div>
+      <div class="na-row2">
+        <div class="det-dec-field">
+          <label for="na-habitaciones">Habitaciones</label>
+          <input type="number" id="na-habitaciones" min="0" step="1">
+        </div>
+        <div class="det-dec-field">
+          <label for="na-m2">Superficie (m²)</label>
+          <input type="number" id="na-m2" min="0" step="1">
+        </div>
+      </div>
+      <div class="det-dec-field">
+        <label for="na-precio">Precio</label>
+        <input type="text" id="na-precio" placeholder='Ej. 950.000 € (déjalo en blanco para "A consultar")'>
+      </div>
+      <div class="na-row2">
+        <div class="det-dec-field">
+          <label for="na-comunidad">Comunidad Autónoma</label>
+          <input type="text" id="na-comunidad" placeholder="Ej. Comunidad Valenciana">
+        </div>
+        <div class="det-dec-field">
+          <label for="na-municipio">Municipio / ciudad</label>
+          <input type="text" id="na-municipio" placeholder="Ej. Alicante">
+        </div>
+      </div>
+      <div class="det-dec-field">
+        <label for="na-descripcion">Descripción</label>
+        <textarea id="na-descripcion" placeholder="Lo que sepas del anuncio..."></textarea>
+      </div>
+      <div class="det-dec-field">
+        <label for="na-media">Fotos y vídeos</label>
+        <input type="file" id="na-media" accept="image/*,video/*" multiple>
+        <div class="det-dec-hint">Puedes seleccionar fotos y vídeos juntos, los que te hayan pasado.</div>
+      </div>
+      <div class="na-status" id="na-status"></div>
+    </div>
+    <div class="na-modal-footer">
+      <a href="#" onclick="cambiarGithubToken();return false;" style="font-size:0.68rem;color:var(--muted);text-decoration:underline">Cambiar llave de GitHub</a>
+      <div style="display:flex;gap:0.7rem">
+        <button type="button" class="det-btn-secondary" onclick="cerrarModalNuevoAnuncio()" style="width:auto;padding:0.55rem 1.1rem">Cancelar</button>
+        <button type="button" class="det-btn-primary" id="na-btn-publicar" onclick="publicarNuevoAnuncioDesdeWeb()" style="border:none;cursor:pointer;width:auto;padding:0.55rem 1.3rem">Publicar anuncio</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ FICHA DE LICENCIA (muestra de prueba, 30 hoteles) ══════════ -->
@@ -3024,6 +3131,8 @@ function entrarALaWeb() {
     badge.textContent = s.role === 'admin' ? 'ADMIN' : 'VIEWER';
     badge.className = 'auth-role-badge ' + s.role;
   }
+  const btnNuevo = document.getElementById('btn-nuevo-anuncio');
+  if (btnNuevo) btnNuevo.style.display = (s.role === 'admin') ? '' : 'none';
 }
 // Bloquea/permite los controles de edición de la ficha de detalle (Decisión
 // de compra + Estado en la web) según el rol de la sesión. Viewer puede ver
@@ -3507,7 +3616,7 @@ function render() {
       <td class="hotel-row-price">${getEffectivePrecioStr(h)}</td>
       <td>
         <div class="hotel-row-actions">
-          ${h.url?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>`:''}
+          ${(h.url && !h.url.startsWith('#'))?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>`:''}
           <button class="btn-tasacion" onclick="event.stopPropagation();openDetailPage(${i})">Ver análisis</button>
         </div>
       </td>
@@ -4518,7 +4627,7 @@ function openLicDetail(idx) {
           <div class="licdet-row"><span class="licdet-lbl">Superficie (anuncio)</span><span>${h.m2 ? h.m2 + ' m²' : '—'}</span></div>
           ${h.description ? `<div style="margin-top:0.7rem;font-size:0.78rem;color:var(--text-mid);line-height:1.6">${esc(h.description).slice(0, 320)}${h.description.length > 320 ? '…' : ''}</div>` : ''}
           <div style="margin-top:0.8rem;display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center">
-            ${h.url ? `<a href="${h.url}" target="_blank" style="font-size:0.78rem;color:var(--green);font-weight:600">Ver anuncio original →</a>` : ''}
+            ${(h.url && !h.url.startsWith('#')) ? `<a href="${h.url}" target="_blank" style="font-size:0.78rem;color:var(--green);font-weight:600">Ver anuncio original →</a>` : ''}
             ${idxAnalisis >= 0 ? `<a href="#" onclick="event.preventDefault();abrirAnalisisDesdeLicencia(${idxAnalisis})" style="font-size:0.78rem;color:var(--text-mid);font-weight:600">Ver nuestro análisis →</a>` : ''}
           </div>
         </div>`;
@@ -6527,7 +6636,7 @@ function refreshMap() {
           <div style="font-size:0.9rem;font-weight:600;margin-bottom:4px">${h.title || 'Hotel'}</div>
           <div style="font-size:0.78rem;color:#666;margin-bottom:6px">📍 ${h.location || ''}</div>
           <div style="font-size:1rem;font-weight:700;color:#1a5c45;margin-bottom:8px">${h.price && /\d/.test(h.price) ? h.price.replace(/[^\d.,€\s]/g,'').trim() : 'Consultar'}</div>
-          ${h.url ? `<a href="${h.url}" target="_blank" style="font-size:0.72rem;color:#4a9ede">Ver anuncio →</a>` : ''}
+          ${(h.url && !h.url.startsWith('#')) ? `<a href="${h.url}" target="_blank" style="font-size:0.72rem;color:#4a9ede">Ver anuncio →</a>` : ''}
         </div>
       `);
 
@@ -8362,6 +8471,27 @@ async function renderFotosManuales(url) {
   }).join('');
   grid.innerHTML = html;
 }
+// Videos PUBLICADOS de verdad (h.videos) -- se anaden con
+// agregar_manual.py para anuncios que nos llegan directamente (ej. por
+// WhatsApp) sin pasar por ningun portal. No hay version "solo para ti"
+// como en fotos/documentos: si se anade un video, se anade ya publicado.
+function renderVideosAnuncio(url) {
+  const card = document.getElementById('det-videos-card');
+  const grid = document.getElementById('det-video-grid');
+  if (!card || !grid) return;
+  const h = window._detCurrentHotel;
+  const videos = (h && h.url === url && Array.isArray(h.videos)) ? h.videos : [];
+  if (!videos.length) {
+    card.style.display = 'none';
+    grid.innerHTML = '';
+    return;
+  }
+  card.style.display = '';
+  grid.innerHTML = videos.map(src => `
+      <div class="det-video-item">
+        <video src="${src}" controls preload="metadata"></video>
+      </div>`).join('');
+}
 // Lightbox con navegación entre fotos (flechitas ‹ › sin salir de la foto
 // ampliada, más las flechas del teclado) -- window._lbIndex es la posición
 // actual dentro de window._detFotosActuales.
@@ -8502,7 +8632,7 @@ function renderRetiradas() {
       <td class="hotel-row-price">${getEffectivePrecioStr(h, '—')}</td>
       <td>
         <div class="hotel-row-actions">
-          ${h.url ? `<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>` : ''}
+          ${(h.url && !h.url.startsWith('#')) ? `<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>` : ''}
           <button class="btn-tasacion" onclick="event.stopPropagation();window._lastRenderedList=window._lastRenderedListRetiradas;openDetailPage(${i})">Ver análisis</button>
         </div>
       </td>
@@ -8536,6 +8666,7 @@ function openDetailPage(listIdx) {
   if (catWrap) catWrap.innerHTML = '<div class="det-metric-val" id="det-m-tipo">—</div><div class="det-metric-sub" id="det-m-cat">—</div>';
   renderFotosManuales(h.url);
   renderDocumentosManuales(h.url);
+  renderVideosAnuncio(h.url);
   aplicarPermisosFicha();
 
   const price = getEffectivePrecioNum(h);
@@ -8580,7 +8711,16 @@ function openDetailPage(listIdx) {
   document.getElementById('det-meta').innerHTML = metaParts.map((p, i) =>
     `<span>${p}</span>${i < metaParts.length - 1 ? '<span class="det-meta-sep">·</span>' : ''}`
   ).join('');
-  document.getElementById('det-btn-anuncio').href = h.url || '#';
+  const btnAnuncio = document.getElementById('det-btn-anuncio');
+  // Anuncios anadidos a mano (agregar_manual.py, ej. algo que nos mandan
+  // por WhatsApp) no tienen un anuncio original en ningun portal al que
+  // enlazar -- se ocupa el boton en vez de dejarlo roto.
+  if (h.url && !h.url.startsWith('#')) {
+    btnAnuncio.style.display = '';
+    btnAnuncio.href = h.url;
+  } else {
+    btnAnuncio.style.display = 'none';
+  }
 
   // Métricas
   const pe = document.getElementById('det-m-precio');
@@ -8944,6 +9084,276 @@ function closeDetailPage() {
     render(); // refresca badges de estado/prioridad por si se han editado
   }
   window.scrollTo(0, 0);
+}
+
+
+// ══════════════════════════════════════════════════════
+// NUEVO ANUNCIO A MANO -- DESDE LA PROPIA WEB (sin pasar por
+// agregar_manual.py). Usa el token personal de GitHub del admin, guardado
+// solo en este navegador, para subir un commit directo al repositorio:
+// hoteles_cache.json + index.html regenerado + las fotos/videos que se
+// suban, todo en un solo commit -- igual que hace regenerar_web.py, pero
+// disparado desde el propio boton en vez de la consola.
+//
+// Tarda 1-2 minutos en verse para el resto de gente porque GitHub Pages
+// tiene que desplegar el commit, pero en ESTE navegador se ve al momento
+// (metemos la ficha en HOTELES y repintamos sin esperar al deploy).
+// ═════════════════════════════════════════════════════
+const GH_OWNER = 'juanarroyo123';
+const GH_REPO = 'Hoteles-Espa-a';
+const GH_BRANCH = 'main';
+const GH_TOKEN_KEY = 'hm_gh_token';
+
+function getGithubToken() {
+  try { return (localStorage.getItem(GH_TOKEN_KEY) || '').trim(); } catch (e) { return ''; }
+}
+function setGithubToken(t) {
+  try { localStorage.setItem(GH_TOKEN_KEY, (t || '').trim()); } catch (e) {}
+}
+function cambiarGithubToken() {
+  const t = prompt(
+    'Pega aqui tu token de GitHub (github.com -> Settings -> Developer settings -> ' +
+    'Fine-grained tokens -> generas uno con permiso "Contents: Read and write" sobre ' +
+    'el repositorio Hoteles-Espa-a).\n\n' +
+    'Se guarda solo en este navegador, en tu ordenador -- no viaja a ningun sitio salvo a GitHub.'
+  );
+  if (t !== null) setGithubToken(t);
+}
+function slugManual(texto) {
+  return (texto || '')
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'anuncio';
+}
+function fechaHoyDDMMYYYY() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+}
+function b64ToUtf8(b64) {
+  const bin = atob((b64 || '').replace(/\n/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+async function ghFetch(path, opts) {
+  const token = getGithubToken();
+  if (!token) throw new Error('Falta el token de GitHub.');
+  const res = await fetch(`https://api.github.com${path}`, Object.assign({}, opts, {
+    headers: Object.assign({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/vnd.github+json',
+    }, (opts && opts.headers) || {}),
+  }));
+  if (!res.ok) {
+    let detalle = '';
+    try { detalle = (await res.json()).message || ''; } catch (e) {}
+    if (res.status === 401) throw new Error('El token de GitHub no es valido o ha caducado. Cambialo e intentalo de nuevo.');
+    if (res.status === 403) throw new Error('El token de GitHub no tiene permiso suficiente (hace falta "Contents: Read and write").');
+    if (res.status === 404) throw new Error(`No se ha encontrado (404)${detalle ? ': ' + detalle : ''}.`);
+    throw new Error(`Error de GitHub (${res.status})${detalle ? ': ' + detalle : ''}.`);
+  }
+  return res.json();
+}
+
+function abrirModalNuevoAnuncio() {
+  if (!esAdmin()) return;
+  ['na-titulo','na-precio','na-comunidad','na-municipio','na-descripcion'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const tipoEl = document.getElementById('na-tipo'); if (tipoEl) tipoEl.value = '';
+  const habEl = document.getElementById('na-habitaciones'); if (habEl) habEl.value = '';
+  const m2El = document.getElementById('na-m2'); if (m2El) m2El.value = '';
+  const mediaEl = document.getElementById('na-media'); if (mediaEl) mediaEl.value = '';
+  _naSetEstado('', '');
+  document.getElementById('na-modal').classList.add('open');
+}
+function cerrarModalNuevoAnuncio() {
+  document.getElementById('na-modal').classList.remove('open');
+}
+function _naSetEstado(msg, tipo) {
+  const el = document.getElementById('na-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'na-status' + (tipo ? ' ' + tipo : '');
+}
+
+async function publicarNuevoAnuncioDesdeWeb() {
+  if (!esAdmin()) return;
+  const titulo = (document.getElementById('na-titulo').value || '').trim();
+  const comunidad = (document.getElementById('na-comunidad').value || '').trim();
+  const municipio = (document.getElementById('na-municipio').value || '').trim();
+  if (!titulo || !comunidad || !municipio) {
+    _naSetEstado('Faltan datos: nombre, comunidad y municipio son obligatorios.', 'err');
+    return;
+  }
+  if (!getGithubToken()) {
+    cambiarGithubToken();
+    if (!getGithubToken()) { _naSetEstado('Hace falta el token de GitHub para publicar.', 'err'); return; }
+  }
+
+  const tipo = (document.getElementById('na-tipo').value || '').trim() || 'Alojamiento (n.d.)';
+  const operacion = document.getElementById('na-operacion').value;
+  const roomsVal = parseInt(document.getElementById('na-habitaciones').value, 10);
+  const m2Val = parseInt(document.getElementById('na-m2').value, 10);
+  const precio = (document.getElementById('na-precio').value || '').trim();
+  const descripcion = (document.getElementById('na-descripcion').value || '').trim();
+  const archivos = Array.from(document.getElementById('na-media').files || []);
+
+  const btn = document.getElementById('na-btn-publicar');
+  btn.disabled = true;
+  try {
+    _naSetEstado('Leyendo el repositorio...', '');
+    const refData = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/refs/heads/${GH_BRANCH}`);
+    const latestCommitSha = refData.object.sha;
+    const latestCommit = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/commits/${latestCommitSha}`);
+    const baseTreeSha = latestCommit.tree.sha;
+    const treeCompleto = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/trees/${baseTreeSha}?recursive=1`);
+    if (treeCompleto.truncated) {
+      throw new Error('El listado del repositorio es demasiado grande para leerlo entero (avisa para que lo arregle).');
+    }
+    const shaDe = (path) => {
+      const e = treeCompleto.tree.find(x => x.path === path);
+      return e ? e.sha : null;
+    };
+
+    _naSetEstado('Descargando hoteles_cache.json...', '');
+    const shaCache = shaDe('hoteles_cache.json');
+    if (!shaCache) throw new Error('No encuentro hoteles_cache.json en el repositorio.');
+    const blobCache = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaCache}`);
+    const cache = JSON.parse(b64ToUtf8(blobCache.content));
+
+    _naSetEstado('Descargando la plantilla de la web...', '');
+    const shaTemplate = shaDe('index_template.html');
+    if (!shaTemplate) throw new Error('No encuentro index_template.html en el repositorio.');
+    const blobTemplate = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaTemplate}`);
+    const template = b64ToUtf8(blobTemplate.content);
+
+    let retirados = [];
+    const shaRet = shaDe('retirados_historico.json');
+    if (shaRet) {
+      const blobRet = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaRet}`);
+      try {
+        const r = JSON.parse(b64ToUtf8(blobRet.content));
+        retirados = Array.isArray(r) ? r : Object.values(r);
+      } catch (e) { /* si viene raro, seguimos sin retirados historicos */ }
+    }
+    let adrJson = '{}';
+    const shaAdr = shaDe('adr_benchmark.json');
+    if (shaAdr) {
+      const blobAdr = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaAdr}`);
+      adrJson = b64ToUtf8(blobAdr.content).trim() || '{}';
+    }
+
+    // ID/URL interna unica para esta ficha (no es un anuncio real de portal)
+    const idBase = slugManual(titulo).slice(0, 50);
+    const cacheByUrl = {};
+    cache.forEach(it => { if (it.url) cacheByUrl[it.url] = it; });
+    let urlManual = `#manual-${idBase}`;
+    let contador = 1;
+    let carpetaMedia = idBase;
+    while (cacheByUrl[urlManual]) {
+      contador++;
+      urlManual = `#manual-${idBase}-${contador}`;
+      carpetaMedia = `${idBase}_${contador}`;
+    }
+
+    // Subir fotos/videos como blobs (git data API)
+    const fotosPaths = [], videosPaths = [];
+    const treeExtra = [];
+    let idxFoto = 0, idxVideo = 0;
+    for (const file of archivos) {
+      const esImagen = file.type.startsWith('image/');
+      const esVideo = file.type.startsWith('video/');
+      if (!esImagen && !esVideo) continue;
+      _naSetEstado(`Subiendo ${file.name}...`, '');
+      let dataUrl;
+      if (esImagen) { idxFoto++; dataUrl = await comprimirImagen(file); }
+      else { idxVideo++; dataUrl = await leerArchivoComoDataURL(file); }
+      const base64 = dataUrl.split(',')[1];
+      const extOriginal = (file.name.split('.').pop() || '').toLowerCase();
+      const ext = esImagen ? 'jpg' : (extOriginal || 'mp4');
+      const nombreBase = slugManual(file.name.replace(/\.[^.]+$/, ''));
+      const idx = esImagen ? idxFoto : idxVideo;
+      const nombreArchivo = `${String(idx).padStart(2, '0')}_${nombreBase}.${ext}`;
+      const path = `fotos_manuales/${carpetaMedia}/${nombreArchivo}`;
+      const blob = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+        method: 'POST',
+        body: JSON.stringify({ content: base64, encoding: 'base64' }),
+      });
+      treeExtra.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+      (esImagen ? fotosPaths : videosPaths).push(path);
+    }
+
+    // Construir la nueva entrada y el cache completo
+    const entrada = {
+      title: titulo, price: precio || '', location: municipio, location_region: comunidad,
+      description: descripcion, url: urlManual, source: 'Manual', ausencias: 0, tipo,
+      estado: 'Activo', date: fechaHoyDDMMYYYY(), licencia_texto: '', licencia_motivo: '',
+      operacion_detectada: operacion,
+    };
+    if (!isNaN(roomsVal) && roomsVal > 0) entrada.rooms = roomsVal;
+    if (!isNaN(m2Val) && m2Val > 0) entrada.m2 = m2Val;
+    if (fotosPaths.length) entrada.fotos_url = fotosPaths;
+    if (videosPaths.length) entrada.videos = videosPaths;
+    cache.push(entrada);
+
+    _naSetEstado('Generando la web (index.html)...', '');
+    const activos = cache.filter(h => h.estado !== 'Retirado');
+    const activosUrls = new Set(activos.map(h => h.url));
+    const histRetiradosByUrl = {};
+    retirados.forEach(r => { if (r && r.url) histRetiradosByUrl[r.url] = r; });
+    const retiradosFinal = Object.values(histRetiradosByUrl).filter(r => !activosUrls.has(r.url));
+
+    let html = template.replace('__LISTINGS_JSON__', JSON.stringify(activos));
+    html = html.replace('__RETIRADOS_JSON__', JSON.stringify(retiradosFinal));
+    html = html.replace('__ADR_BENCHMARK_JSON__', adrJson);
+
+    _naSetEstado('Subiendo hoteles_cache.json e index.html (puede tardar un poco)...', '');
+    const blobCacheNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(cache, null, 1), encoding: 'utf-8' }),
+    });
+    const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
+    });
+
+    const treeEntries = [
+      { path: 'hoteles_cache.json', mode: '100644', type: 'blob', sha: blobCacheNuevo.sha },
+      { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
+      ...treeExtra,
+    ];
+    const nuevoTree = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/trees`, {
+      method: 'POST', body: JSON.stringify({ base_tree: baseTreeSha, tree: treeEntries }),
+    });
+
+    _naSetEstado('Creando el commit...', '');
+    const nuevoCommit = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/commits`, {
+      method: 'POST',
+      body: JSON.stringify({
+        message: `Anuncio manual (desde la web): ${titulo}`,
+        tree: nuevoTree.sha, parents: [latestCommitSha],
+      }),
+    });
+    await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/refs/heads/${GH_BRANCH}`, {
+      method: 'PATCH', body: JSON.stringify({ sha: nuevoCommit.sha }),
+    });
+
+    // Reflejar el cambio YA en este navegador, sin esperar al deploy de Pages
+    HOTELES.push(entrada);
+    const selPortal = document.getElementById('portal-select');
+    if (selPortal && !Array.from(selPortal.options).some(o => o.value === 'Manual')) {
+      updatePortalChips();
+    }
+    render();
+    updateStats();
+
+    _naSetEstado('Publicado. Tardara 1-2 minutos en verse para el resto (GitHub Pages tiene que desplegarlo) -- pero ya lo tienes en tu lista aqui mismo.', 'ok');
+    setTimeout(cerrarModalNuevoAnuncio, 2500);
+  } catch (err) {
+    console.error(err);
+    _naSetEstado(err.message || 'Ha fallado la publicacion.', 'err');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 

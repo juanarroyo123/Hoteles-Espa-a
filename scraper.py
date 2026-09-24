@@ -1074,6 +1074,14 @@ def limpiar_bajas(cache, urls_encontradas, portales_fallidos=None):
     protegidos = 0
     for url, item in cache.items():
         if url not in urls_encontradas:
+            # Anuncios anadidos a mano (agregar_manual.py -- llegan
+            # directamente, ej. por WhatsApp, sin pasar por ningun portal)
+            # nunca van a aparecer en un scraping, asi que no cuentan
+            # ausencias ni se marcan Retirado en automatico -- solo el
+            # admin los retira a mano desde la propia ficha.
+            if item.get('source') == 'Manual':
+                protegidos += 1
+                continue
             if item.get('source') in portales_fallidos:
                 protegidos += 1
                 continue
