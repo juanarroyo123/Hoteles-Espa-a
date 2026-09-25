@@ -28,6 +28,7 @@ RETIRADOS_FILE = os.path.join(BASE_DIR, 'retirados_historico.json')
 TEMPLATE_FILE = os.path.join(BASE_DIR, 'index_template.html')
 INDEX_FILE = os.path.join(BASE_DIR, 'index.html')
 ADR_FILE = os.path.join(BASE_DIR, 'adr_benchmark.json')
+OFFMARKET_FILE = os.path.join(BASE_DIR, 'offmarket_cache.json')
 
 
 def cargar_retirados():
@@ -67,6 +68,11 @@ def subir_github():
         # (anuncios que llegan directamente, ej. por WhatsApp, sin portal).
         if os.path.isdir(os.path.join(BASE_DIR, 'fotos_manuales')):
             subprocess.run(['git', 'add', 'fotos_manuales'], check=True)
+        # Oportunidades off-market (pestana Off-Market) y sus fotos/videos.
+        if os.path.exists(OFFMARKET_FILE):
+            subprocess.run(['git', 'add', 'offmarket_cache.json'], check=True)
+        if os.path.isdir(os.path.join(BASE_DIR, 'fotos_offmarket')):
+            subprocess.run(['git', 'add', 'fotos_offmarket'], check=True)
         result = subprocess.run(['git', 'diff', '--cached', '--quiet'], capture_output=True)
         if result.returncode != 0:
             subprocess.run(['git', 'commit', '-m', f'Regenerar web ({TODAY})'], check=True)
@@ -100,13 +106,23 @@ def main():
         with open(ADR_FILE, 'r', encoding='utf-8') as fb:
             adr_benchmark_json = fb.read().strip()
 
+    # Oportunidades off-market (operadores/agentes, fuera de portales) --
+    # viven en su propio fichero, nunca en hoteles_cache.json. Si aun no
+    # existe (instalacion antigua sin ninguna oportunidad todavia), se trata
+    # como lista vacia en vez de fallar.
+    offmarket = []
+    if os.path.exists(OFFMARKET_FILE):
+        with open(OFFMARKET_FILE, 'r', encoding='utf-8') as fo:
+            offmarket = json.load(fo)
+
     html = template.replace('__LISTINGS_JSON__', json.dumps(todos_activos, ensure_ascii=False))
     html = html.replace('__RETIRADOS_JSON__', json.dumps(retirados_hist, ensure_ascii=False))
     html = html.replace('__ADR_BENCHMARK_JSON__', adr_benchmark_json)
+    html = html.replace('__OFFMARKET_JSON__', json.dumps(offmarket, ensure_ascii=False))
 
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(html)
-    print(f'index.html regenerado: {len(todos_activos)} activos + {len(retirados_hist)} retirados (comparables).')
+    print(f'index.html regenerado: {len(todos_activos)} activos + {len(retirados_hist)} retirados (comparables) + {len(offmarket)} oportunidades off-market.')
 
     subir_github()
     input('\nPresiona Enter para cerrar...')

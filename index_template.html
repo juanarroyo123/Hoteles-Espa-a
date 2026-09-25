@@ -410,6 +410,11 @@ header{
 .op-badge-venta{background:var(--surface);color:var(--muted)}
 .op-badge-gestion{background:#e3edfa;color:#1d5aa6}
 .op-badge-traspaso{background:#fff4e0;color:#9a6700}
+.om-badge{font-family:'Montserrat',sans-serif;font-size:0.5rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.14rem 0.4rem;border-radius:2px;white-space:nowrap;display:inline-block}
+.om-badge-activa{background:#e6f4ea;color:#1e7b34}
+.om-badge-descartada{background:var(--surface);color:var(--muted)}
+.om-badge-cerrada{background:#e3edfa;color:#1d5aa6}
+.om-estado-inline{font-family:'Montserrat',sans-serif;font-size:0.62rem;padding:0.2rem 0.3rem;border:1px solid var(--border);background:#fff;color:var(--ink);cursor:pointer}
 .hotel-row-price{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;color:var(--green)}
 .hotel-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:0.5rem;flex-wrap:wrap}
 .hotel-table .card-link{font-family:'Open Sans',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:0.02em}
@@ -845,6 +850,7 @@ header{
   <div class="view-bar">
     <button class="tab-btn active" id="tab-hoteles" onclick="switchTab('hoteles')">Hoteles en venta</button>
     <button class="tab-btn" id="tab-retiradas" onclick="switchTab('retiradas')">Retiradas</button>
+    <button class="tab-btn" id="tab-offmarket" onclick="switchTab('offmarket')">Off-Market</button>
     <button class="tab-btn" id="tab-licencias" onclick="switchTab('licencias')">Licencias</button>
     <button class="tab-btn" id="tab-mercado" onclick="switchTab('mercado')">Estudio de mercado</button>
   </div>
@@ -1466,6 +1472,80 @@ header{
   </div>
 </div>
 
+<div class="na-modal" id="om-modal">
+  <div class="na-modal-box">
+    <div class="na-modal-header">
+      <h3>Nueva oportunidad off-market</h3>
+      <button type="button" class="na-modal-close" onclick="cerrarModalOffmarket()">&times;</button>
+    </div>
+    <div class="na-modal-body">
+      <div class="det-dec-field">
+        <label for="om-titulo">Nombre del activo</label>
+        <input type="text" id="om-titulo" placeholder="Ej. Hotel 45 habitaciones, Costa Brava">
+      </div>
+      <div class="det-dec-field">
+        <label for="om-operador">Operador / quién lo ofrece</label>
+        <input type="text" id="om-operador" placeholder="Ej. Nombre del operador o agente">
+      </div>
+      <div class="na-row2">
+        <div class="det-dec-field">
+          <label for="om-tipo">Tipo de alojamiento</label>
+          <input type="text" id="om-tipo" list="na-tipo-lista" placeholder="Hotel, Pension...">
+        </div>
+        <div class="det-dec-field">
+          <label for="om-operacion">Operación</label>
+          <select id="om-operacion">
+            <option value="venta">Venta</option>
+            <option value="traspaso">Traspaso</option>
+            <option value="gestion">Contrato de gestión</option>
+          </select>
+        </div>
+      </div>
+      <div class="na-row2">
+        <div class="det-dec-field">
+          <label for="om-habitaciones">Habitaciones</label>
+          <input type="number" id="om-habitaciones" min="0" step="1">
+        </div>
+        <div class="det-dec-field">
+          <label for="om-m2">Superficie (m²)</label>
+          <input type="number" id="om-m2" min="0" step="1">
+        </div>
+      </div>
+      <div class="det-dec-field">
+        <label for="om-precio">Precio</label>
+        <input type="text" id="om-precio" placeholder='Ej. 3.200.000 € (déjalo en blanco para "A consultar")'>
+      </div>
+      <div class="na-row2">
+        <div class="det-dec-field">
+          <label for="om-comunidad">Comunidad Autónoma</label>
+          <input type="text" id="om-comunidad" placeholder="Ej. Cataluña">
+        </div>
+        <div class="det-dec-field">
+          <label for="om-municipio">Municipio / ciudad</label>
+          <input type="text" id="om-municipio" placeholder="Ej. Girona">
+        </div>
+      </div>
+      <div class="det-dec-field">
+        <label for="om-descripcion">Descripción</label>
+        <textarea id="om-descripcion" placeholder="Lo que te haya contado el operador..."></textarea>
+      </div>
+      <div class="det-dec-field">
+        <label for="om-media">Fotos y vídeos (si tienes)</label>
+        <input type="file" id="om-media" accept="image/*,video/*" multiple>
+        <div class="det-dec-hint">Opcional -- muchas oportunidades off-market llegan sin material grafico todavia.</div>
+      </div>
+      <div class="na-status" id="om-status"></div>
+    </div>
+    <div class="na-modal-footer">
+      <a href="#" onclick="cambiarGithubToken();return false;" style="font-size:0.68rem;color:var(--muted);text-decoration:underline">Cambiar llave de GitHub</a>
+      <div style="display:flex;gap:0.7rem">
+        <button type="button" class="det-btn-secondary" onclick="cerrarModalOffmarket()" style="width:auto;padding:0.55rem 1.1rem">Cancelar</button>
+        <button type="button" class="det-btn-primary" id="om-btn-publicar" onclick="publicarOffmarketDesdeWeb()" style="border:none;cursor:pointer;width:auto;padding:0.55rem 1.3rem">Publicar oportunidad</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ FICHA DE LICENCIA (muestra de prueba, 30 hoteles) ══════════ -->
 <div id="lic-detail-page">
   <div class="det-header">
@@ -1662,6 +1742,79 @@ header{
       </thead>
       <tbody class="grid" id="grid-retiradas">
         <tr><td colspan="13"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ PANEL OFF-MARKET ══════════════════════════════════ -->
+<div id="panel-offmarket" style="display:none">
+  <div class="hero" id="hero-offmarket">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Oportunidades directas de operadores</div>
+      <div class="hero-title">Oportunidades<br><span>Off-Market</span></div>
+      <p class="hero-desc">Activos que nos ofrecen directamente operadores y agentes, fuera de los portales -- no estan anunciados publicamente en ningun sitio. Se van anadiendo a mano segun nos llegan.</p>
+    </div>
+    <div class="kpi-bar" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi-box"><div class="kpi-box-val" id="om-k-total">—</div><div class="kpi-box-lbl">Oportunidades totales</div></div>
+      <div class="kpi-box"><div class="kpi-box-val" id="om-k-activas">—</div><div class="kpi-box-lbl">Activas</div></div>
+      <div class="kpi-box"><div class="kpi-box-val" id="om-k-favs">—</div><div class="kpi-box-lbl">De tus favoritos</div></div>
+    </div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-bar-single">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" id="om-search" placeholder="Buscar operador, ciudad, tipo..." oninput="renderOffmarket()">
+      </div>
+      <span id="om-results-count" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.08em;color:var(--muted);white-space:nowrap"></span>
+      <span id="om-inline-status" style="font-family:'Montserrat',sans-serif;font-size:0.65rem;color:var(--muted);white-space:nowrap"></span>
+      <button class="fav-btn" id="om-fav-toggle" onclick="toggleOmFavFilter()">★ Favoritos <span id="om-fav-count-badge"></span></button>
+      <button class="map-btn" id="btn-nueva-offmarket" onclick="abrirModalOffmarket()" style="margin-left:0;display:none">+ Nueva oportunidad</button>
+    </div>
+    <div class="filter-panel-static">
+      <div class="lic-filters-grid">
+        <div class="lic-ffield">
+          <label for="om-estado-select">Estado</label>
+          <select id="om-estado-select" onchange="renderOffmarket()">
+            <option value="todos">Todas</option>
+            <option value="Activa">Activa</option>
+            <option value="Descartada">Descartada</option>
+            <option value="Cerrada">Cerrada</option>
+          </select>
+        </div>
+        <div class="lic-ffield">
+          <label for="om-operacion-select">Operación</label>
+          <select id="om-operacion-select" onchange="renderOffmarket()">
+            <option value="todos">Todas</option>
+            <option value="venta">Venta</option>
+            <option value="gestion">Contrato de gestión</option>
+            <option value="traspaso">Traspaso</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="zone-table hotel-table-ret">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Nombre</th>
+          <th>Operador</th>
+          <th>Tipología</th>
+          <th>Operación</th>
+          <th>Comunidad</th>
+          <th>Municipio</th>
+          <th>Habitaciones</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="grid" id="grid-offmarket">
+        <tr><td colspan="11"><div class="empty"><div class="empty-title">Cargando...</div></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -2139,6 +2292,13 @@ const HOTELES_RAW_PARA_EXCEL = __LISTINGS_JSON__;
 // Histórico PERMANENTE de anuncios retirados (comparables). Se acumula en
 // retirados_historico.json y nunca se borra. Va a su propia hoja del Excel.
 const RETIRADOS_HIST = __RETIRADOS_JSON__;
+// Oportunidades off-market: activos que nos ofrecen directamente
+// operadores/agentes, fuera de cualquier portal. Se anaden a mano desde
+// la propia web (boton '+ Nueva oportunidad' en la pestana Off-Market) y
+// viven en su propio fichero (offmarket_cache.json), nunca mezcladas con
+// HOTELES -- el array trae TODOS los estados (Activa/Descartada/Cerrada),
+// el filtro de la pestana decide que se ve.
+const OFFMARKET = __OFFMARKET_JSON__;
 
 // ── Descarga a Excel (mismas columnas que tu hoja "OFERTAS TOTALES") ──
 // Incluye TODOS los anuncios (Activo + Retirado) para que puedas comparar
@@ -3133,6 +3293,11 @@ function entrarALaWeb() {
   }
   const btnNuevo = document.getElementById('btn-nuevo-anuncio');
   if (btnNuevo) btnNuevo.style.display = (s.role === 'admin') ? '' : 'none';
+  const btnNuevaOm = document.getElementById('btn-nueva-offmarket');
+  if (btnNuevaOm) btnNuevaOm.style.display = (s.role === 'admin') ? '' : 'none';
+  // Repinta Off-Market por si cambia el rol a media sesion (sin recargar):
+  // las filas admin llevan un <select> de Estado en vez de una insignia fija.
+  if (typeof renderOffmarket === 'function') renderOffmarket();
 }
 // Bloquea/permite los controles de edición de la ficha de detalle (Decisión
 // de compra + Estado en la web) según el rol de la sesión. Viewer puede ver
@@ -3658,6 +3823,7 @@ function esDeHoy(str) {
 function switchTab(tab) {
   const isH = tab === 'hoteles';
   const isR = tab === 'retiradas';
+  const isO = tab === 'offmarket';
   const isL = tab === 'licencias';
   const isM = tab === 'mercado';
   if (!isH && mapVisible) {
@@ -3667,12 +3833,14 @@ function switchTab(tab) {
   }
   document.getElementById('panel-hoteles').style.display   = isH ? 'block' : 'none';
   document.getElementById('panel-retiradas').style.display = isR ? 'block' : 'none';
+  document.getElementById('panel-offmarket').style.display = isO ? 'block' : 'none';
   document.getElementById('panel-licencias').style.display = isL ? 'block' : 'none';
   document.getElementById('panel-mercado').style.display   = isM ? 'block' : 'none';
   document.getElementById('filter-section').style.display  = isH ? 'block' : 'none';
   document.getElementById('hero-main').style.display       = isH ? 'flex'  : 'none';
   document.getElementById('tab-hoteles').classList.toggle('active', isH);
   document.getElementById('tab-retiradas').classList.toggle('active', isR);
+  document.getElementById('tab-offmarket').classList.toggle('active', isO);
   document.getElementById('tab-licencias').classList.toggle('active', isL);
   document.getElementById('tab-mercado').classList.toggle('active', isM);
   if (isM && !window._marketRendered) {
@@ -3685,6 +3853,7 @@ function switchTab(tab) {
     licCargarDatos();
   }
   if (isR) renderRetiradas();
+  if (isO) renderOffmarket();
 }
 
 // ══════════════════════════════════════════════════════════
@@ -7374,7 +7543,8 @@ function isFav(url) {
 function limpiarFavsInactivos() {
   const favs = getFavs();
   const retiradosUrls = new Set((Array.isArray(RETIRADOS_HIST) ? RETIRADOS_HIST : []).map(h => h.url).filter(Boolean));
-  const activos = favs.filter(u => HOTELES_URLS.has(u) || retiradosUrls.has(u));
+  const offmarketUrls = new Set((Array.isArray(OFFMARKET) ? OFFMARKET : []).map(h => h.url).filter(Boolean));
+  const activos = favs.filter(u => HOTELES_URLS.has(u) || retiradosUrls.has(u) || offmarketUrls.has(u));
   if (activos.length !== favs.length) saveFavs(activos);
 }
 function toggleFav(url, btn) {
@@ -8695,9 +8865,11 @@ function openDetailPage(listIdx) {
 
   // Ocultar main, mostrar detail — recordamos desde qué pestaña veníamos
   // (Hoteles en venta o Retiradas) para volver ahí, no siempre a Hoteles.
-  window._detOriginTab = document.getElementById('panel-retiradas').style.display !== 'none' ? 'retiradas' : 'hoteles';
+  window._detOriginTab = document.getElementById('panel-retiradas').style.display !== 'none' ? 'retiradas'
+    : (document.getElementById('panel-offmarket').style.display !== 'none' ? 'offmarket' : 'hoteles');
   document.getElementById('panel-hoteles').style.display = 'none';
   document.getElementById('panel-retiradas').style.display = 'none';
+  document.getElementById('panel-offmarket').style.display = 'none';
   document.getElementById('panel-mercado').style.display = 'none';
   document.getElementById('filter-section').style.display = 'none';
   document.getElementById('hero-main').style.display = 'none';
@@ -9066,6 +9238,8 @@ function closeDetailPage() {
   document.getElementById('detail-page').classList.remove('open');
   if (window._detOriginTab === 'retiradas') {
     switchTab('retiradas'); // ya refresca la tabla (renderRetiradas) al entrar
+  } else if (window._detOriginTab === 'offmarket') {
+    switchTab('offmarket'); // ya refresca la tabla (renderOffmarket) al entrar
   } else if (window._detOriginTab === 'mercado') {
     // Veniamos de la ficha de una licencia (pestana Licencias o Estudio de
     // mercado) a traves de "Ver nuestro analisis" -- volvemos a esa misma
@@ -9088,16 +9262,18 @@ function closeDetailPage() {
 
 
 // ══════════════════════════════════════════════════════
-// NUEVO ANUNCIO A MANO -- DESDE LA PROPIA WEB (sin pasar por
-// agregar_manual.py). Usa el token personal de GitHub del admin, guardado
-// solo en este navegador, para subir un commit directo al repositorio:
-// hoteles_cache.json + index.html regenerado + las fotos/videos que se
-// suban, todo en un solo commit -- igual que hace regenerar_web.py, pero
-// disparado desde el propio boton en vez de la consola.
+// NUEVO ANUNCIO A MANO / NUEVA OPORTUNIDAD OFF-MARKET -- DESDE LA PROPIA
+// WEB (sin pasar por agregar_manual.py). Usa el token personal de GitHub
+// del admin, guardado solo en este navegador, para subir un commit directo
+// al repositorio: los datos (hoteles_cache.json u offmarket_cache.json) +
+// index.html regenerado + las fotos/videos que se suban, todo en un solo
+// commit -- igual que hace regenerar_web.py, pero disparado desde el
+// propio boton en vez de la consola.
 //
 // Tarda 1-2 minutos en verse para el resto de gente porque GitHub Pages
 // tiene que desplegar el commit, pero en ESTE navegador se ve al momento
-// (metemos la ficha en HOTELES y repintamos sin esperar al deploy).
+// (metemos la ficha en HOTELES/OFFMARKET y repintamos sin esperar al
+// deploy).
 // ═════════════════════════════════════════════════════
 const GH_OWNER = 'juanarroyo123';
 const GH_REPO = 'Hoteles-Espa-a';
@@ -9155,6 +9331,165 @@ async function ghFetch(path, opts) {
   return res.json();
 }
 
+// ── Helpers compartidos entre "+ Nuevo anuncio" y "+ Nueva oportunidad
+// off-market" -- ambos flujos leen/escriben el mismo repositorio y tienen
+// que regenerar el MISMO index.html completo (con hoteles, retiradas,
+// benchmarks Y off-market a la vez), asi que comparten toda esta parte.
+async function ghLeerArbolBase() {
+  const refData = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/refs/heads/${GH_BRANCH}`);
+  const latestCommitSha = refData.object.sha;
+  const latestCommit = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/commits/${latestCommitSha}`);
+  const baseTreeSha = latestCommit.tree.sha;
+  const treeCompleto = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/trees/${baseTreeSha}?recursive=1`);
+  if (treeCompleto.truncated) {
+    throw new Error('El listado del repositorio es demasiado grande para leerlo entero (avisa para que lo arregle).');
+  }
+  const shaDe = (path) => {
+    const e = treeCompleto.tree.find(x => x.path === path);
+    return e ? e.sha : null;
+  };
+  return { latestCommitSha, baseTreeSha, shaDe };
+}
+// Descarga y parsea un JSON del repo si existe; si el fichero no esta (aun
+// no se ha creado nunca, o vino con datos raros) devuelve el valor por
+// defecto en vez de romper la publicacion entera.
+async function ghDescargarJsonOpcional(shaDe, path, valorPorDefecto) {
+  const sha = shaDe(path);
+  if (!sha) return valorPorDefecto;
+  try {
+    const blob = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${sha}`);
+    const data = JSON.parse(b64ToUtf8(blob.content));
+    return data;
+  } catch (e) {
+    return valorPorDefecto;
+  }
+}
+// Como String.replace pero cambiando TODAS las apariciones -- el
+// marcador de listados aparece DOS veces en la plantilla (una para
+// pintar la tabla y otra para el Excel, HOTELES_RAW_PARA_EXCEL), y
+// .replace(str, ...) de JS sin regex /g SOLO cambia la primera, dejando la
+// segunda tal cual -- eso rompe la pagina entera nada mas cargar
+// (ReferenceError en un identificador que no existe). split+join no
+// tiene ese problema y tampoco los líos de $ que tendría un .replace con
+// regex cuando el JSON de reemplazo contiene "$".
+//
+// OJO -- por la MISMA razon, aqui abajo los 4 nombres de marcador se
+// construyen a trozos (GH_MARCADOR.listings, etc.) en vez de escribirse
+// enteros y seguidos: esta funcion vive DENTRO de la propia plantilla, asi
+// que si su texto contuviese el nombre completo y contiguo de un marcador,
+// la sustitucion (tanto esta de aqui como la de regenerar_web.py) lo
+// encontraria TAMBIEN ahi y lo cambiaria por datos -- rompiendo esta misma
+// funcion dentro de la pagina ya generada, que ya no reconoceria el
+// marcador real la proxima vez que alguien publique algo desde ella.
+function ghSustituirTodo(texto, buscado, reemplazo) {
+  return texto.split(buscado).join(reemplazo);
+}
+// Regenera el index.html completo a partir de la plantilla y los 4 bloques
+// de datos que lleva incrustados. SIEMPRE hay que pasar los 4 (aunque solo
+// se este cambiando uno de ellos) porque el HTML nuevo sustituye a TODO el
+// index.html anterior -- si no, el bloque que no se toque desaparecería de
+// la web (p.ej. publicar un anuncio nuevo borraría las oportunidades
+// off-market si no se le pasan tal cual).
+// Construidos a trozos a proposito -- ver el comentario de arriba.
+const GH_MARCADOR = {
+  listings: '__' + 'LISTINGS_JSON' + '__',
+  retirados: '__' + 'RETIRADOS_JSON' + '__',
+  adr: '__' + 'ADR_BENCHMARK_JSON' + '__',
+  offmarket: '__' + 'OFFMARKET_JSON' + '__',
+};
+function ghConstruirIndexHtml(template, cache, retiradosHist, adrJson, offmarket) {
+  const activos = cache.filter(h => h.estado !== 'Retirado');
+  const activosUrls = new Set(activos.map(h => h.url));
+  const histRetiradosByUrl = {};
+  (retiradosHist || []).forEach(r => { if (r && r.url) histRetiradosByUrl[r.url] = r; });
+  const retiradosFinal = Object.values(histRetiradosByUrl).filter(r => !activosUrls.has(r.url));
+
+  let html = ghSustituirTodo(template, GH_MARCADOR.listings, JSON.stringify(activos));
+  html = ghSustituirTodo(html, GH_MARCADOR.retirados, JSON.stringify(retiradosFinal));
+  html = ghSustituirTodo(html, GH_MARCADOR.adr, adrJson);
+  html = ghSustituirTodo(html, GH_MARCADOR.offmarket, JSON.stringify(offmarket || []));
+  return html;
+}
+// Descarga todo lo necesario para regenerar el index.html (plantilla +
+// los 4 ficheros de datos), a partir de un shaDe() ya obtenido con
+// ghLeerArbolBase(). Devuelve tal cual lo que hay en el repo ahora mismo,
+// sin tocar nada -- quien llama decide que modificar antes de reconstruir
+// el HTML con ghConstruirIndexHtml().
+async function ghDescargarDatosActuales(shaDe) {
+  const shaTemplate = shaDe('index_template.html');
+  if (!shaTemplate) throw new Error('No encuentro index_template.html en el repositorio.');
+  const blobTemplate = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaTemplate}`);
+  const template = b64ToUtf8(blobTemplate.content);
+
+  const shaCache = shaDe('hoteles_cache.json');
+  if (!shaCache) throw new Error('No encuentro hoteles_cache.json en el repositorio.');
+  const blobCache = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaCache}`);
+  const cache = JSON.parse(b64ToUtf8(blobCache.content));
+
+  const retiradosRaw = await ghDescargarJsonOpcional(shaDe, 'retirados_historico.json', []);
+  const retirados = Array.isArray(retiradosRaw) ? retiradosRaw : Object.values(retiradosRaw || {});
+
+  let adrJson = '{}';
+  const shaAdr = shaDe('adr_benchmark.json');
+  if (shaAdr) {
+    const blobAdr = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaAdr}`);
+    adrJson = b64ToUtf8(blobAdr.content).trim() || '{}';
+  }
+
+  const offmarketRaw = await ghDescargarJsonOpcional(shaDe, 'offmarket_cache.json', []);
+  const offmarket = Array.isArray(offmarketRaw) ? offmarketRaw : Object.values(offmarketRaw || {});
+
+  return { template, cache, retirados, adrJson, offmarket };
+}
+// Sube a GitHub las fotos/videos seleccionados en un <input type="file">,
+// como blobs del repo bajo carpetaBase/<nombre>. Devuelve las rutas
+// separadas por foto/video y las entradas de arbol ya listas para el
+// commit. Compartido entre anuncios manuales y oportunidades off-market.
+async function ghSubirMedia(archivos, carpetaBase, setEstado) {
+  const fotosPaths = [], videosPaths = [];
+  const treeExtra = [];
+  let idxFoto = 0, idxVideo = 0;
+  for (const file of archivos) {
+    const esImagen = file.type.startsWith('image/');
+    const esVideo = file.type.startsWith('video/');
+    if (!esImagen && !esVideo) continue;
+    if (setEstado) setEstado(`Subiendo ${file.name}...`, '');
+    let dataUrl;
+    if (esImagen) { idxFoto++; dataUrl = await comprimirImagen(file); }
+    else { idxVideo++; dataUrl = await leerArchivoComoDataURL(file); }
+    const base64 = dataUrl.split(',')[1];
+    const extOriginal = (file.name.split('.').pop() || '').toLowerCase();
+    const ext = esImagen ? 'jpg' : (extOriginal || 'mp4');
+    const nombreBase = slugManual(file.name.replace(/\.[^.]+$/, ''));
+    const idx = esImagen ? idxFoto : idxVideo;
+    const nombreArchivo = `${String(idx).padStart(2, '0')}_${nombreBase}.${ext}`;
+    const path = `${carpetaBase}/${nombreArchivo}`;
+    const blob = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST',
+      body: JSON.stringify({ content: base64, encoding: 'base64' }),
+    });
+    treeExtra.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+    (esImagen ? fotosPaths : videosPaths).push(path);
+  }
+  return { fotosPaths, videosPaths, treeExtra };
+}
+// Ultimo paso comun: sube el tree + commit + mueve la rama, a partir de
+// las entradas de arbol ya preparadas (los ficheros de datos + el
+// index.html + cualquier foto/video nuevo).
+async function ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, mensaje) {
+  const nuevoTree = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/trees`, {
+    method: 'POST', body: JSON.stringify({ base_tree: baseTreeSha, tree: treeEntries }),
+  });
+  const nuevoCommit = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/commits`, {
+    method: 'POST',
+    body: JSON.stringify({ message: mensaje, tree: nuevoTree.sha, parents: [latestCommitSha] }),
+  });
+  await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/refs/heads/${GH_BRANCH}`, {
+    method: 'PATCH', body: JSON.stringify({ sha: nuevoCommit.sha }),
+  });
+  return nuevoCommit.sha;
+}
+
 function abrirModalNuevoAnuncio() {
   if (!esAdmin()) return;
   ['na-titulo','na-precio','na-comunidad','na-municipio','na-descripcion'].forEach(id => {
@@ -9203,46 +9538,10 @@ async function publicarNuevoAnuncioDesdeWeb() {
   btn.disabled = true;
   try {
     _naSetEstado('Leyendo el repositorio...', '');
-    const refData = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/refs/heads/${GH_BRANCH}`);
-    const latestCommitSha = refData.object.sha;
-    const latestCommit = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/commits/${latestCommitSha}`);
-    const baseTreeSha = latestCommit.tree.sha;
-    const treeCompleto = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/trees/${baseTreeSha}?recursive=1`);
-    if (treeCompleto.truncated) {
-      throw new Error('El listado del repositorio es demasiado grande para leerlo entero (avisa para que lo arregle).');
-    }
-    const shaDe = (path) => {
-      const e = treeCompleto.tree.find(x => x.path === path);
-      return e ? e.sha : null;
-    };
+    const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
 
-    _naSetEstado('Descargando hoteles_cache.json...', '');
-    const shaCache = shaDe('hoteles_cache.json');
-    if (!shaCache) throw new Error('No encuentro hoteles_cache.json en el repositorio.');
-    const blobCache = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaCache}`);
-    const cache = JSON.parse(b64ToUtf8(blobCache.content));
-
-    _naSetEstado('Descargando la plantilla de la web...', '');
-    const shaTemplate = shaDe('index_template.html');
-    if (!shaTemplate) throw new Error('No encuentro index_template.html en el repositorio.');
-    const blobTemplate = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaTemplate}`);
-    const template = b64ToUtf8(blobTemplate.content);
-
-    let retirados = [];
-    const shaRet = shaDe('retirados_historico.json');
-    if (shaRet) {
-      const blobRet = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaRet}`);
-      try {
-        const r = JSON.parse(b64ToUtf8(blobRet.content));
-        retirados = Array.isArray(r) ? r : Object.values(r);
-      } catch (e) { /* si viene raro, seguimos sin retirados historicos */ }
-    }
-    let adrJson = '{}';
-    const shaAdr = shaDe('adr_benchmark.json');
-    if (shaAdr) {
-      const blobAdr = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs/${shaAdr}`);
-      adrJson = b64ToUtf8(blobAdr.content).trim() || '{}';
-    }
+    _naSetEstado('Descargando los datos actuales...', '');
+    const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
 
     // ID/URL interna unica para esta ficha (no es un anuncio real de portal)
     const idBase = slugManual(titulo).slice(0, 50);
@@ -9257,32 +9556,9 @@ async function publicarNuevoAnuncioDesdeWeb() {
       carpetaMedia = `${idBase}_${contador}`;
     }
 
-    // Subir fotos/videos como blobs (git data API)
-    const fotosPaths = [], videosPaths = [];
-    const treeExtra = [];
-    let idxFoto = 0, idxVideo = 0;
-    for (const file of archivos) {
-      const esImagen = file.type.startsWith('image/');
-      const esVideo = file.type.startsWith('video/');
-      if (!esImagen && !esVideo) continue;
-      _naSetEstado(`Subiendo ${file.name}...`, '');
-      let dataUrl;
-      if (esImagen) { idxFoto++; dataUrl = await comprimirImagen(file); }
-      else { idxVideo++; dataUrl = await leerArchivoComoDataURL(file); }
-      const base64 = dataUrl.split(',')[1];
-      const extOriginal = (file.name.split('.').pop() || '').toLowerCase();
-      const ext = esImagen ? 'jpg' : (extOriginal || 'mp4');
-      const nombreBase = slugManual(file.name.replace(/\.[^.]+$/, ''));
-      const idx = esImagen ? idxFoto : idxVideo;
-      const nombreArchivo = `${String(idx).padStart(2, '0')}_${nombreBase}.${ext}`;
-      const path = `fotos_manuales/${carpetaMedia}/${nombreArchivo}`;
-      const blob = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
-        method: 'POST',
-        body: JSON.stringify({ content: base64, encoding: 'base64' }),
-      });
-      treeExtra.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
-      (esImagen ? fotosPaths : videosPaths).push(path);
-    }
+    const { fotosPaths, videosPaths, treeExtra } = await ghSubirMedia(
+      archivos, `fotos_manuales/${carpetaMedia}`, _naSetEstado
+    );
 
     // Construir la nueva entrada y el cache completo
     const entrada = {
@@ -9298,15 +9574,7 @@ async function publicarNuevoAnuncioDesdeWeb() {
     cache.push(entrada);
 
     _naSetEstado('Generando la web (index.html)...', '');
-    const activos = cache.filter(h => h.estado !== 'Retirado');
-    const activosUrls = new Set(activos.map(h => h.url));
-    const histRetiradosByUrl = {};
-    retirados.forEach(r => { if (r && r.url) histRetiradosByUrl[r.url] = r; });
-    const retiradosFinal = Object.values(histRetiradosByUrl).filter(r => !activosUrls.has(r.url));
-
-    let html = template.replace('__LISTINGS_JSON__', JSON.stringify(activos));
-    html = html.replace('__RETIRADOS_JSON__', JSON.stringify(retiradosFinal));
-    html = html.replace('__ADR_BENCHMARK_JSON__', adrJson);
+    const html = ghConstruirIndexHtml(template, cache, retirados, adrJson, offmarket);
 
     _naSetEstado('Subiendo hoteles_cache.json e index.html (puede tardar un poco)...', '');
     const blobCacheNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
@@ -9321,21 +9589,9 @@ async function publicarNuevoAnuncioDesdeWeb() {
       { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
       ...treeExtra,
     ];
-    const nuevoTree = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/trees`, {
-      method: 'POST', body: JSON.stringify({ base_tree: baseTreeSha, tree: treeEntries }),
-    });
 
     _naSetEstado('Creando el commit...', '');
-    const nuevoCommit = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/commits`, {
-      method: 'POST',
-      body: JSON.stringify({
-        message: `Anuncio manual (desde la web): ${titulo}`,
-        tree: nuevoTree.sha, parents: [latestCommitSha],
-      }),
-    });
-    await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/refs/heads/${GH_BRANCH}`, {
-      method: 'PATCH', body: JSON.stringify({ sha: nuevoCommit.sha }),
-    });
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Anuncio manual (desde la web): ${titulo}`);
 
     // Reflejar el cambio YA en este navegador, sin esperar al deploy de Pages
     HOTELES.push(entrada);
@@ -9355,6 +9611,267 @@ async function publicarNuevoAnuncioDesdeWeb() {
     btn.disabled = false;
   }
 }
+
+// ══════════════════════════════════════════════════════
+// OFF-MARKET -- oportunidades que nos ofrecen directamente operadores/
+// agentes, fuera de cualquier portal. Viven en offmarket_cache.json (nunca
+// en hoteles_cache.json) y se publican con el mismo mecanismo de token de
+// GitHub que "+ Nuevo anuncio". Reutilizan toda la ficha de detalle
+// (fotos, videos, seguimiento, analisis DCF...) porque esa parte de la web
+// ya funciona por URL, no por pertenecer a HOTELES.
+// ══════════════════════════════════════════════════════
+function renderOffmarket() {
+  const raw = Array.isArray(OFFMARKET) ? OFFMARKET : [];
+  const kTotal = document.getElementById('om-k-total');
+  const kActivas = document.getElementById('om-k-activas');
+  const kFavs = document.getElementById('om-k-favs');
+  if (kTotal) kTotal.textContent = raw.length.toLocaleString('es-ES');
+  if (kActivas) kActivas.textContent = raw.filter(h => (h.estado || 'Activa') === 'Activa').length.toLocaleString('es-ES');
+  if (kFavs) kFavs.textContent = raw.filter(h => isFav(h.url)).length.toLocaleString('es-ES');
+
+  const badge = document.getElementById('om-fav-count-badge');
+  if (badge) { const n = raw.filter(h => isFav(h.url)).length; badge.textContent = n > 0 ? `(${n})` : ''; }
+
+  const q = (document.getElementById('om-search')?.value || '').trim().toLowerCase();
+  const estadoSel = document.getElementById('om-estado-select')?.value || 'todos';
+  const operacionSel = document.getElementById('om-operacion-select')?.value || 'todos';
+
+  let list = [...raw];
+  if (window._omFavFilter) list = list.filter(h => isFav(h.url));
+  if (estadoSel !== 'todos') list = list.filter(h => (h.estado || 'Activa') === estadoSel);
+  if (operacionSel !== 'todos') list = list.filter(h => getEffectiveOperacion(h) === operacionSel);
+  if (q) {
+    list = list.filter(h =>
+      (h.title || '').toLowerCase().includes(q) ||
+      (h.operador || '').toLowerCase().includes(q) ||
+      getEffectiveMunicipio(h).toLowerCase().includes(q) ||
+      getComunidadEfectiva(h).toLowerCase().includes(q) ||
+      (h.tipo || '').toLowerCase().includes(q)
+    );
+  }
+  list.sort((a, b) => (parseDate(b.date) || 0) - (parseDate(a.date) || 0));
+  window._lastRenderedListOffmarket = list;
+
+  const cnt = document.getElementById('om-results-count');
+  if (cnt) cnt.textContent = `${list.length} resultado${list.length !== 1 ? 's' : ''}`;
+
+  const body = document.getElementById('grid-offmarket');
+  if (!body) return;
+  if (!list.length) {
+    body.innerHTML = `<tr><td colspan="11"><div class="empty">
+      <div class="empty-title">Sin oportunidades todavía</div>
+      <div class="empty-sub">Añade la primera con "+ Nueva oportunidad"</div>
+    </div></td></tr>`;
+    return;
+  }
+
+  const ESTADO_CLASS = { Activa: 'om-badge-activa', Descartada: 'om-badge-descartada', Cerrada: 'om-badge-cerrada' };
+  const admin = esAdmin();
+
+  body.innerHTML = list.map((h, i) => {
+    const title = tasCleanTitle(h.title) || 'Oportunidad off-market';
+    const url = (h.url || '').replace(/'/g, "\\'");
+    const rooms = getEffectiveRooms(h);
+    const estado = h.estado || 'Activa';
+    const estadoHtml = admin ? `
+      <select class="om-estado-inline" onclick="event.stopPropagation()" onchange="event.stopPropagation();cambiarEstadoOffmarket('${url}', this.value)">
+        <option value="Activa" ${estado === 'Activa' ? 'selected' : ''}>Activa</option>
+        <option value="Descartada" ${estado === 'Descartada' ? 'selected' : ''}>Descartada</option>
+        <option value="Cerrada" ${estado === 'Cerrada' ? 'selected' : ''}>Cerrada</option>
+      </select>` : `<span class="om-badge ${ESTADO_CLASS[estado] || 'om-badge-activa'}">${estado}</span>`;
+    return `<tr>
+      <td><button class="hotel-row-fav${isFav(h.url) ? ' saved' : ''}" onclick="event.stopPropagation();toggleFav('${url}',this);renderOffmarket()" title="Guardar">${isFav(h.url) ? '★' : '☆'}</button></td>
+      <td><div class="hotel-row-title" title="${title.replace(/"/g, '&quot;')}">${title}</div></td>
+      <td>${h.operador || '—'}</td>
+      <td>${getEffectiveTipo(h) || '—'}</td>
+      <td>${operacionBadgeHtml(h)}</td>
+      <td>${getComunidadEfectiva(h) || '—'}</td>
+      <td>${getEffectiveMunicipio(h) || '—'}</td>
+      <td>${rooms || '—'}</td>
+      <td class="hotel-row-price">${getEffectivePrecioStr(h, '—')}</td>
+      <td>${estadoHtml}</td>
+      <td>${h.date || '—'}</td>
+      <td>
+        <div class="hotel-row-actions">
+          <button class="btn-tasacion" onclick="event.stopPropagation();window._lastRenderedList=window._lastRenderedListOffmarket;openDetailPage(${i})">Ver ficha</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function toggleOmFavFilter() {
+  window._omFavFilter = !window._omFavFilter;
+  const btn = document.getElementById('om-fav-toggle');
+  if (btn) btn.classList.toggle('on', window._omFavFilter);
+  renderOffmarket();
+}
+
+function abrirModalOffmarket() {
+  if (!esAdmin()) return;
+  ['om-titulo','om-operador','om-precio','om-comunidad','om-municipio','om-descripcion'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const tipoEl = document.getElementById('om-tipo'); if (tipoEl) tipoEl.value = '';
+  const habEl = document.getElementById('om-habitaciones'); if (habEl) habEl.value = '';
+  const m2El = document.getElementById('om-m2'); if (m2El) m2El.value = '';
+  const mediaEl = document.getElementById('om-media'); if (mediaEl) mediaEl.value = '';
+  _omSetEstado('', '');
+  document.getElementById('om-modal').classList.add('open');
+}
+function cerrarModalOffmarket() {
+  document.getElementById('om-modal').classList.remove('open');
+}
+function _omSetEstado(msg, tipo) {
+  const el = document.getElementById('om-status');
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'na-status' + (tipo ? ' ' + tipo : '');
+}
+
+async function publicarOffmarketDesdeWeb() {
+  if (!esAdmin()) return;
+  const titulo = (document.getElementById('om-titulo').value || '').trim();
+  const comunidad = (document.getElementById('om-comunidad').value || '').trim();
+  const municipio = (document.getElementById('om-municipio').value || '').trim();
+  if (!titulo || !comunidad || !municipio) {
+    _omSetEstado('Faltan datos: nombre, comunidad y municipio son obligatorios.', 'err');
+    return;
+  }
+  if (!getGithubToken()) {
+    cambiarGithubToken();
+    if (!getGithubToken()) { _omSetEstado('Hace falta el token de GitHub para publicar.', 'err'); return; }
+  }
+
+  const operador = (document.getElementById('om-operador').value || '').trim();
+  const tipo = (document.getElementById('om-tipo').value || '').trim() || 'Alojamiento (n.d.)';
+  const operacion = document.getElementById('om-operacion').value;
+  const roomsVal = parseInt(document.getElementById('om-habitaciones').value, 10);
+  const m2Val = parseInt(document.getElementById('om-m2').value, 10);
+  const precio = (document.getElementById('om-precio').value || '').trim();
+  const descripcion = (document.getElementById('om-descripcion').value || '').trim();
+  const archivos = Array.from(document.getElementById('om-media').files || []);
+
+  const btn = document.getElementById('om-btn-publicar');
+  btn.disabled = true;
+  try {
+    _omSetEstado('Leyendo el repositorio...', '');
+    const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
+
+    _omSetEstado('Descargando los datos actuales...', '');
+    const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
+
+    const idBase = slugManual(titulo).slice(0, 50);
+    const omByUrl = {};
+    offmarket.forEach(it => { if (it.url) omByUrl[it.url] = it; });
+    let urlOm = `#offmarket-${idBase}`;
+    let contador = 1;
+    let carpetaMedia = idBase;
+    while (omByUrl[urlOm]) {
+      contador++;
+      urlOm = `#offmarket-${idBase}-${contador}`;
+      carpetaMedia = `${idBase}_${contador}`;
+    }
+
+    const { fotosPaths, videosPaths, treeExtra } = await ghSubirMedia(
+      archivos, `fotos_offmarket/${carpetaMedia}`, _omSetEstado
+    );
+
+    const entrada = {
+      title: titulo, operador, price: precio || '', location: municipio, location_region: comunidad,
+      description: descripcion, url: urlOm, tipo, estado: 'Activa', date: fechaHoyDDMMYYYY(),
+      operacion_detectada: operacion,
+    };
+    if (!isNaN(roomsVal) && roomsVal > 0) entrada.rooms = roomsVal;
+    if (!isNaN(m2Val) && m2Val > 0) entrada.m2 = m2Val;
+    if (fotosPaths.length) entrada.fotos_url = fotosPaths;
+    if (videosPaths.length) entrada.videos = videosPaths;
+    offmarket.push(entrada);
+
+    _omSetEstado('Generando la web (index.html)...', '');
+    const html = ghConstruirIndexHtml(template, cache, retirados, adrJson, offmarket);
+
+    _omSetEstado('Subiendo offmarket_cache.json e index.html...', '');
+    const blobOmNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(offmarket, null, 1), encoding: 'utf-8' }),
+    });
+    const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
+    });
+
+    const treeEntries = [
+      { path: 'offmarket_cache.json', mode: '100644', type: 'blob', sha: blobOmNuevo.sha },
+      { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
+      ...treeExtra,
+    ];
+
+    _omSetEstado('Creando el commit...', '');
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Nueva oportunidad off-market: ${titulo}`);
+
+    OFFMARKET.push(entrada);
+    renderOffmarket();
+
+    _omSetEstado('Publicado. Tardara 1-2 minutos en verse para el resto (GitHub Pages tiene que desplegarlo) -- pero ya lo tienes en tu lista aqui mismo.', 'ok');
+    setTimeout(cerrarModalOffmarket, 2500);
+  } catch (err) {
+    console.error(err);
+    _omSetEstado(err.message || 'Ha fallado la publicacion.', 'err');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// Cambiar el estado (Activa/Descartada/Cerrada) de una oportunidad ya
+// publicada, desde el desplegable de la propia tabla -- sin abrir el
+// modal. Publica el cambio a GitHub igual que una publicacion nueva, pero
+// tocando solo offmarket_cache.json (sin fotos/videos que subir).
+async function cambiarEstadoOffmarket(url, nuevoEstado) {
+  if (!esAdmin()) return;
+  if (!getGithubToken()) {
+    cambiarGithubToken();
+    if (!getGithubToken()) {
+      alert('Hace falta el token de GitHub para guardar el cambio.');
+      renderOffmarket();
+      return;
+    }
+  }
+  const statusEl = document.getElementById('om-inline-status');
+  const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+  setStatus('Guardando...');
+  try {
+    const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
+    const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
+
+    const entrada = offmarket.find(o => o.url === url);
+    if (!entrada) throw new Error('No encuentro esa oportunidad en el repositorio (¿se subio ya el cambio desde otro sitio?).');
+    entrada.estado = nuevoEstado;
+
+    const html = ghConstruirIndexHtml(template, cache, retirados, adrJson, offmarket);
+
+    const blobOmNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(offmarket, null, 1), encoding: 'utf-8' }),
+    });
+    const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
+    });
+    const treeEntries = [
+      { path: 'offmarket_cache.json', mode: '100644', type: 'blob', sha: blobOmNuevo.sha },
+      { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
+    ];
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Off-market: ${entrada.title} -> ${nuevoEstado}`);
+
+    const local = OFFMARKET.find(o => o.url === url);
+    if (local) local.estado = nuevoEstado;
+    renderOffmarket();
+    setStatus('Guardado.');
+    setTimeout(() => setStatus(''), 2500);
+  } catch (err) {
+    console.error(err);
+    alert(err.message || 'No se ha podido guardar el cambio de estado.');
+    renderOffmarket();
+    setStatus('');
+  }
+}
+
 
 
 init();
