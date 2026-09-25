@@ -1169,7 +1169,7 @@ def subir_github(total):
         # existen de verdad antes de añadirlos, uno a uno.
         archivos_candidatos = ['index.html', 'hoteles_cache.json',
                                 'index_template.html', 'licencias_completo.json',
-                                'retirados_historico.json',
+                                'retirados_historico.json', 'offmarket_cache.json',
                                 'scraper.py', 'scraper_licencias.py', 'cruzar_licencias.js',
                                 'comprobar_licencias.py', 'comprobar_licencias.bat']
         archivos_a_subir = [a for a in archivos_candidatos if os.path.exists(a)]
@@ -3846,13 +3846,22 @@ if __name__ == '__main__':
     else:
         print('adr_benchmark.json no existe — tasación usará fallback INE')
 
+    # Oportunidades off-market (se suben a mano desde la propia web, este
+    # script nunca las toca -- solo las lee para que no desaparezcan del
+    # index.html que genera cada scrapeo automático).
+    offmarket = []
+    if os.path.exists('offmarket_cache.json'):
+        with open('offmarket_cache.json','r',encoding='utf-8') as fo:
+            offmarket = json.load(fo)
+
     html = template.replace('__LISTINGS_JSON__', json.dumps(todos_activos, ensure_ascii=False))
     html = html.replace('__RETIRADOS_JSON__', json.dumps(retirados_hist, ensure_ascii=False))
     html = html.replace('__ADR_BENCHMARK_JSON__', adr_benchmark_json)
+    html = html.replace('__OFFMARKET_JSON__', json.dumps(offmarket, ensure_ascii=False))
 
     with open('index.html','w',encoding='utf-8') as f:
         f.write(html)
-    print(f'index.html generado con {len(todos_activos)} activos + {len(retirados_hist)} retirados (comparables).')
+    print(f'index.html generado con {len(todos_activos)} activos + {len(retirados_hist)} retirados (comparables) + {len(offmarket)} oportunidades off-market.')
 
     # Licencias: se actualiza aparte, solo si toca esta semana (ver
     # ejecutar_licencias_si_toca — no es cada día). Va aquí, después de

@@ -20,6 +20,13 @@ jobs:
         with:
           python-version: '3.11'
 
+      # ── Node.js: lo usa cruzar_licencias.js (cruce automático anuncio↔
+      # licencia turística oficial, corre dentro de scraper.py en cada
+      # scrapeo) ───────────────────────────────────────────────────────────
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       # ── Chrome estable desde el canal oficial de Debian ──────────────────
       - name: Instalar Chrome estable
         run: |
@@ -55,7 +62,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add index.html hoteles_cache.json
+          git add index.html hoteles_cache.json offmarket_cache.json
           git diff --staged --quiet || \
             git commit -m "🏨 Actualización $(date +'%d/%m/%Y %H:%M UTC') — $(python -c 'import json; d=json.load(open(\"hoteles_cache.json\")); print(len(d),\"anuncios\")')"
           git push
