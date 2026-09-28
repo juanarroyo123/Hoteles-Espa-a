@@ -53,5 +53,19 @@
   "estado": "Activa",
   "date": "28/09/2026",
   "operacion_detectada": "traspaso"
+ },
+ {
+  "title": "Traspaso hostal 10 habitaciones + vivienda",
+  "operador": "Ecourbanización",
+  "price": "700000",
+  "location": "Sin ubicación",
+  "location_region": "Sin ubicación",
+  "description": "Zona prime, restaurante y coctelería premium.\nTraspaso: 700.000 €\nFacturación: 1,5 M€/año\n10 años de contrato",
+  "url": "#offmarket-traspaso_hostal_10_habitaciones_vivienda",
+  "tipo": "Hostal",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "traspaso",
+  "rooms": 10
  }
 ]
