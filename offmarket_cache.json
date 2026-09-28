@@ -325,5 +325,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "m2": 750
+ },
+ {
+  "title": "Venta hostal Granada 15 habitaciones",
+  "operador": "Ecourbanización (David)",
+  "price": "900.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "15 habitaciones: Variadas opciones que incluyen habitaciones con baños compartidos y otras con baño privado.\nPrecio: 900.000 €",
+  "url": "#offmarket-venta_hostal_granada_15_habitaciones",
+  "tipo": "Hostal",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 15
  }
 ]
