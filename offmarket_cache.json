@@ -67,5 +67,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "traspaso",
   "rooms": 10
+ },
+ {
+  "title": "Transpaso hotel boutique",
+  "operador": "Ecourbanización",
+  "price": "600000",
+  "location": "Sin ubicación",
+  "location_region": "Sin ubicación",
+  "description": "Hostal Boutique nuevo reformado y en explotación, buena puntuación en Booking \nTraspaso: 600.000 €\nAlquiler: 3.500 €/mes\nExtras: Parking y metro a 100 m",
+  "url": "#offmarket-transpaso_hotel_boutique",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "traspaso",
+  "rooms": 22
  }
 ]
