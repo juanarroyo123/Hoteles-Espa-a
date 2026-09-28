@@ -257,5 +257,18 @@
   "operacion_detectada": "venta",
   "rooms": 50,
   "m2": 500
+ },
+ {
+  "title": "Venta de Hotel 2 Estrellas – Cádiz (Con inquilino)",
+  "operador": "Ecourbanización (David)",
+  "price": "2.400.000",
+  "location": "Salamanca",
+  "location_region": "Castilla y León",
+  "description": "Estado: Venta\nDescripción: Rentabilidad inmediata\nPrecio: 2.400.000 €",
+  "url": "#offmarket-venta_de_hotel_2_estrellas_cadiz_con_inquilino",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta"
  }
 ]
