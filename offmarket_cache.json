@@ -284,5 +284,18 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 29
+ },
+ {
+  "title": "Venta Edificio para Hotel 4★ – 5.000 m²",
+  "operador": "Ecourbanización (David)",
+  "price": "12.000.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Estado: Edificio en Granada centro zona inmejorable para hotel de 4 estrellas\nDescripción: Proyecto de alta gama en ubicación estratégica\nPrecio: 12 millones",
+  "url": "#offmarket-venta_edificio_para_hotel_4_5_000_m2",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta"
  }
 ]
