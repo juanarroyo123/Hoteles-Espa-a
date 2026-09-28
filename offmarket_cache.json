@@ -82,5 +82,19 @@
   "operacion_detectada": "venta",
   "rooms": 4,
   "m2": 440
+ },
+ {
+  "title": "HOTEL COSTA BLANCA ALICANTE",
+  "operador": "Inmobiliaria Alicante (Fernando)",
+  "price": "1.795.000",
+  "location": "Sin ubicación",
+  "location_region": "Comunidad Valenciana",
+  "description": "Hotel pequeño y acogedor, con un trato familiar y ubicado en el pleno centro de una población turística de gran tradición marinera. Su privilegiada ubicación permite a los huéspedes explorar todos los encantos de la zona. El edificio tiene un total de cinco plantas. \n\nDistribución de Habitaciones y Áreas Comunes \n\nEl hotel dispone de un total de 30 habitaciones, distribuidas de la siguiente manera: \n• 7 habitaciones individuales. \n• 9 habitaciones de cama de matrimonio. \n• 12 habitaciones de dos camas. \n\nAdemás, cuenta con una serie de espacios y áreas de servicio:\n• Habitación para la ropa de cama: Una habitación dedicada al almacenamiento y gestión de la ropa de cama. \n• Habitación de suministros: Un espacio utilizado para guardar productos de limpieza, almohadas adicionales, lámparas, jaboncitos, vasos, etc.\n• Cuarto de taquillas: Ubicado en el pasillo de la primera planta, este cuarto contiene taquillas y es donde se gestiona la ropa para la lavandería. \n• Trastero para equipaje: Entre la primera planta y la recepción, hay un trastero donde los clientes pueden dejar sus maletas al llegar (si la habitación no está lista) o al marcharse. \n• Oficina: En la quinta planta, subiendo las escaleras hacia la terraza, se encuentra una habitación con baño que se usa como oficina. \n• Depósitos de agua: En el sótano, accesible a través de una pequeña puerta en la recepción, están los depósitos de agua, que en la actualidad se encuentran condenados.\n\nInformación Adicional \n• Altura del edificio: 5 plantas. \n• Tipo de venta: Se vende libre de gestión. \n\nLa oferta está sujeta a errores, cambios de precio, omisión o retirada del mercado sin aviso previo. Los gastos de transmisión patrimonial o IVA, notario y registro corren a cargo del comprador. Certificado energético en trámites. Por expreso deseo de la propiedad no se facilitarán datos sin la previa identificación del interesado. El anuncio está sujeto a errores, no es vinculante ni contractual.",
+  "url": "#offmarket-hotel_costa_blanca_alicante",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 30
  }
 ]
