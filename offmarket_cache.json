@@ -213,5 +213,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 5
+ },
+ {
+  "title": "Venta Palacete Histórico – Granada Centro",
+  "operador": "Ecourbanización (David)",
+  "price": "3.000.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Hotel Boutique con ubicación inmejorable en pleno centro de Granada para 29 habitaciones de lujo. Necesita Reforma integral\nEdificio histórico con gran potencial para hotel con encanto en ubicación prime\nPrecio: 3 millones",
+  "url": "#offmarket-venta_palacete_historico_granada_centro",
+  "tipo": "Hotel boutique",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 29
  }
 ]
