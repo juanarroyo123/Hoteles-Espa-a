@@ -185,5 +185,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "m2": 2
+ },
+ {
+  "title": "Venta Terreno urbano Hotelero o residencial Almeria",
+  "operador": "Ecourbanización (David)",
+  "price": "",
+  "location": "Almería",
+  "location_region": "Andalucía",
+  "description": "Terreno urbano primera linea de playa\nSuperficie 4.000 m2\nIdeal para proyecto hotelero o residencial",
+  "url": "#offmarket-venta_terreno_urbano_hotelero_o_residencial_almeri",
+  "tipo": "Terreno",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "m2": 4
  }
 ]
