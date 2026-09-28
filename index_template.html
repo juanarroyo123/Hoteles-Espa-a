@@ -1311,6 +1311,17 @@ header{
             <button class="det-btn-secondary" onclick="closeDetailPage()">← Volver al listado</button>
           </div>
         </div>
+        <!-- Oportunidad off-market: borrar. Solo se ve si esta ficha es una
+             oportunidad off-market y quien mira ha iniciado sesion como
+             admin (lo decide openDetailPage en JS). -->
+        <div class="det-sidebar-card" id="det-offmarket-card" style="display:none">
+          <div class="det-sidebar-title">Oportunidad off-market</div>
+          <div class="det-sidebar-body">
+            <div style="font-size:0.76rem;color:var(--muted);line-height:1.5;margin-bottom:0.8rem">Si esta oportunidad ya no procede (descartada, cerrada, duplicada...), puedes borrarla de la web.</div>
+            <button class="det-btn-secondary" id="det-btn-borrar-offmarket" onclick="borrarOffmarketDesdeFicha()" style="color:#a33;border-color:#a33">Borrar oportunidad</button>
+            <div id="det-om-status" style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem"></div>
+          </div>
+        </div>
         <!-- Estado Activo/Retirado (manual) -->
         <div class="det-sidebar-card" id="det-estado-card">
           <div class="det-sidebar-title">Estado en la web</div>
@@ -8838,6 +8849,11 @@ function openDetailPage(listIdx) {
   renderDocumentosManuales(h.url);
   renderVideosAnuncio(h.url);
   aplicarPermisosFicha();
+  const esOffmarketFicha = !!(h.url && h.url.indexOf('#offmarket-') === 0);
+  const detOmCard = document.getElementById('det-offmarket-card');
+  if (detOmCard) detOmCard.style.display = (esOffmarketFicha && esAdmin()) ? '' : 'none';
+  const detOmStatus = document.getElementById('det-om-status');
+  if (detOmStatus) detOmStatus.textContent = '';
 
   const price = getEffectivePrecioNum(h);
   const rooms = getEffectiveRooms(h);
@@ -9869,6 +9885,60 @@ async function cambiarEstadoOffmarket(url, nuevoEstado) {
     alert(err.message || 'No se ha podido guardar el cambio de estado.');
     renderOffmarket();
     setStatus('');
+  }
+}
+
+// Borrar por completo una oportunidad off-market desde su propia ficha
+// (p.ej. publicada por error, duplicada, o el operador la retira). Mismo
+// mecanismo de publicacion que el resto -- lee el repo, quita la entrada
+// de offmarket_cache.json, reconstruye index.html y sube un commit.
+async function borrarOffmarketDesdeFicha() {
+  const url = window._detCurrentUrl;
+  if (!url) return;
+  if (!esAdmin()) return;
+  const entradaLocal = OFFMARKET.find(o => o.url === url);
+  const nombre = (entradaLocal && entradaLocal.title) || 'esta oportunidad';
+  if (!confirm(`¿Borrar "${nombre}" de la web? No se puede deshacer.`)) return;
+  if (!getGithubToken()) {
+    cambiarGithubToken();
+    if (!getGithubToken()) { alert('Hace falta el token de GitHub para borrarla.'); return; }
+  }
+  const btn = document.getElementById('det-btn-borrar-offmarket');
+  const statusEl = document.getElementById('det-om-status');
+  const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+  if (btn) btn.disabled = true;
+  setStatus('Borrando...');
+  try {
+    const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
+    const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
+
+    const quedan = offmarket.filter(o => o.url !== url);
+    if (quedan.length === offmarket.length) throw new Error('No encuentro esa oportunidad en el repositorio (¿se borro ya desde otro sitio?).');
+
+    const html = ghConstruirIndexHtml(template, cache, retirados, adrJson, quedan);
+
+    const blobOmNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(quedan, null, 1), encoding: 'utf-8' }),
+    });
+    const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
+    });
+    const treeEntries = [
+      { path: 'offmarket_cache.json', mode: '100644', type: 'blob', sha: blobOmNuevo.sha },
+      { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
+    ];
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Off-market: borrar ${nombre}`);
+
+    const idxLocal = OFFMARKET.findIndex(o => o.url === url);
+    if (idxLocal !== -1) OFFMARKET.splice(idxLocal, 1);
+    setStatus('Borrada.');
+    closeDetailPage();
+    renderOffmarket();
+  } catch (err) {
+    console.error(err);
+    alert(err.message || 'No se ha podido borrar la oportunidad.');
+    setStatus('');
+    if (btn) btn.disabled = false;
   }
 }
 
