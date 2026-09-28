@@ -12,5 +12,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "traspaso",
   "rooms": 13
+ },
+ {
+  "title": "Edificio 13 apartamentos turísiticos",
+  "operador": "Ecourbanización",
+  "price": "140000",
+  "location": "Granada",
+  "location_region": "Granada",
+  "description": "7 apartamentos de 2 dormitorios\n5 estudios\n1 apartamento de 1 dormitorio\nContrato: 10 años (prorrogables)\nReputación : valoración de 7,5 en booking (cartera de clientes activa)",
+  "url": "#offmarket-edificio_13_apartamentos_turisiticos-2",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "traspaso",
+  "rooms": 13
  }
 ]
