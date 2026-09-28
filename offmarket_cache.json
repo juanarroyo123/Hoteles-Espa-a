@@ -96,5 +96,20 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 30
+ },
+ {
+  "title": "Hotel totalmente reformado en la Costa Blanca",
+  "operador": "Inmobiliaria Alicante (Fernando)",
+  "price": "1.800.000",
+  "location": "Sin ubicación",
+  "location_region": "Comunidad Valenciana",
+  "description": "Excelente oportunidad de adquisición de un activo hotelero llave en mano en una de las zonas con mayor demanda turística de la costa alicantina. El inmueble ha sido objeto de una reforma integral reciente, adaptándose minuciosamente a todos los estándares normativos de habitabilidad, seguridad, eficiencia energética y accesibilidad universal.\n\n El edificio cuenta con una superficie total construida de 1.031,80 m² y presenta una distribución óptima diseñada para maximizar la operatividad del personal y garantizar una experiencia de confort exclusiva para los huéspedes. Su joya principal es la terraza superior, orientada a ofrecer vistas panorámicas espectaculares del entorno costero. \n\nDistribución del Inmueble \nPlanta / Nivel: Descripción de Usos e Instalaciones Sótano Zona técnica y logística: Almacén general, bodega, depósitos de reserva de agua y sala de máquinas central. \nPlanta Baja Área pública y de servicios: Recepción principal, vestíbulo de bienvenida, cocina industrial equipada, bar-salón comedor, aseos de cortesía adaptados, cámaras frigoríficas y accesos principales de personal y mercancías. \nPlantas 1ª a 4ª Zona alojativa: Un total de 20 habitaciones (configuradas en modalidades sencillas y dobles), lencería y cuartos de servicio por planta, vestuarios para el personal, núcleo de escaleras y ascensor de última generación. \nCubierta Área de ocio y esparcimiento: Terraza transitable acondicionada como zona de copas y bar lounge, trastero auxiliar y salas técnicas exteriores de climatización. \n\nInstalaciones Especiales y Reforma Integral: La actualización constructiva del hotel se ha ejecutado bajo los criterios más estrictos de calidad y sostenibilidad. Las principales actuaciones e instalaciones técnicas con las que cuenta el activo incluyen: \nInfraestructura Eléctrica de Baja Tensión: Nueva instalación eléctrica exclusiva para el hotel, dimensionada para garantizar el pleno rendimiento sin caídas de tensión. \nEficiencia Energética y Climatización: Sistema de aire acondicionado eficiente complementado con un sistema avanzado de aerotermia y recuperación de calor. \nSeguridad y Videovigilancia: Circuito cerrado de televisión (CCTV) con videovigilancia activa en todas las plantas y accesos principales. \nProtección Contra Incendios: Sistema integral de seguridad y extinción plenamente adecuado a la normativa técnica actual. \nAccesibilidad y Cierres: Instalación de un nuevo ascensor y carpintería técnica con puertas adaptadas según la normativa vigente de habitabilidad. \n\nSituación Jurídica y Licencias; El establecimiento cuenta con la correspondientes licencia de actividad en vigor, lo que permite al comprador una continuidad operativa de inmediato. Al entregarse libre de operadores o contratos de gestión previos, ofrece una excelente flexibilidad tanto para cadenas hoteleras como para inversores independientes.",
+  "url": "#offmarket-hotel_totalmente_reformado_en_la_costa_blanca",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 20,
+  "m2": 1031
  }
 ]
