@@ -227,5 +227,20 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 29
+ },
+ {
+  "title": "Venta de Edificio en el Albayzín",
+  "operador": "Ecourbanización (David)",
+  "price": "3.000.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Edificio frente a la Alhambra 1.000 metros de techo ideal hotel de lujo\n10 habitaciones con vistas a la Alhambra\nRestaurante\nZona museo\nZona tiendas\nParking de varios vehículos y zona de descarga\nAscensor y patios\nPrecio: 3 millones",
+  "url": "#offmarket-venta_de_edificio_en_el_albayzin",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 10,
+  "m2": 1
  }
 ]
