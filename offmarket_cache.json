@@ -26,5 +26,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "traspaso",
   "rooms": 13
+ },
+ {
+  "title": "Traspaso Sierra Nevada, sociedad limitada",
+  "operador": "Ecourbanización",
+  "price": "120000",
+  "location": "Sierra Nevada",
+  "location_region": "Granada",
+  "description": "Tipo: Traspaso del 100 % de la sociedad\nActivos: 20 apartamentos distribuidos por la estación de esquí con licencia AT en vigor\nModelo de negocio: Contratos anuales renovables con derecho legal de subarriendo\nExplotación: Alta rentabilidad concentrada en 6 meses de temporada\nRentabilidad: Beneficios demostrables · Amortización estimada ~1 año\nEstado: Negocio activo y consolidado",
+  "url": "#offmarket-traspaso_sierra_nevada_sociedad_limitada",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "traspaso",
+  "rooms": 20
  }
 ]
