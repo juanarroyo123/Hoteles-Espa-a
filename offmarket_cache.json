@@ -395,5 +395,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "m2": 750
+ },
+ {
+  "title": "Venta Edificio 4 estudios Calle Mesones",
+  "operador": "Ecourbanización (David)",
+  "price": "440.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "4 estudios completamente equipados y decorados\nPrecio: 440.000 €",
+  "url": "#offmarket-venta_edificio_4_estudios_calle_mesones",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 4
  }
 ]
