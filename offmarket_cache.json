@@ -381,5 +381,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 12
+ },
+ {
+  "title": "Venta Edificio Calle Elvira 750 m2",
+  "operador": "Ecourbanización (David)",
+  "price": "1.000.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Edificio de 750 m2 y 3 plantas\nPerfecto para transformar en un espacio residencial, turístico y comercial, ajustándose a las demandas del mercado actual.\nPrecio: 1 millón",
+  "url": "#offmarket-venta_edificio_calle_elvira_750_m2",
+  "tipo": "Edificio",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "m2": 750
  }
 ]
