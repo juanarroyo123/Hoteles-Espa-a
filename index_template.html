@@ -620,6 +620,16 @@ header{
 }
 .btn-tasacion:hover{background:var(--green-light)}
 
+/* ══ BOTON "CARGAR MAS" (paginacion de tablas grandes) ═══════════ */
+.btn-cargar-mas{
+  font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--green);background:#fff;
+  border:1px solid var(--green);padding:0.55rem 1.4rem;cursor:pointer;font-weight:700;
+  transition:all 0.15s;
+}
+.btn-cargar-mas:hover{background:var(--green);color:#fff}
+.load-more-row td{padding:1.1rem 0.5rem!important;background:var(--surface)}
+
 /* ══ MODAL TASACIÓN ═══════════════════════════════════════ */
 .tas-overlay{
   display:none;position:fixed;inset:0;background:rgba(10,8,6,0.72);
@@ -2194,6 +2204,11 @@ header{
 </div>
 
 <script>
+// Una sola copia del JSON de activos -- HOTELES (filtrado/limpio para la
+// tabla) y HOTELES_RAW_PARA_EXCEL (sin tocar, para el Excel) parten de
+// esta MISMA copia en vez de incrustarse cada uno la suya (antes el
+// mismo bloque de datos iba DOS veces en la pagina, sin necesidad).
+const HOTELES_RAW = __LISTINGS_JSON__;
 const HOTELES = (function(raw) {
   const SPAM = ['404','página no encontrada','page not found','property for sale',
                 'property for rent','i want to advertise','advertise on think',
@@ -2290,7 +2305,7 @@ const HOTELES = (function(raw) {
 
     return { ...h, title, price, location: loc };
   });
-})(__LISTINGS_JSON__);
+})(HOTELES_RAW);
 
 // URLs actualmente activas (ya filtradas de spam/retirados arriba). Se usa
 // para depurar favoritos guardados de anuncios que ya no existen/activos.
@@ -2298,7 +2313,7 @@ const HOTELES_URLS = new Set(HOTELES.map(h => h.url).filter(Boolean));
 
 // Anuncios ACTIVOS (el scraper ya excluye los "Retirado"): son los que van
 // a la hoja OFERTAS TOTALES del Excel.
-const HOTELES_RAW_PARA_EXCEL = __LISTINGS_JSON__;
+const HOTELES_RAW_PARA_EXCEL = HOTELES_RAW;
 
 // Histórico PERMANENTE de anuncios retirados (comparables). Se acumula en
 // retirados_historico.json y nunca se borra. Va a su propia hoja del Excel.
@@ -3708,9 +3723,12 @@ function getFiltered() {
   return list;
 }
 
-function render() {
+const GRID_PAGE_SIZE = 150;
+function render(mantenerPagina) {
   const list = getFiltered();
   window._lastRenderedList = list;
+  if (!mantenerPagina) window._gridPageHoteles = GRID_PAGE_SIZE;
+  const limiteHoteles = window._gridPageHoteles || GRID_PAGE_SIZE;
   const grid = document.getElementById('grid');
   const countEl = document.getElementById('date-count');
   if (countEl) countEl.textContent = dateFilter !== 'all' ? `${list.length} resultado${list.length!==1?'s':''}` : '';
@@ -3735,7 +3753,8 @@ function render() {
     'milanuncios':'badge-milanuncios','negociostraspaso':'badge-negociostraspaso',
   };
 
-  grid.innerHTML = list.map((h, i) => {
+  const listVisible = list.slice(0, limiteHoteles);
+  grid.innerHTML = listVisible.map((h, i) => {
     const srcKey    = (h.source||'otro').toLowerCase().replace(/[^a-z]/g,'');
     const badgeClass = BADGE[srcKey] || 'badge-otro';
     const fechaRel   = getFechaRelativa(h.date);
@@ -3797,9 +3816,18 @@ function render() {
         </div>
       </td>
     </tr>`;
-  }).join('');
+  }).join('') + (list.length > limiteHoteles ? `<tr class="load-more-row"><td colspan="14" style="text-align:center">
+    <button class="btn-cargar-mas" onclick="cargarMasHoteles()">Cargar ${Math.min(GRID_PAGE_SIZE, list.length - limiteHoteles)} más (quedan ${(list.length - limiteHoteles).toLocaleString('es-ES')} de ${list.length.toLocaleString('es-ES')})</button>
+  </td></tr>` : '');
 
   if (mapVisible) refreshMap();
+}
+// Muestra el siguiente bloque de la tabla de Hoteles en venta sin repetir
+// el filtrado/orden -- render(true) reutiliza la pagina actual en vez de
+// volver a la primera (eso solo pasa cuando cambia un filtro/busqueda).
+function cargarMasHoteles() {
+  window._gridPageHoteles = (window._gridPageHoteles || GRID_PAGE_SIZE) + GRID_PAGE_SIZE;
+  render(true);
 }
 
 function getFechaRelativa(str) {
@@ -8734,8 +8762,10 @@ function toggleRetFavFilter() {
   if (btn) btn.classList.toggle('on', window._retFavFilter);
   renderRetiradas();
 }
-function renderRetiradas() {
+function renderRetiradas(mantenerPagina) {
   const arr = getEffectiveRetirados();
+  if (!mantenerPagina) window._gridPageRetiradas = GRID_PAGE_SIZE;
+  const limiteRetiradas = window._gridPageRetiradas || GRID_PAGE_SIZE;
   const kTotal = document.getElementById('ret-k-total');
   const kFavs = document.getElementById('ret-k-favs');
   if (kTotal) kTotal.textContent = arr.length.toLocaleString('es-ES');
@@ -8790,7 +8820,8 @@ function renderRetiradas() {
     'milanuncios':'badge-milanuncios','negociostraspaso':'badge-negociostraspaso',
   };
 
-  body.innerHTML = list.map((h, i) => {
+  const listRetVisible = list.slice(0, limiteRetiradas);
+  body.innerHTML = listRetVisible.map((h, i) => {
     const srcKey = (h.source || 'otro').toLowerCase().replace(/[^a-z]/g, '');
     const badgeClass = BADGE[srcKey] || 'badge-otro';
     const title = tasCleanTitle(h.title) || 'Hotel (retirado)';
@@ -8799,7 +8830,7 @@ function renderRetiradas() {
     const m2Efectivo = getEffectiveM2(h);
     const superficie = m2Efectivo ? `${m2Efectivo} m²` : '—';
     return `<tr>
-      <td><button class="hotel-row-fav${isFav(h.url) ? ' saved' : ''}" onclick="event.stopPropagation();toggleFav('${url}',this);renderRetiradas()" title="Guardar">${isFav(h.url) ? '★' : '☆'}</button></td>
+      <td><button class="hotel-row-fav${isFav(h.url) ? ' saved' : ''}" onclick="event.stopPropagation();toggleFav('${url}',this);renderRetiradas(true)" title="Guardar">${isFav(h.url) ? '★' : '☆'}</button></td>
       <td><div class="hotel-row-title" title="${title.replace(/"/g, '&quot;')}">${title}</div></td>
       <td>${trackingColumnHtml(h.url)}</td>
       <td>${getEffectiveTipo(h) || '—'}</td>
@@ -8818,7 +8849,13 @@ function renderRetiradas() {
         </div>
       </td>
     </tr>`;
-  }).join('');
+  }).join('') + (list.length > limiteRetiradas ? `<tr class="load-more-row"><td colspan="13" style="text-align:center">
+    <button class="btn-cargar-mas" onclick="cargarMasRetiradas()">Cargar ${Math.min(GRID_PAGE_SIZE, list.length - limiteRetiradas)} más (quedan ${(list.length - limiteRetiradas).toLocaleString('es-ES')} de ${list.length.toLocaleString('es-ES')})</button>
+  </td></tr>` : '');
+}
+function cargarMasRetiradas() {
+  window._gridPageRetiradas = (window._gridPageRetiradas || GRID_PAGE_SIZE) + GRID_PAGE_SIZE;
+  renderRetiradas(true);
 }
 
 
