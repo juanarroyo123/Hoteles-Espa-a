@@ -242,5 +242,20 @@
   "operacion_detectada": "venta",
   "rooms": 10,
   "m2": 1
+ },
+ {
+  "title": "Venta Hostel Salamanca – 50 camas",
+  "operador": "Ecourbanización (David)",
+  "price": "600.000",
+  "location": "Salamanca",
+  "location_region": "Castilla y León",
+  "description": "Local en planta baja con reforma al 80% para Hostel de 50 plazas\nPrecio: 600.000 €\nEstado: En reforma · 500 m² · Posibilidad de Parking 27 plazas",
+  "url": "#offmarket-venta_hostel_salamanca_50_camas",
+  "tipo": "Hostal",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 50,
+  "m2": 500
  }
 ]
