@@ -339,5 +339,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 15
+ },
+ {
+  "title": "Venta Hostel Granada centro de 30 habitaciones y terraz",
+  "operador": "Ecourbanización (David)",
+  "price": "1.700.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "27 habitaciones: Diseñadas para ofrecer comodidad y funcionalidad.\nBaños compartidos: Optimizados para el uso eficiente de los espacios.\nCafetería: Un espacio ideal para que los huéspedes disfruten de comidas y bebidas.\nTerraza de copas y cenas: Perfecta para crear un ambiente social y atractivo.\nPrecio: 1.7 millones",
+  "url": "#offmarket-venta_hostel_granada_centro_de_30_habitaciones_y_t",
+  "tipo": "Hostal",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 27
  }
 ]
