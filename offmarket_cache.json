@@ -126,5 +126,20 @@
   "operacion_detectada": "venta",
   "rooms": 43,
   "m2": 1172
+ },
+ {
+  "title": "Hostal 35 habitaciones Benidorm",
+  "operador": "Inmobiliaria Alicante (Fernando)",
+  "price": "3.500.000",
+  "location": "Benidorm",
+  "location_region": "Comunidad Valenciana",
+  "description": "",
+  "url": "#offmarket-hostal_35_habitaciones_benidorm",
+  "tipo": "Hostal",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 43,
+  "m2": 961
  }
 ]
