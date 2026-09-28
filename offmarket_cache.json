@@ -111,5 +111,20 @@
   "operacion_detectada": "venta",
   "rooms": 20,
   "m2": 1031
+ },
+ {
+  "title": "Hotel 43 habitaciones Benidorm",
+  "operador": "Inmobiliaria Alicante (Fernando)",
+  "price": "4.500.000",
+  "location": "Benidorm",
+  "location_region": "Comunidad Valenciana",
+  "description": "Situado en la zona del centro de Benidorm a 200 metros de la zona peatonal del casco antiguo y a 300 metros de la playa del Poniente.\n\nCaracterísiticas:\nHotel 2 estrellas de 7 alturas. Cuenta con 43 habitaciones con capacidad de 115 personas:\n- 22 habitaciones dobles (15 con balcón)\n- 13 habitaciones triples (11 con balcón)\n- 8 habitaciones familiares (todas con balcón)\n\nCuenta con diversas instalaciones:\n- Planta baja: recepción, entrada principal, entrada auxiliar con rampa, habitación adaptada, almacen\n- Planta semisotano: sala de estar; estudio equipado con cocina y baño, sala de máquinas, almacén.\nSéptima planta: solarium",
+  "url": "#offmarket-hotel_43_habitaciones_benidorm",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 43,
+  "m2": 1172
  }
 ]
