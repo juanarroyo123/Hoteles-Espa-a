@@ -311,5 +311,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 50
+ },
+ {
+  "title": "Venta de Carmen Bajo Albaycin 750 m2 jardín vistas a la alhambra",
+  "operador": "Ecourbanización (David)",
+  "price": "2.000.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Carmen en el Albaycin con 750 m de techo y jardín\nIdeal para Apartamentos turísticos, Hotel con encanto, Negocio de turismo de alta calidad\nPrecio: 2 millones",
+  "url": "#offmarket-venta_de_carmen_bajo_albaycin_750_m2_jardin_vistas",
+  "tipo": "Edificio",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "m2": 750
  }
 ]
