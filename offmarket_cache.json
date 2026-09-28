@@ -199,5 +199,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "m2": 4
+ },
+ {
+  "title": "Venta Edificio de Apartamentos",
+  "operador": "Ecourbanización (David)",
+  "price": "995.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Edificio de 5 apartamentos en el corazón de Granada 2 con licencia turística\nCocina completamente equipada\nCuarto de baño completo\nEstancias muy luminosas\n Precio de venta: 995.000 €",
+  "url": "#offmarket-venta_edificio_de_apartamentos",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 5
  }
 ]
