@@ -353,5 +353,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 27
+ },
+ {
+  "title": "Venta de Edificio de 10 apartamentos todos con vistas a la Alhambra",
+  "operador": "Ecourbanización (David)",
+  "price": "1.700.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "10 apartamentos de lujo con baño privado\nZona de restaurante y terraza con vistas a la Alhambra\nPatio interior y piscina, cuenta con ascensor\nZona de tienda y museo\nParking para 3 vehiculos\nPrecio: 3 millones",
+  "url": "#offmarket-venta_de_edificio_de_10_apartamentos_todos_con_vis",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 10
  }
 ]
