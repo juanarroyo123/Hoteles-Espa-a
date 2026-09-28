@@ -171,5 +171,19 @@
   "operacion_detectada": "venta",
   "rooms": 15,
   "m2": 6000
+ },
+ {
+  "title": "Venta de edificio en Gran Vía",
+  "operador": "Ecourbanización (David)",
+  "price": "3.500.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Edificio totalmente vacío limpio de inquilinos y reparado estructuralmente y con la división Horizontal\nListo para iniciar la reforma con un precio objetivo de 4.500 euros el metro\nPosibilidad de hacer plazas de parking, locales comerciales, pisos de 100 metros y ático con terraza y vistas a la Alhambra\nPrecio 3,5 millones\nSe entrega listo para iniciar la reforma",
+  "url": "#offmarket-venta_de_edificio_en_gran_via",
+  "tipo": "Edificio",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "m2": 2
  }
 ]
