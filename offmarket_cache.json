@@ -297,5 +297,19 @@
   "estado": "Activa",
   "date": "28/09/2026",
   "operacion_detectada": "venta"
+ },
+ {
+  "title": "Venta Hotel de 3 estrellas estacion de esqui cataluña",
+  "operador": "Ecourbanización (David)",
+  "price": "3.500.000",
+  "location": "Sin ubicación",
+  "location_region": "Cataluña",
+  "description": "Se vende hotel totalmente equipado por jubilación\nHotel en funcionamiento con 50 habitaciones, con capacidad total para aproximadamente 120 personas.\n3.5 millones de Euros",
+  "url": "#offmarket-venta_hotel_de_3_estrellas_estacion_de_esqui_catal",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 50
  }
 ]
