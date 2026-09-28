@@ -141,5 +141,20 @@
   "operacion_detectada": "venta",
   "rooms": 43,
   "m2": 961
+ },
+ {
+  "title": "Venta de hotel 2 estrellas Barcelona",
+  "operador": "Ecourbanización (David)",
+  "price": "9.500.000",
+  "location": "Barcelona",
+  "location_region": "Cataluña",
+  "description": "Hotel 2 estrellas con 2.300 m² en Barcelona.\n44 habitaciones funcionales y luminosas\nEstá construyéndose su venta será con inquilino\nExcelente distribución y calidades\nPrecio 9,5 millones",
+  "url": "#offmarket-venta_de_hotel_2_estrellas_barcelona",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 44,
+  "m2": 2300
  }
 ]
