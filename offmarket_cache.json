@@ -367,5 +367,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 10
+ },
+ {
+  "title": "Venta de Hotel Restaurante en Sierra Nevada",
+  "operador": "Ecourbanización (David)",
+  "price": "1.500.000",
+  "location": "Sierra Nevada",
+  "location_region": "Andalucía",
+  "description": "Hotel de 12 habitaciones con baño\nRestaurante\nParking\nPrecio: 1.5 millones",
+  "url": "#offmarket-venta_de_hotel_restaurante_en_sierra_nevada",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "28/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 12
  }
 ]
