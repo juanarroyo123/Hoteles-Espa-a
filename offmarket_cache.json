@@ -280,7 +280,7 @@
   "description": "Estado: 29 habitaciones zona de desayunos y 27 plazas de parking\nDescripción: Negocio consolidado en ciudad universitaria\nPrecio: 2.400.000 €",
   "url": "#offmarket-venta_de_hotel_2_estrellas_salamanca",
   "tipo": "Hotel",
-  "estado": "Activa",
+  "estado": "Cerrada",
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 29
