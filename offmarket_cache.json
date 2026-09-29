@@ -453,5 +453,20 @@
   "operacion_detectada": "venta",
   "rooms": 65,
   "m2": 1219
+ },
+ {
+  "title": "Apartamento el Paraiso",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "11.000.000",
+  "location": "Palma",
+  "location_region": "Islas Baleares",
+  "description": "",
+  "url": "#offmarket-apartamento_el_paraiso",
+  "tipo": "Apartahotel",
+  "estado": "Activa",
+  "date": "29/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 39,
+  "m2": 1219
  }
 ]
