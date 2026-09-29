@@ -438,5 +438,20 @@
   "operacion_detectada": "venta",
   "rooms": 40,
   "m2": 3337
+ },
+ {
+  "title": "Hotel Portofino Mallorca",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "11.000.000",
+  "location": "Palma",
+  "location_region": "Islas Baleares",
+  "description": "",
+  "url": "#offmarket-hotel_portofino_mallorca",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "29/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 65,
+  "m2": 1219
  }
 ]
