@@ -1,0 +1,390 @@
+[
+  {
+    "n_registro": null,
+    "nombre": "EL PASEO",
+    "direccion": "",
+    "municipio": "",
+    "provincia": "",
+    "categoria": 1,
+    "habitaciones": 6,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "El Paseo",
+      "precio_noche": 42,
+      "precios_vistos": [
+        42,
+        85,
+        128,
+        171,
+        180
+      ],
+      "rating": 9.3,
+      "reviews": 793,
+      "url": "https://www.booking.com/hotel/es/el-paseo-belmonte.es.html",
+      "match": 0.7
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 3.9,
+      "reviews": 632,
+      "precio_tipico": 72,
+      "rango": [
+        45,
+        177
+      ],
+      "url": "https://www.google.com/travel/search?q=EL+PASEO++hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 72,
+      "ocupacion": 0.508,
+      "revpar_real": 37,
+      "revpar_ine": 20,
+      "ingreso_anual_real": 81030,
+      "ingreso_anual_ine": 43800,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001884",
+    "nombre": "FRAGA DO EUME",
+    "direccion": "",
+    "municipio": "A CAPELA",
+    "provincia": "A CORUÑA",
+    "categoria": 3,
+    "habitaciones": 26,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.3,
+      "reviews": 309,
+      "precio_tipico": 60,
+      "rango": [
+        30,
+        71
+      ],
+      "url": "https://www.google.com/travel/search?q=FRAGA+DO+EUME+A+CAPELA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 60,
+      "ocupacion": 0.583,
+      "revpar_real": 35,
+      "revpar_ine": 43,
+      "ingreso_anual_real": 332150,
+      "ingreso_anual_ine": 408070,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001448",
+    "nombre": "PORTA DAS FRAGAS",
+    "direccion": "CARRETERA XERAL PONTEDEUME-AS PONTES, S/N",
+    "municipio": "A CAPELA",
+    "provincia": "A CORUÑA",
+    "categoria": 3,
+    "habitaciones": 21,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "SNÖ Porta das Fragas",
+      "precio_noche": 60,
+      "precios_vistos": [
+        60,
+        121,
+        181,
+        242
+      ],
+      "rating": 9.4,
+      "reviews": 318,
+      "url": "https://www.booking.com/hotel/es/porta-das-fragas.es.html",
+      "match": 0.822
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.5,
+      "reviews": 166,
+      "precio_tipico": 56,
+      "rango": [
+        30,
+        66
+      ],
+      "url": "https://www.google.com/travel/search?q=PORTA+DAS+FRAGAS+A+CAPELA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 56,
+      "ocupacion": 0.583,
+      "revpar_real": 33,
+      "revpar_ine": 43,
+      "ingreso_anual_real": 252945,
+      "ingreso_anual_ine": 329595,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001927",
+    "nombre": "AC HOTEL A CORUÑA",
+    "direccion": "CALLE ENRIQUE MARIÑAS, S/N",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 4,
+    "habitaciones": 116,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "AC Hotel A Coruña by Marriott",
+      "precio_noche": 83,
+      "precios_vistos": [
+        83,
+        167,
+        250,
+        334
+      ],
+      "rating": 8.7,
+      "reviews": 2048,
+      "url": "https://www.booking.com/hotel/es/acacoruna.es.html",
+      "match": 0.653
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.8,
+      "reviews": 158,
+      "precio_tipico": 58,
+      "rango": [
+        42,
+        70
+      ],
+      "url": "https://www.google.com/travel/search?q=AC+HOTEL+A+CORUÑA+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 58,
+      "ocupacion": 0.62,
+      "revpar_real": 36,
+      "revpar_ine": 59,
+      "ingreso_anual_real": 1524240,
+      "ingreso_anual_ine": 2498060,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000915",
+    "nombre": "ALDA CORUÑA MAR",
+    "direccion": "PASEO DE RONDA Nº 50",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 21,
+    "booking": {
+      "fuente": "booking",
+      "sin_resultado": true
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 3.6,
+      "reviews": 671,
+      "precio_tipico": 49,
+      "rango": [
+        40,
+        58
+      ],
+      "url": "https://www.google.com/travel/search?q=ALDA+CORUÑA+MAR+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 49,
+      "ocupacion": 0.508,
+      "revpar_real": 25,
+      "revpar_ine": 21,
+      "ingreso_anual_real": 191625,
+      "ingreso_anual_ine": 160965,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001717",
+    "nombre": "ALDA ORZAN",
+    "direccion": "CALLE SOL Nº 10",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 2,
+    "habitaciones": 39,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "Alda Orzán",
+      "precio_noche": 74,
+      "precios_vistos": [
+        74,
+        88,
+        149,
+        177,
+        206,
+        223,
+        252,
+        280,
+        326,
+        355
+      ],
+      "rating": 7.9,
+      "reviews": 2872,
+      "url": "https://www.booking.com/hotel/es/sol-a-coruna1.es.html",
+      "match": 0.9
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 3.9,
+      "reviews": 822,
+      "precio_tipico": 52,
+      "rango": [
+        34,
+        58
+      ],
+      "url": "https://www.google.com/travel/search?q=ALDA+ORZAN+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 52,
+      "ocupacion": 0.546,
+      "revpar_real": 28,
+      "revpar_ine": 31,
+      "ingreso_anual_real": 398580,
+      "ingreso_anual_ine": 441285,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-000828",
+    "nombre": "ALMIRANTE",
+    "direccion": "PASEO DE RONDA Nº 54",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 19,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "Hotel Almirante",
+      "precio_noche": 63,
+      "precios_vistos": [
+        63,
+        126,
+        189,
+        253
+      ],
+      "rating": 8.2,
+      "reviews": 2068,
+      "url": "https://www.booking.com/hotel/es/almirante-la-corua-a.es.html",
+      "match": 0.9
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.0,
+      "reviews": 489,
+      "precio_tipico": 51,
+      "rango": [
+        25,
+        62
+      ],
+      "url": "https://www.google.com/travel/search?q=ALMIRANTE+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 51,
+      "ocupacion": 0.508,
+      "revpar_real": 26,
+      "revpar_ine": 21,
+      "ingreso_anual_real": 180310,
+      "ingreso_anual_ine": 145635,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-001123",
+    "nombre": "BRISA",
+    "direccion": "PASEO DE RONDA Nº 60",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 1,
+    "habitaciones": 16,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "Brisa Atlántica",
+      "precio_noche": 494,
+      "precios_vistos": [
+        494
+      ],
+      "rating": 9.1,
+      "reviews": 7,
+      "url": "https://www.booking.com/hotel/es/brisa-atlantica-fisterra.es.html",
+      "match": 0.35
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": null,
+      "reviews": null,
+      "precio_tipico": null,
+      "rango": null,
+      "url": "https://www.google.com/travel/search?q=BRISA+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 494,
+      "ocupacion": 0.508,
+      "revpar_real": 251,
+      "revpar_ine": 21,
+      "ingreso_anual_real": 1465840,
+      "ingreso_anual_ine": 122640,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  },
+  {
+    "n_registro": "H-CO-002241",
+    "nombre": "CARRIS MARINEDA",
+    "direccion": "CARRETERA BAÑOS DE ARTEIXO Nº 43",
+    "municipio": "A CORUÑA",
+    "provincia": "A CORUÑA",
+    "categoria": 4,
+    "habitaciones": 113,
+    "booking": {
+      "fuente": "booking",
+      "nombre": "Hotel Carris Marineda",
+      "precio_noche": 75,
+      "precios_vistos": [
+        75,
+        83,
+        158,
+        166,
+        242,
+        250,
+        325,
+        333
+      ],
+      "rating": 8.7,
+      "reviews": 4615,
+      "url": "https://www.booking.com/hotel/es/carris-marineda.es.html",
+      "match": 0.9
+    },
+    "google_travel": {
+      "fuente": "google_travel",
+      "rating": 4.3,
+      "reviews": 2467,
+      "precio_tipico": 65,
+      "rango": [
+        30,
+        71
+      ],
+      "url": "https://www.google.com/travel/search?q=CARRIS+MARINEDA+A+CORUÑA+hotel&hl=es&gl=es"
+    },
+    "estimacion": {
+      "adr_real": 65,
+      "ocupacion": 0.62,
+      "revpar_real": 40,
+      "revpar_ine": 59,
+      "ingreso_anual_real": 1649800,
+      "ingreso_anual_ine": 2433455,
+      "precision": "real"
+    },
+    "fecha_consulta": "2026-10-21"
+  }
+]
