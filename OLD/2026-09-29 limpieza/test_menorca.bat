@@ -1,0 +1,5 @@
+@echo off
+cd /d "%~dp0"
+python test_menorca.py
+echo.
+pause
