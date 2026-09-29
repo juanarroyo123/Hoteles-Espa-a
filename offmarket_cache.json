@@ -468,5 +468,19 @@
   "operacion_detectada": "venta",
   "rooms": 39,
   "m2": 1219
+ },
+ {
+  "title": "Hotel Planet Blue Mallorca",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "10.000.000",
+  "location": "Palma",
+  "location_region": "Islas Baleares",
+  "description": "Con operador hasta 2032",
+  "url": "#offmarket-hotel_planet_blue_mallorca",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "29/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 116
  }
 ]
