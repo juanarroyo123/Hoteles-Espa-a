@@ -166,7 +166,7 @@
   "description": "15 habitaciones bien distribuidas con excelente reputación en BOOKING de 9 puntos\nPiscina privada + amplia zona de recreo\nRestaurante interior y exterior con cocina completamente equipada\n6.000 m² de terreno con arboleda, zonas verdes y mucho encanto\nParking amplio y sombreado\nPozo de agua propio con depósito y tratamiento sanitario\nVivienda de madera anexa ideal para uso particular del propietario\nPrecio 1.2 millones\nMás información:",
   "url": "#offmarket-venta_hotel_15_habitaciones_y_vivienda",
   "tipo": "Hotel",
-  "estado": "Activa",
+  "estado": "Descartada",
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 15,
