@@ -482,5 +482,19 @@
   "date": "29/09/2026",
   "operacion_detectada": "venta",
   "rooms": 116
+ },
+ {
+  "title": "Hotel Rincón del Sol",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "A consultar",
+  "location": "Málaga",
+  "location_region": "Andalucía",
+  "description": "",
+  "url": "#offmarket-hotel_rincon_del_sol",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "29/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 87
  }
 ]
