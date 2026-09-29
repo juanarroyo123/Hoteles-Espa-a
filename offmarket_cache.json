@@ -409,5 +409,19 @@
   "date": "28/09/2026",
   "operacion_detectada": "venta",
   "rooms": 4
+ },
+ {
+  "title": "Apartamentos Arcadio",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "5.000.000",
+  "location": "El Arenal, Mallorca",
+  "location_region": "Islas Baleares",
+  "description": "Apartamentos Arcadio está a 3 min a pie de Playa de Playa de Palma y ofrece alojamiento con aire acondicionado, balcón y wifi gratis. \n\nCada unidad dispone de terraza con vistas a la ciudad, TV de pantalla plana vía satélite, cocina bien equipada y baño privado con ducha, artículos de aseo gratuitos y secador de pelo. También hay nevera, microondas y fogones, además de cafetera. \n\nClub Náutico de Palma está a 15 km del alojamiento, y Puerto de Palma de Mallorca está a 15 km. El aeropuerto (Aeropuerto de Palma de Mallorca- Son Sant Joan) está a 7 km.\n\nLIBRE DE OPERADOR \n• ACTUALMENTE RENTABILIDAD 7,5% \n• Precio 5.000.000€ \n• Opcion pago a plazos.",
+  "url": "#offmarket-apartamentos_arcadio",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "29/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 17
  }
 ]
