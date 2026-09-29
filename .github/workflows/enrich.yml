@@ -20,18 +20,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      # ── Chrome estable ───────────────────────────────────────────────────
+      # -- Chrome estable: se instala el .deb suelto directamente en vez de
+      # gestionar la llave GPG del repositorio (el metodo con
+      # "curl | gpg --dearmor" se rompio tras la actualizacion de imagen de
+      # GitHub Actions del 19/09 -- gpg intenta abrir /dev/tty y no existe en
+      # el runner). Mismo metodo que ya usa enrich_precios_paralelo.yml. ----
       - name: Instalar Chrome
         run: |
+          curl -fsSL -o /tmp/google-chrome-stable.deb \
+            https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt-get update -q
-          sudo apt-get install -y --no-install-recommends ca-certificates curl gnupg
-          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub \
-            | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
-          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] \
-            http://dl.google.com/linux/chrome/deb/ stable main" \
-            | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update -q
-          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y /tmp/google-chrome-stable.deb
           google-chrome --version
 
       # ── Dependencias Python ──────────────────────────────────────────────
