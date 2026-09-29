@@ -423,5 +423,20 @@
   "date": "29/09/2026",
   "operacion_detectada": "venta",
   "rooms": 17
+ },
+ {
+  "title": "Hotel Cala Sant Vicenç",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "5.000.000",
+  "location": "Polleça",
+  "location_region": "Islas Baleares",
+  "description": "Ubicado a 300 metros de tres playas \n• Parcela de 3.526m2\n• Construidos 3.337m2 \n• Nº de habitaciones : 40 2 individuales estándar de 14 m2 3 individuales superiores de 18 m2 3 dobles estándar de 24 m2 4 dúplex de 34 m2 11 dobles superiores de 32 m2 12 junior suites de 37 m2 5 junior suites de 34 m2 \n• 2 restaurantes (posibilidad de un tercero) \n• Cafetería \n• Piscina \n• Terraza \n• Solárium \n• Zonas Ajardinadas  \n• Gimnasio  \n• Sala de Reuniones \n• Sala para bicicletas  \n• Sauna \n\n• Hotel en activo. \n• Libre de operador.  \n• El activo se encuentra libre de cargas.",
+  "url": "#offmarket-hotel_cala_sant_vicenc",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "29/09/2026",
+  "operacion_detectada": "venta",
+  "rooms": 40,
+  "m2": 3337
  }
 ]
