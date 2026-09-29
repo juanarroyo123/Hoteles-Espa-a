@@ -1,8 +1,12 @@
 name: Actualizar Hoteles en Venta
 
 on:
-  schedule:
-    - cron: '0 6,12,18,0 * * *'   # 4 veces al día: 6h, 12h, 18h, 0h UTC
+  # Desactivado a peticion de Juan (29/09/2026): el scraper de hoteles lo
+  # sigue lanzando el manualmente desde su terminal cada dia. Se deja SOLO
+  # el disparo manual (workflow_dispatch) por si algun dia quiere lanzarlo
+  # desde GitHub sin tocar el cron de nuevo.
+  # schedule:
+  #   - cron: '0 6,12,18,0 * * *'   # 4 veces al dia: 6h, 12h, 18h, 0h UTC
   workflow_dispatch:
 
 permissions:
