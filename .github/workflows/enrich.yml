@@ -52,12 +52,26 @@ jobs:
             --fast \
             --headless
 
-      # ── Commit resultado ─────────────────────────────────────────────────
+      # -- Commit resultado -------------------------------------------------
+      # El scrape tarda hasta 5h40, tiempo de sobra para que main se mueva
+      # (publicaciones off-market, otros commits...). Antes de empujar, se
+      # trae lo ultimo y se reordena el commit encima; si eso deja marcadores
+      # de conflicto de verdad (muy improbable, un solo fichero propio), se
+      # para sin forzar nada, en vez de tirar 5 horas de trabajo a la basura.
       - name: Commit y push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          COUNT=$(python -c "import json; print(len(json.load(open('registro_enriquecido.json'))))")
           git add registro_enriquecido.json
           git diff --staged --quiet || \
-            git commit -m "ADR actualizado $(date +'%d/%m/%Y %H:%M UTC') — $(python -c 'import json; d=json.load(open(\"registro_enriquecido.json\")); print(len(d),\"hoteles\")')"
-          git push
+            git commit -m "ADR actualizado $(date +'%d/%m/%Y %H:%M UTC') -- ${COUNT} hoteles"
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            git rebase origin/main
+            if grep -q '^<<<<<<<' registro_enriquecido.json; then
+              echo 'Conflicto real al fusionar, no se sube automaticamente. Revisar a mano.'
+              exit 1
+            fi
+          fi
+          git push origin main

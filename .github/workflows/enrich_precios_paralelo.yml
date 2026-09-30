@@ -131,7 +131,18 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          COUNT=$(python3 -c "import json; print(len(json.load(open('registro_enriquecido.json'))))")
           git add registro_enriquecido.json
           git diff --staged --quiet || \
-            git commit -m "💶 Precios de licencias actualizados $(date +'%d/%m/%Y %H:%M UTC') — $(python3 -c 'import json; print(len(json.load(open("registro_enriquecido.json"))))') hoteles"
-          git push
+            git commit -m "Precios de licencias actualizados $(date +'%d/%m/%Y %H:%M UTC') -- ${COUNT} hoteles"
+          # Esto puede tardar horas (6 tandas en paralelo); se trae lo ultimo
+          # antes de empujar por si main se movio mientras tanto.
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            git rebase origin/main
+            if grep -q '^<<<<<<<' registro_enriquecido.json; then
+              echo 'Conflicto real al fusionar, no se sube automaticamente. Revisar a mano.'
+              exit 1
+            fi
+          fi
+          git push origin main

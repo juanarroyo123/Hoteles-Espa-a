@@ -59,12 +59,24 @@ jobs:
           PYTHONUNBUFFERED: '1'
         run: python scraper.py
 
-      # ── Commit ───────────────────────────────────────────────────────────
+      # -- Commit ------------------------------------------------------------
+      # El scrape puede tardar 20-40 min; se trae lo ultimo antes de empujar
+      # por si main se movio mientras tanto (publicaciones off-market, etc.),
+      # en vez de que el push se rechace y se pierda la pasada entera.
       - name: Commit y push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          COUNT=$(python -c "import json; print(len(json.load(open('hoteles_cache.json'))))")
           git add index.html hoteles_cache.json offmarket_cache.json
           git diff --staged --quiet || \
-            git commit -m "🏨 Actualización $(date +'%d/%m/%Y %H:%M UTC') — $(python -c 'import json; d=json.load(open(\"hoteles_cache.json\")); print(len(d),\"anuncios\")')"
-          git push
+            git commit -m "Actualizacion $(date +'%d/%m/%Y %H:%M UTC') -- ${COUNT} anuncios"
+          git fetch origin main
+          if ! git merge-base --is-ancestor origin/main HEAD; then
+            git rebase origin/main
+            if grep -q '^<<<<<<<' index.html hoteles_cache.json offmarket_cache.json; then
+              echo 'Conflicto real al fusionar, no se sube automaticamente. Revisar a mano.'
+              exit 1
+            fi
+          fi
+          git push origin main
