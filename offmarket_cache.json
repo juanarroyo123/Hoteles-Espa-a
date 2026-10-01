@@ -599,5 +599,19 @@
   "operacion_detectada": "venta",
   "rooms": 5,
   "m2": 652
+ },
+ {
+  "title": "Hostal Andrés el Saler",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "3.000.000",
+  "location": "Valencia",
+  "location_region": "Comunidad Valenciana",
+  "description": "",
+  "url": "#offmarket-hostal_andres_el_saler",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 27
  }
 ]
