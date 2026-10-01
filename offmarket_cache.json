@@ -541,5 +541,19 @@
   "date": "01/10/2026",
   "operacion_detectada": "venta",
   "rooms": 14
+ },
+ {
+  "title": "Oportunidad de inversión hotelera",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "2.500.000",
+  "location": "Castellón",
+  "location_region": "Comunidad Valenciana",
+  "description": "",
+  "url": "#offmarket-oportunidad_de_inversion_hotelera",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 21
  }
 ]
