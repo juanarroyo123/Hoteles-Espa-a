@@ -555,5 +555,19 @@
   "date": "01/10/2026",
   "operacion_detectada": "venta",
   "rooms": 21
+ },
+ {
+  "title": "Hotel Sol de Jávea",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "13.000.000",
+  "location": "Jávea",
+  "location_region": "Comunidad Valenciana",
+  "description": "",
+  "url": "#offmarket-hotel_sol_de_javea",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 54
  }
 ]
