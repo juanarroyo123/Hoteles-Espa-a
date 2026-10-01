@@ -496,5 +496,22 @@
   "date": "29/09/2026",
   "operacion_detectada": "venta",
   "rooms": 87
+ },
+ {
+  "title": "Hostal Plaza de Toros Alicante",
+  "operador": "Inmobiliaria Alicante (Fernando)",
+  "price": "570000",
+  "location": "Alicante",
+  "location_region": "Comunidad Valenciana",
+  "description": "Hostal que está en el barrio de San Antón, el gorro de San Antón eso está pegado al centro de Alicante eso es un barrio que está más abajo de plaza de toros bueno lo puedes ver en Google Maps",
+  "url": "#offmarket-hostal_plaza_de_toros_alicante",
+  "tipo": "Hostal",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 8,
+  "videos": [
+   "fotos_offmarket/hostal_plaza_de_toros_alicante/01_whatsapp_video_2026_09_30_at_16_47_15.mp4"
+  ]
  }
 ]
