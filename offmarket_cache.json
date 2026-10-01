@@ -527,5 +527,19 @@
   "date": "01/10/2026",
   "operacion_detectada": "venta",
   "rooms": 23
+ },
+ {
+  "title": "Hotel en venta Off Market",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "1.250.000",
+  "location": "Castellón",
+  "location_region": "Comunidad Valenciana",
+  "description": "",
+  "url": "#offmarket-hotel_en_venta_off_market",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 14
  }
 ]
