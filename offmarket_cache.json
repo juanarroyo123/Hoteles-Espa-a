@@ -513,5 +513,19 @@
   "videos": [
    "fotos_offmarket/hostal_plaza_de_toros_alicante/01_whatsapp_video_2026_09_30_at_16_47_15.mp4"
   ]
+ },
+ {
+  "title": "Hotel The Corner",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "2.150.000",
+  "location": "Mallorca",
+  "location_region": "Islas Baleares",
+  "description": "",
+  "url": "#offmarket-hotel_the_corner",
+  "tipo": "Hotel",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 23
  }
 ]
