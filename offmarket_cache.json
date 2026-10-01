@@ -584,5 +584,20 @@
   "operacion_detectada": "venta",
   "rooms": 8,
   "m2": 652
+ },
+ {
+  "title": "Edificio de Apartamentos Turísticos",
+  "operador": "Valencia Inmobiliaria (Fran López)",
+  "price": "3.000.000",
+  "location": "Valencia",
+  "location_region": "Comunidad Valenciana",
+  "description": "",
+  "url": "#offmarket-edificio_de_apartamentos_turisticos-2",
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activa",
+  "date": "01/10/2026",
+  "operacion_detectada": "venta",
+  "rooms": 5,
+  "m2": 652
  }
 ]
