@@ -67015,7 +67015,7 @@
   "location_region": "La Rioja",
   "description": "Se traspasa alojamiento turístico en pleno funcionamiento en el Camino de Santiago Francés, en La Rioja.\n\nNegocio consolidado, con más de 40 plazas, distribuidas entre habitaciones compartidas y habitaciones privadas con baño privado.\n\nDispone de licencias de alojamiento turístico y bar-restaurante en vigor, instalaciones completamente equipadas y operativas, sistemas de gestión y reservas implantados, página web y presencia activa en los principales canales de comercialización.\n\nNegocio actualmente en funcionamiento, con reservas activas, excelente reputación online y facturación demostrable.\n\nEspecialmente adecuado como proyecto de autoempleo para pareja o dos socios.\n\nEl traspaso se realiza por motivos personales y de reorganización familiar, no por cese de actividad.\n\nPrecio de traspaso: 49.000 €.\n\nSe facilitará información adicional y documentación económica a interesados reales una vez avanzado el proceso. Visitas únicamente concertadas.",
   "url": "#manual-negocio_en_traspaso_en_navarrete",
-  "source": "Manual",
+  "source": "Idealista",
   "ausencias": 0,
   "tipo": "apartamentos turísiticos (edificio)",
   "estado": "Activo",
@@ -67024,7 +67024,8 @@
   "licencia_motivo": "",
   "operacion_detectada": "traspaso",
   "rooms": 40,
-  "m2": 1
+  "m2": 1,
+  "enlace": "https://www.idealista.com/inmueble/112589015/"
  },
  {
   "title": "Hotel en traspaso en Castellfollit de la Roca",
