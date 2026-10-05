@@ -1327,6 +1327,12 @@ header{
         <div class="det-sidebar-card" id="det-offmarket-card" style="display:none">
           <div class="det-sidebar-title">Oportunidad off-market</div>
           <div class="det-sidebar-body">
+            <div class="det-dec-field">
+              <label for="det-om-enlace">Enlace al anuncio</label>
+              <input type="url" id="det-om-enlace" placeholder="https://...">
+              <button class="det-btn-secondary" id="det-btn-guardar-enlace-om" onclick="guardarEnlaceOffmarketDesdeFicha()" style="margin-top:0.5rem">Guardar enlace</button>
+              <div class="det-dec-hint">Deja el campo en blanco y guarda para quitar el enlace.</div>
+            </div>
             <div style="font-size:0.76rem;color:var(--muted);line-height:1.5;margin-bottom:0.8rem">Si esta oportunidad ya no procede (descartada, cerrada, duplicada...), puedes borrarla de la web.</div>
             <button class="det-btn-secondary" id="det-btn-borrar-offmarket" onclick="borrarOffmarketDesdeFicha()" style="color:#a33;border-color:#a33">Borrar oportunidad</button>
             <div id="det-om-status" style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem"></div>
@@ -1477,6 +1483,11 @@ header{
         <textarea id="na-descripcion" placeholder="Lo que sepas del anuncio..."></textarea>
       </div>
       <div class="det-dec-field">
+        <label for="na-enlace">Enlace al anuncio (si lo hay)</label>
+        <input type="url" id="na-enlace" placeholder="https://...">
+        <div class="det-dec-hint">Opcional -- si tienes el enlace del anuncio (portal, web del vendedor...), aparecera como boton en la ficha.</div>
+      </div>
+      <div class="det-dec-field">
         <label for="na-media">Fotos y vídeos</label>
         <input type="file" id="na-media" accept="image/*,video/*" multiple>
         <div class="det-dec-hint">Puedes seleccionar fotos y vídeos juntos, los que te hayan pasado.</div>
@@ -1549,6 +1560,11 @@ header{
       <div class="det-dec-field">
         <label for="om-descripcion">Descripción</label>
         <textarea id="om-descripcion" placeholder="Lo que te haya contado el operador..."></textarea>
+      </div>
+      <div class="det-dec-field">
+        <label for="om-enlace">Enlace al anuncio (si lo hay)</label>
+        <input type="url" id="om-enlace" placeholder="https://...">
+        <div class="det-dec-hint">Opcional -- si el operador te ha pasado un enlace (web, portal, dossier...), aparecera como boton en la ficha.</div>
       </div>
       <div class="det-dec-field">
         <label for="om-media">Fotos y vídeos (si tienes)</label>
@@ -3811,7 +3827,7 @@ function render(mantenerPagina) {
       <td class="hotel-row-price">${getEffectivePrecioStr(h)}</td>
       <td>
         <div class="hotel-row-actions">
-          ${(h.url && !h.url.startsWith('#'))?`<a class="card-link" href="${h.url}" target="_blank" onclick="event.stopPropagation()">Anuncio →</a>`:''}
+          ${(()=>{const uAn=(h.url && !h.url.startsWith('#')) ? h.url : enlaceOmSeguro(h); return uAn?`<a class="card-link" href="${uAn}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Anuncio →</a>`:'';})()}
           <button class="btn-tasacion" onclick="event.stopPropagation();openDetailPage(${i})">Ver análisis</button>
         </div>
       </td>
@@ -8891,6 +8907,8 @@ function openDetailPage(listIdx) {
   if (detOmCard) detOmCard.style.display = (esOffmarketFicha && esAdmin()) ? '' : 'none';
   const detOmStatus = document.getElementById('det-om-status');
   if (detOmStatus) detOmStatus.textContent = '';
+  const detOmEnlace = document.getElementById('det-om-enlace');
+  if (detOmEnlace) detOmEnlace.value = (esOffmarketFicha && h.enlace) ? h.enlace : '';
 
   const price = getEffectivePrecioNum(h);
   const rooms = getEffectiveRooms(h);
@@ -8940,9 +8958,17 @@ function openDetailPage(listIdx) {
   // Anuncios anadidos a mano (agregar_manual.py, ej. algo que nos mandan
   // por WhatsApp) no tienen un anuncio original en ningun portal al que
   // enlazar -- se ocupa el boton en vez de dejarlo roto.
-  if (h.url && !h.url.startsWith('#')) {
+  const enlaceOm = enlaceOmSeguro(h);
+  if (enlaceOm) {
+    // Ficha con enlace propio (anuncio nuevo u oportunidad off-market)
+    btnAnuncio.style.display = '';
+    btnAnuncio.href = enlaceOm;
+    btnAnuncio.rel = 'noopener noreferrer';
+    btnAnuncio.textContent = 'Visitar enlace \u2192';
+  } else if (h.url && !h.url.startsWith('#')) {
     btnAnuncio.style.display = '';
     btnAnuncio.href = h.url;
+    btnAnuncio.textContent = 'Ver anuncio original \u2192';
   } else {
     btnAnuncio.style.display = 'none';
   }
@@ -9545,7 +9571,7 @@ async function ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, mensaje)
 
 function abrirModalNuevoAnuncio() {
   if (!esAdmin()) return;
-  ['na-titulo','na-precio','na-comunidad','na-municipio','na-descripcion'].forEach(id => {
+  ['na-titulo','na-precio','na-comunidad','na-municipio','na-descripcion','na-enlace'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   const tipoEl = document.getElementById('na-tipo'); if (tipoEl) tipoEl.value = '';
@@ -9585,6 +9611,11 @@ async function publicarNuevoAnuncioDesdeWeb() {
   const m2Val = parseInt(document.getElementById('na-m2').value, 10);
   const precio = (document.getElementById('na-precio').value || '').trim();
   const descripcion = (document.getElementById('na-descripcion').value || '').trim();
+  const enlace = normalizarEnlaceOm(document.getElementById('na-enlace').value);
+  if (enlace === null) {
+    _naSetEstado('El enlace no parece una direccion web valida (tiene que ser tipo https://...).', 'err');
+    return;
+  }
   const archivos = Array.from(document.getElementById('na-media').files || []);
 
   const btn = document.getElementById('na-btn-publicar');
@@ -9624,6 +9655,7 @@ async function publicarNuevoAnuncioDesdeWeb() {
     if (!isNaN(m2Val) && m2Val > 0) entrada.m2 = m2Val;
     if (fotosPaths.length) entrada.fotos_url = fotosPaths;
     if (videosPaths.length) entrada.videos = videosPaths;
+    if (enlace) entrada.enlace = enlace;
     cache.push(entrada);
 
     _naSetEstado('Generando la web (index.html)...', '');
@@ -9746,6 +9778,7 @@ function renderOffmarket() {
       <td>${h.date || '—'}</td>
       <td>
         <div class="hotel-row-actions">
+          ${enlaceOmSeguro(h) ? `<a class="btn-tasacion" href="${enlaceOmSeguro(h)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="text-decoration:none;display:inline-block">Enlace \u2197</a>` : ''}
           <button class="btn-tasacion" onclick="event.stopPropagation();window._lastRenderedList=window._lastRenderedListOffmarket;openDetailPage(${i})">Ver ficha</button>
         </div>
       </td>
@@ -9761,7 +9794,7 @@ function toggleOmFavFilter() {
 
 function abrirModalOffmarket() {
   if (!esAdmin()) return;
-  ['om-titulo','om-operador','om-precio','om-comunidad','om-municipio','om-descripcion'].forEach(id => {
+  ['om-titulo','om-operador','om-precio','om-comunidad','om-municipio','om-descripcion','om-enlace'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   const tipoEl = document.getElementById('om-tipo'); if (tipoEl) tipoEl.value = '';
@@ -9779,6 +9812,27 @@ function _omSetEstado(msg, tipo) {
   if (!el) return;
   el.textContent = msg;
   el.className = 'na-status' + (tipo ? ' ' + tipo : '');
+}
+
+// Enlace externo (opcional) de una oportunidad off-market: web del operador,
+// un portal, un dossier... Se guarda en el campo "enlace" de su entrada de
+// offmarket_cache.json. normalizarEnlaceOm devuelve '' si esta vacio, la URL
+// limpia (https:// si faltaba) o null si no es una direccion web valida --
+// asi nunca se pinta un enlace tipo javascript: en la web.
+function normalizarEnlaceOm(txt) {
+  let t = (txt || '').trim();
+  if (!t) return '';
+  if (!/^https?:\/\//i.test(t)) t = 'https://' + t;
+  try {
+    const u = new URL(t);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return null;
+    return u.href;
+  } catch (e) {
+    return null;
+  }
+}
+function enlaceOmSeguro(h) {
+  return (h && h.enlace) ? (normalizarEnlaceOm(h.enlace) || '') : '';
 }
 
 async function publicarOffmarketDesdeWeb() {
@@ -9802,6 +9856,11 @@ async function publicarOffmarketDesdeWeb() {
   const m2Val = parseInt(document.getElementById('om-m2').value, 10);
   const precio = (document.getElementById('om-precio').value || '').trim();
   const descripcion = (document.getElementById('om-descripcion').value || '').trim();
+  const enlace = normalizarEnlaceOm(document.getElementById('om-enlace').value);
+  if (enlace === null) {
+    _omSetEstado('El enlace no parece una direccion web valida (tiene que ser tipo https://...).', 'err');
+    return;
+  }
   const archivos = Array.from(document.getElementById('om-media').files || []);
 
   const btn = document.getElementById('om-btn-publicar');
@@ -9838,6 +9897,7 @@ async function publicarOffmarketDesdeWeb() {
     if (!isNaN(m2Val) && m2Val > 0) entrada.m2 = m2Val;
     if (fotosPaths.length) entrada.fotos_url = fotosPaths;
     if (videosPaths.length) entrada.videos = videosPaths;
+    if (enlace) entrada.enlace = enlace;
     offmarket.push(entrada);
 
     _omSetEstado('Generando la web (index.html)...', '');
@@ -9979,6 +10039,76 @@ async function borrarOffmarketDesdeFicha() {
   }
 }
 
+
+// Poner, cambiar o quitar el enlace de una oportunidad off-market ya
+// publicada, desde su propia ficha. Mismo mecanismo que cambiarEstado /
+// borrar: lee el repo, toca solo esa entrada de offmarket_cache.json,
+// reconstruye index.html y sube un commit.
+async function guardarEnlaceOffmarketDesdeFicha() {
+  const url = window._detCurrentUrl;
+  if (!url || !esAdmin()) return;
+  const inp = document.getElementById('det-om-enlace');
+  const statusEl = document.getElementById('det-om-status');
+  const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+  const enlace = normalizarEnlaceOm(inp ? inp.value : '');
+  if (enlace === null) {
+    setStatus('El enlace no parece una direccion web valida (tiene que ser tipo https://...).');
+    return;
+  }
+  if (!getGithubToken()) {
+    cambiarGithubToken();
+    if (!getGithubToken()) { setStatus('Hace falta el token de GitHub para guardar el enlace.'); return; }
+  }
+  const btn = document.getElementById('det-btn-guardar-enlace-om');
+  if (btn) btn.disabled = true;
+  setStatus('Guardando...');
+  try {
+    const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
+    const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
+
+    const entrada = offmarket.find(o => o.url === url);
+    if (!entrada) throw new Error('No encuentro esa oportunidad en el repositorio (se ha borrado desde otro sitio?).');
+    if (enlace) entrada.enlace = enlace; else delete entrada.enlace;
+
+    const html = ghConstruirIndexHtml(template, cache, retirados, adrJson, offmarket);
+
+    const blobOmNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(offmarket, null, 1), encoding: 'utf-8' }),
+    });
+    const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
+    });
+    const treeEntries = [
+      { path: 'offmarket_cache.json', mode: '100644', type: 'blob', sha: blobOmNuevo.sha },
+      { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
+    ];
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Off-market: enlace de ${entrada.title}`);
+
+    [OFFMARKET.find(o => o.url === url), window._detCurrentHotel].forEach(o => {
+      if (!o) return;
+      if (enlace) o.enlace = enlace; else delete o.enlace;
+    });
+    if (inp) inp.value = enlace;
+    const btnAnuncio = document.getElementById('det-btn-anuncio');
+    if (btnAnuncio) {
+      if (enlace) {
+        btnAnuncio.style.display = '';
+        btnAnuncio.href = enlace;
+        btnAnuncio.rel = 'noopener noreferrer';
+        btnAnuncio.textContent = 'Visitar enlace \u2192';
+      } else {
+        btnAnuncio.style.display = 'none';
+      }
+    }
+    renderOffmarket();
+    setStatus(enlace ? 'Enlace guardado.' : 'Enlace quitado.');
+  } catch (err) {
+    console.error(err);
+    setStatus(err.message || 'No se ha podido guardar el enlace.');
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+}
 
 
 init();
