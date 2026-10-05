@@ -67082,5 +67082,24 @@
   "operacion_detectada": "traspaso",
   "m2": 500,
   "enlace": "https://www.idealista.com/inmueble/108955579/"
+ },
+ {
+  "title": "Hotel en traspaso en Calle Cuna",
+  "price": "250.000",
+  "location": "Santa Cruz",
+  "location_region": "Andalucía",
+  "description": "Oportunidad de negocio en el Centro de Sevilla!\n\nSe traspasa un hostal Boutique, reformado completamente en el año 2026. Cuenta con 7 habitaciones.\n\nHabitación 1\nAmplia habitación con capacidad para 5 personas, equipada con cocina privada, ideal para familias o grupos.\n\nHabitación 2\nHabitación acogedora para 2 personas, perfecta para parejas o viajeros individuales.\n\nHabitación 3\nHabitación con capacidad para 3 personas, cómoda y funcional.\n\nHabitación 4\nHabitación para 3 personas, con una distribución pensada para maximizar el confort.\n\nHabitación 5\nHabitación con capacidad para 3 personas, equipada con cocina privada, muy demandada por huéspedes que buscan una mayor autonomía.\nHabitación 6\nHabitación para 3 personas, también con cocina privada, ideal para estancias medias y largas.\n\nHabitación 7 – Premium\nLa habitación más exclusiva del establecimiento, con capacidad para 5 personas. Dispone de una terraza privada con vistas a Calle Cuna, un valor añadido que la convierte en una de las unidades con mayor potencial de rentabilidad.\n\nCapacidad total del establecimiento: 24 huéspedes.\n\nCuenta con contrato para unos 9 años.\n\nEl traspaso es de 250.000€ y el alquiler de 7.000€.\n\nLos gastos de intermediación por parte del comprador son del 5% más IVA, no incluidos en el precio.\n\nNo dejes pasar esta oportunidad!",
+  "url": "#manual-hotel_en_traspaso_en_calle_cuna",
+  "source": "Idealista",
+  "ausencias": 0,
+  "tipo": "Hostal boutique",
+  "estado": "Activo",
+  "date": "05/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 7,
+  "m2": 7000,
+  "enlace": "https://www.idealista.com/inmueble/112240074/"
  }
 ]
