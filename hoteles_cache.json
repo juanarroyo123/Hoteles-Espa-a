@@ -67042,5 +67042,23 @@
   "operacion_detectada": "traspaso",
   "rooms": 15,
   "m2": 1
+ },
+ {
+  "title": "Hotel en traspaso en Sils",
+  "price": "600.000",
+  "location": "La Selva",
+  "location_region": "Aragón",
+  "description": "REF: 7938423\n\nTraspaso Hostal con Restaurante Girona en Plena Actividad – 600.000 € (negociables)\n\nUbicación estratégica cerca de la AP-7 | Acceso directo a Girona y la Costa Brava\nGestión operativa consolidada | Facturación anual: 2.000. 000 €\n\nInmo Olaya presenta una excelente oportunidad de inversión con el traspaso de un hostal con restaurante en funcionamiento, ubicado en una zona privilegiada con gran afluencia de viajeros y clientes locales, a pocos minutos de Girona y la Costa Brava, y con fácil conexión por la autopista AP-7.\n\nHostal\n\n27 habitaciones completamente equipadas\n\nAlta ocupación anual\n\nClientes fidelizados y excelente reputación en plataformas de reserva\n\nIdeal para turismo de paso, profesional y vacacional\n\nRestaurante\n\nCapacidad para 150 comensales\n\nEspacio amplio y versátil para servicios diarios, banquetes, grupos y eventos\n\nCocina equipada y en excelente estado\n\nPotencial para seguir creciendo en facturación y servicios\n\nDatos operativos\n\nFacturación anual: 2.000. 000 €\n\nAlquiler mensual actual: 8.000 €\n\nPrecio de traspaso: 600.000 € (negociables)\n\nEstablecimiento listo para seguir funcionando sin interrupción\n\nVentajas destacadas\n\nUbicación estratégica y visible desde vías de alto tránsito\n\nAlta rentabilidad demostrada\n\nNegocio completamente montado y con personal formado\n\nPotencial para ampliar líneas de negocio (eventos, turismo deportivo, empresa, etc. )\n\nContáctanos en Inmo Olaya para más detalles o agendar una visita. Te ayudamos a tomar el control de un negocio sólido, rentable y con proyección en una de las zonas más dinámicas de Cataluña.",
+  "url": "#manual-hotel_en_traspaso_en_sils",
+  "source": "Manual",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "05/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 27,
+  "m2": 1
  }
 ]
