@@ -66996,7 +66996,7 @@
   "location_region": "Aragón",
   "description": "Se traspasa Hostal en funcionamiento con licencia turística, sin empleados y buena rentabilidad. Ocho habitaciones, 6 baños, zona común, amplia terraza, lavandería, gestión sencilla, facturación elevada. Zona con mucha demanda por turismo y trabajo.",
   "url": "#manual-hostal_8_habitaciones_con_licencia_turisitica",
-  "source": "Manual",
+  "source": "Idealista",
   "ausencias": 0,
   "tipo": "Hostal",
   "estado": "Activo",
@@ -67005,7 +67005,8 @@
   "licencia_motivo": "",
   "operacion_detectada": "traspaso",
   "rooms": 8,
-  "m2": 150
+  "m2": 150,
+  "enlace": "https://www.idealista.com/inmueble/112674963/"
  },
  {
   "title": "Negocio en traspaso en Navarrete",
