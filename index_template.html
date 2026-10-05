@@ -1321,18 +1321,37 @@ header{
             <button class="det-btn-secondary" onclick="closeDetailPage()">← Volver al listado</button>
           </div>
         </div>
+        <!-- Enlace y portal de un anuncio creado desde la web (+ Nuevo anuncio u
+             oportunidad off-market). Solo admin; lo muestra/oculta openDetailPage. -->
+        <div class="det-sidebar-card" id="det-origen-card" style="display:none">
+          <div class="det-sidebar-title">Enlace y portal</div>
+          <div class="det-sidebar-body">
+            <div class="det-dec-field">
+              <label for="det-or-enlace">Enlace al anuncio</label>
+              <input type="url" id="det-or-enlace" placeholder="https://..." onchange="detOrAutoPortal()">
+            </div>
+            <div class="det-dec-field">
+              <label for="det-or-portal">Portal de origen</label>
+              <input type="text" id="det-or-portal" list="portal-lista" placeholder="Manual" oninput="this.dataset.tocado='1'">
+              <datalist id="portal-lista">
+                <option value="Manual"></option><option value="Off-Market"></option>
+                <option value="Idealista"></option><option value="Fotocasa"></option><option value="Habitaclia"></option>
+                <option value="Milanuncios"></option><option value="ThinkSpain"></option><option value="LuxuryEstate"></option>
+                <option value="HotelSeVende"></option><option value="NegociosEnVenta"></option><option value="Lucas Fox"></option>
+                <option value="Engel & Völkers"></option><option value="Yaencontre"></option><option value="Pisos.com"></option><option value="Kyero"></option>
+              </datalist>
+              <div class="det-dec-hint">Al poner un enlace el portal se detecta solo; lo puedes cambiar a mano. En blanco = Manual.</div>
+            </div>
+            <button class="det-btn-secondary" id="det-btn-guardar-origen" onclick="guardarOrigenDesdeFicha()">Guardar enlace y portal</button>
+            <div id="det-or-status" style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem"></div>
+          </div>
+        </div>
         <!-- Oportunidad off-market: borrar. Solo se ve si esta ficha es una
              oportunidad off-market y quien mira ha iniciado sesion como
              admin (lo decide openDetailPage en JS). -->
         <div class="det-sidebar-card" id="det-offmarket-card" style="display:none">
           <div class="det-sidebar-title">Oportunidad off-market</div>
           <div class="det-sidebar-body">
-            <div class="det-dec-field">
-              <label for="det-om-enlace">Enlace al anuncio</label>
-              <input type="url" id="det-om-enlace" placeholder="https://...">
-              <button class="det-btn-secondary" id="det-btn-guardar-enlace-om" onclick="guardarEnlaceOffmarketDesdeFicha()" style="margin-top:0.5rem">Guardar enlace</button>
-              <div class="det-dec-hint">Deja el campo en blanco y guarda para quitar el enlace.</div>
-            </div>
             <div style="font-size:0.76rem;color:var(--muted);line-height:1.5;margin-bottom:0.8rem">Si esta oportunidad ya no procede (descartada, cerrada, duplicada...), puedes borrarla de la web.</div>
             <button class="det-btn-secondary" id="det-btn-borrar-offmarket" onclick="borrarOffmarketDesdeFicha()" style="color:#a33;border-color:#a33">Borrar oportunidad</button>
             <div id="det-om-status" style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem"></div>
@@ -1484,8 +1503,13 @@ header{
       </div>
       <div class="det-dec-field">
         <label for="na-enlace">Enlace al anuncio (si lo hay)</label>
-        <input type="url" id="na-enlace" placeholder="https://...">
+        <input type="url" id="na-enlace" placeholder="https://..." onchange="autoPortalForm('na')">
         <div class="det-dec-hint">Opcional -- si tienes el enlace del anuncio (portal, web del vendedor...), aparecera como boton en la ficha.</div>
+      </div>
+      <div class="det-dec-field">
+        <label for="na-portal">Portal de origen</label>
+        <input type="text" id="na-portal" list="portal-lista" placeholder="Se rellena solo al poner el enlace (o escribe uno)" oninput="this.dataset.tocado='1'">
+        <div class="det-dec-hint">Opcional. Sin enlace ni portal, se queda como Manual.</div>
       </div>
       <div class="det-dec-field">
         <label for="na-media">Fotos y vídeos</label>
@@ -1563,8 +1587,13 @@ header{
       </div>
       <div class="det-dec-field">
         <label for="om-enlace">Enlace al anuncio (si lo hay)</label>
-        <input type="url" id="om-enlace" placeholder="https://...">
+        <input type="url" id="om-enlace" placeholder="https://..." onchange="autoPortalForm('om')">
         <div class="det-dec-hint">Opcional -- si el operador te ha pasado un enlace (web, portal, dossier...), aparecera como boton en la ficha.</div>
+      </div>
+      <div class="det-dec-field">
+        <label for="om-portal">Portal de origen</label>
+        <input type="text" id="om-portal" list="portal-lista" placeholder="Se rellena solo al poner el enlace (o escribe uno)" oninput="this.dataset.tocado='1'">
+        <div class="det-dec-hint">Opcional. Sin enlace ni portal, se queda como Off-Market.</div>
       </div>
       <div class="det-dec-field">
         <label for="om-media">Fotos y vídeos (si tienes)</label>
@@ -8907,8 +8936,16 @@ function openDetailPage(listIdx) {
   if (detOmCard) detOmCard.style.display = (esOffmarketFicha && esAdmin()) ? '' : 'none';
   const detOmStatus = document.getElementById('det-om-status');
   if (detOmStatus) detOmStatus.textContent = '';
-  const detOmEnlace = document.getElementById('det-om-enlace');
-  if (detOmEnlace) detOmEnlace.value = (esOffmarketFicha && h.enlace) ? h.enlace : '';
+  const esManualFicha = !!(h.url && h.url.indexOf('#manual-') === 0);
+  const detOrCard = document.getElementById('det-origen-card');
+  if (detOrCard) detOrCard.style.display = ((esOffmarketFicha || esManualFicha) && esAdmin()) ? '' : 'none';
+  const detOrEnlace = document.getElementById('det-or-enlace');
+  if (detOrEnlace) detOrEnlace.value = h.enlace || '';
+  const detOrPortal = document.getElementById('det-or-portal');
+  if (detOrPortal) { detOrPortal.value = h.source || ''; delete detOrPortal.dataset.tocado; }
+  const detOrStatus = document.getElementById('det-or-status');
+  if (detOrStatus) detOrStatus.textContent = '';
+  const portalFicha = h.source || (esOffmarketFicha ? 'Off-Market' : '');
 
   const price = getEffectivePrecioNum(h);
   const rooms = getEffectiveRooms(h);
@@ -8950,7 +8987,7 @@ function openDetailPage(listIdx) {
 
   // Header
   document.getElementById('det-title').textContent = title;
-  const metaParts = [municipioInfo, comunidadInfo, h.source, h.date].filter(Boolean);
+  const metaParts = [municipioInfo, comunidadInfo, portalFicha, h.date].filter(Boolean);
   document.getElementById('det-meta').innerHTML = metaParts.map((p, i) =>
     `<span>${p}</span>${i < metaParts.length - 1 ? '<span class="det-meta-sep">·</span>' : ''}`
   ).join('');
@@ -9103,7 +9140,7 @@ function openDetailPage(listIdx) {
   }
 
   // Info sidebar
-  document.getElementById('det-info-portal').textContent = h.source || '—';
+  document.getElementById('det-info-portal').textContent = portalFicha || '—';
   const infoOpEl = document.getElementById('det-info-operacion');
   if (infoOpEl) infoOpEl.textContent = operacionLabel(getEffectiveOperacion(h));
   document.getElementById('det-info-fecha').textContent = h.date || '—';
@@ -9574,6 +9611,7 @@ function abrirModalNuevoAnuncio() {
   ['na-titulo','na-precio','na-comunidad','na-municipio','na-descripcion','na-enlace'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
+  const pNaEl = document.getElementById('na-portal'); if (pNaEl) { pNaEl.value = ''; delete pNaEl.dataset.tocado; }
   const tipoEl = document.getElementById('na-tipo'); if (tipoEl) tipoEl.value = '';
   const habEl = document.getElementById('na-habitaciones'); if (habEl) habEl.value = '';
   const m2El = document.getElementById('na-m2'); if (m2El) m2El.value = '';
@@ -9616,6 +9654,7 @@ async function publicarNuevoAnuncioDesdeWeb() {
     _naSetEstado('El enlace no parece una direccion web valida (tiene que ser tipo https://...).', 'err');
     return;
   }
+  const portal = (document.getElementById('na-portal').value || '').trim() || (enlace ? portalDesdeEnlace(enlace) : '');
   const archivos = Array.from(document.getElementById('na-media').files || []);
 
   const btn = document.getElementById('na-btn-publicar');
@@ -9647,7 +9686,7 @@ async function publicarNuevoAnuncioDesdeWeb() {
     // Construir la nueva entrada y el cache completo
     const entrada = {
       title: titulo, price: precio || '', location: municipio, location_region: comunidad,
-      description: descripcion, url: urlManual, source: 'Manual', ausencias: 0, tipo,
+      description: descripcion, url: urlManual, source: portal || 'Manual', ausencias: 0, tipo,
       estado: 'Activo', date: fechaHoyDDMMYYYY(), licencia_texto: '', licencia_motivo: '',
       operacion_detectada: operacion,
     };
@@ -9797,6 +9836,7 @@ function abrirModalOffmarket() {
   ['om-titulo','om-operador','om-precio','om-comunidad','om-municipio','om-descripcion','om-enlace'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
+  const pOmEl = document.getElementById('om-portal'); if (pOmEl) { pOmEl.value = ''; delete pOmEl.dataset.tocado; }
   const tipoEl = document.getElementById('om-tipo'); if (tipoEl) tipoEl.value = '';
   const habEl = document.getElementById('om-habitaciones'); if (habEl) habEl.value = '';
   const m2El = document.getElementById('om-m2'); if (m2El) m2El.value = '';
@@ -9834,6 +9874,42 @@ function normalizarEnlaceOm(txt) {
 function enlaceOmSeguro(h) {
   return (h && h.enlace) ? (normalizarEnlaceOm(h.enlace) || '') : '';
 }
+// Portal a partir del dominio del enlace: los mismos nombres que usa el
+// scraper en el campo "source" (asi los filtros por portal los agrupan con el
+// resto). Si el dominio no esta en la lista, se usa el propio dominio.
+const PORTALES_POR_DOMINIO = {
+  'thinkspain.com': 'ThinkSpain', 'milanuncios.com': 'Milanuncios', 'luxuryestate.com': 'LuxuryEstate',
+  'inmoolaya.com': 'Inmo Olaya', 'casa.sapo.pt': 'Casa Sapo', 'hotelsevende.es': 'HotelSeVende',
+  'idealista.com': 'Idealista', 'idealista.pt': 'Idealista', 'lancoisdoval.es': 'Lançois Doval',
+  'ecourbanizacion.com': 'EcoUrbanización', 'lucasfox.es': 'Lucas Fox', 'oirealestate.net': 'Oi Real Estate',
+  'supercasa.pt': 'Supercasa', 'negociosenventa.es': 'NegociosEnVenta', 'engelvoelkers.com': 'Engel & Völkers',
+  'yaencontre.com': 'Yaencontre', 'robertobeloki.com': 'Roberto Beloki', 'fotocasa.es': 'Fotocasa',
+  'habitaclia.com': 'Habitaclia', 'pisos.com': 'Pisos.com', 'kyero.com': 'Kyero',
+};
+function portalDesdeEnlace(txt) {
+  const url = normalizarEnlaceOm(txt);
+  if (!url) return '';
+  let host = '';
+  try { host = new URL(url).hostname.toLowerCase().replace(/^www\./, ''); } catch (e) { return ''; }
+  for (const d in PORTALES_POR_DOMINIO) {
+    if (host === d || host.endsWith('.' + d)) return PORTALES_POR_DOMINIO[d];
+  }
+  return host;
+}
+// Al salir del campo "enlace" de un formulario, rellena el portal salvo que
+// ya lo hayas escrito tu a mano (marcado con data-tocado).
+function autoPortalForm(pref) {
+  const p = document.getElementById(pref + '-portal');
+  const e = document.getElementById(pref + '-enlace');
+  if (!p || !e || p.dataset.tocado === '1') return;
+  p.value = portalDesdeEnlace(e.value);
+}
+function detOrAutoPortal() {
+  const p = document.getElementById('det-or-portal');
+  const e = document.getElementById('det-or-enlace');
+  if (!p || !e || p.dataset.tocado === '1') return;
+  p.value = portalDesdeEnlace(e.value);
+}
 
 async function publicarOffmarketDesdeWeb() {
   if (!esAdmin()) return;
@@ -9861,6 +9937,7 @@ async function publicarOffmarketDesdeWeb() {
     _omSetEstado('El enlace no parece una direccion web valida (tiene que ser tipo https://...).', 'err');
     return;
   }
+  const portal = (document.getElementById('om-portal').value || '').trim() || (enlace ? portalDesdeEnlace(enlace) : '');
   const archivos = Array.from(document.getElementById('om-media').files || []);
 
   const btn = document.getElementById('om-btn-publicar');
@@ -9898,6 +9975,7 @@ async function publicarOffmarketDesdeWeb() {
     if (fotosPaths.length) entrada.fotos_url = fotosPaths;
     if (videosPaths.length) entrada.videos = videosPaths;
     if (enlace) entrada.enlace = enlace;
+    if (portal) entrada.source = portal;
     offmarket.push(entrada);
 
     _omSetEstado('Generando la web (index.html)...', '');
@@ -10040,55 +10118,72 @@ async function borrarOffmarketDesdeFicha() {
 }
 
 
-// Poner, cambiar o quitar el enlace de una oportunidad off-market ya
-// publicada, desde su propia ficha. Mismo mecanismo que cambiarEstado /
-// borrar: lee el repo, toca solo esa entrada de offmarket_cache.json,
-// reconstruye index.html y sube un commit.
-async function guardarEnlaceOffmarketDesdeFicha() {
+// Poner, cambiar o quitar el enlace y el portal de un anuncio creado desde la
+// web (oportunidad off-market o "+ Nuevo anuncio"), desde su propia ficha.
+// Mismo mecanismo que cambiarEstado / borrar: lee el repo, toca solo esa
+// entrada (offmarket_cache.json u hoteles_cache.json), reconstruye index.html
+// y sube un commit.
+async function guardarOrigenDesdeFicha() {
   const url = window._detCurrentUrl;
   if (!url || !esAdmin()) return;
-  const inp = document.getElementById('det-om-enlace');
-  const statusEl = document.getElementById('det-om-status');
+  const esOm = url.indexOf('#offmarket-') === 0;
+  const esManual = url.indexOf('#manual-') === 0;
+  if (!esOm && !esManual) return;
+  const inpE = document.getElementById('det-or-enlace');
+  const inpP = document.getElementById('det-or-portal');
+  const statusEl = document.getElementById('det-or-status');
   const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
-  const enlace = normalizarEnlaceOm(inp ? inp.value : '');
+  const enlace = normalizarEnlaceOm(inpE ? inpE.value : '');
   if (enlace === null) {
     setStatus('El enlace no parece una direccion web valida (tiene que ser tipo https://...).');
     return;
   }
+  let portal = ((inpP ? inpP.value : '') || '').trim();
+  if (!portal && enlace) portal = portalDesdeEnlace(enlace);
+  if (!portal && esManual) portal = 'Manual';
   if (!getGithubToken()) {
     cambiarGithubToken();
-    if (!getGithubToken()) { setStatus('Hace falta el token de GitHub para guardar el enlace.'); return; }
+    if (!getGithubToken()) { setStatus('Hace falta el token de GitHub para guardar.'); return; }
   }
-  const btn = document.getElementById('det-btn-guardar-enlace-om');
+  const btn = document.getElementById('det-btn-guardar-origen');
   if (btn) btn.disabled = true;
   setStatus('Guardando...');
   try {
     const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
     const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
 
-    const entrada = offmarket.find(o => o.url === url);
-    if (!entrada) throw new Error('No encuentro esa oportunidad en el repositorio (se ha borrado desde otro sitio?).');
+    const lista = esOm ? offmarket : cache;
+    const entrada = lista.find(o => o.url === url);
+    if (!entrada) throw new Error('No encuentro ese anuncio en el repositorio (se ha borrado desde otro sitio?).');
     if (enlace) entrada.enlace = enlace; else delete entrada.enlace;
+    if (portal) entrada.source = portal; else delete entrada.source;
 
     const html = ghConstruirIndexHtml(template, cache, retirados, adrJson, offmarket);
 
-    const blobOmNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
-      method: 'POST', body: JSON.stringify({ content: JSON.stringify(offmarket, null, 1), encoding: 'utf-8' }),
+    const blobDatosNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(lista, null, 1), encoding: 'utf-8' }),
     });
     const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
       method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
     });
     const treeEntries = [
-      { path: 'offmarket_cache.json', mode: '100644', type: 'blob', sha: blobOmNuevo.sha },
+      { path: esOm ? 'offmarket_cache.json' : 'hoteles_cache.json', mode: '100644', type: 'blob', sha: blobDatosNuevo.sha },
       { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
     ];
-    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Off-market: enlace de ${entrada.title}`);
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries,
+      `${esOm ? 'Off-market' : 'Anuncio manual'}: enlace y portal de ${entrada.title}`);
 
-    [OFFMARKET.find(o => o.url === url), window._detCurrentHotel].forEach(o => {
+    const local = esOm ? OFFMARKET.find(o => o.url === url) : HOTELES.find(o => o.url === url);
+    [local, window._detCurrentHotel].forEach(o => {
       if (!o) return;
       if (enlace) o.enlace = enlace; else delete o.enlace;
+      if (portal) o.source = portal; else delete o.source;
     });
-    if (inp) inp.value = enlace;
+    if (inpE) inpE.value = enlace;
+    if (inpP) { inpP.value = portal; delete inpP.dataset.tocado; }
+    const portalFicha = portal || (esOm ? 'Off-Market' : '');
+    const infoPortal = document.getElementById('det-info-portal');
+    if (infoPortal) infoPortal.textContent = portalFicha || '—';
     const btnAnuncio = document.getElementById('det-btn-anuncio');
     if (btnAnuncio) {
       if (enlace) {
@@ -10100,11 +10195,11 @@ async function guardarEnlaceOffmarketDesdeFicha() {
         btnAnuncio.style.display = 'none';
       }
     }
-    renderOffmarket();
-    setStatus(enlace ? 'Enlace guardado.' : 'Enlace quitado.');
+    try { if (esOm) renderOffmarket(); else render(true); } catch (e) { console.error(e); }
+    setStatus('Guardado.');
   } catch (err) {
     console.error(err);
-    setStatus(err.message || 'No se ha podido guardar el enlace.');
+    setStatus(err.message || 'No se ha podido guardar.');
   } finally {
     if (btn) btn.disabled = false;
   }
