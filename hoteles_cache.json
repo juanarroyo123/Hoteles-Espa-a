@@ -67354,5 +67354,24 @@
   "rooms": 17,
   "m2": 2500,
   "enlace": "https://www.idealista.com/inmueble/112002281/"
+ },
+ {
+  "title": "Traspaso hostal Motril - Av. de Europa",
+  "price": "30.000",
+  "location": "Motril",
+  "location_region": "Andalucía",
+  "description": "Se traspasa hostal en Motril. 22 habitación + 1 piso de 4 habitaciones en el mismo edificio \nActualmente en funcionamiento \nTraspaso 30.000€\nAlquiler 3.300€/mes",
+  "url": "#manual-traspaso_hostal_motril_av_de_europa",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "venta",
+  "rooms": 26,
+  "m2": 700,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/traspaso-hostal-motril-av-de-europa-618180278.htm"
  }
 ]
