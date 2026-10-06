@@ -67487,5 +67487,24 @@
   "rooms": 14,
   "m2": 300,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/juderia-c-cardenal-herrero-605296682.htm"
+ },
+ {
+  "title": "Hotel Traspaso Benidorm. Hostal en Benidorm Centro, Alicante.",
+  "price": "1.000.000",
+  "location": "Benidorm",
+  "location_region": "Comunidad Valenciana",
+  "description": "Ref: Fer09 Hotel Traspaso Benidorm. Hostal en Benidorm Centro, Alicante. El hotel tiene una superficie construida de 825 m² aproximadamente. Dispone de 35 habitaciones, más los servicios necesarios (recepción, oficina, etc). Reformado por completo en el 2016, adecuándose a la normativa de hoteles de 1 estrella. Dispone de sistemas de ahorro energético que hacen muy sostenible la explotación del mismo, aire acondicionado de mínimo consumo, sistema de aerotermia, etc. El coste energético total anual es de menos de 8.000€. Gran eficiencia en rendimiento y explotación. # Alarma # Sistema de vigilancia #",
+  "url": "#manual-hotel_traspaso_benidorm_hostal_en_benidorm_centro_",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Hotel",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 35,
+  "m2": 825,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/benidorm-601479878.htm"
  }
 ]
