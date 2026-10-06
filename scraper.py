@@ -1159,7 +1159,22 @@ def subir_github(total):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         subprocess.run(['git','stash'], capture_output=True)
         subprocess.run(['git','pull','origin','main','--rebase'], check=True)
-        subprocess.run(['git','stash','pop'], capture_output=True)
+        pop = subprocess.run(['git','stash','pop'], capture_output=True, text=True)
+        # PROTECCION (06/10/2026): si el 'stash pop' choca con algo que llego desde
+        # la web (anuncios creados en el navegador mientras corria esto), git deja
+        # marcadores <<<<<<< / >>>>>>> dentro de los ficheros. Antes se subian igual
+        # y la web dejaba de funcionar. Ahora se para aqui, sin subir nada.
+        _conflictos = []
+        for _f in ['index.html','hoteles_cache.json','offmarket_cache.json',
+                   'retirados_historico.json','index_template.html']:
+            if os.path.exists(_f):
+                with open(_f, 'r', encoding='utf-8', errors='replace') as _fh:
+                    if any(_l.startswith(('<<<<<<<', '>>>>>>>')) for _l in _fh):
+                        _conflictos.append(_f)
+        if _conflictos or 'conflict' in ((pop.stdout or '') + (pop.stderr or '')).lower():
+            raise RuntimeError(
+                'CONFLICTO al recuperar tus cambios locales (' + ', '.join(_conflictos or ['ver git status']) + '). '
+                'NO se ha subido nada para no romper la web. Avisa a Claude antes de tocar nada mas.')
 
         # CONFIRMADO — riesgo real detectado antes de que pasara: si
         # 'licencias_completo.json' no existe todavía (primera vez, o
