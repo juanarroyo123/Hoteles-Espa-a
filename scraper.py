@@ -270,6 +270,25 @@ def parsear_fecha(texto):
         if mes_num: return f'{dia:02d}/{mes_num:02d}/{año}'
     return TODAY
 
+# ─── anuncios ignorados ───────────────────────────────
+# URLs de anuncios que Juan ha borrado a mano desde la web (boton "Borrar este
+# anuncio" de la ficha). Se apuntan en anuncios_ignorados.json: el scraper no
+# los vuelve a meter aunque el portal siga mostrandolos.
+IGNORADOS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'anuncios_ignorados.json')
+
+def cargar_ignorados():
+    try:
+        with open(IGNORADOS_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return {str(u).strip().split('?')[0].rstrip('/') for u in data if u}
+    except FileNotFoundError:
+        return set()
+    except Exception as e:
+        print(f'Aviso: no se pudo leer anuncios_ignorados.json ({e}); se ignora.')
+        return set()
+
+IGNORADOS_URLS = cargar_ignorados()
+
 # ─── cache ────────────────────────────────────────────
 def load_cache():
     if os.path.exists(CACHE_FILE):
@@ -277,6 +296,11 @@ def load_cache():
             with open(CACHE_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             print(f'Cache cargado: {len(data)} anuncios previos.')
+            if IGNORADOS_URLS:
+                antes = len(data)
+                data = [item for item in data if item.get('url') not in IGNORADOS_URLS]
+                if len(data) != antes:
+                    print(f'  ({antes - len(data)} anuncios borrados a mano desde la web se quitan de la cache)')
             return {item['url']: item for item in data}
         except Exception as e:
             print(f'Cache corrupto ({e}), empezando desde cero.')
@@ -663,6 +687,7 @@ def clasificar_tipo(title, description=''):
 def add_listing(item):
     url = item.get('url','').strip().split('?')[0].rstrip('/')
     if not url or url in seen_urls: return False
+    if url in IGNORADOS_URLS: return False   # borrado a mano desde la web
     if not item.get('title') or len(item['title']) < 8: return False
     if es_duplicado(item, found_listings): return False
     seen_urls.add(url)
@@ -1184,7 +1209,7 @@ def subir_github(total):
         # existen de verdad antes de añadirlos, uno a uno.
         archivos_candidatos = ['index.html', 'hoteles_cache.json',
                                 'index_template.html', 'licencias_completo.json',
-                                'retirados_historico.json', 'offmarket_cache.json',
+                                'retirados_historico.json', 'offmarket_cache.json', 'anuncios_ignorados.json',
                                 'scraper.py', 'scraper_licencias.py', 'cruzar_licencias.js',
                                 'comprobar_licencias.py', 'comprobar_licencias.bat']
         archivos_a_subir = [a for a in archivos_candidatos if os.path.exists(a)]
