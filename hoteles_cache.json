@@ -67676,5 +67676,23 @@
   "rooms": 60,
   "m2": 1800,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/cruz-de-los-caidos-c-juan-xxiii-587881270.htm"
+ },
+ {
+  "title": "Se traspasa licencia de albergue turístico",
+  "price": "60.000",
+  "location": "Arratia",
+  "location_region": "País Vasco",
+  "description": "Se traspasa licencia de albergue turístico. En pleno rendimiento, con reservas confirmadas hasta septiembre de 2026. En plena naturaleza. Con dos hectáreas de bosque privado. \nSe traspasa por problemas de salud que nos impide poder atenderlo. Más fotos e información por WhatsApp",
+  "url": "#manual-se_traspasa_licencia_de_albergue_turistico",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Albergue",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "m2": 500,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/arratia-apala-auzoa-581340714.htm"
  }
 ]
