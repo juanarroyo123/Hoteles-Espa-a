@@ -67657,5 +67657,24 @@
   "rooms": 8,
   "m2": 324,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/tarifa-589540791.htm"
+ },
+ {
+  "title": "Se traspasa o se vende hotel por jubilación en pleno centro de Cáceres",
+  "price": "1000",
+  "location": "Cáceres",
+  "location_region": "Extremadura",
+  "description": "Se traspasa o se vende hotel por jubilación en pleno centro de Cáceres funcionando con discoteca y posibilidad de restaurante , 60 habitaciones y una vivienda, muchas posibilidades.",
+  "url": "#manual-se_traspasa_o_se_vende_hotel_por_jubilacion_en_ple",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Hotel",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 60,
+  "m2": 1800,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/cruz-de-los-caidos-c-juan-xxiii-587881270.htm"
  }
 ]
