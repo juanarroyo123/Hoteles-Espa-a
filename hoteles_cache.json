@@ -67430,5 +67430,24 @@
   "rooms": 6,
   "m2": 482,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/longas-c-baja-609117230.htm"
+ },
+ {
+  "title": "Centro - C. San Antón",
+  "price": "10.000",
+  "location": "Granada",
+  "location_region": "Andalucía",
+  "description": "Traspaso conjunto de 22 apartamentos turisticos en corrala granadina, excelente estado, en funcionamiento, con buena puntuacion en canales online, por no poder atender.   10.000 euros/apartamento, 220.000 euros.  15.000€ alquiler mensual.",
+  "url": "#manual-centro_c_san_anton",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Apartamentos turísiticos (edificio)",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 22,
+  "m2": 1200,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/centro-c-san-anton-605773615.htm"
  }
 ]
