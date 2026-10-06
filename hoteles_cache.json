@@ -67120,5 +67120,24 @@
   "rooms": 40,
   "m2": 300,
   "enlace": "https://www.idealista.com/inmueble/111332178/"
+ },
+ {
+  "title": "Negocio de alojamiento en traspaso en Carril de la Esparza, 9",
+  "price": "80.000",
+  "location": "Rincón de Seca",
+  "location_region": "Murcia",
+  "description": "Se traspasa La Casa Verde Hostel & Bar. Recien reformado en 2024. Hostel con 7 habitaciones y bar terraza con 30 mesas en una tahulla de terreno edificable a 200 metros del Malecón y junto al río.",
+  "url": "#manual-negocio_de_alojamiento_en_traspaso_en_carril_de_la",
+  "source": "Idealista",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 7,
+  "m2": 950,
+  "enlace": "https://www.idealista.com/inmueble/109834875/"
  }
 ]
