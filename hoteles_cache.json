@@ -67525,5 +67525,24 @@
   "rooms": 16,
   "m2": 400,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/o-pedrouzo-arca-o-pino-av-lugo-600321425.htm"
+ },
+ {
+  "title": "Hostal de 22 habitaciones, amuebladas, todas con aire acondicionado y TV.",
+  "price": "320.000",
+  "location": "Alcalá de Henares",
+  "location_region": "Comunidad de Madrid",
+  "description": "Hostal de 22 habitaciones, amuebladas, todas con aire acondicionado y TV.\n\nEs un edificio entero. En pleno funcionamiento. Para entrar directamente. Alta rentabilidad ya que esta enfocado todo de forma online. \n\nQuedan 8,5 años de arrendamiento. \nAlquiler mensual: 6000€\n\nPrecio de venta de la sociedad: 320.000€.",
+  "url": "#manual-hostal_de_22_habitaciones_amuebladas_todas_con_air",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 22,
+  "m2": 450,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/centro-599504115.htm"
  }
 ]
