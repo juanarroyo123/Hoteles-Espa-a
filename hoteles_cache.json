@@ -67544,5 +67544,24 @@
   "rooms": 22,
   "m2": 450,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/centro-599504115.htm"
+ },
+ {
+  "title": "Hostal 80 plazas Barcelona",
+  "price": "1.000.000",
+  "location": "Barcelona",
+  "location_region": "Cataluña",
+  "description": "Hostal 80 plazas mas restaurante junto a varias lineas de metro y centro comercial",
+  "url": "#manual-hostal_80_plazas_barcelona",
+  "source": "Traspasobar",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 80,
+  "m2": 550,
+  "enlace": "https://www.traspasobar.com/anuncio/barcelona/se-traspasa-alquila-28209.html"
  }
 ]
