@@ -1344,6 +1344,8 @@ header{
             </div>
             <button class="det-btn-secondary" id="det-btn-guardar-origen" onclick="guardarOrigenDesdeFicha()">Guardar enlace y portal</button>
             <div id="det-or-status" style="font-size:0.7rem;color:var(--muted);margin-top:0.5rem"></div>
+            <button class="det-btn-secondary" id="det-btn-borrar-manual" onclick="borrarAnuncioManualDesdeFicha()" style="display:none;margin-top:1rem;color:#a33;border-color:#a33">Borrar este anuncio</button>
+            <div class="det-dec-hint" id="det-or-borrar-hint" style="display:none">Solo para anuncios creados a mano que ya no valgan (duplicados, errores...). No se puede deshacer.</div>
           </div>
         </div>
         <!-- Oportunidad off-market: borrar. Solo se ve si esta ficha es una
@@ -8945,6 +8947,10 @@ function openDetailPage(listIdx) {
   if (detOrPortal) { detOrPortal.value = h.source || ''; delete detOrPortal.dataset.tocado; }
   const detOrStatus = document.getElementById('det-or-status');
   if (detOrStatus) detOrStatus.textContent = '';
+  const detBorrarManual = document.getElementById('det-btn-borrar-manual');
+  if (detBorrarManual) { detBorrarManual.style.display = esManualFicha ? '' : 'none'; detBorrarManual.disabled = false; }
+  const detBorrarHint = document.getElementById('det-or-borrar-hint');
+  if (detBorrarHint) detBorrarHint.style.display = esManualFicha ? '' : 'none';
   const portalFicha = h.source || (esOffmarketFicha ? 'Off-Market' : '');
 
   const price = getEffectivePrecioNum(h);
@@ -10205,6 +10211,61 @@ async function guardarOrigenDesdeFicha() {
   }
 }
 
+
+// Borrar por completo un anuncio creado a mano con "+ Nuevo anuncio" (p.ej.
+// porque ya estaba en la web por otro portal, o se publico por error).
+// Solo vale para fichas "#manual-..." -- los anuncios del scraper no se
+// tocan desde aqui. Mismo mecanismo que el resto: lee el repo, quita la
+// entrada de hoteles_cache.json, reconstruye index.html y sube un commit.
+async function borrarAnuncioManualDesdeFicha() {
+  const url = window._detCurrentUrl;
+  if (!url || !esAdmin()) return;
+  if (url.indexOf('#manual-') !== 0) return;
+  const hLocal = HOTELES.find(o => o.url === url);
+  const nombre = (hLocal && hLocal.title) || 'este anuncio';
+  if (!confirm(`¿Borrar "${nombre}" de la web? No se puede deshacer.`)) return;
+  if (!getGithubToken()) {
+    cambiarGithubToken();
+    if (!getGithubToken()) { alert('Hace falta el token de GitHub para borrarlo.'); return; }
+  }
+  const btn = document.getElementById('det-btn-borrar-manual');
+  const statusEl = document.getElementById('det-or-status');
+  const setStatus = (msg) => { if (statusEl) statusEl.textContent = msg; };
+  if (btn) btn.disabled = true;
+  setStatus('Borrando...');
+  try {
+    const { latestCommitSha, baseTreeSha, shaDe } = await ghLeerArbolBase();
+    const { template, cache, retirados, adrJson, offmarket } = await ghDescargarDatosActuales(shaDe);
+
+    const quedan = cache.filter(o => o.url !== url);
+    if (quedan.length === cache.length) throw new Error('No encuentro ese anuncio en el repositorio (se ha borrado ya desde otro sitio?).');
+
+    const html = ghConstruirIndexHtml(template, quedan, retirados, adrJson, offmarket);
+
+    const blobCacheNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: JSON.stringify(quedan, null, 1), encoding: 'utf-8' }),
+    });
+    const blobHtmlNuevo = await ghFetch(`/repos/${GH_OWNER}/${GH_REPO}/git/blobs`, {
+      method: 'POST', body: JSON.stringify({ content: html, encoding: 'utf-8' }),
+    });
+    const treeEntries = [
+      { path: 'hoteles_cache.json', mode: '100644', type: 'blob', sha: blobCacheNuevo.sha },
+      { path: 'index.html', mode: '100644', type: 'blob', sha: blobHtmlNuevo.sha },
+    ];
+    await ghCrearCommit(baseTreeSha, latestCommitSha, treeEntries, `Anuncio manual: borrar ${nombre}`);
+
+    const idxLocal = HOTELES.findIndex(o => o.url === url);
+    if (idxLocal !== -1) HOTELES.splice(idxLocal, 1);
+    setStatus('Borrado.');
+    closeDetailPage();
+    try { render(true); } catch (e) { console.error(e); }
+  } catch (err) {
+    console.error(err);
+    alert(err.message || 'No se ha podido borrar el anuncio.');
+    setStatus('');
+    if (btn) btn.disabled = false;
+  }
+}
 
 init();
 entrarALaWeb(); // si ya había sesión guardada en este navegador, la retoma
