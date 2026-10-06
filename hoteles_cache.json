@@ -67487,5 +67487,24 @@
   "rooms": 14,
   "m2": 300,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/juderia-c-cardenal-herrero-605296682.htm"
+ },
+ {
+  "title": "Hostal en zona de Babel con licencia en vigor",
+  "price": "1.000.000",
+  "location": "Benidorm",
+  "location_region": "Comunidad Valenciana",
+  "description": "Fer07. Hostal en zona de Babel con licencia en vigor el alquiler es 1.700€ y todos los servicios y medidas de seguridad, alarma, sistema contra incendios, circuito cerrado de cámaras en exterior y en todas las zonas comunes, extracción de aire en todas las habitaciones así como de agua caliente, instalación de aire acondicionado en todo el hostal y pre instalación de suministros para agua y TV fontanería etc en cada habitación para hacer un pequeño estudio o apartamento en cada estancia, instalacion de placas solares para agua caliente con apoyo de caldera de gas butano para los días nublados o por la noche, pero se puede instalar mas placas con sistema de almacenamiento si no se quiere tener butano. \n\nConsta 2 pisos 11 habitaciones en el 1er piso y 13 en la planta baja en total 24 habitaciones (5 pequeñas) con posibilidad de sacar 5h o más, todas las habitaciones tienen baño y ducha, hay habitaciones con literas para grupos. Máquinas vending con valor de 11.000€. \n\nCon la licencia que tiene se puede automatizar todo si no se desea tener personal poniendo cerraduras con tarjetas en cada habitación. La recepción se puede utilizar como mini cafeteria bar, tiene neveras se puede poner cafetera etc… Plano de situación en cada habitación. En las parte de fuera de la nave en el patio se puede poner una piscina, hamacas etc. # Alarma # Sistema de vigilancia # Area comunitaria #",
+  "url": "#manual-hostal_en_zona_de_babel_con_licencia_en_vigor",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "06/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 35,
+  "m2": 825,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/benidorm-601479878.htm"
  }
 ]
