@@ -67788,5 +67788,24 @@
   "rooms": 8,
   "m2": 18000,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/mosquerolas-carrer-barcelona-centre-556405783.htm"
+ },
+ {
+  "title": "Complejo hotelero área de servicio,situado en Autovia Jaen-Madrid",
+  "price": "6500",
+  "location": "Campillo de Arenas",
+  "location_region": "Andalucía",
+  "description": "Complejo hotelero área de servicio, en funcionamiento (25 habitaciones, 2\nestrellas), situado en Autovia Jaen-Madrid\nUbicado en un cambio de sentido en ambas direcciones. Vía única entrada salida Europa- África, paso obligado desde Madrid hacia las provincias de\nAlmería, Granada, Málaga (costa del sol), Algeciras-África.\nEl complejo tiene una superficie superior a 5 mil m2, construido en 1992.\nTotalmente equipado con calefacción, aire acondicionado, atención 24 horas\nlos 365 días del año.\nTraspaso negociable",
+  "url": "#manual-complejo_hotelero_area_de_servicio_situado_en_auto",
+  "source": "Milanuncios",
+  "ausencias": 0,
+  "tipo": "Hotel",
+  "estado": "Activo",
+  "date": "07/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 25,
+  "m2": 500,
+  "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/campillo-de-arenas-551106136.htm"
  }
 ]
