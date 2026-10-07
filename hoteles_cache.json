@@ -68628,5 +68628,24 @@
   "rooms": 25,
   "m2": 5000,
   "enlace": "https://www.milanuncios.com/traspasos-de-hostales-y-hoteles/campillo-de-arenas-551106136.htm"
+ },
+ {
+  "title": "Transpaso hostal Valencia",
+  "price": "100.000",
+  "location": "Valencia",
+  "location_region": "C. Valenciana",
+  "description": "PERFECTO HOSTAL EN PLENO CORAZON DE LA CIUDAD DE VALENCIA. 9 HABITACIONES CON BAÑO, LICENCIA DEFINITIVA, PRIMER PISO CON VISTAS A LA PLAZA Y A LA CATEDRAL. 100.OOO€ DE TRASPASO, 5000€ DE ALQUILER. RECIEN REFORMADO Y CON TODO EN PERFECTO ESTADO, TODOS LOS DETALLES CUIDADOS AL MAXIMO. PARA ENTRAR DE INMEDIATO SIN NINGUNA RESTRICCION. SOLO GENTE SOLVENTE Y CON LIQUIDEZ DEMOSTRABLE. CONTACTAR POR EMAIL.",
+  "url": "#manual-transpaso_hostal_valencia",
+  "source": "traspasobar.com",
+  "ausencias": 0,
+  "tipo": "Hostal",
+  "estado": "Activo",
+  "date": "07/10/2026",
+  "licencia_texto": "",
+  "licencia_motivo": "",
+  "operacion_detectada": "traspaso",
+  "rooms": 9,
+  "m2": 324,
+  "enlace": "https://www.traspasobar.com/anuncio/valencia/traspaso-hostal-en-valencia-24181.html"
  }
 ]
