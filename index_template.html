@@ -785,6 +785,34 @@ header{
 }
 .lic-ffield select:focus,.lic-ffield input:focus{border-color:var(--green)}
 .lic-ffield input::placeholder{color:var(--muted)}
+.trk-multi{position:relative}
+.trk-multi-btn{
+  width:100%;background:#fff;border:1px solid var(--border-dark);
+  color:var(--text);font-family:'Open Sans',sans-serif;font-size:0.78rem;
+  padding:0.42rem 0.6rem;text-align:left;cursor:pointer;outline:none;
+  display:flex;justify-content:space-between;align-items:center;gap:0.5rem;
+}
+.trk-multi-btn:focus,.trk-multi.open .trk-multi-btn{border-color:var(--green)}
+.trk-multi-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trk-multi-btn::after{content:"\25BE";color:var(--muted);flex:none}
+.trk-multi-panel{
+  display:none;position:absolute;left:0;right:0;top:100%;z-index:400;
+  min-width:210px;background:#fff;border:1px solid var(--green);border-top:none;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);padding:0.3rem 0;max-height:320px;overflow-y:auto;
+}
+.trk-multi.open .trk-multi-panel{display:block}
+.trk-multi-panel label{
+  display:flex;align-items:center;gap:0.5rem;padding:0.32rem 0.7rem;
+  font-size:0.78rem;color:var(--text);cursor:pointer;text-transform:none;letter-spacing:0;
+  font-family:'Open Sans',sans-serif;font-weight:400;margin:0;
+}
+.trk-multi-panel label:hover{background:var(--green-glow)}
+.trk-multi-panel input{width:auto;margin:0;accent-color:var(--green)}
+.trk-multi-clear{
+  display:block;width:100%;background:none;border:none;border-top:1px solid var(--border);
+  margin-top:0.25rem;padding:0.4rem 0.7rem;text-align:left;cursor:pointer;
+  font-size:0.72rem;color:var(--green);font-family:'Open Sans',sans-serif;
+}
 .lic-ffield-range{display:flex;gap:0.4rem}
 .lic-ffield-range input{width:50%}
 .lic-filter-footer{
@@ -947,20 +975,8 @@ header{
         </select>
       </div>
       <div class="lic-ffield">
-        <label for="tracking-select">Estado (seguimiento)</label>
-        <select id="tracking-select" onchange="setTrackingFilter(this.value)">
-          <option value="todos">Todos</option>
-          <option value="sin_revisar">Sin revisar</option>
-          <option value="no_interesante">No interesante</option>
-          <option value="repetido">Repetido / duplicado</option>
-          <option value="interesante">Interesante</option>
-          <option value="contactado">Contactado</option>
-          <option value="contactado_2">Contactado (2ª vez)</option>
-          <option value="respondido">Respondido</option>
-          <option value="negociacion">En negociación</option>
-          <option value="descartado">Descartado</option>
-          <option value="comprado">Comprado</option>
-        </select>
+        <label>Estado (seguimiento)</label>
+        <div class="trk-multi" id="tracking-select"></div>
       </div>
       <div class="lic-ffield">
         <label for="priority-select">Prioridad</label>
@@ -1743,20 +1759,8 @@ header{
     <div class="filter-panel-static">
       <div class="lic-filters-grid">
         <div class="lic-ffield">
-          <label for="ret-tracking-select">Estado (seguimiento)</label>
-          <select id="ret-tracking-select" onchange="setTrackingFilter(this.value)">
-            <option value="todos">Todos</option>
-            <option value="sin_revisar">Sin revisar</option>
-            <option value="no_interesante">No interesante</option>
-            <option value="repetido">Repetido / duplicado</option>
-            <option value="interesante">Interesante</option>
-            <option value="contactado">Contactado</option>
-            <option value="contactado_2">Contactado (2ª vez)</option>
-            <option value="respondido">Respondido</option>
-            <option value="negociacion">En negociación</option>
-            <option value="descartado">Descartado</option>
-            <option value="comprado">Comprado</option>
-          </select>
+          <label>Estado (seguimiento)</label>
+          <div class="trk-multi" id="ret-tracking-select"></div>
         </div>
         <div class="lic-ffield">
           <label for="ret-priority-select">Prioridad</label>
@@ -3418,7 +3422,7 @@ let portalFilter  = 'todos';
 let dateFilter    = 'all';
 let regionFilter  = 'todos';
 let priceFilter   = 'all';
-let trackingFilter = 'todos';
+let trackingFilter = [];   // vacío = todos; si no, lista de estados marcados (varios a la vez)
 let priorityFilter = 'todos';
 let municipioFilter = 'todos';
 let operacionFilter = 'todos';
@@ -3564,12 +3568,74 @@ function setPriceFilter(range) {
 // filtro para Hoteles en venta y Retiradas -- ambas pestañas comparten el
 // mismo seguimiento por URL -- así que hay un select en cada una y los dos
 // se mantienen sincronizados.
+const TRACKING_OPCIONES = [
+  ['sin_revisar', 'Sin revisar'],
+  ['no_interesante', 'No interesante'],
+  ['repetido', 'Repetido / duplicado'],
+  ['interesante', 'Interesante'],
+  ['contactado', 'Contactado'],
+  ['contactado_2', 'Contactado (2ª vez)'],
+  ['respondido', 'Respondido'],
+  ['negociacion', 'En negociación'],
+  ['descartado', 'Descartado'],
+  ['comprado', 'Comprado']
+];
+
+function resumenTrackingFilter() {
+  if (!trackingFilter.length) return 'Todos';
+  const nombres = TRACKING_OPCIONES.filter(o => trackingFilter.indexOf(o[0]) >= 0).map(o => o[1]);
+  return nombres.length <= 2 ? nombres.join(', ') : nombres.length + ' estados';
+}
+
+function renderTrackingMulti() {
+  ['tracking-select', 'ret-tracking-select'].forEach(id => {
+    const box = document.getElementById(id);
+    if (!box) return;
+    const abierto = box.classList.contains('open');
+    box.innerHTML =
+      '<button type="button" class="trk-multi-btn" onclick="toggleTrackingMulti(\'' + id + '\', event)"><span>' + resumenTrackingFilter() + '</span></button>' +
+      '<div class="trk-multi-panel" onclick="event.stopPropagation()">' +
+      TRACKING_OPCIONES.map(o =>
+        '<label><input type="checkbox" value="' + o[0] + '"' + (trackingFilter.indexOf(o[0]) >= 0 ? ' checked' : '') +
+        ' onchange="toggleTrackingEstado(this.value, this.checked)"> ' + o[1] + '</label>').join('') +
+      '<button type="button" class="trk-multi-clear" onclick="limpiarTrackingFilter()">Quitar selección (ver todos)</button>' +
+      '</div>';
+    if (abierto) box.classList.add('open');
+  });
+}
+
+function toggleTrackingMulti(id, ev) {
+  if (ev) ev.stopPropagation();
+  const box = document.getElementById(id);
+  if (!box) return;
+  const abrir = !box.classList.contains('open');
+  document.querySelectorAll('.trk-multi.open').forEach(b => b.classList.remove('open'));
+  if (abrir) box.classList.add('open');
+}
+
+document.addEventListener('click', () => {
+  document.querySelectorAll('.trk-multi.open').forEach(b => b.classList.remove('open'));
+});
+
+function toggleTrackingEstado(val, marcado) {
+  const i = trackingFilter.indexOf(val);
+  if (marcado && i < 0) trackingFilter.push(val);
+  if (!marcado && i >= 0) trackingFilter.splice(i, 1);
+  renderTrackingMulti();
+  renderPanelVisible();
+}
+
+function limpiarTrackingFilter() {
+  setTrackingFilter([]);
+}
+
+// Filtro por Estado de la "Decisión de compra" (seguimiento). Permite marcar
+// varios estados a la vez (OR entre ellos); ninguno marcado = todos. Es el mismo
+// filtro para Hoteles en venta y Retiradas, y los dos desplegables se mantienen
+// sincronizados.
 function setTrackingFilter(val) {
-  trackingFilter = val;
-  const sel1 = document.getElementById('tracking-select');
-  if (sel1) sel1.value = val;
-  const sel2 = document.getElementById('ret-tracking-select');
-  if (sel2) sel2.value = val;
+  trackingFilter = Array.isArray(val) ? val.slice() : (val && val !== 'todos' ? [val] : []);
+  renderTrackingMulti();
   renderPanelVisible();
 }
 
@@ -3688,7 +3754,7 @@ function updateFilterCount() {
   if (dateFilter !== 'all') count++;
   if (regionFilter !== 'todos') count++;
   if (priceFilter !== 'all') count++;
-  if (trackingFilter !== 'todos') count++;
+  if (trackingFilter.length) count++;
   if (priorityFilter !== 'todos') count++;
   if (municipioFilter !== 'todos') count++;
   if (operacionFilter !== 'todos') count++;
@@ -3741,8 +3807,8 @@ function getFiltered() {
     });
   }
   // Filtro por Estado de seguimiento (Decisión de compra)
-  if (trackingFilter !== 'todos')
-    list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
+  if (trackingFilter.length)
+    list = list.filter(h => trackingFilter.indexOf(getTracking(h.url).estado || 'sin_revisar') >= 0);
   // Filtro por Prioridad (1-5) de la Decisión de compra
   if (priorityFilter !== 'todos')
     list = list.filter(h => matchesPriorityFilter(h.url));
@@ -6915,7 +6981,7 @@ function resetFilters() {
   regionFilter  = 'todos';
   municipioFilter = 'todos';
   priceFilter   = 'all';
-  trackingFilter = 'todos';
+  trackingFilter = [];
   priorityFilter = 'todos';
   operacionFilter = 'todos';
   const portalSel = document.getElementById('portal-select');
@@ -6932,14 +6998,11 @@ function resetFilters() {
   if (dateSel) dateSel.value = 'all';
   const priceSel = document.getElementById('price-select');
   if (priceSel) priceSel.value = 'all';
-  const trackingSel = document.getElementById('tracking-select');
-  if (trackingSel) trackingSel.value = 'todos';
   const prioritySel = document.getElementById('priority-select');
   if (prioritySel) prioritySel.value = 'todos';
   const retPrioritySel = document.getElementById('ret-priority-select');
   if (retPrioritySel) retPrioritySel.value = 'todos';
-  const retTrackingSel = document.getElementById('ret-tracking-select');
-  if (retTrackingSel) retTrackingSel.value = 'todos';
+  renderTrackingMulti();
   const operacionSel = document.getElementById('operacion-select');
   if (operacionSel) operacionSel.value = 'todos';
   const retOperacionSel = document.getElementById('ret-operacion-select');
@@ -8829,8 +8892,8 @@ function renderRetiradas(mantenerPagina) {
   const q = (document.getElementById('ret-search')?.value || '').trim().toLowerCase();
   let list = [...arr];
   if (window._retFavFilter) list = list.filter(h => isFav(h.url));
-  if (trackingFilter !== 'todos')
-    list = list.filter(h => (getTracking(h.url).estado || 'sin_revisar') === trackingFilter);
+  if (trackingFilter.length)
+    list = list.filter(h => trackingFilter.indexOf(getTracking(h.url).estado || 'sin_revisar') >= 0);
   if (priorityFilter !== 'todos')
     list = list.filter(h => matchesPriorityFilter(h.url));
   if (operacionFilter !== 'todos')
@@ -10286,6 +10349,7 @@ async function borrarAnuncioDesdeFicha() {
 }
 
 
+renderTrackingMulti();
 init();
 entrarALaWeb(); // si ya había sesión guardada en este navegador, la retoma
 
