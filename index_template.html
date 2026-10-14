@@ -808,6 +808,12 @@ header{
 }
 .trk-multi-panel label:hover{background:var(--green-glow)}
 .trk-multi-panel input{width:auto;margin:0;accent-color:var(--green)}
+.trk-multi-activo .trk-multi-btn{border-color:var(--green);background:var(--green-glow)}
+.trk-multi-search{
+  display:block;width:calc(100% - 1rem);margin:0.3rem 0.5rem;padding:0.35rem 0.5rem;
+  border:1px solid var(--border-dark);font-size:0.76rem;font-family:'Open Sans',sans-serif;outline:none;
+}
+.trk-multi-search:focus{border-color:var(--green)}
 .trk-multi-clear{
   display:block;width:100%;background:none;border:none;border-top:1px solid var(--border);
   margin-top:0.25rem;padding:0.4rem 0.7rem;text-align:left;cursor:pointer;
@@ -3418,14 +3424,14 @@ function actualizarRestaurarDatosLink() {
   wrap.style.display = tieneOverride ? 'block' : 'none';
 }
 
-let portalFilter  = 'todos';
-let dateFilter    = 'all';
-let regionFilter  = 'todos';
-let priceFilter   = 'all';
+let portalFilter  = [];    // TODOS los filtros: lista vacia = todos; si no, varios valores marcados a la vez
+let dateFilter    = [];
+let regionFilter  = [];
+let priceFilter   = [];
 let trackingFilter = [];   // vacío = todos; si no, lista de estados marcados (varios a la vez)
-let priorityFilter = 'todos';
-let municipioFilter = 'todos';
-let operacionFilter = 'todos';
+let priorityFilter = [];
+let municipioFilter = [];
+let operacionFilter = [];
 let mapVisible   = false;
 let mapInstance  = null;
 let mapMarkers   = [];
@@ -3491,19 +3497,9 @@ function updateStats() {
   if (hkHoy) hkHoy.textContent = activos.filter(h=>{const d=parseDate(h.date);return d&&d.toLocaleDateString('es-ES')===todayStrb;}).length;
 }
 
-function setPortalFilter(portal) {
-  portalFilter = portal;
-  const sel = document.getElementById('portal-select');
-  if (sel) sel.value = portal;
-  render();
-}
+function setPortalFilter(v) { setFiltroMulti('portal', v); }
 
-function setDateFilter(df) {
-  dateFilter = df;
-  const sel = document.getElementById('date-select');
-  if (sel) sel.value = df;
-  render();
-}
+function setDateFilter(v) { setFiltroMulti('fecha', v); }
 
 // Los filtros de esta seccion son compartidos entre "Hoteles en venta" y
 // "Retiradas" (por eso sincronizan los dos <select>), pero repintar SIEMPRE
@@ -3525,49 +3521,36 @@ function renderPanelVisible() {
 // comunidad, el filtro de Municipio se recalcula para mostrar solo los
 // municipios que existen dentro de esa comunidad (si eliges Galicia, en
 // Municipio solo deben aparecer los municipios de anuncios de Galicia).
-function setRegionFilter(region) {
-  regionFilter = region;
-  const sel1 = document.getElementById('region-select');
-  if (sel1) sel1.value = region;
-  const sel2 = document.getElementById('ret-region-select');
-  if (sel2) sel2.value = region;
-  updateMunicipioChips();
-  renderPanelVisible();
-}
+function setRegionFilter(v) { setFiltroMulti('region', v); }
 
 function matchesRegionFilter(h) {
-  if (regionFilter === 'todos') return true;
-  if (regionFilter === 'sin-region') return !getComunidadEfectiva(h);
-  return getComunidadEfectiva(h) === regionFilter;
+  if (!regionFilter.length) return true;
+  const c = getComunidadEfectiva(h);
+  return regionFilter.some(r => r === 'sin-region' ? !c : c === r);
 }
 
 // Filtro por Municipio -- igual que el de Comunidad: mismo filtro para
 // Hoteles en venta y Retiradas, con los dos selects sincronizados.
-function setMunicipioFilter(val) {
-  municipioFilter = val;
-  const sel1 = document.getElementById('municipio-select');
-  if (sel1) sel1.value = val;
-  const sel2 = document.getElementById('ret-municipio-select');
-  if (sel2) sel2.value = val;
-  renderPanelVisible();
-}
+function setMunicipioFilter(v) { setFiltroMulti('municipio', v); }
 
 function matchesMunicipioFilter(h) {
-  if (municipioFilter === 'todos') return true;
-  return getEffectiveMunicipio(h).trim() === municipioFilter;
+  if (!municipioFilter.length) return true;
+  return municipioFilter.indexOf(getEffectiveMunicipio(h).trim()) >= 0;
 }
 
-function setPriceFilter(range) {
-  priceFilter = range;
-  const sel = document.getElementById('price-select');
-  if (sel) sel.value = range;
-  render();
-}
+function setPriceFilter(v) { setFiltroMulti('precio', v); }
 
 // Filtro por Estado de la "Decisión de compra" (seguimiento). Es el mismo
 // filtro para Hoteles en venta y Retiradas -- ambas pestañas comparten el
 // mismo seguimiento por URL -- así que hay un select en cada una y los dos
 // se mantienen sincronizados.
+// ══ FILTROS MULTISELECCION ═══════════════════════════════════════════════
+// Todos los filtros de la barra (Portal, Comunidad, Municipio, Precio, Fecha,
+// Estado, Prioridad y Operacion) dejan marcar VARIOS valores a la vez (OR entre
+// ellos); ninguno marcado = todos. Los <select> originales siguen en la pagina
+// (ocultos) porque el resto del codigo rellena sus opciones; este bloque
+// dibuja encima un desplegable con casillas que se reconstruye solo cuando
+// cambian las opciones del <select>.
 const TRACKING_OPCIONES = [
   ['sin_revisar', 'Sin revisar'],
   ['no_interesante', 'No interesante'],
@@ -3581,92 +3564,172 @@ const TRACKING_OPCIONES = [
   ['comprado', 'Comprado']
 ];
 
-function resumenTrackingFilter() {
-  if (!trackingFilter.length) return 'Todos';
-  const nombres = TRACKING_OPCIONES.filter(o => trackingFilter.indexOf(o[0]) >= 0).map(o => o[1]);
-  return nombres.length <= 2 ? nombres.join(', ') : nombres.length + ' estados';
+const FILTROS_MULTI = {
+  portal:    { ids: ['portal-select'],                          get: () => portalFilter,    set: v => { portalFilter = v; } },
+  region:    { ids: ['region-select', 'ret-region-select'],     get: () => regionFilter,    set: v => { regionFilter = v; } },
+  municipio: { ids: ['municipio-select', 'ret-municipio-select'], get: () => municipioFilter, set: v => { municipioFilter = v; } },
+  precio:    { ids: ['price-select'],                           get: () => priceFilter,     set: v => { priceFilter = v; } },
+  fecha:     { ids: ['date-select'],                            get: () => dateFilter,      set: v => { dateFilter = v; } },
+  tracking:  { ids: ['tracking-select', 'ret-tracking-select'], get: () => trackingFilter,  set: v => { trackingFilter = v; }, opciones: TRACKING_OPCIONES },
+  prioridad: { ids: ['priority-select', 'ret-priority-select'], get: () => priorityFilter,  set: v => { priorityFilter = v; } },
+  operacion: { ids: ['operacion-select', 'ret-operacion-select'], get: () => operacionFilter, set: v => { operacionFilter = v; } }
+};
+
+function _mfOpciones(f, hostId) {
+  if (f.opciones) return f.opciones;
+  const sel = document.getElementById(hostId);
+  if (!sel || sel.tagName !== 'SELECT') return [];
+  return Array.from(sel.options)
+    .filter(o => o.value !== 'todos' && o.value !== 'all')
+    .map(o => [o.value, o.textContent]);
 }
 
-function renderTrackingMulti() {
-  ['tracking-select', 'ret-tracking-select'].forEach(id => {
-    const box = document.getElementById(id);
-    if (!box) return;
-    const abierto = box.classList.contains('open');
-    box.innerHTML =
-      '<button type="button" class="trk-multi-btn" onclick="toggleTrackingMulti(\'' + id + '\', event)"><span>' + resumenTrackingFilter() + '</span></button>' +
-      '<div class="trk-multi-panel" onclick="event.stopPropagation()">' +
-      TRACKING_OPCIONES.map(o =>
-        '<label><input type="checkbox" value="' + o[0] + '"' + (trackingFilter.indexOf(o[0]) >= 0 ? ' checked' : '') +
-        ' onchange="toggleTrackingEstado(this.value, this.checked)"> ' + o[1] + '</label>').join('') +
-      '<button type="button" class="trk-multi-clear" onclick="limpiarTrackingFilter()">Quitar selección (ver todos)</button>' +
-      '</div>';
-    if (abierto) box.classList.add('open');
+function _mfTextoTodos(f, hostId) {
+  const sel = document.getElementById(hostId);
+  if (sel && sel.tagName === 'SELECT') {
+    const o = Array.from(sel.options).find(o => o.value === 'todos' || o.value === 'all');
+    if (o) return o.textContent;
+  }
+  return 'Todos';
+}
+
+function _mfResumen(key, hostId) {
+  const f = FILTROS_MULTI[key];
+  const act = f.get();
+  if (!act.length) return _mfTextoTodos(f, hostId);
+  const nombres = _mfOpciones(f, hostId).filter(o => act.indexOf(o[0]) >= 0).map(o => o[1]);
+  if (!nombres.length) return _mfTextoTodos(f, hostId);
+  return nombres.length <= 2 ? nombres.join(', ') : nombres.length + ' seleccionados';
+}
+
+function _mfSincronizar(key) {
+  const f = FILTROS_MULTI[key];
+  const act = f.get();
+  f.ids.forEach(id => {
+    const host = document.getElementById(id + '__multi') || document.getElementById(id);
+    if (!host || !host.classList.contains('trk-multi')) return;
+    const span = host.querySelector('.trk-multi-btn span');
+    if (span) span.textContent = _mfResumen(key, id);
+    host.querySelectorAll('.trk-multi-panel input[type=checkbox]').forEach(cb => {
+      cb.checked = act.indexOf(cb.value) >= 0;
+    });
+    host.classList.toggle('trk-multi-activo', act.length > 0);
   });
 }
 
-function toggleTrackingMulti(id, ev) {
-  if (ev) ev.stopPropagation();
-  const box = document.getElementById(id);
-  if (!box) return;
-  const abrir = !box.classList.contains('open');
-  document.querySelectorAll('.trk-multi.open').forEach(b => b.classList.remove('open'));
-  if (abrir) box.classList.add('open');
+function _mfConstruir(key, id) {
+  const f = FILTROS_MULTI[key];
+  const host = document.getElementById(id + '__multi') || document.getElementById(id);
+  if (!host || !host.classList.contains('trk-multi')) return;
+  const opciones = _mfOpciones(f, id);
+  host.textContent = '';
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'trk-multi-btn';
+  btn.appendChild(document.createElement('span'));
+  btn.addEventListener('click', ev => {
+    ev.stopPropagation();
+    const abrir = !host.classList.contains('open');
+    document.querySelectorAll('.trk-multi.open').forEach(b => b.classList.remove('open'));
+    if (abrir) host.classList.add('open');
+  });
+  host.appendChild(btn);
+  const panel = document.createElement('div');
+  panel.className = 'trk-multi-panel';
+  panel.addEventListener('click', ev => ev.stopPropagation());
+  if (opciones.length > 12) {
+    const q = document.createElement('input');
+    q.type = 'text';
+    q.className = 'trk-multi-search';
+    q.placeholder = 'Buscar...';
+    q.addEventListener('input', () => {
+      const t = q.value.trim().toLowerCase();
+      panel.querySelectorAll('label').forEach(l => {
+        l.style.display = !t || l.textContent.toLowerCase().indexOf(t) >= 0 ? '' : 'none';
+      });
+    });
+    panel.appendChild(q);
+  }
+  opciones.forEach(o => {
+    const l = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = o[0];
+    cb.addEventListener('change', () => toggleFiltroMulti(key, o[0], cb.checked));
+    l.appendChild(cb);
+    l.appendChild(document.createTextNode(' ' + o[1]));
+    panel.appendChild(l);
+  });
+  const clr = document.createElement('button');
+  clr.type = 'button';
+  clr.className = 'trk-multi-clear';
+  clr.textContent = 'Quitar selección (ver todos)';
+  clr.addEventListener('click', () => setFiltroMulti(key, []));
+  panel.appendChild(clr);
+  host.appendChild(panel);
+  _mfSincronizar(key);
+}
+
+function initFiltrosMulti() {
+  Object.keys(FILTROS_MULTI).forEach(key => {
+    FILTROS_MULTI[key].ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (el.tagName === 'SELECT') {
+        if (el.dataset.multiInit) return;
+        el.dataset.multiInit = '1';
+        el.style.display = 'none';
+        const host = document.createElement('div');
+        host.className = 'trk-multi';
+        host.id = id + '__multi';
+        el.parentNode.insertBefore(host, el.nextSibling);
+        new MutationObserver(() => _mfConstruir(key, id)).observe(el, { childList: true });
+      }
+      _mfConstruir(key, id);
+    });
+  });
+}
+
+function renderTrackingMulti() { _mfSincronizar('tracking'); }
+
+function toggleFiltroMulti(key, val, marcado) {
+  const f = FILTROS_MULTI[key];
+  const arr = f.get().slice();
+  const i = arr.indexOf(val);
+  if (marcado && i < 0) arr.push(val);
+  if (!marcado && i >= 0) arr.splice(i, 1);
+  setFiltroMulti(key, arr);
+}
+
+function setFiltroMulti(key, val) {
+  const f = FILTROS_MULTI[key];
+  const vacio = v => v === 'todos' || v === 'all' || v === '' || v == null;
+  f.set(Array.isArray(val) ? val.slice() : (vacio(val) ? [] : [val]));
+  _mfSincronizar(key);
+  // Al cambiar Comunidad, el desplegable de Municipio se recalcula
+  if (key === 'region') updateMunicipioChips();
+  renderPanelVisible();
 }
 
 document.addEventListener('click', () => {
   document.querySelectorAll('.trk-multi.open').forEach(b => b.classList.remove('open'));
 });
 
-function toggleTrackingEstado(val, marcado) {
-  const i = trackingFilter.indexOf(val);
-  if (marcado && i < 0) trackingFilter.push(val);
-  if (!marcado && i >= 0) trackingFilter.splice(i, 1);
-  renderTrackingMulti();
-  renderPanelVisible();
-}
-
-function limpiarTrackingFilter() {
-  setTrackingFilter([]);
-}
-
-// Filtro por Estado de la "Decisión de compra" (seguimiento). Permite marcar
-// varios estados a la vez (OR entre ellos); ninguno marcado = todos. Es el mismo
-// filtro para Hoteles en venta y Retiradas, y los dos desplegables se mantienen
-// sincronizados.
-function setTrackingFilter(val) {
-  trackingFilter = Array.isArray(val) ? val.slice() : (val && val !== 'todos' ? [val] : []);
-  renderTrackingMulti();
-  renderPanelVisible();
-}
+function setTrackingFilter(v) { setFiltroMulti('tracking', v); }
 
 // Filtro por Prioridad (1-5) de la "Decisión de compra" -- igual que el de
 // Estado: mismo filtro para Hoteles en venta y Retiradas, con los dos
 // selects sincronizados entre sí.
-function setPriorityFilter(val) {
-  priorityFilter = val;
-  const sel1 = document.getElementById('priority-select');
-  if (sel1) sel1.value = val;
-  const sel2 = document.getElementById('ret-priority-select');
-  if (sel2) sel2.value = val;
-  renderPanelVisible();
-}
+function setPriorityFilter(v) { setFiltroMulti('prioridad', v); }
 // Filtro por Operación (Venta / Contrato de gestión / Traspaso) -- igual que
 // el de Estado y Prioridad: mismo filtro para Hoteles en venta y Retiradas,
 // con los dos selects sincronizados entre sí.
-function setOperacionFilter(val) {
-  operacionFilter = val;
-  const sel1 = document.getElementById('operacion-select');
-  if (sel1) sel1.value = val;
-  const sel2 = document.getElementById('ret-operacion-select');
-  if (sel2) sel2.value = val;
-  renderPanelVisible();
-}
+function setOperacionFilter(v) { setFiltroMulti('operacion', v); }
 
 function matchesPriorityFilter(url) {
-  if (priorityFilter === 'todos') return true;
+  if (!priorityFilter.length) return true;
   const p = getTracking(url).prioridad;
-  if (priorityFilter === 'sin_prioridad') return !p;
-  return String(p) === priorityFilter;
+  return priorityFilter.some(f => f === 'sin_prioridad' ? !p : String(p) === f);
 }
 
 function updateRegionChips() {
@@ -3726,8 +3789,8 @@ function updateMunicipioChips() {
   // Si el municipio que estaba activo ya no existe en la comunidad elegida,
   // se limpia el filtro para no dejarlo "colgado" filtrando por un valor
   // que ya no aparece en el desplegable.
-  if (municipioFilter !== 'todos' && !municipios.includes(municipioFilter)) {
-    municipioFilter = 'todos';
+  if (municipioFilter.length) {
+    municipioFilter = municipioFilter.filter(m => municipios.includes(m));
   }
 }
 
@@ -3750,14 +3813,14 @@ function parsePrecioKEur(hotel) {
 
 function updateFilterCount() {
   let count = 0;
-  if (portalFilter !== 'todos') count++;
-  if (dateFilter !== 'all') count++;
-  if (regionFilter !== 'todos') count++;
-  if (priceFilter !== 'all') count++;
+  if (portalFilter.length) count++;
+  if (dateFilter.length) count++;
+  if (regionFilter.length) count++;
+  if (priceFilter.length) count++;
   if (trackingFilter.length) count++;
-  if (priorityFilter !== 'todos') count++;
-  if (municipioFilter !== 'todos') count++;
-  if (operacionFilter !== 'todos') count++;
+  if (priorityFilter.length) count++;
+  if (municipioFilter.length) count++;
+  if (operacionFilter.length) count++;
   const el = document.getElementById('filter-count');
   if (el) {
     if (count > 0) { el.textContent = count; el.classList.add('visible'); }
@@ -3776,45 +3839,50 @@ function parseDate(str) {
 
 function getFiltered() {
   let list = getEffectiveActivos();
-  if (portalFilter !== 'todos')
-    list = list.filter(h => (h.source||'').toLowerCase() === portalFilter.toLowerCase());
-  if (dateFilter !== 'all') {
+  if (portalFilter.length) {
+    const ports = portalFilter.map(p => p.toLowerCase());
+    list = list.filter(h => ports.indexOf((h.source||'').toLowerCase()) >= 0);
+  }
+  if (dateFilter.length) {
     const limits = {day:1,week:7,month:30,'3month':90,year:365};
-    const days = limits[dateFilter];
+    // Varias fechas marcadas = vale cualquiera, es decir, la ventana mas amplia
+    const days = Math.max.apply(null, dateFilter.map(d => limits[d] || 0));
     if (days) {
       const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - days);
       list = list.filter(h => { const d = parseDate(h.date); return d && d >= cutoff; });
     }
   }
   // Filtro comunidad
-  if (regionFilter !== 'todos')
+  if (regionFilter.length)
     list = list.filter(h => matchesRegionFilter(h));
   // Filtro municipio
-  if (municipioFilter !== 'todos')
+  if (municipioFilter.length)
     list = list.filter(h => matchesMunicipioFilter(h));
-  // Filtro precio
-  if (priceFilter !== 'all') {
+  // Filtro precio (varios rangos marcados = vale cualquiera)
+  if (priceFilter.length) {
     list = list.filter(h => {
       const precio = parsePrecioKEur(h);
-      if (priceFilter === 'consultar') return precio === null;
-      if (priceFilter === '0-500')      return precio !== null && precio < 500;
-      if (priceFilter === '500-1000')   return precio !== null && precio >= 500   && precio < 1000;
-      if (priceFilter === '1000-3000')  return precio !== null && precio >= 1000  && precio < 3000;
-      if (priceFilter === '3000-5000')  return precio !== null && precio >= 3000  && precio < 5000;
-      if (priceFilter === '5000-10000') return precio !== null && precio >= 5000  && precio < 10000;
-      if (priceFilter === '10000+')     return precio !== null && precio >= 10000;
-      return true;
+      return priceFilter.some(r => {
+        if (r === 'consultar') return precio === null;
+        if (r === '0-500')      return precio !== null && precio < 500;
+        if (r === '500-1000')   return precio !== null && precio >= 500   && precio < 1000;
+        if (r === '1000-3000')  return precio !== null && precio >= 1000  && precio < 3000;
+        if (r === '3000-5000')  return precio !== null && precio >= 3000  && precio < 5000;
+        if (r === '5000-10000') return precio !== null && precio >= 5000  && precio < 10000;
+        if (r === '10000+')     return precio !== null && precio >= 10000;
+        return true;
+      });
     });
   }
   // Filtro por Estado de seguimiento (Decisión de compra)
   if (trackingFilter.length)
     list = list.filter(h => trackingFilter.indexOf(getTracking(h.url).estado || 'sin_revisar') >= 0);
   // Filtro por Prioridad (1-5) de la Decisión de compra
-  if (priorityFilter !== 'todos')
+  if (priorityFilter.length)
     list = list.filter(h => matchesPriorityFilter(h.url));
   // Filtro por Operación (Venta / Contrato de gestión / Traspaso)
-  if (operacionFilter !== 'todos')
-    list = list.filter(h => getEffectiveOperacion(h) === operacionFilter);
+  if (operacionFilter.length)
+    list = list.filter(h => operacionFilter.indexOf(getEffectiveOperacion(h)) >= 0);
   const q = (document.getElementById('search')?.value||'').toLowerCase().trim();
   if (q)
     list = list.filter(h =>
@@ -3849,7 +3917,7 @@ function render(mantenerPagina) {
   const limiteHoteles = window._gridPageHoteles || GRID_PAGE_SIZE;
   const grid = document.getElementById('grid');
   const countEl = document.getElementById('date-count');
-  if (countEl) countEl.textContent = dateFilter !== 'all' ? `${list.length} resultado${list.length!==1?'s':''}` : '';
+  if (countEl) countEl.textContent = dateFilter.length ? `${list.length} resultado${list.length!==1?'s':''}` : '';
   const resCount = document.getElementById('results-count');
   if (resCount) resCount.textContent = `${list.length} resultado${list.length!==1?'s':''}`;
 
@@ -6976,37 +7044,15 @@ function refreshMap() {
 }
 
 function resetFilters() {
-  portalFilter  = 'todos';
-  dateFilter    = 'all';
-  regionFilter  = 'todos';
-  municipioFilter = 'todos';
-  priceFilter   = 'all';
+  portalFilter  = [];
+  dateFilter    = [];
+  regionFilter  = [];
+  municipioFilter = [];
+  priceFilter   = [];
   trackingFilter = [];
-  priorityFilter = 'todos';
-  operacionFilter = 'todos';
-  const portalSel = document.getElementById('portal-select');
-  if (portalSel) portalSel.value = 'todos';
-  const regionSel = document.getElementById('region-select');
-  if (regionSel) regionSel.value = 'todos';
-  const retRegionSel = document.getElementById('ret-region-select');
-  if (retRegionSel) retRegionSel.value = 'todos';
-  const municipioSel = document.getElementById('municipio-select');
-  if (municipioSel) municipioSel.value = 'todos';
-  const retMunicipioSel = document.getElementById('ret-municipio-select');
-  if (retMunicipioSel) retMunicipioSel.value = 'todos';
-  const dateSel = document.getElementById('date-select');
-  if (dateSel) dateSel.value = 'all';
-  const priceSel = document.getElementById('price-select');
-  if (priceSel) priceSel.value = 'all';
-  const prioritySel = document.getElementById('priority-select');
-  if (prioritySel) prioritySel.value = 'todos';
-  const retPrioritySel = document.getElementById('ret-priority-select');
-  if (retPrioritySel) retPrioritySel.value = 'todos';
-  renderTrackingMulti();
-  const operacionSel = document.getElementById('operacion-select');
-  if (operacionSel) operacionSel.value = 'todos';
-  const retOperacionSel = document.getElementById('ret-operacion-select');
-  if (retOperacionSel) retOperacionSel.value = 'todos';
+  priorityFilter = [];
+  operacionFilter = [];
+  Object.keys(FILTROS_MULTI).forEach(k => _mfSincronizar(k));
   // Reset búsqueda
   const search = document.getElementById('search');
   if (search) search.value = '';
@@ -8894,13 +8940,13 @@ function renderRetiradas(mantenerPagina) {
   if (window._retFavFilter) list = list.filter(h => isFav(h.url));
   if (trackingFilter.length)
     list = list.filter(h => trackingFilter.indexOf(getTracking(h.url).estado || 'sin_revisar') >= 0);
-  if (priorityFilter !== 'todos')
+  if (priorityFilter.length)
     list = list.filter(h => matchesPriorityFilter(h.url));
-  if (operacionFilter !== 'todos')
-    list = list.filter(h => getEffectiveOperacion(h) === operacionFilter);
-  if (regionFilter !== 'todos')
+  if (operacionFilter.length)
+    list = list.filter(h => operacionFilter.indexOf(getEffectiveOperacion(h)) >= 0);
+  if (regionFilter.length)
     list = list.filter(h => matchesRegionFilter(h));
-  if (municipioFilter !== 'todos')
+  if (municipioFilter.length)
     list = list.filter(h => matchesMunicipioFilter(h));
   if (q) {
     list = list.filter(h =>
@@ -10349,7 +10395,7 @@ async function borrarAnuncioDesdeFicha() {
 }
 
 
-renderTrackingMulti();
+initFiltrosMulti();
 init();
 entrarALaWeb(); // si ya había sesión guardada en este navegador, la retoma
 
