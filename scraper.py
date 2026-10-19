@@ -429,6 +429,10 @@ def get_page(driver, url, wait=3):
 # ─── listings ─────────────────────────────────────────
 found_listings = []
 seen_urls = set()
+# Copia de la cache de ayer, para que los scrapers puedan saltarse trabajo que
+# ya hicieron (p.ej. ThinkSpain: no volver a visitar la ficha de un anuncio que
+# ya tiene descripcion completa y fotos). Se rellena en main().
+CACHE_PREVIA = {}
 
 def normalizar_titulo(s):
     s = (s or '').lower().strip()
@@ -904,6 +908,22 @@ def scrape_thinkspain(driver):
             print(f'  ThinkSpain ficha KO {url_ficha[-45:]}: {e}')
             return None, []
 
+    # Cuantos anuncios de ThinkSpain tenia ya activos la cache (para saber si
+    # el resultado de hoy es normal o se ha quedado corto).
+    TS_ESPERADOS = sum(1 for _i in CACHE_PREVIA.values()
+                       if _i.get('source') == 'ThinkSpain' and _i.get('estado') != 'Retirado')
+
+    def diag_ts(url):
+        # Pide la pagina otra vez SOLO para anotar que responde ThinkSpain
+        # (codigo HTTP, tamano, titulo) -- asi el log dice POR QUE falla.
+        try:
+            r = session.get(url, timeout=20)
+            m = re.search(r'<title>(.*?)</title>', r.text, re.S | re.I)
+            titulo = (m.group(1).strip()[:60] if m else 'sin titulo')
+            return f'HTTP {r.status_code}, {len(r.text)} bytes, ItemList={"ItemList" in r.text}, titulo="{titulo}"'
+        except Exception as e:
+            return f'sin respuesta: {str(e)[:80]}'
+
     seen_ts = set()
     total_ts = 0
     for base_url in BASE_URLS:
@@ -912,6 +932,23 @@ def scrape_thinkspain(driver):
         for numpag in range(1, 60):
             url = base_url if numpag == 1 else f'{base_url}?numpag={numpag}'
             html = fetch_html(url)
+            # Si la pagina NO trae el listado (ThinkSpain limitando peticiones,
+            # captcha, caida...) antes se paraba en silencio y se perdian cientos
+            # de anuncios sin avisar. Ahora: se anota que devuelve ThinkSpain y se
+            # reintenta tras una espera. Solo se reintenta si todavia vamos muy
+            # por debajo de lo habitual (o es la 1a pagina de una categoria), para
+            # no esperar de mas cuando simplemente se ha acabado la lista.
+            if (not html or 'ItemList' not in html) and (numpag == 1 or total_ts < 0.8 * TS_ESPERADOS):
+                for _intento, _espera in enumerate((45, 120), 1):
+                    print(f'  \u26a0\ufe0f ThinkSpain {region} p{numpag}: la pagina no trae listado ({diag_ts(url)}). '
+                          f'Espero {_espera}s y reintento ({_intento}/2)...')
+                    time.sleep(_espera)
+                    html = fetch_html(url)
+                    if html and 'ItemList' in html:
+                        print(f'  \u2705 ThinkSpain {region} p{numpag}: recuperado tras la espera.')
+                        break
+                else:
+                    print(f'  \u274c ThinkSpain {region} p{numpag}: sigue sin listado tras reintentar ({diag_ts(url)}).')
             if not html:
                 break
             soup = BeautifulSoup(html, 'lxml')
@@ -996,12 +1033,23 @@ def scrape_thinkspain(driver):
                         # Visitamos la ficha real para sacar la descripcion
                         # COMPLETA (la del listado viene truncada por el propio
                         # ThinkSpain) y las fotos de la galeria.
-                        desc_completa, fotos_ts = enriquecer_ficha_ts(url_a)
-                        if desc_completa and len(desc_completa) > len(listing['description']):
-                            listing['description'] = desc_completa
-                        if fotos_ts:
-                            listing['fotos_url'] = fotos_ts
-                        time.sleep(0.25)
+                        # Si ya lo tenemos de dias anteriores con descripcion
+                        # completa (no truncada con '...') y fotos, NO volvemos a
+                        # visitar su ficha: son ~2 peticiones por anuncio y a ~500
+                        # anuncios al dia ThinkSpain acababa limitando la IP y
+                        # cortando la ejecucion. El merge de main() conserva la
+                        # descripcion y las fotos que ya estaban guardadas.
+                        _prev = CACHE_PREVIA.get(url_a) or {}
+                        _ya_enriquecido = bool(_prev.get('fotos_url')) and \
+                            len(_prev.get('description') or '') > 150 and \
+                            not (_prev.get('description') or '').rstrip().endswith('...')
+                        if not _ya_enriquecido:
+                            desc_completa, fotos_ts = enriquecer_ficha_ts(url_a)
+                            if desc_completa and len(desc_completa) > len(listing['description']):
+                                listing['description'] = desc_completa
+                            if fotos_ts:
+                                listing['fotos_url'] = fotos_ts
+                            time.sleep(0.25)
 
                         added = add_listing(listing)
                         if added: enc += 1
@@ -1014,6 +1062,9 @@ def scrape_thinkspain(driver):
             if paginas_vacias >= 2: break
             time.sleep(0.4)
     print(f'  ThinkSpain TOTAL: {total_ts}')
+    if TS_ESPERADOS and total_ts < 0.8 * TS_ESPERADOS:
+        print(f'  \u26a0\ufe0f ThinkSpain INCOMPLETO hoy: {total_ts} de ~{TS_ESPERADOS} habituales '
+              f'(sus anuncios ausentes NO se daran de baja por esta ejecucion).')
 
 # ══════════════════════════════════════════════════════
 # 2. LUCAS FOX — requests
@@ -1072,7 +1123,7 @@ def scrape_lucasfox(driver):
 # ══════════════════════════════════════════════════════
 # sistema de baja
 # ══════════════════════════════════════════════════════
-def limpiar_bajas(cache, urls_encontradas, portales_fallidos=None):
+def limpiar_bajas(cache, urls_encontradas, portales_fallidos=None, portales_parciales=None):
     """
     ANTES: los anuncios que llevaban 3+ ejecuciones sin aparecer se
     BORRABAN del todo (se perdía el histórico).
@@ -1094,6 +1145,7 @@ def limpiar_bajas(cache, urls_encontradas, portales_fallidos=None):
     139/350 de Milanuncios acabaron así.
     """
     portales_fallidos = portales_fallidos or set()
+    portales_parciales = portales_parciales or set()
     marcados_retirado = 0
     reactivados = 0
     protegidos = 0
@@ -1108,6 +1160,15 @@ def limpiar_bajas(cache, urls_encontradas, portales_fallidos=None):
                 protegidos += 1
                 continue
             if item.get('source') in portales_fallidos:
+                protegidos += 1
+                continue
+            if item.get('source') in portales_parciales:
+                # El portal ha traido MUCHO menos de lo normal hoy (limitacion de
+                # ThinkSpain, bloqueo parcial...): la ausencia no es fiable. Se
+                # anota como maximo 2 ausencias, asi una ejecucion parcial nunca
+                # puede ser la que complete las 3 que dan de baja un anuncio.
+                if item.get('ausencias', 0) < 2:
+                    item['ausencias'] = item.get('ausencias', 0) + 1
                 protegidos += 1
                 continue
             ausencias = item.get('ausencias', 0) + 1
@@ -3641,6 +3702,7 @@ if __name__ == '__main__':
     print(f'=== Hotel Monitor Local — {TODAY} ===\n')
 
     cache = load_cache()
+    CACHE_PREVIA.update(cache)
     driver = init_driver()
 
     # ── GRUPO 1: ThinkSpain + LucasFox (Chrome 1) ──────
@@ -3840,8 +3902,23 @@ if __name__ == '__main__':
     if portales_fallidos:
         print(f'  ⚠️ Portales sin ningun resultado hoy (tratados como fallo, no como bajas reales): {sorted(portales_fallidos)}')
 
+    # Portales que hoy han traido mucho menos de lo normal sin llegar a cero.
+    activos_cache = {}
+    for item in cache.values():
+        src = item.get('source', '')
+        if src and item.get('estado') != 'Retirado':
+            activos_cache[src] = activos_cache.get(src, 0) + 1
+    portales_parciales = {
+        fuente for fuente, n_act in activos_cache.items()
+        if n_act >= 20 and fuente not in portales_fallidos
+        and fuentes_hoy.get(fuente, 0) < 0.7 * n_act
+    }
+    if portales_parciales:
+        print(f'  \u26a0\ufe0f Portales con muchos menos anuncios de lo normal hoy (ausencias no fiables): '
+              + ', '.join(f"{f} ({fuentes_hoy.get(f,0)}/{activos_cache[f]})" for f in sorted(portales_parciales)))
+
     print('\nRevisando bajas...')
-    cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas, portales_fallidos)
+    cache_nuevo = limpiar_bajas(cache_nuevo, urls_encontradas, portales_fallidos, portales_parciales)
     save_cache(cache_nuevo)
     print(f'Cache guardado: {len(cache_nuevo)} totales ({nuevos} nuevos).')
 
