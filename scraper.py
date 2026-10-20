@@ -2364,103 +2364,133 @@ def scrape_yaencontre(driver):
     import requests as req_mod
     HEADERS_YE = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'es-ES,es;q=0.9',
         'Referer': 'https://www.yaencontre.com/',
     }
     BASE = 'https://www.yaencontre.com'
     total_ye = 0
     session = req_mod.Session()
+    MAX_PAG = 8            # 42 anuncios por página; Granada (la mayor) tiene ~256
+    bloqueos_seguidos = 0
+    diag = {'ok': 0, '404': 0, 'bloqueo': 0, 'cards': 0, 'filtradas': 0}
 
-    for ciudad in NUROA_CIUDADES:  # reutilizamos la misma lista de ciudades
-        url = f'{BASE}/venta/edificios/{ciudad}'
+    # Slugs de Yaencontre (no siempre coinciden con el nombre de la ciudad)
+    slugs = []
+    for c in NUROA_CIUDADES:
+        slugs.append({'palma': 'palma-de-mallorca', 'alicante': 'alicante-alacant'}.get(c, c))
 
-        html = None
-        for intento in range(2):
-            try:
-                r = session.get(url, headers=HEADERS_YE, timeout=15)
-                if r.status_code == 200:
-                    html = r.text
-                break
-            except Exception as e:
-                if intento == 0:
-                    time.sleep(2)
-                else:
-                    print(f'  [Yaencontre] {url} → fallo: {e}')
-
-        if not html:
-            continue
-
+    def _bajar(url):
+        """Devuelve (html, estado) con estado 'ok' | '404' | 'bloqueo'.
+        Primero con Chrome real (el portal responde 403 a clientes que no
+        parecen un navegador y a las rafagas de peticiones), y si falla,
+        con requests."""
         try:
-            soup = BeautifulSoup(html, 'lxml')
-
-            cards = []
-            estrategia = None
-            for nombre, selector in [
-                ('article', lambda s: s.find_all('article')),
-                ('div.listing', lambda s: s.find_all('div', class_=re.compile(r'listing|property|card|item-info', re.I))),
-                ('a href numérico', lambda s: s.find_all('a', href=re.compile(r'-\d{5,}'))),
-            ]:
-                encontrados = selector(soup)
-                if encontrados:
-                    cards = encontrados
-                    estrategia = nombre
-                    break
-
-            if not cards:
-                print(f'  [Yaencontre] edificios-{ciudad} → 0 tarjetas. HTML: {len(html)} chars.')
-                continue
-
-            nuevos_pagina = 0
-            for card in cards:
-                a = card if card.name == 'a' else card.find('a', href=True)
-                if not a or not a.get('href'):
-                    continue
-                href = a.get('href', '')
-                if not href.startswith('http'):
-                    href = BASE + href
-                href = href.split('?')[0].rstrip('/')
-                if href in seen_urls:
-                    continue
-
-                texto_card = card.get_text(' ', strip=True)
-                title_el = card.find(['h1', 'h2', 'h3'])
-                title = clean(title_el.get_text()) if title_el else clean(a.get_text())
-                if not title or len(title) < 5:
-                    continue
-
-                # Esta categoría es "edificios" en general (no solo
-                # turísticos), así que SÍ hace falta filtrar aquí — solo
-                # nos quedamos con los que mencionan turismo/hotel/AT.
-                t_lower = (title + ' ' + texto_card[:300]).lower()
-                if not (_parece_hotel(title, texto_card[:300]) or
-                        'turístic' in t_lower or 'turistic' in t_lower or
-                        re.search(r'\blicencia\s+at\b', t_lower)):
-                    continue
-
-                pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
-                price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
-
-                item = {
-                    'title': title,
-                    'price': price,
-                    'location': ciudad.capitalize(),
-                    'description': texto_card[:800],
-                    'url': href,
-                    'source': 'Yaencontre',
-                    'date': TODAY,
-                }
-                added = add_listing(item)
-                if added:
-                    total_ye += 1
-                    nuevos_pagina += 1
-
-            if nuevos_pagina > 0:
-                print(f'  Yaencontre [{estrategia}] edificios-{ciudad}: {nuevos_pagina} nuevos | Total: {total_ye}')
-            time.sleep(random.uniform(1.5, 3))
-
+            driver.get(url)
+            time.sleep(random.uniform(2.5, 4))
+            src = driver.page_source or ''
+            titulo = (driver.title or '').lower()
+            if '<article' in src:
+                return src, 'ok'
+            if '404' in titulo and 'error' in titulo:
+                return None, '404'
         except Exception as e:
-            print(f'  Error Yaencontre {url}: {e}')
+            print(f'  [Yaencontre] Chrome fallo en {url}: {e}')
+        try:
+            r = session.get(url, headers=HEADERS_YE, timeout=20)
+            if r.status_code == 200 and '<article' in r.text:
+                return r.text, 'ok'
+            if r.status_code == 404:
+                return None, '404'
+            print(f'  [Yaencontre] requests status {r.status_code} en {url}')
+        except Exception as e:
+            print(f'  [Yaencontre] requests fallo en {url}: {e}')
+        return None, 'bloqueo'
 
+    for ciudad in slugs:
+        nuevos_ciudad = 0
+        for pagina in range(1, MAX_PAG + 1):
+            url = f'{BASE}/venta/edificios/{ciudad}' + ('' if pagina == 1 else f'/pag-{pagina}')
+            html, estado = _bajar(url)
+            if estado == '404':
+                diag['404'] += 1
+                print(f'  [Yaencontre] {url} → 404 (el slug de la ciudad no existe)')
+                break
+            if estado != 'ok':
+                diag['bloqueo'] += 1
+                bloqueos_seguidos += 1
+                print(f'  [Yaencontre] {url} → sin contenido (posible bloqueo 403)')
+                break
+            bloqueos_seguidos = 0
+            diag['ok'] += 1
+
+            try:
+                soup = BeautifulSoup(html, 'lxml')
+                cards = soup.find_all('article')
+                if not cards:
+                    break
+                diag['cards'] += len(cards)
+
+                for card in cards:
+                    a = card.find('a', href=re.compile(r'/venta/edificio/'))
+                    if not a:
+                        a = card.find('a', href=True)
+                    if not a or not a.get('href'):
+                        continue
+                    href = a.get('href', '')
+                    if not href.startswith('http'):
+                        href = BASE + href
+                    href = href.split('?')[0].rstrip('/')
+                    if href in seen_urls:
+                        continue
+
+                    texto_card = card.get_text(' ', strip=True)
+                    title_el = card.find(['h1', 'h2', 'h3'])
+                    title = clean(title_el.get_text(' ', strip=True)) if title_el else ''
+                    title = re.sub(r'\s*\d[\d.,]*\s*€.*$', '', title).strip()
+                    if not title or len(title) < 5:
+                        continue
+
+                    # Categoria "edificios" en general (no solo turisticos):
+                    # nos quedamos con los que mencionan turismo/hotel/AT.
+                    t_lower = (title + ' ' + texto_card[:300]).lower()
+                    if not (_parece_hotel(title, texto_card[:300]) or
+                            re.search(r'apartamentos?\s+tur[ií]stic|uso\s+tur[ií]stic|licencia\s+(at|tur[ií]stic)|\bvut\b', t_lower)):
+                        diag['filtradas'] += 1
+                        continue
+
+                    pm = re.search(r'([\d][\d.,]*)\s*€', texto_card)
+                    price = f'{pm.group(1)} €' if pm else 'Precio a consultar'
+
+                    item = {
+                        'title': title,
+                        'price': price,
+                        'location': ciudad.replace('-', ' ').title(),
+                        'description': texto_card[:800],
+                        'url': href,
+                        'source': 'Yaencontre',
+                        'date': TODAY,
+                    }
+                    if add_listing(item):
+                        total_ye += 1
+                        nuevos_ciudad += 1
+
+                # Ultima pagina: menos de ~40 tarjetas
+                if len(cards) < 40:
+                    break
+            except Exception as e:
+                print(f'  Error Yaencontre {url}: {e}')
+                break
+
+        if nuevos_ciudad:
+            print(f'  Yaencontre {ciudad}: {nuevos_ciudad} nuevos | Total: {total_ye}')
+
+        if bloqueos_seguidos >= 3:
+            print('  ⚠️ Yaencontre: 3 bloqueos seguidos, dejo de consultar el portal por hoy.')
+            break
+
+    print(f'  [Yaencontre] diagnostico: paginas ok={diag["ok"]}, 404={diag["404"]}, '
+          f'bloqueadas={diag["bloqueo"]}, tarjetas={diag["cards"]}, descartadas por no ser hotel={diag["filtradas"]}')
     print(f'  Yaencontre TOTAL: {total_ye}')
 
 
